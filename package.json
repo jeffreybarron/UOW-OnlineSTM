@@ -1,0 +1,19 @@
+{
+  "name": "OnlineSTM",
+  "version": "1.1.6",
+  "description": "UOW Coglab Web Study Platform",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "multer": "^1.4.1",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jeff@jeffreybarron.com",
+  "license": "ISC"
+}

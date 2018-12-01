@@ -1,0 +1,13 @@
+{
+  "apps" : [{
+    "name"        : "UOW Online STM",
+    "script"      : "./app.js",
+    "exec_mode"   : "cluster",
+    "watch"       : true,
+    "instances"   : "max",
+    "env_production" : {
+       "NODE_ENV": "production",
+       "PORT": "3000"
+      }
+  }]
+}

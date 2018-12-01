@@ -1,0 +1,35 @@
+<% include base_header.ejs %>
+    <div class="starter-template">
+        <noscript>
+        	<p class="lead">By following this link, these instructions or enabling JavaScript, you do so at your own risk. You agree to indemnify The University of Wollongong ('The vendor'), its partners and subsidiaries against any claim for damages or loss of any kind. The vendor does not provide any warranty of any kind.</p>
+        	<p class="lead">For full functionality of this site it is necessary to enable JavaScript.</br>Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+        </noscript>
+        
+        <h1 id="pageTitle">UOW Online STM</h1>
+		<p id='studyText' class="text-left"></p>
+		
+  		<p><div class="stimulus" id="question">+</div></p>
+		<p><button id="buttonStart" class="btn btn-primary" onclick="startQuestions()">Click to Start</button></p>
+		
+		<div id="answers" style="visibility:hidden">
+			<label for="answer" class="col-sm-2 col-form-label">Enter Word</label>
+	        <div class="col-sm-4">
+	            <input class="form-control" type="text" id="answer" name="0" value="">
+	        </div>
+		    <div class="col-sm-4">
+		        <button class="btn btn-primary" onclick="updateAnswers()">Submit</button>
+	        </div>
+
+			<p id="completionLink" style="visibility:hidden"></p>
+			<form id="form_answers" style="visibility:hidden">
+	            <input type="hidden" id="studyName" name="studyName" value="<%= studyName %>" />
+				<input type="visibility:hidden" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
+				<input type="visibility:hidden" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
+				<input type="visibility:hidden" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
+        		<input type="visibility:hidden" id="consent" name="consent" value="<%= qs.consent %>" />
+        		<input type="visibility:hidden" id="trainingComplete" name="trainingComplete" value="<%= qs.trainingComplete %>"
+    		</form>
+		</div>
+    </div>
+
+<% include base_footer.ejs %>

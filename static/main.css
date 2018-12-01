@@ -1,0 +1,50 @@
+/* BootStrap Stying
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  padding-top: 50px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #ffffff;
+  text-align: center;
+}
+.container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+/* Custom Styling
+-------------------------------------------------- */
+.lead {
+  padding: 1em;
+  text-align: left;
+}
+
+.stimulus {
+  padding: 2em;
+  border-radius: 25px;
+  border: 2px solid #73AD21;
+  width: auto;
+  height: auto;
+  text-align: center;
+  font-size: 2em;  
+}

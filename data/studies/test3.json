@@ -1,0 +1,48 @@
+[
+  { 
+    "parameters": {
+    "resultGUID":"",
+    "STUDY_ID":"test3",
+    "consent":"",
+    "trainingComplete":"",
+    "studyTitle":"Test Three - 200ms Refresh, three questions",
+    "studyText":" No Shuffle, red, green and blue on White",
+    "studybackgroundColor":"white",
+    "studyTextColor":"black",
+    "refreshRateMS":200,
+    "shuffleFull":"false",
+    "shuffleDecks":"false",
+    "shuffleQuestions":"true",
+    "startURL":"",
+    "PROLIFIC_PID":"",
+    "SESSION_ID":"",
+    "loadTime":"",
+    "saveTime":""
+    }
+  },
+  {
+    "decks": [
+          { 
+            "questions": [
+              {
+                "question":"red",
+                "textColor":"red",
+                "backGroundColor":"white",
+                "answer":""
+              },
+              {
+                "question":"green",
+                "textColor":"green",
+                "backGroundColor":"white",
+                "answer":""
+              },
+              {
+                "question":"blue",
+                "textColor":"blue",
+                "backGroundColor":"white",
+                "answer":""
+              }            ]
+          }
+    ]  
+  }        
+]

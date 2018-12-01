@@ -1,0 +1,16 @@
+<% include base_header.ejs %>
+    <h1 id="pageTitle">UOW Online STM</h1>
+    <div class="starter-template">
+	   	<p>Click this link if your browser doesnt redirect in 5 seconds... <a href="<%= qs.completionURL %>"><%= qs.completionURL %></a> or copy the 'Prolific Completion Code' code below and provide it to <a href='http://prolific.ac'>http://prolific.ac</a></p>
+		<h4>Prolific Completion Code</h4>
+		<div class="lead text-center">
+			<p><%= qs.completionCode %></>p
+		</div>
+	</div>
+	<script type="text/javascript"><!--
+		//setTimeout('Redirect()', 5000);
+		function Redirect(){
+  			location.href = '<%= qs.completionURL %>';
+		} // -->
+	</script>
+<% include base_footer.ejs %>
