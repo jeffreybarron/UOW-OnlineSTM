@@ -11,7 +11,10 @@ var pageTitle = document.getElementById("pageTitle");
 var studyText = document.getElementById("studyText");
 var consent = document.getElementById("consent");
 var trainingComplete = document.getElementById("trainingComplete");
-var xmlHttp = new XMLHttpRequest;
+//var xmlHttp = new XMLHttpRequest;
+
+var oStudyConfig; 
+var studyDecks; //the source decks are sampled based on studyConfig and held here
 
 var questionBank; // instantiate global array variable
 var myTicker; // Instantiate global ticker variable
@@ -20,6 +23,19 @@ var deckCounter = 0;
 var completedStudy = "";
 var resultGUID = ""
 
+//Psuedo Enums
+//JS is not typesafe so this isnt either.. its just a convieniance and not a real ENUM
+//So dont be changing the values of these variables
+const randomSample = {
+  false: "false", //Sequential Pick
+  simple: "simple", //picked at random from remaining array
+  replacement: "replacement", //picked at random with replacement
+};
+const shuffleMode = {
+	false: "false", // No Shuffle
+	decks: "decks", // shuffle the order of the decks, not the cards in the decks
+	all: "all" // shuffle all the card\stimulus between decks
+}
 
 
 function changeQuestion() {
@@ -116,24 +132,6 @@ function updateAnswers(){
 		}
 	}
 }
-
-function sendCode(){
-	//now check the study is recorded and display completion code
-	//resultGUID is used so previous results cannot be guessed.
-	//console.log("Study answer File: " + completedStudy);
-	xmlHttp.open('GET', '/complete/' + completedStudy, true);
-	xmlHttp.setRequestHeader('Content-Type', 'text/html');
-	xmlHttp.send();
-	xmlHttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-	   		//console.log("Get ready status 4");
-			return true;
-	   	} else {
-	   		//console.log ("not yet");
-	   	}
-	};
-}
-
 
 function setProperties(obj, textValue, textColor, textBackGroundColor){
 	obj.innerText = textValue;
@@ -306,6 +304,8 @@ function startQuestions(){
 	buttonStart.style.visibility = "hidden";
 }
 
+
+
 Date.prototype.YYYYMMDDHHMMSS = function () {
     var yyyy = this.getFullYear().toString();
     var MM = pad(this.getMonth() + 1,2);
@@ -318,42 +318,6 @@ Date.prototype.YYYYMMDDHHMMSS = function () {
 }
 
 
-
-function loadQuestions() {
-	try {
-		xmlHttp.open('GET', '/data/studies/' + studyName.getAttribute('value') + '.json', true);
-		xmlHttp.send();
-		xmlHttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-		        questionBank = JSON.parse(this.responseText);
-		        //shuffle according to paramaters on file
-		        var result = shuffleTemplate(); 
-		        //console.log("STUDY_ID: " + studyID.getAttribute('value') + " loaded and shuffled.");
-		        //console.log("participantID: " + participantID.getAttribute('value'));
-		        //console.log("sessionID: " + sessionID.getAttribute('value'));
-		        //update the Results Object for output.
-		        questionBank[0].parameters.PROLIFIC_PID = participantID.getAttribute('value');
-		        questionBank[0].parameters.STUDY_ID = studyID.getAttribute('value');
-		        questionBank[0].parameters.SESSION_ID = sessionID.getAttribute('value');
-				questionBank[0].parameters.loadTime = getDate();
-				questionBank[0].parameters.consent = consent.getAttribute('value');
-				questionBank[0].parameters.trainingComplete = trainingComplete.getAttribute('value');
-
-
-		        //console.log('LoadTime updated');
-		        //update page Settings
-		        setProperties(pageTitle, questionBank[0].parameters.studyTitle, "","");
-		        setProperties(studyText, questionBank[0].parameters.studyText, questionBank[0].parameters.studyTextColor, questionBank[0].parameters.studybackgroundColor);
-			};
-			return true;
-		} 
-	} catch (err) {
-		//alert("No Study ID specified in URL, cannot proceed!");
-		setProperties(pageTitle, err, "","");
-		return false;
-		
-	}
-}
 
 function loadInstructions() {
 	try {
@@ -407,21 +371,27 @@ function entryPoint(){
 		var n = sPathName.indexOf("/",1);
 		var sourceURL = sPathName.substring(0, n);
 
-		console.log("href: " + window.location.href);
-		console.log("pathname: " + window.location.pathname);
-		console.log("sourceURL: " + sourceURL);
+		//console.log("href: " + window.location.href);
+		//console.log("pathname: " + window.location.pathname);
+		//console.log("sourceURL: " + sourceURL);
 		
 		//switch 
 		switch(sourceURL) {
    			case "/":
+   				
+
+
+   				test();
+
+
    				//Sending Users Back to Prolific in 5000ms, nothing to load.
-        		console.log("Home Page Loaded.");
+        		//console.log("entryPoint/ Loading.");
         		break;
     		case "/consent":
 		    	//Page 1 - Entry Page from Prolific
 		    	//in: Prolific Paramater
 		    	//out: Prolific Paramaters, GUID\cookie
-		        console.log("ConsentPage Loading");
+		        //console.log("entryPoint/consent Loading");
 		    	loadConsent();
 
 		        break;
@@ -429,34 +399,135 @@ function entryPoint(){
 		    	//Page 2 - Consent Recieved, Study Instructions
 		    	//in: GUID\Cookie
 		    	//out: GUID\Cookie
-		    	console.log("Instructions Loading");
+		    	//console.log("entryPoint/instructions Loading");
 		    	loadInstructions();
 		    	break;
 		    case "/study":
 		    	//Page 3 - Consent Recieved GUID Created and Study
 		    	//in: GUID\Cookie => Studytemplate.json => loadQuestions()
 		    	//out: studyresult.json + GUID\Cookie => uploadAnswers(http.POST /results)
-		        console.log("StudyPage Loaded");
-		        loadQuestions();
+		        //console.log("entryPoint/study Loading");
+		        loadStudy();
 		        break;
 		    case "/results":
 		    	//Page 
-		        console.log("Results Posted");
-		        break;
-		    case "/sendCode":
-
-		        console.log("sendCode Posted");
+		        //console.log("entryPoint/results Loading");
 		        break;
 		    default:
-		        console.log("I have never heard of that fruit...");
+		        //console.log("I have never heard of that fruit...");
 		}
 	} catch (err) {
 		console.log("loadPage Error: " + err);
 
 	} finally {
-		console.log("loadPage COMPLETE");
+		//console.log("loadPage COMPLETE");
 	}
 }
+
+
+
+
+
+function loadStudy() {
+	try {
+		//We know the study exist, now load the studyConfig.
+		var xmlHttp = new XMLHttpRequest;
+		xmlHttp.open('GET', '/data/studies/' + studyName.getAttribute('value') + '.json', true);
+		xmlHttp.send();
+		xmlHttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+
+		    	//load studyConfig object
+		        oStudyConfig = JSON.parse(this.responseText);
+				
+				//Take the parameters from the URL and put them in our new studyConfig object
+		        oStudyConfig[0].parameters.PROLIFIC_PID = participantID.getAttribute('value');
+		        oStudyConfig[0].parameters.STUDY_ID = studyID.getAttribute('value');
+		        oStudyConfig[0].parameters.SESSION_ID = sessionID.getAttribute('value');
+				oStudyConfig[0].parameters.loadTime = getDate();
+				oStudyConfig[0].parameters.consent = consent.getAttribute('value');
+				oStudyConfig[0].parameters.trainingComplete = trainingComplete.getAttribute('value');
+
+				//console.log("loadStudy, LoadDecks List: " + JSON.stringify(oStudyConfig[1].decks));
+				loadDecks(oStudyConfig[1].decks);
+
+
+		        //shuffle according to paramaters on file
+		        var result = shuffleTemplate(); 
+		        
+
+		        //console.log('LoadTime updated');
+		        //update page Settings
+		        setProperties(pageTitle, oStudyConfig[0].parameters.studyTitle, "","");
+		        setProperties(studyText, oStudyConfig[0].parameters.studyText, oStudyConfig[0].parameters.studyTextColor, oStudyConfig[0].parameters.studybackgroundColor);
+			};
+			return true;
+		} 
+	} catch (err) {
+		//alert("No Study ID specified in URL, cannot proceed!");
+		setProperties(pageTitle, err, "","");
+		return false;
+		
+	}
+}
+
+function loadDecks(deckList) {
+	//console.log("loadDecks, Start");
+	//new json object for loading the decks into
+	var sourceDecks = JSON.parse("[]"); //full source decks from the studyConfig are loaded here
+	var deckListCount = deckList.length;
+	var contentType = "";
+	var i;
+
+
+	// iterate JSON Array loading each deck into source
+	for (i=0; i < deckListCount; i++ ){
+		var fileName = deckList[i].deckName; 
+		var filePath = "/data/decks/";
+
+		//download deck sourcefile from server and add it to sourceDecks JSON
+		try {
+			//We know the study exist, now load the studyConfig.
+			var xmlHttp = new XMLHttpRequest;
+			xmlHttp.open('GET', filePath + fileName, true);
+			xmlHttp.setRequestHeader('Content-Type', "application/json");
+			xmlHttp.send();
+			xmlHttp.onreadystatechange = function() {
+			    if (this.readyState == 4 && this.status == 200) {
+					//console.log("responseText: " + this.responseText);
+					var tmp = JSON.parse(this.responseText);
+					//console.log(tmp);
+					sourceDecks.push(tmp);
+					console.log("loadDecks End: " + sourceDecks);
+				};
+
+			}
+		} catch (err) {
+			//alert("No Study ID specified in URL, cannot proceed!");
+			return "File not found or not loaded.\r\n" + err
+		}
+	}
+
+}
+
+function test(){
+
+	var promise1 = Promise.resolve(3);
+	var promise2 = 42;
+
+	Promise.all([promise1, promise2]).then(function(values) {
+  		console.log("all" + values);
+	});
+// expected output: Array [3, 42, "foo"]
+}
+
+
+
+
+
+
+
+
 
 /**************************
 * Sequetial code

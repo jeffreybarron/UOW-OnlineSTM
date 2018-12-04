@@ -1,0 +1,53 @@
+{
+  "deck01": [
+    {
+      "stimulus":"lorem",
+      "textColor":"yellow",
+      "backGroundColor":"black",
+      "response":"",
+      "responseTime":""
+    },
+    {
+      "stimulus":"ipsum",
+      "textColor":"yellow",
+      "backGroundColor":"black",
+      "response":"",
+      "responseTime":""
+    },
+    {
+      "stimulus":"dolor",
+      "textColor":"yellow",
+      "backGroundColor":"black",
+      "response":"",
+      "responseTime":""
+    },
+    {
+      "stimulus":"sit",
+      "textColor":"yellow",
+      "backGroundColor":"black",
+      "response":"",
+      "responseTime":""
+    },
+    {
+      "stimulus":"amet",
+      "textColor":"yellow",
+      "backGroundColor":"black",
+      "response":"",
+      "responseTime":""
+    },
+    {
+      "stimulus":"consectetur",
+      "textColor":"yellow",
+      "backGroundColor":"black",
+      "response":"",
+      "responseTime":""
+    },
+    {
+      "stimulus":"fa shizzle for ma nizzle",
+      "textColor":"yellow",
+      "backGroundColor":"black",
+      "response":"",
+      "responseTime":""
+    }
+  ]
+}
