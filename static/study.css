@@ -1,3 +1,4 @@
+study.css
 /* BootStrap Stying
 -------------------------------------------------- */
 html {
@@ -6,10 +7,10 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  
   margin-bottom: 60px;
   padding-top: 50px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;

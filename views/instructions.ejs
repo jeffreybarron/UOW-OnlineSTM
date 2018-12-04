@@ -1,30 +1,45 @@
 <% include base_header.ejs %>
-    <div class="starter-template">
-        <noscript>
-            <p class="lead">By following this link, these instructions or enabling JavaScript, you do so at your own risk. You agree to indemnify The University of Wollongong ('The vendor'), its partners and subsidiaries against any claim for damages or loss of any kind. The vendor does not provide any warranty of any kind. </p>
-            <p class="lead">For full functionality of this site it is necessary to enable JavaScript.</br>Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
-        </noscript>
-  
-        <h1 id="pageTitle">UOW Online STM</h1>
-        <h2>Instructions</h2>
-        <div class="container" id="researcherCopy">
-            
-            <p>The CUSTOME instructions have not loaded</p>
+    <!-- Custom styles for this template -->
+    <link href="/static/main.css" rel="stylesheet">
+    <title>UOW Online STM - Instructions</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="starter-template">
+            <noscript>
+                <p class="lead">By following this link, these instructions or enabling JavaScript, you do so at your own risk. You agree to indemnify The University of Wollongong ('The vendor'), its partners and subsidiaries against any claim for damages or loss of any kind. The vendor does not provide any warranty of any kind. </p>
+                <p class="lead">For full functionality of this site it is necessary to enable JavaScript.</br>Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+            </noscript>
+      
+            <h1 id="pageTitle">UOW Online STM</h1>
+            <h2>Instructions</h2>
+            <div class="container" id="researcherCopy">
+                
+                <p>The CUSTOME instructions have not loaded</p>
 
-        </div>
-		<form id="instructionsForm" class="form-group row" action="/study/<%= studyName %>">
-            <input type="hidden" id="studyName" name="studyName" value="<%= studyName %>" />
-            <input type="hidden" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
-            <input type="hidden" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
-            <input type="hidden" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
-            <input type="hidden" id="consent" name="consent" value="<%= qs.consent %>" />
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="trainingComplete" name="trainingComplete">
-                    <label class="form-check-label" for="trainingComplete">I have read and understand these instructions.</label>
-                </div>
             </div>
-            <button type="submit" class="btn btn-primary" value="Submit">Continue</button>
-	    </form>
-    </div>
+    		<form id="instructionsForm" class="form-group row" action="/study/<%= studyName %>">
+                <input type="hidden" id="studyName" name="studyName" value="<%= studyName %>" />
+                <input type="hidden" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
+                <input type="hidden" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
+                <input type="hidden" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
+                <input type="hidden" id="consent" name="consent" value="<%= qs.consent %>" />
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="trainingComplete" name="trainingComplete">
+                        <label class="form-check-label" for="trainingComplete">I have read and understand these instructions.</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" value="Submit">Continue</button>
+    	    </form>
+        </div>
+        <footer class="footer">
+          <div class="container">
+            <p class="text-muted">software solutions by <a href="http://www.jeffreybarron.com">wwww.jeffreybarron.com</a></p>
+          </div>
+        </footer>
+    
+    </div><!-- /.container -->
+    <script src="/static/test.js"></script>
 <% include base_footer.ejs %>
+    

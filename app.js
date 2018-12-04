@@ -30,6 +30,10 @@ app.get('/', function(request, response) {
 	response.render('index');
 });
 
+app.get('/preflight', function(request, response) {
+	response.render('preflight');
+});
+
 app.post('/logger', function(request, response, next) {
 	fs.writeFileSync('data/logs/' + request.body.source + "_" + request.body.time + ".log", JSON.stringify(request.body));
 	response.end();
@@ -38,14 +42,14 @@ app.post('/logger', function(request, response, next) {
 });
 
 app.get('/consent/:studyName', function(request, response, next) {
-	//console.log(".get('/consent, Start");
+	console.log(".get('/consent, Start");
 	try {
-		//console.log(".get/consent, try start:");	
+		console.log(".get/consent, try start:");	
 		if (fs.existsSync('data/studies/' + request.params.studyName + '.json')) {
-			//console.log(".get/consent, File found");	
+			console.log(".get/consent, File found");	
 			
 			//this line loads the consent.ejs template parseing contents of request.query 
-			//console.log(".get/consent, render page");
+			console.log(".get/consent, render page");
 			response.render('consent', {studyName: request.params.studyName, qs: request.query});
 			console.log(".get/consent, page rendered");
 	

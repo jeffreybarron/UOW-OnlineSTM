@@ -40,9 +40,9 @@ function changeQuestion() {
 
 function updateAnswers(){
 	var errLoc = "test.js.updateAnswer, " 
-	console.log(errLoc + 'Bank:' + deckCounter + ", answer.name:" + answer.name);
+	//console.log(errLoc + 'Bank:' + deckCounter + ", answer.name:" + answer.name);
 	if (answer.name < questionCounter) {
-		console.log(errLoc + 'saving: ' + answer.value +' to ' + answer.name + ' questionCounter=' + questionCounter);
+		//console.log(errLoc + 'saving: ' + answer.value +' to ' + answer.name + ' questionCounter=' + questionCounter);
 		
 		questionBank[1].decks[deckCounter].questions[answer.name].answer = answer.value; //load answer into json
 		answer.value = ''; //reset form for next answer
@@ -51,7 +51,7 @@ function updateAnswers(){
 
 		console.log(errLoc + 'Bank:' + deckCounter + ', answer.name:' + answer.name);
 		if (answer.name == questionCounter){
-			console.log(errLoc + 'we have done all the questions in bank: ' + answer.name);
+			//console.log(errLoc + 'we have done all the questions in bank: ' + answer.name);
 			//reset question counter for next questionBank and 
 			//reset answers
 			questionCounter = 0;
@@ -60,7 +60,7 @@ function updateAnswers(){
 			answerObj.style.visibility = "hidden";
 			deckCounter++;
 			
-			console.log(errLoc + 'Deck:' + deckCounter + ', answer.name:' + answer.name);
+			//console.log(errLoc + 'Deck:' + deckCounter + ', answer.name:' + answer.name);
 			//if we have also reached the last question bank then stop
 			if (deckCounter >= questionBank[1].decks.length){
 
@@ -68,7 +68,7 @@ function updateAnswers(){
 				answerObj.style.visibility = "hidden";
 
 				//Study is complete return to provider
-				console.log(errLoc + "Study is complete, save data");
+				//console.log(errLoc + "Study is complete, save data");
 				questionBank[0].parameters.saveTime = getDate();
 				questionBank[0].parameters.resultGUID = getGUID();
 		        
@@ -86,8 +86,8 @@ function updateAnswers(){
 					xmlHttp.send(data);
 					xmlHttp.onreadystatechange = function() {
 					    if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-				            console.log (errLoc + 'readystate 4 data: ' + data);
-				            console.log(errLoc + "Page Title: " + document.getElementById("pageTitle").innerText);
+				            //console.log (errLoc + 'readystate 4 data: ' + data);
+				            //console.log(errLoc + "Page Title: " + document.getElementById("pageTitle").innerText);
 				        	completedStudy = "PROLIFIC_PID=" + questionBank[0].parameters.PROLIFIC_PID + "&" + 
 				        		"STUDY_ID=" + questionBank[0].parameters.STUDY_ID + "&" + 
 				        		"SESSION_ID=" + questionBank[0].parameters.SESSION_ID; //+ "&" + 
@@ -103,7 +103,7 @@ function updateAnswers(){
 
 
 				        } else {
-				        	console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
+				        	//console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
 				         	setProperties(studyText, "Saving study, please wait...","Black", "White");   
 				        }
 					}
@@ -407,21 +407,21 @@ function entryPoint(){
 		var n = sPathName.indexOf("/",1);
 		var sourceURL = sPathName.substring(0, n);
 
-		console.log("href: " + window.location.href);
-		console.log("pathname: " + window.location.pathname);
-		console.log("sourceURL: " + sourceURL);
+		//console.log("href: " + window.location.href);
+		//console.log("pathname: " + window.location.pathname);
+		//console.log("sourceURL: " + sourceURL);
 		
 		//switch 
 		switch(sourceURL) {
    			case "/":
    				//Sending Users Back to Prolific in 5000ms, nothing to load.
-        		console.log("Home Page Loaded.");
+        		//console.log("Home Page Loaded.");
         		break;
     		case "/consent":
 		    	//Page 1 - Entry Page from Prolific
 		    	//in: Prolific Paramater
 		    	//out: Prolific Paramaters, GUID\cookie
-		        console.log("ConsentPage Loading");
+		        //console.log("ConsentPage Loading");
 		    	loadConsent();
 
 		        break;
@@ -429,26 +429,26 @@ function entryPoint(){
 		    	//Page 2 - Consent Recieved, Study Instructions
 		    	//in: GUID\Cookie
 		    	//out: GUID\Cookie
-		    	console.log("Instructions Loading");
+		    	//console.log("Instructions Loading");
 		    	loadInstructions();
 		    	break;
 		    case "/study":
 		    	//Page 3 - Consent Recieved GUID Created and Study
 		    	//in: GUID\Cookie => Studytemplate.json => loadQuestions()
 		    	//out: studyresult.json + GUID\Cookie => uploadAnswers(http.POST /results)
-		        console.log("StudyPage Loaded");
+		      //  console.log("StudyPage Loaded");
 		        loadQuestions();
 		        break;
 		    case "/results":
 		    	//Page 
-		        console.log("Results Posted");
+		        //console.log("Results Posted");
 		        break;
 		    case "/sendCode":
 
-		        console.log("sendCode Posted");
+		        //console.log("sendCode Posted");
 		        break;
 		    default:
-		        console.log("I have never heard of that fruit...");
+		        //console.log("I have never heard of that fruit...");
 		}
 	} catch (err) {
 		console.log("loadPage Error: " + err);
