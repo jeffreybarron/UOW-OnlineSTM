@@ -5,25 +5,27 @@
   </head>
   <body>
     <div class="container">
-	    <h1 id="pageTitle">UOW Online STM - PreFlight Test</h1>
+	    <h1 id="pageTitle">UOW Online STM</h1>
+	    <h2>PreFlight (manual) test.</h2>
+	    <div id="researcherCopy">
+	    	<p>This page is for researchers to confirm their studies are properly configured.</p>
+	    </div>
 	    <div class="starter-template">
             <div class="form-group row">
                 <label for="studyName" class="col-sm-2 col-form-label">Study Name</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="studyName" name="studyName" value="what"></input>
+                    <input class="form-control" type="text" id="studyName" name="studyName" value="(Enter Study Name)"></input>
                 </div>
-        </div>
-	   	    </form>	
-            <button id="" type="submit" class="btn btn-primary" onclick="executePreFlight()">Execute Test</button>
+        	</div>
+	   	    <button id="" type="submit" class="btn btn-primary" onclick="executePreFlight()">Execute Test</button>
 		</div>
 		<footer class="footer">
 	      <div class="container">
-	        <p class="text-muted">software solutions by <a href="http://www.jeffreybarron.com">wwww.jeffreybarron.com</a></p>
+	        <p class="text-muted">Solution by <a href="http://www.jeffreybarron.com">jeffreybarron.com</a> for </br>University of Wollongong. CRICOS Provider No: 00102E</p>
 	      </div>
 	    </footer>
-	
 	</div><!-- /.container -->
-	<!-- <script src="/static/test.js"></script> -->
+	<script src="/static/test.js"></script> 
 	<script type="text/javascript">
 		function executePreFlight() {
 			var studyName = document.getElementById("studyName").value;

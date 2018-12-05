@@ -1,48 +1,39 @@
 <% include base_header.ejs %>
     <!-- Custom styles for this template -->
-    <link href="/static/main.css" rel="stylesheet">
-    <title>Online STM</title>
+    <link href="/static/study.css" rel="stylesheet">
+    <title>UOW Online STM - Study</title>
   </head>
   <body>
-    <div class="container">
-	    <div class="starter-template">
-	        <noscript>
-	        	<p class="lead">By following this link, these instructions or enabling JavaScript, you do so at your own risk. You agree to indemnify The University of Wollongong ('The vendor'), its partners and subsidiaries against any claim for damages or loss of any kind. The vendor does not provide any warranty of any kind.</p>
-	        	<p class="lead">For full functionality of this site it is necessary to enable JavaScript.</br>Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
-	        </noscript>
-	        
-	        <h1 id="pageTitle">UOW Online STM</h1>
-			<p id='studyText' class="text-left"></p>
-			
-	  		<p><div class="stimulus" id="question">+</div></p>
-			<p><button id="buttonStart" class="btn btn-primary" onclick="startQuestions()">Click to Start</button></p>
-			
-			<div id="answers" style="visibility:hidden">
-				<label for="answer" class="col-sm-2 col-form-label">Enter Word</label>
-		        <div class="col-sm-4">
-		            <input class="form-control" type="text" id="answer" name="0" value="">
-		        </div>
-			    <div class="col-sm-4">
-			        <button class="btn btn-primary" onclick="updateAnswers()">Submit</button>
-		        </div>
-
-				<p id="completionLink" style="visibility:hidden"></p>
-				<form id="form_answers" style="visibility:hidden">
-		            <input type="hidden" id="studyName" name="studyName" value="<%= studyName %>" />
-					<input type="visibility:hidden" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
-					<input type="visibility:hidden" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
-					<input type="visibility:hidden" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
-	        		<input type="visibility:hidden" id="consent" name="consent" value="<%= qs.consent %>" />
-	        		<input type="visibility:hidden" id="trainingComplete" name="trainingComplete" value="<%= qs.trainingComplete %>"
-	    		</form>
-			</div>
-	    </div>
-		<footer class="footer">
-	      <div class="container">
-	        <p class="text-muted">software solutions by <a href="http://www.jeffreybarron.com">wwww.jeffreybarron.com</a></p>
+<div class="outer">
+  <div class="middle">
+    <div class="inner">
+    	<div class="stimulus" id="question">+</div>
+    		<div class="startbutton">
+    			<button id="buttonStart" class="btn btn-primary" onclick="startQuestions()">Click to Start</button>
+		  	</div>
+		  <div class="answers" id="answers" style="display:none">
+        <label for="answer" class="col-sm-2 col-form-label">Enter Word</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" id="answer" name="0" value="">
+        </div>
+		    <div class="col-sm-4">
+		      <button class="btn btn-primary" onclick="updateAnswers()">Submit</button>
 	      </div>
-	    </footer>
-	
-	</div><!-- /.container -->
-	<script src="/static/test.js"></script>
+  			<p id="completionLink" style="display:none"></p>
+  			<form id="form_answers" style="display:none">
+  	      <input style="display:none" id="studyName" name="studyName" value="<%= studyName %>" />
+  				<input style="display:none" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
+  				<input style="display:none" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
+  				<input style="display:none" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
+          <input style="display:none" id="consent" name="consent" value="<%= qs.consent %>" />
+          <input style="display:none" id="trainingComplete" name="trainingComplete" value="<%= qs.trainingComplete %>" />
+      	</form>
+
+   	  </div>
+      <p id="studyText"></p>
+    </div>
+  </div>
+</div>
+
+<script src="/static/test.js"></script>
 <% include base_footer.ejs %>

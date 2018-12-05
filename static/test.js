@@ -33,8 +33,8 @@ function changeQuestion() {
 	} else {
 		// clear the text area and stop the ticker
 		clearInterval(myTicker);		
-		setProperties(questionObj,"+", "Black", "White");
-		answerObj.style.visibility = "visible";
+		setProperties(questionObj,"+", "white", "black");
+		answerObj.style.display = "block";
 	}
 }
 
@@ -49,23 +49,23 @@ function updateAnswers(){
 		answer.focus()
 		answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
 
-		console.log(errLoc + 'Bank:' + deckCounter + ', answer.name:' + answer.name);
+		//console.log(errLoc + 'Bank:' + deckCounter + ', answer.name:' + answer.name);
 		if (answer.name == questionCounter){
 			//console.log(errLoc + 'we have done all the questions in bank: ' + answer.name);
 			//reset question counter for next questionBank and 
 			//reset answers
 			questionCounter = 0;
 			answer.name = 0;
-			buttonStart.style.visibility = "visible";
-			answerObj.style.visibility = "hidden";
+			buttonStart.style.display = "block";
+			answerObj.style.display = "none";
 			deckCounter++;
 			
 			//console.log(errLoc + 'Deck:' + deckCounter + ', answer.name:' + answer.name);
 			//if we have also reached the last question bank then stop
 			if (deckCounter >= questionBank[1].decks.length){
 
-				setProperties(questionObj,"+", "Black", "White");
-				answerObj.style.visibility = "hidden";
+				setProperties(questionObj,"+", "white", "black");
+				answerObj.style.display = "none";
 
 				//Study is complete return to provider
 				//console.log(errLoc + "Study is complete, save data");
@@ -73,8 +73,8 @@ function updateAnswers(){
 				questionBank[0].parameters.resultGUID = getGUID();
 		        
 				//Update Page Form
-				buttonStart.style.visibility = "hidden";
-				answerObj.style.visibility = "hidden";
+				buttonStart.style.display = "none";
+				answerObj.style.display = "none";
 				
 				//Write Study Result to Server
 				//postData(questionBank);
@@ -93,13 +93,13 @@ function updateAnswers(){
 				        		"SESSION_ID=" + questionBank[0].parameters.SESSION_ID; //+ "&" + 
 				        		//"resultGUID=" + questionBank[0].parameters.resultGUID;
 
-							setProperties(pageTitle, "UOW Online STM","Black", "White");
+							//setProperties(pageTitle, "UOW Online STM","Black", "");
 							//setProperties(studyText, "The study is complete", "Black", "White")
-				        	setProperties(questionObj, "+","Black", "White");
-					    	questionObj.style.visibility = "hidden";
-
-							studyText.outerHTML = "You have finished. You must </br>click this link to generate study completion code:" +
-								" <a href='/sendCode/"+ studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a>" 
+				        	setProperties(questionObj, "", "white", "black");
+					    	questionObj.style.display = "none";
+							studyText.style.display = "block"
+							studyText.outerHTML = "<h2>You have finished</h2><p>You must click this <a href='/sendCode/" + 
+								studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a> link, to generate a study completion code.</p>" 
 
 
 				        } else {
@@ -303,7 +303,7 @@ function Logger(sSource,sLevel,sMessage){
 
 function startQuestions(){
 	myTicker = setInterval(changeQuestion, questionBank[0].parameters.refreshRateMS);
-	buttonStart.style.visibility = "hidden";
+	buttonStart.style.display = "none";
 }
 
 Date.prototype.YYYYMMDDHHMMSS = function () {
@@ -338,12 +338,11 @@ function loadQuestions() {
 				questionBank[0].parameters.loadTime = getDate();
 				questionBank[0].parameters.consent = consent.getAttribute('value');
 				questionBank[0].parameters.trainingComplete = trainingComplete.getAttribute('value');
-
-
+				
 		        //console.log('LoadTime updated');
 		        //update page Settings
-		        setProperties(pageTitle, questionBank[0].parameters.studyTitle, "","");
-		        setProperties(studyText, questionBank[0].parameters.studyText, questionBank[0].parameters.studyTextColor, questionBank[0].parameters.studybackgroundColor);
+		        //setProperties(pageTitle, questionBank[0].parameters.studyTitle, "","");
+		        //setProperties(studyText, questionBank[0].parameters.studyText, questionBank[0].parameters.studyTextColor, questionBank[0].parameters.studybackgroundColor);
 			};
 			return true;
 		} 

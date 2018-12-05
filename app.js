@@ -94,27 +94,29 @@ app.get('/instructions/:studyName', function(request, response, next) {
 app.get('/study/:studyName', function(request, response, next) {
 	console.log("get('/study/:studyName', Start");
 	try {
-		console.log("get('/study/:studyName', Try Start");
+		//console.log("get('/study/:studyName', Try Start");
 		var sStudyFile = 'data/studies/' + request.params.studyName + '.json'
-		console.log("get('/study/:studyName', sStudyFile: " + sStudyFile);
+		//console.log("get('/study/:studyName', sStudyFile: " + sStudyFile);
 
 		if (fs.existsSync(sStudyFile)) {
-			console.log("get('/study/:studyName', sStudyFile: Exists"); 
+			//console.log("get('/study/:studyName', sStudyFile: Exists"); 
 			response.render('study', {studyName: request.params.studyName, qs: request.query});
+			//console.log("request.query\r\n" + JSON.stringify(request.query));
+
 			console.log("get('/study/:studyName', study.ejs Rendered");
 		
 		} else {
-			console.log("get('/study/:studyName', sStudyFile: Not Found");
+			//console.log("get('/study/:studyName', sStudyFile: Not Found");
 
 			var fTemplate = fs.readFileSync('404.html', 'utf8');
 			response.send(fTemplate);
-			console.log("get('/study/:studyName', 404 Response Sent:" + err)	
+			//console.log("get('/study/:studyName', 404 Response Sent:" + err)	
 		}
 	}
 	catch (err) {
 		var fTemplate = fs.readFileSync('404.html', 'utf8');
 		response.send(fTemplate);
-		console.log("get('/study/:studyName', catch err:" + err);
+		//console.log("get('/study/:studyName', catch err:" + err);
 	}
 });
 
