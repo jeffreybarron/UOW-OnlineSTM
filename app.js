@@ -13,7 +13,7 @@ const 	app 		= express();
 app.set('view engine', 'ejs');
 app.use('/static', express.static('static'));
 app.use('/data/studies', express.static('data/studies'));
-app.use('/data/decks', express.static('data/decks'));
+//app.use('/decks/decks', express.static('data/decks'));
 
 app.use(favicon(__dirname + '/static/favicon.ico'));
 app.use(bodyParser.json()); // for parsing application/json

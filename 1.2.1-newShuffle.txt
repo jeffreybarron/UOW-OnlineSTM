@@ -1,0 +1,10 @@
+Release 1.2.1
+
+Work in Progress.. adding new Study Loader.. 
+Using Promises to load study config file then a list of decks from the study file.
+this is working so I'll commit to have a roll back point.
+
+Next
+sort the deckxx.json files into a 'game'
+
+
