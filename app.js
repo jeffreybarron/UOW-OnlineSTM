@@ -49,18 +49,18 @@ app.get('/consent/:studyName', function(request, response, next) {
 			//this line loads the consent.ejs template parseing contents of request.query 
 			//console.log(".get/consent, render page");
 			response.render('consent', {studyName: request.params.studyName, qs: request.query});
-			console.log(".get/consent, page rendered");
+			//console.log(".get/consent, page rendered");
 	
 		} else {
 			var fTemplate = fs.readFileSync('404.html', 'utf8');
 			response.send(fTemplate);
-			console.log(".get/consent, No such File:" + err)	
+			//console.log(".get/consent, No such File:" + err)	
 		}
 	}
 	catch (err) {
 		var fTemplate = fs.readFileSync('404.html', 'utf8');
 		response.send(fTemplate);
-		console.log(".get/consent. catch err:" + err);
+		//console.log(".get/consent. catch err:" + err);
 	}
 });
 
@@ -68,13 +68,13 @@ app.get('/instructions/:studyName', function(request, response, next) {
 	//console.log(".get('/instructions Start");
 	try {
 		//console.log(".get/consent try start:");	
-		if (request.query.consent === "on") {
+		if (request.query.checkConsent === "on") {
 			//console.log(".get('/instructions File found");	
 			
 			//this line loads the consent.ejs template parseing contents of request.query 
 			//console.log(".get('/instructions render page");
 			response.render('instructions', {studyName: request.params.studyName, qs: request.query});
-			console.log(".get('/instructions, page rendered");
+			//console.log(".get('/instructions, page rendered");
 	
 		} else {
 			var fTemplate = fs.readFileSync('404.html', 'utf8');
@@ -85,7 +85,7 @@ app.get('/instructions/:studyName', function(request, response, next) {
 	catch (err) {
 		var fTemplate = fs.readFileSync('404.html', 'utf8');
 		response.send(fTemplate);
-		console.log(".get('/instructions, catch err:" + err);
+		//console.log(".get('/instructions, catch err:" + err);
 	}
 });
 

@@ -12,13 +12,33 @@
     "STUDY_ID": "",
     "SESSION_ID": "",
     "resultGUID": "",
-    "consent": "",
-    "trainingComplete": "",
+    "checkConsent": "",
+    "checkInstructions": "",
     "loadTime": "",
     "saveTime": "",
     "decks": [
         "/data/studies/deck01.json",
         "/data/studies/deck02.json",
         "/data/studies/deck03.json"
+    ],
+    "deckConfiguration": [
+        {
+            "deckName": "deck01",
+            "URL":"/data/studies/deck01.json",
+            "pickQty": 4,
+            "sampleMode":"simple"
+        },
+        {
+            "deckName": "deck02",
+            "URL":"/data/studies/deck02.json",
+            "pickQty": 3,
+            "sampleMode":"replace"
+        },
+        {
+            "deckName": "deck03",
+            "URL":"/data/studies/deck03.json",
+            "pickQty": 2,
+            "sampleMode":"sequential"
+        }
     ]
 }

@@ -9,8 +9,8 @@ var participantID = document.getElementById("PROLIFIC_PID");
 var sessionID = document.getElementById("SESSION_ID");
 var pageTitle = document.getElementById("pageTitle");
 var studyText = document.getElementById("studyText");
-var consent = document.getElementById("consent");
-var trainingComplete = document.getElementById("trainingComplete");
+var checkConsent = document.getElementById("checkConsent");
+var checkInstructions = document.getElementById("checkInstructions");
 //var xmlHttp = new XMLHttpRequest;
 var oStudyConfig; 
 var studyDecks; //the source decks are sampled based on studyConfig and held here
@@ -21,7 +21,8 @@ var questionCounter = 0;
 var deckCounter = 0;
 var completedStudy = "";
 var resultGUID = ""
-
+var allDecks = [];
+var sampledStimulus = [];
 const randomSample = {
   false: "false", //Sequential Pick
   simple: "simple", //picked at random from remaining array
@@ -91,53 +92,112 @@ function loadStudy() {
 	
 	//load config file
 	var studyURL = '/data/studies/' + studyName.getAttribute('value') + '.json' 
-	console.log("studyURL: " + studyURL);
+	//console.log("studyURL: " + studyURL);
 	getFile(studyURL).then(function(configFile){
-		console.log("configFile:");
-		console.log(configFile);
+		//console.log("configFile:");
+		//console.log(configFile);
 
 		//setup the configFile for this 'game'
-		
 
+			//Take the parameters from the URL and put them in our new studyConfig object
+	        oStudyConfig = configFile
+	        oStudyConfig.PROLIFIC_PID = participantID.getAttribute('value');
+	        oStudyConfig.STUDY_ID = studyID.getAttribute('value');
+	        oStudyConfig.SESSION_ID = sessionID.getAttribute('value');
+			oStudyConfig.loadTime = getDate();
+			oStudyConfig.checkConsent = checkConsent.getAttribute('value');
+			oStudyConfig.checkInstructions = checkInstructions.getAttribute('value');
+			//console.log(oStudyConfig);
+
+		//End of Game config
 
 		// Take an array of promises and wait on them all
 		return Promise.all(
 			// Map our array of chapter urls to
 	    	// an array of chapter json promises
-	    	configFile.decks.map(getFile)
+	    	oStudyConfig.decks.map(getFile)
 	  	);
-	
 	}).then(function(deckList) {
-		console.log("The DeckList");
-		console.log(deckList);
+		//console.log("The DeckList");
+		//console.log(deckList);
 		
 		// Now we have the decks from the Config File order! Loop through…
 		deckList.forEach(function(deck) {
-	    	console.log("deck content");
-	    	console.log(deck);
-	    	//ok so here is where we load the contents of each deck into a 'game'
-
-
-
-
+		   	//At this point Im just going to add all decks to an allDecks object, so I 
+	    	//can use it once everything is loaded.
+	    	allDecks.push(deck);
+	    		    	
 	  	});
-		console.log("Game Ready To Play");
-
-	})
-
-	/*.catch(function(err) {
+	}).catch(function(err) {
 	  // catch any error that happened so far
-	  console.log("Argh, broken: " + err.message);
+	  //console.log("Argh, broken: " + err.message);
+	}).then(function() {
+		//load the samples
+		//console.log(allDecks);
+		for (let i = 0; i < allDecks.length; i++) {
+			sampledStimulus.push(pickStimulus(allDecks[i], 
+				oStudyConfig.deckConfiguration[i].pickQty, 
+				oStudyConfig.deckConfiguration[i].sampleMode));
+			console.log("sampledStimulus");			
+			console.log(sampledStimulus);
+		}
 	})
-	.then(function() {
-	  console.log("spinner");
-	})
-	*/
 
 }
+
+function pickStimulus(deck, pickQty, sampleMode) {
+	//console.log("PickStimulus Start");
+	let privArray = [];
+	let mode = sampleMode.toLowerCase();
+	console.log(sampleMode);
+
+	try {
+		switch (mode) {
+			case "simple": 
+				//random sample (without replacement)
+				//Sunter, A. B. (1977). "List Sequential Sampling with Equal or Unequal Probabilities without Replacement". Applied Statistics. 26 (3). doi:10.2307/2346966. JSTOR 10.2307/2346966
+				//based on Sunter paper we first shuffle deck then pick 0-to-Qty  
+				deck = shuffleArray(deck);
+				//let sampleIndex = getRandomIntInclusive(0,deck.length);
+				for (let cardIndex = 0; cardIndex < pickQty; cardIndex++) {
+					if (cardIndex > deck.length) { throw "pick quantity exceeds deck length" }
+					privArray.push(deck[cardIndex]);
+				}
+				break;
+			case "replace": 
+				//random sample (with replacement)
+				//theory here is just to do a random pick from the unchanged array as many times as needed
+				//the getRandomIntInclusive provides the randomness
+				for (let cardIndex = 0; cardIndex < pickQty; cardIndex++) {
+					if (cardIndex > deck.length) { throw "pick quantity exceeds deck length" }
+					let rand = getRandomIntInclusive(0,deck.length-1)
+					privArray.push(deck[rand]);
+				}
+				break;
+			case "sequential":
+				//this is the same as the simple randomsample without the pre-shuffle, so cards are picked sequentially as 
+				//provided by the deckxx.json file
+				for (let cardIndex = 0; cardIndex < pickQty; cardIndex++) {
+					if (cardIndex > deck.length) { throw "pick quantity exceeds deck length" }
+					privArray.push(deck[cardIndex]);
+				}
+				break;
+			default :
+				throw mode + " sampleMode not recognised. Try simple, replace or sequential"
+		}
+
+		return privArray;
+
+	} catch (err) {
+		privArray = "[" + err + "]"; 
+		return privArray
+	}
+}
+
+
 //https://developers.google.com/web/fundamentals/primers/promises
 function getFile(url) {
-  console.log("url:" + url);
+  //console.log("url:" + url);
   // Return a new promise.
   return new Promise(function(resolve, reject) {
     // Do the usual XHR stuff
@@ -215,105 +275,7 @@ function loadStudy() {
 }
 */
 
-function loadDecks(deckList) {
-	//console.log("loadDecks, Start");
-	//new json object for loading the decks into
-	var sourceDecks = JSON.parse("[]"); //full source decks from the studyConfig are loaded here
-	var deckListCount = deckList.length;
-	var contentType = "";
-	var i;
 
-
-	// iterate JSON Array loading each deck into source
-	for (i=0; i < deckListCount; i++ ){
-		var fileName = deckList[i].deckName; 
-		var filePath = "/data/decks/";
-
-		//download deck sourcefile from server and add it to sourceDecks JSON
-		try {
-			//We know the study exist, now load the studyConfig.
-			var xmlHttp = new XMLHttpRequest;
-			xmlHttp.open('GET', filePath + fileName, true);
-			xmlHttp.setRequestHeader('Content-Type', "application/json");
-			xmlHttp.send();
-			xmlHttp.onreadystatechange = function() {
-			    if (this.readyState == 4 && this.status == 200) {
-					//console.log("responseText: " + this.responseText);
-					var tmp = JSON.parse(this.responseText);
-					//console.log(tmp);
-					sourceDecks.push(tmp);
-					console.log("loadDecks End: " + sourceDecks);
-				};
-
-			}
-		} catch (err) {
-			//alert("No Study ID specified in URL, cannot proceed!");
-			return "File not found or not loaded.\r\n" + err
-		}
-	}
-
-}
-
-
-
-
-var sprites = {}
-var all = []
-function loadFiles(fileList){
-
-	fileList.forEach( function ( fileName ) {
-		//console.log("fileName=" + fileName);
-		//Request each individual sprite and get a Promise
-		var promiseObject = get(fileName)
-	        .then( JSON.parse ) //parse the JSON file
-	        .then ( function ( sprite ) {
-	            //Record the sprite by name
-	            sprites[fileName] = sprite; 
-	           //console.log(sprite);
-	            //Display your sprite as soon as loaded here     
-	        } );
-	  	//add the promise to an Array of all promises
-	  	//I dont actually understand this
-		all.push( promiseObject );
-
-	} )
-	//wait for all the files to be loaded and parsed
-	Promise.all( all )
-	    .then( function () {
-	    	//All the  JS sprites are loaded here
-	       	//You can continue your processing
-	       	return sprites;
-	       	//Call the rest of the page logic from here
-	    } )
-}
-//https://developers.google.com/web/fundamentals/primers/promises
-function get(url) {
-  // Return a new promise.
-  return new Promise(function(resolve, reject) {
-    // Do the usual XHR stuff
-    var req = new XMLHttpRequest();
-    req.open('GET', url);
-    req.onload = function() {
-      // This is called even on 404 etc
-      // so check the status
-      if (req.status == 200) {
-        // Resolve the promise with the response text
-        resolve(req.response);
-      }
-      else {
-        // Otherwise reject with the status text
-        // which will hopefully be a meaningful error
-        reject(Error(req.statusText));
-      }
-    };
-    // Handle network errors
-    req.onerror = function() {
-      reject(Error("Network Error"));
-    };
-    // Make the request
-    req.send();
-  });
-}
 
 
 
@@ -411,12 +373,12 @@ function updateAnswers(){
 		}
 	}
 }
-function setProperties(obj, textValue, textColor, textBackGroundColor){
-	//set properties on page
-	obj.innerText = textValue;
-	obj.style.color = textColor;
-	obj.style.backgroundColor = textBackGroundColor;
-	//console.log(obj.id + ": " + textValue);
+
+
+
+function startQuestions(){
+	myTicker = setInterval(changeQuestion, questionBank.refreshRateMS);
+	buttonStart.style.visibility = "hidden";
 }
 function shuffleTemplate (err) {
 	//shuffle paramater takes three possible values
@@ -524,7 +486,13 @@ function compareDecks(arr){
 
 
 
-
+function setProperties(obj, textValue, textColor, textBackGroundColor){
+	//set properties on page
+	obj.innerText = textValue;
+	obj.style.color = textColor;
+	obj.style.backgroundColor = textBackGroundColor;
+	//console.log(obj.id + ": " + textValue);
+}
 function total(arr) {
   if(!Array.isArray(arr)) return;
   return arr.reduce((a, v)=>a + v);
@@ -539,6 +507,12 @@ function pad(number, length) {
         str = '0' + str;
     }
     return str;
+}
+function getRandomIntInclusive(min, max) {
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 function getGUID() {
 	// then to call it, plus stitch in '4' in the third group
@@ -562,13 +536,9 @@ Date.prototype.YYYYMMDDHHMMSS = function () {
 
 
 
-
-function startQuestions(){
-	myTicker = setInterval(changeQuestion, questionBank.refreshRateMS);
-	buttonStart.style.visibility = "hidden";
-}
 function loadInstructions() {
 	try {
+		let xmlHttp = new XMLHttpRequest;
 		xmlHttp.open('GET', '/data/studies/' + studyName.getAttribute('value') + '_instructions.html', true);
 		xmlHttp.setRequestHeader('Content-Type', 'text/html');
 		xmlHttp.send();
@@ -586,7 +556,8 @@ function loadInstructions() {
 }
 function loadConsent() {
 	try {
-		console.log("test.js.loadConsent, studyID: " + studyName.getAttribute('value'))
+		//console.log("test.js.loadConsent, studyID: " + studyName.getAttribute('value'))
+		let xmlHttp = new XMLHttpRequest;
 		xmlHttp.open('GET', '/data/studies/' + studyName.getAttribute('value') + '_consent.html', true);
 		xmlHttp.setRequestHeader('Content-Type', 'text/html');
 		xmlHttp.send();
