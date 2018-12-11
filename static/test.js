@@ -96,9 +96,7 @@ function loadStudy() {
 	getFile(studyURL).then(function(configFile){
 		//console.log("configFile:");
 		//console.log(configFile);
-
 		//setup the configFile for this 'game'
-
 			//Take the parameters from the URL and put them in our new studyConfig object
 	        oStudyConfig = configFile
 	        oStudyConfig.PROLIFIC_PID = participantID.getAttribute('value');
@@ -107,15 +105,28 @@ function loadStudy() {
 			oStudyConfig.loadTime = getDate();
 			oStudyConfig.checkConsent = checkConsent.getAttribute('value');
 			oStudyConfig.checkInstructions = checkInstructions.getAttribute('value');
+
+			//Shuffle the Stimulus Files if needed
+			if (oStudyConfig.shuffleDecks === true) {
+				oStudyConfig.deckConfiguration = shuffleArray(oStudyConfig.deckConfiguration).splice(0);
+				console.log("shuffled decks");
+			}
 			//console.log(oStudyConfig);
 
-		//End of Game config
+
+			//Get the list of Stimulus Files
+			let stimulusFiles = [];
+			for (let i = 0; i < oStudyConfig.deckConfiguration.length; i++){
+				stimulusFiles.push("/data/studies/" + oStudyConfig.deckConfiguration[i].deckName + ".json");
+			}
+			//console.log("stimulusFiles");
+			//console.log(stimulusFiles);
 
 		// Take an array of promises and wait on them all
 		return Promise.all(
 			// Map our array of chapter urls to
 	    	// an array of chapter json promises
-	    	oStudyConfig.decks.map(getFile)
+	    	stimulusFiles.map(getFile)
 	  	);
 	}).then(function(deckList) {
 		//console.log("The DeckList");
@@ -138,8 +149,8 @@ function loadStudy() {
 			sampledStimulus.push(pickStimulus(allDecks[i], 
 				oStudyConfig.deckConfiguration[i].pickQty, 
 				oStudyConfig.deckConfiguration[i].sampleMode));
-			console.log("sampledStimulus");			
-			console.log(sampledStimulus);
+			//console.log("sampledStimulus");			
+			//console.log(sampledStimulus);
 		}
 	})
 
@@ -149,7 +160,7 @@ function pickStimulus(deck, pickQty, sampleMode) {
 	//console.log("PickStimulus Start");
 	let privArray = [];
 	let mode = sampleMode.toLowerCase();
-	console.log(sampleMode);
+	//console.log(sampleMode);
 
 	try {
 		switch (mode) {

@@ -1,0 +1,36 @@
+Release 1.2.3
+
+===================================
+Work in Progress.. adding new Study Loader.. 
+
+NOTE: as per 1.2.1 the solution is not functional, this commit.. is just a role back position for dev
+===================================
+
+--Changes from 1.2.1
+
+1)Using Promises to load study config file then a list of decks from the study file.
+this is working so I'll commit to have a roll back point.
+
+--changes from 1.2.2
+
+2)sort the deckxx.json files into a 'game'
+	simple = simple random sample without replacement
+	replace = simple random sample with replacement
+	sequential = simple sample in order provided
+
+--changes from 1.2.3
+
+3)use only one section in the config file for the deck list
+
+4)shuffle decks, do this after config load, before deck load 
+
+
+===================================
+--Feature Requests not implemented
+
+-figure out whether the number of cards played at a time is equal to pickQty, or
+	-a global variable or
+	-a variable for each deck
+	-errors to watch.. numbers to play should not exceed available array
+-we might need to be able to shuffle all cards between decks..
+	you might account for this but shuffling the final pool if that is how you serve them up.
