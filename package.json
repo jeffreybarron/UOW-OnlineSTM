@@ -1,6 +1,6 @@
 {
   "name": "OnlineSTM",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "UOW Coglab Web Study Platform",
   "main": "app.js",
   "dependencies": {

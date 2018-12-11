@@ -6,6 +6,7 @@
     "studyTextColor": "black",
     "refreshRateMS": 200,
     "shuffleDecks": false,
+    "shuffleAll": false,
     "PROLIFIC_PID": "",
     "STUDY_ID": "",
     "SESSION_ID": "",
