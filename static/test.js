@@ -2,7 +2,6 @@
 var questionObj = document.getElementById("question");
 var answerObj = document.getElementById("answers");
 var buttonStart = document.getElementById('buttonStart');
-//var answerform = document.getElementById("form_answers");
 var studyName = document.getElementById("studyName");
 var studyID = document.getElementById("STUDY_ID");
 var participantID = document.getElementById("PROLIFIC_PID");
@@ -11,28 +10,14 @@ var pageTitle = document.getElementById("pageTitle");
 var studyText = document.getElementById("studyText");
 var checkConsent = document.getElementById("checkConsent");
 var checkInstructions = document.getElementById("checkInstructions");
-//var xmlHttp = new XMLHttpRequest;
 var oStudyConfig; 
-var studyDecks; //the source decks are sampled based on studyConfig and held here
-
-var questionBank; // instantiate global array variable
-var myTicker; // Instantiate global ticker variable
+var questionBank; 
+var myTicker; 
 var questionCounter = 0;
 var deckCounter = 0;
 var completedStudy = "";
-var resultGUID = ""
 var allDecks = [];
 var sampledStimulus = [];
-const randomSample = {
-  false: "false", //Sequential Pick
-  simple: "simple", //picked at random from remaining array
-  replacement: "replacement", //picked at random with replacement
-};
-const shuffleMode = {
-	false: "false", // No Shuffle
-	decks: "decks", // shuffle the order of the decks, not the cards in the decks
-	all: "all" // shuffle all the card\stimulus between decks
-}
 
 var pageHandler = main(); 
 
@@ -89,7 +74,6 @@ function main(){
 
 
 function loadStudy() {
-	
 	//load config file
 	var studyURL = '/data/studies/' + studyName.getAttribute('value') + '.json' 
 	//console.log("studyURL: " + studyURL);
@@ -102,17 +86,15 @@ function loadStudy() {
 	        oStudyConfig.PROLIFIC_PID = participantID.getAttribute('value');
 	        oStudyConfig.STUDY_ID = studyID.getAttribute('value');
 	        oStudyConfig.SESSION_ID = sessionID.getAttribute('value');
-			oStudyConfig.loadTime = getDate();
 			oStudyConfig.checkConsent = checkConsent.getAttribute('value');
 			oStudyConfig.checkInstructions = checkInstructions.getAttribute('value');
 
 			//Shuffle the Stimulus Files if needed
 			if (oStudyConfig.shuffleDecks === true) {
 				oStudyConfig.deckConfiguration = shuffleArray(oStudyConfig.deckConfiguration).splice(0);
-				console.log("shuffled decks");
+				//console.log("shuffled decks");
 			}
 			//console.log(oStudyConfig);
-
 
 			//Get the list of Stimulus Files
 			let stimulusFiles = [];
@@ -143,31 +125,77 @@ function loadStudy() {
 	  // catch any error that happened so far
 	  //console.log("Argh, broken: " + err.message);
 	}).then(function() {
+		let dealersDeck=[];
 		//load the samples
 		//console.log(allDecks);
+
 		for (let i = 0; i < allDecks.length; i++) {
 			sampledStimulus.push(pickStimulus(allDecks[i], 
 				oStudyConfig.deckConfiguration[i].pickQty, 
 				oStudyConfig.deckConfiguration[i].sampleMode));
 			//console.log("sampledStimulus");			
 			//console.log(sampledStimulus);
+			
+			//load them into a single dealer container to be
+			//https://davidwalsh.name/combining-js-arrays
+			dealersDeck = sampledStimulus[i].reduce(function(coll, item) {
+			  coll.push(item);
+			  return coll;
+			}, dealersDeck);
+			//console.log(dealersDeck);
 		}
+		//Shuffle the dealersDeck if needed
+		if (oStudyConfig.shuffleAll === true) {
+			//console.log(dealersDeck);		
+			dealersDeck = shuffleArray(dealersDeck);
+			//console.log(dealersDeck);
+		}
+
+		//setup sets in the config file
+		let currentStimulus = 0
+		let sumSetSize = oStudyConfig.setSizes.reduce(function (accumulator, currentValue) {
+  			return accumulator + currentValue;}, 0);
+		//console.log("sumSetSize:" + sumSetSize);
+	
+		//for each set
+		for (let iSetNumber = 0; iSetNumber < oStudyConfig.setSizes.length; iSetNumber++ ){
+			//add set frame
+			oStudyConfig.sets.push(JSON.parse("{\"set\":[]}"));
+			let setSize = oStudyConfig.setSizes[iSetNumber];
+			//console.log("\tiSetNumber:" + iSetNumber + ", setSize:" + setSize);
+
+			//dish out the number of cards required from the front of the deck
+			for (let i = 0; i < setSize; i++ ){
+				//push first element of dealersDeck onto the end of config file sets.set
+				//console.log("i:" + i);
+				oStudyConfig.sets[iSetNumber].set.push(dealersDeck[i]); 
+				dealersDeck.shift(); //remove first element of dealersDeck
+			}
+		}
+
+        //console.log('LoadTime updated');
+        //update page Settings
+		oStudyConfig.loadTime = getDate();
+        setProperties(pageTitle, oStudyConfig.studyTitle, "","");
+        setProperties(studyText, oStudyConfig.studyText, oStudyConfig.studyTextColor, oStudyConfig.studybackgroundColor);
+        buttonStart.style.display = "block";
 	})
-
 }
-
 function pickStimulus(deck, pickQty, sampleMode) {
 	//console.log("PickStimulus Start");
 	let privArray = [];
 	let mode = sampleMode.toLowerCase();
 	//console.log(sampleMode);
-
 	try {
 		switch (mode) {
 			case "simple": 
-				//random sample (without replacement)
-				//Sunter, A. B. (1977). "List Sequential Sampling with Equal or Unequal Probabilities without Replacement". Applied Statistics. 26 (3). doi:10.2307/2346966. JSTOR 10.2307/2346966
-				//based on Sunter paper we first shuffle deck then pick 0-to-Qty  
+				/*
+				random sample (without replacement)
+				Based on Sunter (1977) paper we first shuffle deck then pick 0-to-Qty  
+				Sunter, A. B. (1977). "List Sequential Sampling with Equal or Unequal 
+				 Probabilities without Replacement". Applied Statistics. 26 (3). doi:10.2307/2346966.
+				 JSTOR 10.2307/2346966
+				*/
 				deck = shuffleArray(deck);
 				//let sampleIndex = getRandomIntInclusive(0,deck.length);
 				for (let cardIndex = 0; cardIndex < pickQty; cardIndex++) {
@@ -196,16 +224,12 @@ function pickStimulus(deck, pickQty, sampleMode) {
 			default :
 				throw mode + " sampleMode not recognised. Try simple, replace or sequential"
 		}
-
 		return privArray;
-
 	} catch (err) {
 		privArray = "[" + err + "]"; 
 		return privArray
 	}
 }
-
-
 //https://developers.google.com/web/fundamentals/primers/promises
 function getFile(url) {
   //console.log("url:" + url);
@@ -236,59 +260,6 @@ function getFile(url) {
     req.send();
   });
 }
-
-
-
-
-
-/*
-function loadStudy() {
-	try {
-		//We know the study exist, now load the studyConfig.
-		var xmlHttp = new XMLHttpRequest;
-		xmlHttp.open('GET', '/data/studies/' + studyName.getAttribute('value') + '.json', true);
-		xmlHttp.send();
-		xmlHttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-
-		    	//load studyConfig object
-		        oStudyConfig = JSON.parse(this.responseText);
-				
-				//Take the parameters from the URL and put them in our new studyConfig object
-		        oStudyConfig[0].parameters.PROLIFIC_PID = participantID.getAttribute('value');
-		        oStudyConfig[0].parameters.STUDY_ID = studyID.getAttribute('value');
-		        oStudyConfig[0].parameters.SESSION_ID = sessionID.getAttribute('value');
-				oStudyConfig[0].parameters.loadTime = getDate();
-				oStudyConfig[0].parameters.consent = consent.getAttribute('value');
-				oStudyConfig[0].parameters.trainingComplete = trainingComplete.getAttribute('value');
-
-				//console.log("loadStudy, LoadDecks List: " + JSON.stringify(oStudyConfig[1].decks));
-				loadDecks(oStudyConfig[1].decks);
-
-
-		        //shuffle according to paramaters on file
-		        var result = shuffleTemplate(); 
-		        
-
-		        //console.log('LoadTime updated');
-		        //update page Settings
-		        setProperties(pageTitle, oStudyConfig[0].parameters.studyTitle, "","");
-		        setProperties(studyText, oStudyConfig[0].parameters.studyText, oStudyConfig[0].parameters.studyTextColor, oStudyConfig[0].parameters.studybackgroundColor);
-			};
-			return true;
-		} 
-	} catch (err) {
-		//alert("No Study ID specified in URL, cannot proceed!");
-		setProperties(pageTitle, err, "","");
-		return false;
-		
-	}
-}
-*/
-
-
-
-
 
 
 function changeQuestion() {
@@ -338,7 +309,6 @@ function updateAnswers(){
 				//Study is complete return to provider
 				console.log(errLoc + "Study is complete, save data");
 				questionBank[0].parameters.saveTime = getDate();
-				questionBank[0].parameters.resultGUID = getGUID();
 		        
 				//Update Page Form
 				buttonStart.style.visibility = "hidden";
@@ -358,8 +328,7 @@ function updateAnswers(){
 				            console.log(errLoc + "Page Title: " + document.getElementById("pageTitle").innerText);
 				        	completedStudy = "PROLIFIC_PID=" + questionBank[0].parameters.PROLIFIC_PID + "&" + 
 				        		"STUDY_ID=" + questionBank[0].parameters.STUDY_ID + "&" + 
-				        		"SESSION_ID=" + questionBank[0].parameters.SESSION_ID; //+ "&" + 
-				        		//"resultGUID=" + questionBank[0].parameters.resultGUID;
+				        		"SESSION_ID=" + questionBank[0].parameters.SESSION_ID; 
 
 							setProperties(pageTitle, "UOW Online STM","Black", "White");
 							//setProperties(studyText, "The study is complete", "Black", "White")

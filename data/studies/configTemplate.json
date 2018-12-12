@@ -7,7 +7,7 @@
     "refreshRateMS": 200,
     "shuffleDecks": false,
     "shuffleAll": false,
-    "setSizes":[4,2,2,4],
+    "setSizes":["3","3","3","3"],
     "sets": [],
     "PROLIFIC_PID": "",
     "STUDY_ID": "",
@@ -34,3 +34,5 @@
         }
     ]
 }
+
+

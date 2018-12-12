@@ -7,8 +7,27 @@
     "refreshRateMS": 200,
     "shuffleDecks": false,
     "shuffleAll": false,
-    "setSizes":[4,2,2,4],
-    "sets": [],
+    "setSizes":["3","3","3","3"],
+    "sets": [
+        {
+            "set":[
+                {
+                    "stimulus":"lorem",
+                    "textColor":"yellow",
+                    "backGroundColor":"black",
+                    "response":"",
+                    "responseTime":""
+                },
+                {
+                    "stimulus":"ipsum",
+                    "textColor":"yellow",
+                    "backGroundColor":"black",
+                    "response":"",
+                    "responseTime":""
+                }
+            ]
+        }
+    ],
     "PROLIFIC_PID": "",
     "STUDY_ID": "",
     "SESSION_ID": "",
