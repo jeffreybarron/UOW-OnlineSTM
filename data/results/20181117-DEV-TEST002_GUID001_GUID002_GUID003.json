@@ -1,0 +1,59 @@
+[
+  {
+    "parameters": {
+      "studyName": "20181117-DEV-TEST002",
+      "studyTitle": "20181117-DEV-TEST002 - (studyTitle)",
+      "studyText": "Two decks, two questions each, no Shuffle",
+      "studyTextbackgroundColor": "white",
+      "studyTextColor": "black",
+      "refreshRateMS": 200,
+      "shuffleFull": "false",
+      "shuffleDecks": "false",
+      "shuffleQuestions": "true",
+      "PROLIFIC_PID": "GUID001",
+      "STUDY_ID": "GUID002",
+      "SESSION_ID": "GUID003",
+      "resultGUID": "22630e49-db6e-49f7-14ef-1fc2c342b88b",
+      "consent": "on",
+      "trainingComplete": "on",
+      "loadTime": "20181212_175214",
+      "saveTime": "20181212_175221"
+    }
+  },
+  {
+    "decks": [
+      {
+        "questions": [
+          {
+            "question": "green",
+            "textColor": "green",
+            "backGroundColor": "black",
+            "answer": ""
+          },
+          {
+            "question": "red",
+            "textColor": "red",
+            "backGroundColor": "black",
+            "answer": ""
+          }
+        ]
+      },
+      {
+        "questions": [
+          {
+            "question": "lorem",
+            "textColor": "yellow",
+            "backGroundColor": "black",
+            "answer": ""
+          },
+          {
+            "question": "ipsum",
+            "textColor": "yellow",
+            "backGroundColor": "black",
+            "answer": ""
+          }
+        ]
+      }
+    ]
+  }
+]
