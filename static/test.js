@@ -20,8 +20,6 @@ var allDecks = [];
 var sampledStimulus = [];
 
 var pageHandler = main(); 
-
-
 function main(){
 	try {
 		var sPathName = window.location.pathname;
@@ -71,6 +69,7 @@ function main(){
 		//console.log("loadPage COMPLETE");
 	}
 }
+
 
 
 function loadStudy() {
@@ -164,13 +163,18 @@ function loadStudy() {
 			let setSize = oStudyConfig.setSizes[iSetNumber];
 			//console.log("\tiSetNumber:" + iSetNumber + ", setSize:" + setSize);
 
+			//console.log(dealersDeck);
+			//console.log(oStudyConfig);
+
 			//dish out the number of cards required from the front of the deck
 			for (let i = 0; i < setSize; i++ ){
 				//push first element of dealersDeck onto the end of config file sets.set
-				//console.log("i:" + i);
-				oStudyConfig.sets[iSetNumber].set.push(dealersDeck[i]); 
+				//console.log("iSetNumber:" + iSetNumber + ", setSize:" + setSize + ", i:" + i);
+				oStudyConfig.sets[iSetNumber].set.push(dealersDeck[0]); //because zero is always the front
 				dealersDeck.shift(); //remove first element of dealersDeck
 			}
+			//console.log(dealersDeck);
+			//console.log(oStudyConfig);
 		}
 
         //console.log('LoadTime updated');
@@ -236,7 +240,7 @@ function getFile(url) {
   // Return a new promise.
   return new Promise(function(resolve, reject) {
     // Do the usual XHR stuff
-    var req = new XMLHttpRequest();
+    let req = new XMLHttpRequest();
     req.open('GET', url);
 
     req.onload = function() {
@@ -262,61 +266,70 @@ function getFile(url) {
 }
 
 
+
+function startQuestions(){
+	myTicker = setInterval(changeQuestion, oStudyConfig.refreshRateMS);
+	buttonStart.style.display = "none";
+}
 function changeQuestion() {
-	if (questionCounter < questionBank[1].decks[deckCounter].questions.length) {
+	//console.log(oStudyConfig.sets[deckCounter].set.length);
+	if (questionCounter < oStudyConfig.sets[deckCounter].set.length) {
+		//console.log(oStudyConfig.sets[deckCounter].set[questionCounter].stimulus);
 		setProperties( 
 			questionObj,
-			questionBank[1].decks[deckCounter].questions[questionCounter].question, 
-			questionBank[1].decks[deckCounter].questions[questionCounter].textColor,
-			questionBank[1].decks[deckCounter].questions[questionCounter].backGroundColor);
+			oStudyConfig.sets[deckCounter].set[questionCounter].stimulus, 
+			oStudyConfig.sets[deckCounter].set[questionCounter].textColor,
+			oStudyConfig.sets[deckCounter].set[questionCounter].backGroundColor);
 		questionCounter++;
 	} else {
 		// clear the text area and stop the ticker
 		clearInterval(myTicker);		
 		setProperties(questionObj,"+", "Black", "White");
-		answerObj.style.visibility = "visible";
+		answerObj.style.display = "block";
 	}
 }
 function updateAnswers(){
+	//console.log("answer:" + answer.name);
 	var errLoc = "test.js.updateAnswer, " 
-	console.log(errLoc + 'Bank:' + deckCounter + ", answer.name:" + answer.name);
+	//console.log(errLoc + 'Bank:' + deckCounter + ", answer.name:" + answer.name);
 	if (answer.name < questionCounter) {
-		console.log(errLoc + 'saving: ' + answer.value +' to ' + answer.name + ' questionCounter=' + questionCounter);
-		
-		questionBank[1].decks[deckCounter].questions[answer.name].answer = answer.value; //load answer into json
+		//console.log("deckCounter:" + deckCounter + ", answer.name:" + answer.name + ", answer.value:" + answer.value);
+		oStudyConfig.sets[deckCounter].set[answer.name].responseTime = getDate(); //load answer into json
+		oStudyConfig.sets[deckCounter].set[answer.name].response = answer.value; //load answer into json
 		answer.value = ''; //reset form for next answer
 		answer.focus()
 		answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
 
 		console.log(errLoc + 'Bank:' + deckCounter + ', answer.name:' + answer.name);
 		if (answer.name == questionCounter){
-			console.log(errLoc + 'we have done all the questions in bank: ' + answer.name);
+			//console.log(errLoc + 'we have done all the questions in bank: ' + answer.name);
 			//reset question counter for next questionBank and 
 			//reset answers
 			questionCounter = 0;
 			answer.name = 0;
-			buttonStart.style.visibility = "visible";
-			answerObj.style.visibility = "hidden";
+			buttonStart.style.display = "block";
+			answerObj.style.display = "none";
 			deckCounter++;
 			
-			console.log(errLoc + 'Deck:' + deckCounter + ', answer.name:' + answer.name);
+			//console.log(errLoc + 'Deck:' + deckCounter + ', answer.name:' + answer.name);
 			//if we have also reached the last question bank then stop
-			if (deckCounter >= questionBank[1].decks.length){
+			if (deckCounter >= oStudyConfig.sets.length){
 
 				setProperties(questionObj,"+", "Black", "White");
-				answerObj.style.visibility = "hidden";
+				answerObj.style.display = "none";
 
 				//Study is complete return to provider
-				console.log(errLoc + "Study is complete, save data");
-				questionBank[0].parameters.saveTime = getDate();
+				//console.log(errLoc + "Study is complete, save data");
+				oStudyConfig.saveTime = getDate();
 		        
 				//Update Page Form
-				buttonStart.style.visibility = "hidden";
-				answerObj.style.visibility = "hidden";
+				buttonStart.style.display = "none";
+				answerObj.style.display = "none";
 				
 				//Write Study Result to Server
 				//postData(questionBank);
-				var data = JSON.stringify(questionBank, null, 2);
+				var data = JSON.stringify(oStudyConfig, null, 2);
+				let xmlHttp = new XMLHttpRequest;
 			    xmlHttp.open("POST", "/results", true);
 			    xmlHttp.setRequestHeader('Content-Type', 'application/json');
 			    //Save data to server
@@ -324,23 +337,23 @@ function updateAnswers(){
 					xmlHttp.send(data);
 					xmlHttp.onreadystatechange = function() {
 					    if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-				            console.log (errLoc + 'readystate 4 data: ' + data);
-				            console.log(errLoc + "Page Title: " + document.getElementById("pageTitle").innerText);
-				        	completedStudy = "PROLIFIC_PID=" + questionBank[0].parameters.PROLIFIC_PID + "&" + 
-				        		"STUDY_ID=" + questionBank[0].parameters.STUDY_ID + "&" + 
-				        		"SESSION_ID=" + questionBank[0].parameters.SESSION_ID; 
+				            //console.log (errLoc + 'readystate 4 data: ' + data);
+				            //console.log(errLoc + "Page Title: " + document.getElementById("pageTitle").innerText);
+				        	completedStudy = "PROLIFIC_PID=" + oStudyConfig.PROLIFIC_PID + "&" + 
+				        		"STUDY_ID=" + oStudyConfig.STUDY_ID + "&" + 
+				        		"SESSION_ID=" + oStudyConfig.SESSION_ID; 
 
 							setProperties(pageTitle, "UOW Online STM","Black", "White");
 							//setProperties(studyText, "The study is complete", "Black", "White")
 				        	setProperties(questionObj, "+","Black", "White");
-					    	questionObj.style.visibility = "hidden";
+					    	questionObj.style.display = "none";
 
 							studyText.outerHTML = "You have finished. You must </br>click this link to generate study completion code:" +
 								" <a href='/sendCode/"+ studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a>" 
 
 
 				        } else {
-				        	console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
+				        	//console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
 				         	setProperties(studyText, "Saving study, please wait...","Black", "White");   
 				        }
 					}
@@ -356,44 +369,9 @@ function updateAnswers(){
 
 
 
-function startQuestions(){
-	myTicker = setInterval(changeQuestion, questionBank.refreshRateMS);
-	buttonStart.style.visibility = "hidden";
-}
-function shuffleTemplate (err) {
-	//shuffle paramater takes three possible values
-	//full, deck, questions
-	var i;
-	
-	try {
-		if (questionBank[0].parameters.shuffleFull === "true"){
-			shuffleFullArray();
-			//alert('full shuffle ended:');
-		} 
-		if (questionBank[0].parameters.shuffleDecks === "true"){
-			//shuffle decks
-			shuffleArray(questionBank[1].decks);
-		} 
-		if (questionBank[0].parameters.shuffleQuestions === "true"){
-			//shuffle questions in all decks
-			for (i = 0; i < questionBank[1].decks.length ; i++) {
-				shuffleArray(questionBank[1].decks[i].questions);
-			};
-		}
-	}
-	catch (err) {
-		//console.log('ShuffleTemplat: ' + err);
-		return false;
-	}
-	return true;
-}
 function shuffleArray(array){
-// modern version of the Fisher–Yates shuffle algorithm:
-/**
- * Shuffles array in place.
- * @param {Array} a items An array containing the items.
- */
-    var j, x, i;
+	// modern version of the Fisher–Yates shuffle algorithm:
+	var j, x, i;
     for (i = array.length - 1; i > 0; i--) {
         j = Math.floor(Math.random() * (i + 1));
         x = array[i];
@@ -402,70 +380,6 @@ function shuffleArray(array){
     }
     return array;
 }
-function shuffleFullArray(){
-	//assumes all decks are equal length ;)
-	//then do this custom shuffle.
-
-	var newDeck, newQuestion, deck;
-	var deckLength = questionBank[1].decks.length;
-	var questionsLength = questionBank[1].decks[0].questions.length;
-	var i = 0; 
-
-   	try {
-		//alert('try block start');
-		//check deck lengths, if unequal throw error
-		if (compareDecks(questionBank[1].decks) === false) { 
-			//alert('compare decks is false');
-			throw "Decks must be equal in size if shuffleFull is true"; 
-		}
-
-		//alert('start loops');
-		for (deck = 0; deck < deckLength; deck++) {
-			for (quest = 0; quest < questionsLength; quest++) {
-				newDeck = Math.floor(Math.random() * (deckLength));
-		  	  	newQuestion = Math.floor(Math.random() * (questionsLength));
-
-		        //store the question A 
-		        //alert('store A');
-		        holdQuest = questionBank[1].decks[deck].questions[quest];
-		        
-		        // write question B to Location A 
-		       	//alert('write B');
-		        questionBank[1].decks[deck].questions[quest] = questionBank[1].decks[newDeck].questions[newQuestion];
-		   
-		        //now write stored question A to Location B
-		        //alert('write hold');
-		        questionBank[1].decks[newDeck].questions[newQuestion] = holdQuest;
-		   
-				//console.log(i++ + ', quest: ' + quest + ', deck: ' + deck);
-		    }
-		}
-	}
- 	catch (err) {
-   		//console.log('ShuffleFullArray Failed:');
-   		//console.log(err);
-   		throw err;
-   	}
-    return true;
-}
-function compareDecks(arr){
-	var deckCount = arr.length;
-	var deckLengths = [];
-	var i;
-
-	for (i=0; i < arr.length; i++ ){
-		deckLengths.push(arr[i].questions.length);
-	}
-	if (total(deckLengths) === deckLengths.length * deckLengths[0]) {
-		// sum of question and product of questions in one deck and num decks is equal
-		return true;
-	} else {
-		return false;
-	}
-}
-
-
-
 function setProperties(obj, textValue, textColor, textBackGroundColor){
 	//set properties on page
 	obj.innerText = textValue;
@@ -479,7 +393,7 @@ function total(arr) {
 }
 function getDate() {
     var d = new Date();
-    return d.YYYYMMDDHHMMSS()
+    return d.YYYYMMDDHHMMSSMMMM()
 }
 function pad(number, length) {
     var str = '' + number;
@@ -503,15 +417,15 @@ function S4() {
     //work out what this does again
     return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
 }
-Date.prototype.YYYYMMDDHHMMSS = function () {
+Date.prototype.YYYYMMDDHHMMSSMMMM = function () {
     var yyyy = this.getFullYear().toString();
     var MM = pad(this.getMonth() + 1,2);
     var dd = pad(this.getDate(), 2);
     var hh = pad(this.getHours(), 2);
     var mm = pad(this.getMinutes(), 2)
     var ss = pad(this.getSeconds(), 2)
-
-    return yyyy + MM + dd + '_' + hh + mm + ss;
+    var MMMM = pad(this.getMilliseconds(),4)
+    return yyyy + MM + dd + '_' + hh + mm + ss + "_" + MMMM;
 }
 
 

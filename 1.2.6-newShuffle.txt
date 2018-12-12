@@ -34,8 +34,6 @@ q:)---changes in 1.2.5
 	-load them into the configuration file per model of 1.1.8
 - hide the start button until everything is ready
 
-===================================
-Feature Requests not 
-===================================
-
+q:)---changes in 1.2.6
+-------------------------
 -update study run code to suite new architecture.

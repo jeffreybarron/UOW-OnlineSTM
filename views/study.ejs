@@ -11,7 +11,7 @@
   		<p><div class="stimulus" id="question">+</div></p>
 		<p><button id="buttonStart" class="btn btn-primary" style="display:none" onclick="startQuestions()">Click to Start</button></p>
 		
-		<div id="answers" style="visibility:hidden">
+		<div id="answers" style="display:none">
 			<label for="answer" class="col-sm-2 col-form-label">Enter Word</label>
 	        <div class="col-sm-4">
 	            <input class="form-control" type="text" id="answer" name="0" value="">
@@ -20,8 +20,8 @@
 		        <button class="btn btn-primary" onclick="updateAnswers()">Submit</button>
 	        </div>
 
-			<p id="completionLink" style="visibility:hidden"></p>
-			<form id="form_answers" style="visibility:hidden">
+			<p id="completionLink" style="display:none"></p>
+			<form id="form_answers" style="display:none">
 	            <input type="hidden" id="studyName" name="studyName" value="<%= studyName %>" />
 				<input type="visibility:hidden" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
 				<input type="visibility:hidden" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />

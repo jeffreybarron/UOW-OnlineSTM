@@ -125,21 +125,21 @@ app.get('/study/:studyName', function(request, response, next) {
 *
 */
 app.post('/results', function(request,response, next) {
-	console.log(".post('/results, Start");
+	//console.log(".post('/results, Start");
 	try {
+	
 		var	jsonResult = JSON.stringify(request.body, null, 2);
 		//console.log(".post('/results, jsonResult:" + jsonResult);
-		//var jsonFileName = 'study_' + getDate() + '.json';
-		var	studyName = request.body[0].parameters.studyName;
-		var participantID = request.body[0].parameters.PROLIFIC_PID;
-		var	studyID = request.body[0].parameters.STUDY_ID;
-		var sessionID = request.body[0].parameters.SESSION_ID;
-		var resultGUID = request.body[0].parameters.resultGUID; //restulGUID may be redundant if SessionID works
+		var	studyName = request.body.studyName;
+		var participantID = request.body.PROLIFIC_PID;
+		var	studyID = request.body.STUDY_ID;
+		var sessionID = request.body.SESSION_ID;
+		var resultGUID = request.body.resultGUID; //restulGUID may be redundant if SessionID works
 
 		var jsonFileName = studyName + "_" + participantID + "_" + studyID + "_" + sessionID + '.json';
 		//var jsonFileName = studyName + "_" + participantID + "_" + sessionID + "_" + resultGUID'.json';
 		
-		console.log	(".post('/results, jsonFileName:" + jsonFileName);
+		//console.log	(".post('/results, jsonFileName:" + jsonFileName);
 
 		var writeResult = fs.writeFileSync('data/results/' + jsonFileName, jsonResult, function(err) {
 			if(err) {
@@ -148,22 +148,22 @@ app.post('/results', function(request,response, next) {
 			}
 		});
 
-		console.log(".post('/results, getCodeFile=>jsonGetCode");
+		//console.log(".post('/results, getCodeFile=>jsonGetCode");
 		var getCodeFile = fs.readFileSync('data/codes/' + studyName + '_code.json', 'utf8');
 		var jsonGetCode = JSON.parse(getCodeFile);
 
-		console.log(".post('/results, response.render=>studyComplete");
-		console.log(".post('/results, completionURL:" + jsonGetCode.completionURL);
+		//console.log(".post('/results, response.render=>studyComplete");
+		//console.log(".post('/results, completionURL:" + jsonGetCode.completionURL);
 
 	} catch (err) {
 		var fTemplate = fs.readFileSync('404.html', 'utf8');
 		response.send(fTemplate);
-		console.log(".post('/results, catch err:" + err);
+		//console.log(".post('/results, catch err:" + err);
 
 	} finally {
 		response.end();
 		next();
-		console.log("post.results COMPLETE");
+		// console.log("post.results COMPLETE");
 		
 	}
 });
@@ -172,10 +172,10 @@ app.get('/sendCode/:studyName', function(request, response) {
 	var errLocation = "get.sendCode/:studyName', "
 	//the purpose of the this route\page is to collect the completion URL 
 	try {
-		console.log(errLocation + "studyName: " + request.params.studyName);
-		console.log(errLocation + "PROLIFIC_PID: " + request.query.PROLIFIC_PID);
-		console.log(errLocation + "STUDY_ID: " + request.query.STUDY_ID);
-		console.log(errLocation + "SESSION_ID: " + request.query.SESSION_ID);
+		// console.log(errLocation + "studyName: " + request.params.studyName);
+		// console.log(errLocation + "PROLIFIC_PID: " + request.query.PROLIFIC_PID);
+		// console.log(errLocation + "STUDY_ID: " + request.query.STUDY_ID);
+		// console.log(errLocation + "SESSION_ID: " + request.query.SESSION_ID);
 		
 		//check if the study has been saved first
 		var resultFileName = 'data/results/' + request.params.studyName + "_" +
@@ -184,17 +184,17 @@ app.get('/sendCode/:studyName', function(request, response) {
 			request.query.SESSION_ID + ".json";
 		
 		if (fs.existsSync(resultFileName)) {
-			console.log(errLocation + " resultFileName FOUND: " + resultFileName);
+			// console.log(errLocation + " resultFileName FOUND: " + resultFileName);
 			//in that case we can load the completion code from the _code.json file
 			var codeFileName = "data/codes/" + request.params.studyName + "_code.json"
-			console.log(errLocation + " codeFileName: " + codeFileName);
+			// console.log(errLocation + " codeFileName: " + codeFileName);
 			if (fs.existsSync(codeFileName)) {
 				var getCodeFile = fs.readFileSync(codeFileName, 'utf8');
 				var jsonGetCode = JSON.parse(getCodeFile);
 	
 				//studyName: request.params.studyName, qs: request.query
 				response.render('studycomplete', {qs: jsonGetCode});
-				console.log(errLocation + " COMPLETE:" + getDate());
+				// console.log(errLocation + " COMPLETE:" + getDate());
 				return true;
 			} else {
 				throw errLocation + " codeFileName NOT FOUND: " + resultFileName;				
@@ -207,7 +207,7 @@ app.get('/sendCode/:studyName', function(request, response) {
 		//console.log("/sendCode, try and Catch");
 		//var errFile = fs.readFileSync('404.html', 'utf8');
 		response.render('404', {qs: {"err":err}});
-		console.log(errLocation + " (404) " + err);
+		// console.log(errLocation + " (404) " + err);
 		return false;
 	}
 });
@@ -222,7 +222,7 @@ app.get('*', function(request, response) {
 	response.send(readStudy);
 
 	var sLog = getDate() + ", source:" + request.ip + ", URL:" + request.originalUrl
-	console.log(".get('*', UnhandledPageCalls: " + sLog);
+	// console.log(".get('*', UnhandledPageCalls: " + sLog);
 
 	fs.appendFile('data/logs/UnhandledPageCalls.log', sLog + "\r\n", function (err) {
 	  if (err) throw err;
