@@ -1,0 +1,49 @@
+===================================
+Work in Progress.. adding new Study Loader..
+
+NOTE: as per 1.2.1 the solution is not functional, this commit.. is just a role back position for dev
+===================================
+
+q:)---Changes in 1.2.1
+-------------------------
+-Using Promises to load study config file then a list of decks from the study file.
+this is working so I'll commit to have a roll back point.
+
+q:)---changes in 1.2.2
+-------------------------
+sort the deckxx.json files into a 'game'
+	simple = simple random sample without replacement
+	replace = simple random sample with replacement
+	sequential = simple sample in order provided
+
+q:)---changes in 1.2.3
+-------------------------
+-use only one section in the config file for the deck list
+
+-shuffle decks, do this after config load, before deck load
+
+q:)---changes in 1.2.4
+-------------------------
+-updated Configuration file template with suffleAll
+
+q:)---changes in 1.2.5
+-------------------------
+-Pool all decks into a single dealer.
+-dealershuffle if ( shuffleAll === true )
+-create stimulus sets from the setSize array e.g.g [4,2,2,4], totals upto number of cards in the dealer
+	-load them into the configuration file per model of 1.1.8
+- hide the start button until everything is ready
+
+q:)---changes in 1.2.6
+-------------------------
+-update study run code to suite new architecture.
+
+q:)---changes in 1.3.0
+-------------------------
+Merged into 1.1.8-master which included
+-Added \preflight study (manual) validator
+ --preflight.ejs
+-study.css
+
+============================
+1.3.0 is the new master

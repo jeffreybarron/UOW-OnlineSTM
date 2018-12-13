@@ -3,14 +3,18 @@
     <link href="/static/study.css" rel="stylesheet">
     <title>UOW Online STM - Study</title>
   </head>
-  <body>
+<body>
+<noscript>
+  <p class="lead">By following this link, these instructions or enabling JavaScript, you do so at your own risk. You agree to indemnify The University of Wollongong ('The vendor'), its partners and subsidiaries against any claim for damages or loss of any kind. The vendor does not provide any warranty of any kind.</p>
+  <p class="lead">For full functionality of this site it is necessary to enable JavaScript.<br/>Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+</noscript>
 <div class="outer">
   <div class="middle">
     <div class="inner">
     	<div class="stimulus" id="question">+</div>
-    		<div class="startbutton">
-    			<button id="buttonStart" class="btn btn-primary" onclick="startQuestions()">Click to Start</button>
-		  	</div>
+  		<div class="startbutton">
+  			<button id="buttonStart" class="btn btn-primary" style="display:none" onclick="startQuestions()">Click to Start</button>
+	  	</div>
 		  <div class="answers" id="answers" style="display:none">
         <label for="answer" class="col-sm-2 col-form-label">Enter Word</label>
         <div class="col-sm-4">
@@ -25,12 +29,10 @@
   				<input style="display:none" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
   				<input style="display:none" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
   				<input style="display:none" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
-          <input style="display:none" id="consent" name="consent" value="<%= qs.consent %>" />
-          <input style="display:none" id="trainingComplete" name="trainingComplete" value="<%= qs.trainingComplete %>" />
+          <input style="display:none" id="checkConsent" name="checkConsent" value="<%= qs.checkConsent %>" />
+          <input style="display:none" id="checkInstructions" name="checkInstructions" value="<%= qs.checkInstructions %>" />
       	</form>
-
-   	  </div>
-      <p id="studyText"></p>
+  		</div>
     </div>
   </div>
 </div>

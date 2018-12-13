@@ -7,35 +7,33 @@
     <div class="container">
         <noscript>
             <p class="lead">By following this link, these instructions or enabling JavaScript, you do so at your own risk. You agree to indemnify The University of Wollongong ('The vendor'), its partners and subsidiaries against any claim for damages or loss of any kind. The vendor does not provide any warranty of any kind. </p>
-            <p class="lead">For full functionality of this site it is necessary to enable JavaScript.</br>Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+            <p class="lead">For full functionality of this site it is necessary to enable JavaScript.<br />Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
         </noscript>
-            
+
         <h1 id="pageTitle">UOW Online STM</h1>
         <h2>Informed Consent</h2>
         <div id="researcherCopy">
             <p>The CUSTOM Consent text hasnt loaded</p>
-        </div>    
+        </div>
         <div class="starter-template">
-    		<form id="informedConsent" action="/instructions/<%= studyName %>">
-                <input type="hidden" id="studyName" name="studyName" value="<%= studyName %>" />
-                <input type="hidden" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
-                <input type="hidden" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
-
-                <div class="form-group row">
-                    <label for="PROLIFIC_PID" class="col-sm-2 col-form-label">Prolific PID</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" type="text" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>"/>
-                    </div>
+      		<form id="informedConsent" action="/instructions/<%= studyName %>">
+            <input type="hidden" id="studyName" name="studyName" value="<%= studyName %>" />
+            <input type="hidden" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
+            <input type="hidden" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
+            <div class="form-group row">
+              <label for="PROLIFIC_PID" class="col-sm-2 col-form-label">Prolific PID</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>"/>
                 </div>
-
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="consent" name="consent">
-                        <label class="form-check-label" for="consent">I understand and accept.</label>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" value="Submit">Continue</button>
-    	    </form>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkConsent" name="checkConsent">
+                <label class="form-check-label" for="checkConsent">I understand and accept.</label>
+              </div>
+              <button type="submit" class="btn btn-primary" value="Submit">Continue</button>
+            </div>
+          </form>
         </div>
         <footer class="footer">
           <div class="container">

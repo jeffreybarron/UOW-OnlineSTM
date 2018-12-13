@@ -5,39 +5,33 @@
   </head>
   <body>
     <div class="container">
-        <noscript>
-            <p class="lead">By following this link, these instructions or enabling JavaScript, you do so at your own risk. You agree to indemnify The University of Wollongong ('The vendor'), its partners and subsidiaries against any claim for damages or loss of any kind. The vendor does not provide any warranty of any kind. </p>
-            <p class="lead">For full functionality of this site it is necessary to enable JavaScript.</br>Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
-        </noscript>
-            
-        <h1 id="pageTitle">UOW Online STM</h1>
-        <h2>Instructions for this study</h2>
-        <div id="researcherCopy">
-            <p>The CUSTOM instructions have not loaded</p>
-        </div>
-        <div class="starter-template">
-    		<form id="instructionsForm" action="/study/<%= studyName %>">
-                <input style="display:none" id="studyName" name="studyName" value="<%= studyName %>" />
-                <input style="display:none" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
-                <input style="display:none" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
-                <input style="display:none" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
-                <input style="display:none" id="consent" name="consent" value="<%= qs.consent %>" />
-       
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="trainingComplete" name="trainingComplete">
-                        <label class="form-check-label" for="trainingComplete">I have read and understand these instructions.</label>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" value="Submit">Continue</button>
-    	    </form>
-        </div>
-        <footer class="footer">
-          <div class="container">
-            <p class="text-muted">Solution by <a href="http://www.jeffreybarron.com">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>
+      <noscript>
+        <p class="lead">By following this link, these instructions or enabling JavaScript, you do so at your own risk. You agree to indemnify The University of Wollongong ('The vendor'), its partners and subsidiaries against any claim for damages or loss of any kind. The vendor does not provide any warranty of any kind. </p>
+        <p class="lead">For full functionality of this site it is necessary to enable JavaScript.<br/>Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+      </noscript>
+      <h1 id="pageTitle">UOW Online STM</h1>
+      <h2>Instructions for this study</h2>
+      <div id="researcherCopy">
+        <p>The CUSTOM instructions have not loaded</p>
+      </div>
+      <form id="instructionsForm" class="form-group row" action="/study/<%= studyName %>">
+        <input type="display:none" id="studyName" name="studyName" value="<%= studyName %>" />
+        <input type="display:none" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
+        <input type="display:none" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
+        <input type="display:none" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
+        <input type="display:none" id="checkConsent" name="checkConsent" value="<%= qs.checkConsent %>" />
+        <div class="form-group">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="checkInstructions" name="checkInstructions">
+            <label class="form-check-label" for="checkInstructions">I have read and understand these instructions.</label>
           </div>
-        </footer>
+          <button type="submit" class="btn btn-primary" value="Submit">Continue</button>
+    	</form>
+      <footer class="footer">
+        <div class="container">
+          <p class="text-muted">Solution by <a href="http://www.jeffreybarron.com">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>
+        </div>
+      </footer>
     </div><!-- /.container -->
     <script src="/static/test.js"></script>
 <% include base_footer.ejs %>
-    
