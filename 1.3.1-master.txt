@@ -1,9 +1,7 @@
 ===================================
 Work in Progress.. adding new Study Loader..
 
-NOTE: as per 1.2.1 the solution is not functional, this commit.. is just a role back position for dev
-===================================
-
+ç
 q:)---Changes in 1.2.1
 -------------------------
 -Using Promises to load study config file then a list of decks from the study file.
@@ -46,4 +44,11 @@ Merged into 1.1.8-master which included
 -study.css
 
 ============================
-1.3.0 is the new master
+1.3.1 is the new master
+============================
+q:)---changes in 1.3.1
+-all the errors created by merging 1.2.6 and 1.1.8 have been resolved
+-moved study buttons down away from stimulus prompt
+-changed colour or start button to green
+-arranged button layout so start and submit buttons are in roughly the same spot
+ when they appear, this make the UI experience smoother

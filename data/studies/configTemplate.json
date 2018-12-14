@@ -1,14 +1,14 @@
 {
-    "studyName": "20181117-DEV-TEST002",
-    "studyTitle": "20181117-DEV-TEST002 - (studyTitle)",
-    "studyText": "Two decks, two questions each, no Shuffle",
+    "studyName": "(Change text)",
+    "studyTitle": "(Change text)",
+    "studyText": "(Change text)",
+    "refreshRateMS": (number in milliseconds),
+    "shuffleDecks": (true or false),
+    "shuffleAll": (true or false),
+    "setSizes":[(make,a,number,array)],
+    "deckConfiguration": [(Add deck objects)],
     "studyTextbackgroundColor": "white",
     "studyTextColor": "black",
-    "refreshRateMS": 200,
-    "shuffleDecks": false,
-    "shuffleAll": false,
-    "setSizes":["3","3","3","3"],
-    "sets": [],
     "PROLIFIC_PID": "",
     "STUDY_ID": "",
     "SESSION_ID": "",
@@ -16,23 +16,5 @@
     "checkInstructions": "",
     "loadTime": "",
     "saveTime": "",
-    "deckConfiguration": [
-        {
-            "deckName": "deck01",
-            "pickQty": 4,
-            "sampleMode":"simple"
-        },
-        {
-            "deckName": "deck02",
-            "pickQty": 4,
-            "sampleMode":"replace"
-        },
-        {
-            "deckName": "deck03",
-            "pickQty": 4,
-            "sampleMode":"sequential"
-        }
-    ]
+    "sets": []
 }
-
-

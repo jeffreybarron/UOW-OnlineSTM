@@ -2,39 +2,10 @@
     "studyName": "20181117-DEV-TEST002",
     "studyTitle": "20181117-DEV-TEST002 - (studyTitle)",
     "studyText": "Two decks, two questions each, no Shuffle",
-    "studyTextbackgroundColor": "white",
-    "studyTextColor": "black",
-    "refreshRateMS": 200,
+    "refreshRateMS": 400,
     "shuffleDecks": false,
     "shuffleAll": false,
-    "setSizes":["3","3","3","3"],
-    "sets": [
-        {
-            "set":[
-                {
-                    "stimulus":"lorem",
-                    "textColor":"yellow",
-                    "backGroundColor":"black",
-                    "response":"",
-                    "responseTime":""
-                },
-                {
-                    "stimulus":"ipsum",
-                    "textColor":"yellow",
-                    "backGroundColor":"black",
-                    "response":"",
-                    "responseTime":""
-                }
-            ]
-        }
-    ],
-    "PROLIFIC_PID": "",
-    "STUDY_ID": "",
-    "SESSION_ID": "",
-    "checkConsent": "",
-    "checkInstructions": "",
-    "loadTime": "",
-    "saveTime": "",
+    "setSizes":[4,2,2,4],
     "deckConfiguration": [
         {
             "deckName": "deck01",
@@ -51,5 +22,15 @@
             "pickQty": 4,
             "sampleMode":"sequential"
         }
-    ]
+    ],
+    "studyTextbackgroundColor": "white",
+    "studyTextColor": "black",
+    "PROLIFIC_PID": "",
+    "STUDY_ID": "",
+    "SESSION_ID": "",
+    "checkConsent": "",
+    "checkInstructions": "",
+    "loadTime": "",
+    "saveTime": "",
+    "sets": [],
 }
