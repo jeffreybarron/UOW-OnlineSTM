@@ -356,8 +356,8 @@ function updateAnswers(){
 				      setProperties(questionObj, "", "white", "black");
 					    questionObj.style.display = "none";
 							studyText.style.display = "block"
-							studyText.outerHTML = "<h2>You have finished</h2><p>You must click this <a href='/sendCode/" +
-							studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a> link, to generate a study completion code.</p>"
+							studyText.outerHTML = "<p>You must click this <a href='/sendCode/" +
+							studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>"
 						} else {
 			      	//console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
 			        //alert("Problem saving study:");

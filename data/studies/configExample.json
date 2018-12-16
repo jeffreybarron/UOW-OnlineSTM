@@ -1,7 +1,6 @@
 {
     "studyName": "20181117-DEV-TEST002",
     "studyTitle": "20181117-DEV-TEST002 - (studyTitle)",
-    "studyText": "Two decks, two questions each, no Shuffle",
     "refreshRateMS": 400,
     "shuffleDecks": false,
     "shuffleAll": false,

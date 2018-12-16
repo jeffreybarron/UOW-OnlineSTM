@@ -1,7 +1,6 @@
 {
     "studyName": "(Change text)",
     "studyTitle": "(Change text)",
-    "studyText": "(Change text)",
     "refreshRateMS": (number in milliseconds),
     "shuffleDecks": (true or false),
     "shuffleAll": (true or false),
