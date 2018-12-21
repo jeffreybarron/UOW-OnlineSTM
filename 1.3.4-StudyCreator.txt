@@ -18,7 +18,26 @@ browser. if this happens their study will not be saved to the server.
 1.3.3-StudyCreator
 ============================
 -q:)---changes in 1.3.3-StudyCreator
+labour time: 40hrs
 Added Study Setup Feature http://uowcoglab.com/study/new
 Note this still requires sence and significant amount of checking from researcher
 also this is an alpha release so UI feedback when stuff goes wrong is lacking
 and its a bit buggy. (like the rest of the solution)
+
+q:)---changes in 1.3.4-StudyCreator
+-added available cards counter to study/new page to help researchers
+
+
+TODO
+====
+-Code Clean up
+-do somthing with studyTitle
+-do something with background colour for study
+
+-modularise code to maintainability
+-implement logging\ debuggings
+-implement some security protocols
+-port code to use kubernaughts or scaleable webservices
+--this may require moving to mongoDB? due data persistance changes with services
+-add Deck Creator pages
+-add deck analysis? use R!

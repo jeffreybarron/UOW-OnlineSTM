@@ -56,15 +56,32 @@ app.get('/preflight', function(request, response) {
 app.get('/study/new', function(request, response) {
 	console.log("/study/new', Start");
 
-  let files = fs.readdirSync('data/decks/');
+  let fileList = fs.readdirSync('data/decks/');
+  //console.dir(files);
+
+  let files = []
+  for (let i = 0; i < fileList.length; i++) {
+      // fileArray.push('{"deckName":"' + files[i] + '","available":"' + getDeckLength('data/decks/' + files[i]) + '"}')
+      files.push({ deckName : fileList[i], available : getDeckLength('data/decks/' + fileList[i]) })
+  }
+
+
   console.dir(files);
   // for (var file in files){
   //   console.log(files[file]);
   // }
+
   response.render('studyNew', {files: files});
 
 
 });
+
+function getDeckLength(url){
+  console.log("getDeck", url);
+  var fDeck = fs.readFileSync(url, 'utf8');
+  return Object.keys(JSON.parse(fDeck)).length;
+}
+
 
 app.post('/study/create', function(request, response, next) {
   console.log("/study/create, Start");
@@ -154,9 +171,7 @@ app.post('/study/create', function(request, response, next) {
     response.send(err);
   }
 
-      // 3 create consent File
-      // 4 create instructions File
-      // 5 how will we add decks.
+
 
 
 });
