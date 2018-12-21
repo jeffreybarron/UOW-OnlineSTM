@@ -13,3 +13,12 @@ q:)---changes in 1.3.2
 must still click the link and this text may confuse them into closing the
 browser. if this happens their study will not be saved to the server.
 -removed studyText key:value which is now redundant in the configuration file.
+
+============================
+1.3.3-StudyCreator
+============================
+-q:)---changes in 1.3.3-StudyCreator
+Added Study Setup Feature http://uowcoglab.com/study/new
+Note this still requires sence and significant amount of checking from researcher
+also this is an alpha release so UI feedback when stuff goes wrong is lacking
+and its a bit buggy. (like the rest of the solution)

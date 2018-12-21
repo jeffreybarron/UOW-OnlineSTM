@@ -136,7 +136,7 @@ function loadStudy() {
 		//Get the list of Stimulus Files
 		let stimulusFiles = [];
 		for (let i = 0; i < oStudyConfig.deckConfiguration.length; i++){
-			stimulusFiles.push("/data/studies/" + oStudyConfig.deckConfiguration[i].deckName + ".json");
+			stimulusFiles.push("/data/decks/" + oStudyConfig.deckConfiguration[i].deckName);
 		}
 		//console.log("stimulusFiles");
 		//console.log(stimulusFiles);
@@ -196,6 +196,7 @@ function loadStudy() {
 		//console.log("sumSetSize:" + sumSetSize);
 
 		//for each set
+		oStudyConfig["sets"] = [];
 		for (let iSetNumber = 0; iSetNumber < oStudyConfig.setSizes.length; iSetNumber++ ){
 			//add set frame
 			oStudyConfig.sets.push(JSON.parse("{\"set\":[]}"));
@@ -387,6 +388,7 @@ function getFile(url) {
       // so check the status
       if (req.status == 200) {
         // Resolve the promise with the response text
+				console.dir(req.response);
         resolve(JSON.parse(req.response));
       }
       else {

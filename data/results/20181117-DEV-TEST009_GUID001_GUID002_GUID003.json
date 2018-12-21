@@ -1,0 +1,93 @@
+{
+  "studyName": "20181117-DEV-TEST009",
+  "studyTitle": "Ah! this is a test study right!!",
+  "studybackgroundColor": "Black",
+  "refreshRateMS": 750,
+  "shuffleDecks": true,
+  "shuffleAll": false,
+  "setSizes": [
+    2,
+    2,
+    2
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "deck01.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    },
+    {
+      "deckName": "deck03.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    },
+    {
+      "deckName": "deck02.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    }
+  ],
+  "PROLIFIC_PID": "GUID001",
+  "STUDY_ID": "GUID002",
+  "SESSION_ID": "GUID003",
+  "checkConsent": "on",
+  "checkInstructions": "on",
+  "sets": [
+    {
+      "set": [
+        {
+          "stimulus": "lorem",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "",
+          "responseTime": "20183121_19:31:37.0267"
+        },
+        {
+          "stimulus": "ipsum",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "",
+          "responseTime": "20183121_19:31:37.0773"
+        }
+      ]
+    },
+    {
+      "set": [
+        {
+          "stimulus": "She",
+          "textColor": "white",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20183121_19:31:45.0473"
+        },
+        {
+          "stimulus": "felt",
+          "textColor": "white",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20183121_19:31:45.0939"
+        }
+      ]
+    },
+    {
+      "set": [
+        {
+          "stimulus": "red",
+          "textColor": "red",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20183121_19:31:52.0060"
+        },
+        {
+          "stimulus": "green",
+          "textColor": "green",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20183121_19:31:52.0578"
+        }
+      ]
+    }
+  ],
+  "loadTime": "20183121_19:31:30.0452",
+  "saveTime": "20183121_19:31:52.0579"
+}
