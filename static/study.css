@@ -1,9 +1,10 @@
 /* BootStrap Stying
 -------------------------------------------------- */
 body {
-  /* Margin bottom by footer height */
   background-color: #000000;
   color:white;
+  font-size:19px;
+  /* Margin bottom by footer height */
 }
 
 .container {

@@ -4,7 +4,6 @@ var studyForm = document.getElementById("studyForm");
 var buttonCreate = document.getElementById("buttonCreate");
 
 var studyName = document.getElementById("studyName");
-var studyTitle = document.getElementById("studyTitle");
 var consentCopy = document.getElementById("consentCopy");
 var instructionCopy = document.getElementById("instructionCopy");
 var studybackgroundColor = document.getElementById("studybackgroundColor");
@@ -37,7 +36,6 @@ function createStudy() {
   //console.log("createStudy() Started");
   //1- studyExists just for good measure
   oStudyConfig["studyName"] = studyName.value;
-  oStudyConfig["studyTitle"] = studyTitle.value;
   oStudyConfig["consentCopy"] = consentCopy.value;
   oStudyConfig["instructionCopy"] = instructionCopy.value;
   oStudyConfig["studybackgroundColor"] = studybackgroundColor.value;

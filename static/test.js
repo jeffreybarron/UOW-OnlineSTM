@@ -219,6 +219,8 @@ function loadStudy() {
 
     //console.log('LoadTime updated');
     //update page Settings
+		console.log(oStudyConfig.studybackgroundColor);
+		document.body.style.backgroundColor = oStudyConfig.studybackgroundColor;
 		oStudyConfig.loadTime = getDate();
     startDIV.style.display = "block";
 	})
@@ -388,7 +390,7 @@ function getFile(url) {
       // so check the status
       if (req.status == 200) {
         // Resolve the promise with the response text
-				console.dir(req.response);
+				//console.dir(req.response);
         resolve(JSON.parse(req.response));
       }
       else {
@@ -420,7 +422,10 @@ function setProperties(obj, textValue, textColor, textBackGroundColor){
 	//set properties on page
 	obj.innerText = textValue;
 	obj.style.color = textColor;
-	obj.style.backgroundColor = textBackGroundColor;
+	//obj.style.backgroundColor = textBackGroundColor;
+	document.body.style.backgroundColor = textBackGroundColor;
+
+
 	//console.log(obj.id + ": " + textValue);
 }
 function total(arr) {

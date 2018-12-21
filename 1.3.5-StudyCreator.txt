@@ -27,13 +27,13 @@ and its a bit buggy. (like the rest of the solution)
 q:)---changes in 1.3.4-StudyCreator
 -added available cards counter to study/new page to help researchers
 
+q:)---changes in 1.3.5-StudyCreator
+Removed studyTitle
+set background colour and font to change with every card for study
 
 TODO
 ====
 -Code Clean up
--do somthing with studyTitle
--do something with background colour for study
-
 -modularise code to maintainability
 -implement logging\ debuggings
 -implement some security protocols
