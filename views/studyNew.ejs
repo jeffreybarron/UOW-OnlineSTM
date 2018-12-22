@@ -4,11 +4,18 @@
     <title>UOW Online STM - Create New Study</title>
   </head>
   <body>
+    <noscript>
+        <h1>JavaScript Required</h1>
+        <p class="lead">This Website requires Javascript, i.e. it will not work without it.</p>
+        <p class="lead">If you wish to use this site you will need to enable Javasript,
+          however by enabling JavaScript, you are do so at your own risk.</p>
+        <p class="lead">If you're cool with that, Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+    </noscript>
     <div class="container">
       <h1 id="pageTitle">UOW Online STM</h1>
       <div class="starter-template">
         <form id="studyForm" class="form-group row" >
-            <div class="form-group">
+            <div class="form-group" id="studyName_DIV" >
               <label for="studyName">StudyName</label>
               <input
                 type="text" class="form-control"
@@ -21,10 +28,11 @@
                 <br />syntax:[YYYY][MM][DD]-[6:userID]-[6:Desc][2:sequence]
               </small>
             </div>
-            <div class="form-group">
+
+            <div class="form-group" id="studybackgroundColor_DIV">
               <label for="studybackgroundColor">studybackgroundColor</label>
-              <select class="form-control" id="studybackgroundColor" name="studybackgroundColor value=""">
-                <option>Black</option>
+              <select class="form-control" id="studybackgroundColor" name="studybackgroundColor value="">
+                <option selected="selected">Black</option>
                 <option>AliceBlue</option>
                 <option>AntiqueWhite</option>
                 <option>Aqua</option>
@@ -169,55 +177,158 @@
                 Choose from the list of Websafe Colours.
               </small>
             </div>
-            <div class="form-group">
-              <label for="refreshRateMS">refreshRateMS</label>
-              <input
-                type="text" class="form-control"
-                id="refreshRateMS" name="refreshRateMS"
-                pattern="^([0-9]{1,5})$"
-                placeholder="required"
-                required>
-              <small id="refreshRateMS" class="form-text text-muted">
-                Numeral (integer) in milliseconds, up to 5 digits
-              </small>
-            </div>
-            <div class="form-check">
-              <p><b>Shuffle Decks?</b></p>
-              <input
-                type="radio" class="form-check-input" name="shuffleDecks"
-                id="shuffleDecks1" value="true">
-                <label class="form-check-label" for="shuffleDecks1">true</label>
-              <input
-                type="radio" class="form-check-input" name="shuffleDecks"
-                id="shuffleDecks2" value="false" checked>
-                <label class="form-check-label" for="shuffleDecks2">false</label>
-            </div>
-            <div class="form-check">
-              <p><b>ShuffleAll, Dealers Deck</b></p>
-              <input
-                type="radio" class="form-check-input" name="shuffleAll"
-                id="shuffleAll1" value="true">
-                <label class="form-check-label" for="shuffleAll1">true <label>
-              <input
-                type="radio" class="form-check-input" name="shuffleAll"
-                id="shuffleAll2" value="false" checked>
-                <label class="form-check-label" for="shuffleAll2">false </label>
-            </div>
-            <div class="form-group">
-              <label for="setSizes">setSizes Array</label>
-              <input
-                type="text" class="form-control"
-                id="setSizes" name="setSizes"
-                placeholder="required"
-                pattern="[0-9]+(,[0-9]+)*"
-                required>
-              <small id="setSizesHelpBlock" class="form-text text-muted">
-                Please enter a comma seperated array of integers e.g. 2,13,3,2 No postfix/prefix commas
-              </small>
-            </div>
-            <div class="form-group">
-              <label>Stimulus File (aka Decks)</label>
 
+            <div class="form-group" id="studyTextColor_DIV">
+              <label for="studyTextColor">studyTextColor</label>
+              <select class="form-control" id="studyTextColor" name="studyTextColor value=""">
+                <option>Black</option>
+                <option>AliceBlue</option>
+                <option>AntiqueWhite</option>
+                <option>Aqua</option>
+                <option>Aquamarine</option>
+                <option>Azure</option>
+                <option>Beige</option>
+                <option>Bisque</option>
+                <option>BlanchedAlmond</option>
+                <option>Blue</option>
+                <option>BlueViolet</option>
+                <option>Brown</option>
+                <option>Burlywood</option>
+                <option>CadetBlue</option>
+                <option>Chartreuse</option>
+                <option>Chocolate</option>
+                <option>Coral</option>
+                <option>CornflowerBlue</option>
+                <option>Cornsilk</option>
+                <option>Crimson</option>
+                <option>Cyan</option>
+                <option>DarkBlue</option>
+                <option>DarkCyan</option>
+                <option>DarkGoldenrod</option>
+                <option>DarkGray</option>
+                <option>DarkGreen</option>
+                <option>DarkKhaki</option>
+                <option>DarkMagenta</option>
+                <option>DarkOliveGreen</option>
+                <option>DarkOrange</option>
+                <option>DarkOrchid</option>
+                <option>DarkRed</option>
+                <option>DarkSalmon</option>
+                <option>DarkSeaGreen</option>
+                <option>DarkSlateBlue</option>
+                <option>DarkSlateGray</option>
+                <option>DarkTurquoise</option>
+                <option>DarkViolet</option>
+                <option>DeepPink</option>
+                <option>DeepSkyBlue</option>
+                <option>DimGray</option>
+                <option>DodgerBlue</option>
+                <option>FireBrick</option>
+                <option>FloralWhite</option>
+                <option>ForestGreen</option>
+                <option>Fuchsia</option>
+                <option>Gainsboro</option>
+                <option>GhostWhite</option>
+                <option>Gold</option>
+                <option>Goldenrod</option>
+                <option>Gray</option>
+                <option>Green</option>
+                <option>GreenYellow</option>
+                <option>Honeydew</option>
+                <option>HotPink</option>
+                <option>IndianRed</option>
+                <option>Indigo</option>
+                <option>Ivory</option>
+                <option>Khaki</option>
+                <option>Lavender</option>
+                <option>LavenderBlush</option>
+                <option>LawnGreen</option>
+                <option>LemonChiffon</option>
+                <option>LightBlue</option>
+                <option>LightCoral</option>
+                <option>LightCyan</option>
+                <option>LightGoldenrodYellow</option>
+                <option>LightGreen</option>
+                <option>LightGrey</option>
+                <option>LightPink</option>
+                <option>LightSalmon</option>
+                <option>LightSeaGreen</option>
+                <option>LightskyBlue</option>
+                <option>LightSlateGray</option>
+                <option>LightsteelBlue</option>
+                <option>LightYellow</option>
+                <option>Lime</option>
+                <option>LimeGreen</option>
+                <option>Linen</option>
+                <option>Magenta</option>
+                <option>Maroon</option>
+                <option>MediumAquamarine</option>
+                <option>MediumBlue</option>
+                <option>MediumOrchid</option>
+                <option>MediumPurple</option>
+                <option>MediumSeaGreen</option>
+                <option>MediumSlateBlue</option>
+                <option>MediumSpringGreen</option>
+                <option>MediumTurquoise</option>
+                <option>MediumVioletRed</option>
+                <option>MidnightBlue</option>
+                <option>Mintcream</option>
+                <option>MistyRose</option>
+                <option>Moccasin</option>
+                <option>NavajoWhite</option>
+                <option>Navy</option>
+                <option>Oldlace</option>
+                <option>Olive</option>
+                <option>OliveDrab</option>
+                <option>Orange</option>
+                <option>OrangeRed</option>
+                <option>Orchid</option>
+                <option>PaleGoldenrod</option>
+                <option>PaleGreen</option>
+                <option>PaleTurquoise</option>
+                <option>PaleVioletRed</option>
+                <option>PapayaWhip</option>
+                <option>Peachpuff</option>
+                <option>Peru</option>
+                <option>Pink</option>
+                <option>Plum</option>
+                <option>PowderBlue</option>
+                <option>Purple</option>
+                <option>Red</option>
+                <option>RosyBrown</option>
+                <option>RoyalBlue</option>
+                <option>SaddleBrown</option>
+                <option>Salmon</option>
+                <option>SandyBrown</option>
+                <option>SeaGreen</option>
+                <option>SeaShell</option>
+                <option>Sienna</option>
+                <option>Silver</option>
+                <option>SkyBlue</option>
+                <option>SlateBlue</option>
+                <option>SlateGray</option>
+                <option>Snow</option>
+                <option>SpringGreen</option>
+                <option>SteelBlue</option>
+                <option>Tan</option>
+                <option>Teal</option>
+                <option>Thistle</option>
+                <option>Tomato</option>
+                <option>Turquoise</option>
+                <option>Violet</option>
+                <option>Wheat</option>
+                <option selected="selected">White</option>
+                <option>WhiteSmoke</option>
+                <option>Yellow</option>
+                <option>YellowGreen</option>
+              </select>
+              <small id="studyTextColorHelpBlock" class="form-text text-muted">
+                Choose from the list of Websafe Colours.
+              </small>
+            </div>
+
+            <div class="form-group"  id="pickCards_DIV">
+              <label>Pick Cards</label>
               <table class="table">
                 <thead>
                   <tr>
@@ -243,13 +354,63 @@
                   </tr>
                 <% }); %>
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="4">
+                      <small id="setSizesHelpBlock" class="form-text text-muted">
+                        Enter the number of cards you want from each deck, you value must not exceed available cards.
+                      </small>
+                    </td>
+                  </tr>
+                </tfoot>
               <table>
+
+            </div>
+            <div class="form-check" id="shuffleDecks_DIV">
+              <label class="form-check-label" for="shuffleDecks">Shuffle deck order</label>
+              <p>
+                <input type="radio" class="form-check-input" name="shuffleDecks"
+                  id="shuffleDecks1" value="true"> true
+                <input type="radio" class="form-check-input" name="shuffleDecks"
+                  id="shuffleDecks2" value="false" checked> false
+              </p>
+            </div>
+            <div class="form-check" id="shuffleAll_DIV">
+              <label class="form-check-label" for="shuffleDecks">ShuffleAll (Dealers Deck)</label>
+              <p>
+                <input
+                  type="radio" class="form-check-input" name="shuffleAll"
+                  id="shuffleAll1" value="true"> true
+                <input
+                  type="radio" class="form-check-input" name="shuffleAll"
+                  id="shuffleAll2" value="false" checked> false
+              </p>
+            </div>
+            <div class="form-group" id="setSizes_DIV">
+              <label for="setSizes">setSizes Array</label>
+              <input
+                type="text" class="form-control"
+                id="setSizes" name="setSizes"
+                placeholder="required"
+                pattern="[0-9]+(,[0-9]+)*"
+                required>
               <small id="setSizesHelpBlock" class="form-text text-muted">
-                Enter the number of cards you want from each deck, you value must not exceed available cards.
+                Please enter a comma seperated array of integers e.g. 2,13,3,2 No postfix/prefix commas
               </small>
             </div>
-
-            <div class="form-group">
+            <div class="form-group" id="refreshMS_DIV">
+              <label for="refreshRateMS">refreshRateMS</label>
+              <input
+                type="text" class="form-control"
+                id="refreshRateMS" name="refreshRateMS"
+                pattern="^([0-9]{1,5})$"
+                placeholder="required"
+                required>
+              <small id="refreshRateMS" class="form-text text-muted">
+                Numeral (integer) in milliseconds, up to 5 digits
+              </small>
+            </div>
+            <div class="form-group" id="consentCopy_DIV">
               <label for="consentCopy">consentCopy:</label>
               <textarea
                 name="consentCopy" id="consentCopy"
@@ -257,26 +418,23 @@
                 value="" required></textarea>
               <small id="setSizesHelpBlock" class="form-text text-muted">
                 <small id="setSizesHelpBlock" class="form-text text-muted">
-                  Informed Concent Page
                   <br />Basic html tags are permitted:
                   <br />'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div','table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td'
                 </small>
               </small>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="instructionCopy_DIV">
               <label for="instructionCopy">instructionCopy:</label>
               <textarea
                 name="instructionCopy" id="instructionCopy"
                 class="form-control" rows="5"
                 value="" required></textarea>
               <small id="setSizesHelpBlock" class="form-text text-muted">
-                Informed Concent Page
                 <br />Basic html tags are permitted:
                 <br />'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div','table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td'
               </small>
             </div>
-
-            <div class="form-group">
+            <div class="form-group" id="completionCode_DIV">
               <label for="completionCode">completionCode</label>
               <input
                 type="text" class="form-control"
@@ -290,18 +448,6 @@
             <button type="submit" id="buttonCreate" class="btn btn-primary" onclick="createStudy();return false">Create Study</button>
       </form>
 
-
-completionURL
-
-    <footer class="footer">
-      <div class="container">
-        <p class="text-muted">Solution by <a href="http://www.jeffreybarron.com">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>
-      </div>
-    </footer>
-
-
-
-
-  </div><!-- /.container -->
-  <script src="/static/createStudy.js"></script>
+<!-- End of Main Body -->
+    <script src="/static/createStudy.js"></script>
 <% include base_footer.ejs %>

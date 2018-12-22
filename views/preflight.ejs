@@ -5,34 +5,33 @@
   </head>
   <body>
     <div class="container">
-	    <h1 id="pageTitle">UOW Online STM</h1>
-	    <h2>PreFlight (manual) test.</h2>
-	    <div id="researcherCopy">
-	    	<p>This page is for researchers to confirm their studies are properly configured.</p>
-	    </div>
+      <noscript>
+          <h1>JavaScript Required</h1>
+          <p class="lead">This Website requires Javascript, i.e. it will not work without it.</p>
+          <p class="lead">If you wish to use this site you will need to enable Javasript,
+            however by enabling JavaScript, you are do so at your own risk.</p>
+          <p class="lead">If you're cool with that, Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+      </noscript>
+      <h1 id="pageTitle">UOW Online STM</h1>
+	    <h2>Enter a valid Study Name</h2>
 	    <div class="starter-template">
             <div class="form-group row">
-                <label for="studyName" class="col-sm-2 col-form-label">Study Name</label>
-                <div class="col-sm-10">
+                <label for="studyName" class="col-sm-3 col-form-label">Study Name</label>
+                <div class="col-sm-9">
                     <input class="form-control" type="text" id="studyName" name="studyName" value="(Enter Study Name)"></input>
                 </div>
         	</div>
 	   	    <button id="" type="submit" class="btn btn-primary" onclick="executePreFlight()">Execute Test</button>
 		</div>
-		<footer class="footer">
-	      <div class="container">
-	        <p class="text-muted">Solution by <a href="http://www.jeffreybarron.com">jeffreybarron.com</a> for </br>University of Wollongong. CRICOS Provider No: 00102E</p>
-	      </div>
-	    </footer>
-	</div><!-- /.container -->
-	<script src="/static/test.js"></script> 
+
+<!-- End of Main Body -->
 	<script type="text/javascript">
 		function executePreFlight() {
 			var studyName = document.getElementById("studyName").value;
 			var sTestFlightParams = studyName + "?PROLIFIC_PID=GUID001&STUDY_ID=GUID002&SESSION_ID=GUID003";
 			//console.log(sTestFlightParams);
 			try {
-				var sURL = '/consent/' + sTestFlightParams;
+				var sURL = '/participant/' + sTestFlightParams;
 				window.location.href = sURL
 			} catch (err) {
 				consol.log("err" + err);

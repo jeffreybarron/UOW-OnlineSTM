@@ -14,37 +14,28 @@
         </noscript>
 
         <h1 id="pageTitle">UOW Online STM</h1>
-        <h2>Informed Consent</h2>
+        <h2>Confirm\provide Participant Identification (PID)</h2>
         <div class="starter-template">
-      		<form id="informedConsent" action="/instructions/<%= studyName %>">
+      		<form id="participantIDForm" action="/consent/<%= studyName %>">
             <div class="form-group row">
               <label for="studyName" class="col-sm-3 col-form-label">Study Name</label>
                 <div class="col-sm-9">
                   <input class="form-control" type="text" id="studyName" name="studyName" readonly value="<%= studyName %>" />
                 </div>
             </div>
+            <input type="hidden" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
+            <input type="hidden" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
             <div class="form-group row">
               <label for="PROLIFIC_PID" class="col-sm-3 col-form-label">Prolific PID</label>
                 <div class="col-sm-9">
-                  <input class="form-control" type="text" id="PROLIFIC_PID" name="PROLIFIC_PID" readonly value="<%= qs.PROLIFIC_PID %>"/>
+                  <input class="form-control" type="text" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>"/>
                 </div>
             </div>
-            <input style="display:none" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
-            <input style="display:none" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
-            <div class="researcherCopy" id="researcherCopy">
-                <p>The CUSTOM Consent text hasnt loaded</p>
-            </div>
             <div class="form-group">
-              <div class="form-check">
-                <input class="col-sm-1 form-check-input" type="checkbox" id="checkConsent" name="checkConsent" required>
-                <label class="col-sm-11 form-check-label" for="checkConsent">I have read and understood the information above and I agree to participate in this research.</label>
-              </div>
               <button type="submit" class="btn btn-primary" value="Submit">Continue</button>
             </div>
           </form>
         </div>
-
-
 
 <!-- End of Main Body -->
     <script src="/static/test.js"></script>

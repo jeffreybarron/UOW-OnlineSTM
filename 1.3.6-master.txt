@@ -28,13 +28,24 @@ q:)---changes in 1.3.4-StudyCreator
 -added available cards counter to study/new page to help researchers
 
 q:)---changes in 1.3.5-StudyCreator
-Removed studyTitle
-set background colour and font to change with every card for study
+-Removed studyTitle
+-set background colour and font to change with every card for study
+-set start and between set colours
+-UI feedback that the study has been created, or there was a problem
+-Code Clean up kind of
+
+q:)---changes in 1.3.6-StudyCreator
+-implemented SXX sanitization,
+  ** but deckConfiguration is not cleaning. **
+-handle if consent\instructions are not ticked
+-add another page at the start to confirm prolific ID
+-also box copy text in a white box with round edges
+
 
 TODO
 ====
--Code Clean up
--modularise code to maintainability
+-study\duplicate for prolific test fire adherants
+  -modularise code to maintainability
 -implement logging\ debuggings
 -implement some security protocols
 -port code to use kubernaughts or scaleable webservices

@@ -219,8 +219,8 @@ function loadStudy() {
 
     //console.log('LoadTime updated');
     //update page Settings
-		console.log(oStudyConfig.studybackgroundColor);
 		document.body.style.backgroundColor = oStudyConfig.studybackgroundColor;
+		document.body.style.color = oStudyConfig.studyTextColor;
 		oStudyConfig.loadTime = getDate();
     startDIV.style.display = "block";
 	})
@@ -294,7 +294,7 @@ function changeQuestion() {
 	} else {
 		// clear the text area and stop the ticker
 		clearInterval(myTicker);
-		setProperties(questionObj,"+", "white", "black");
+		setProperties(questionObj,"+", oStudyConfig.studyTextColor, oStudyConfig.studybackgroundColor);
 		answerDIV.style.display = "block";
 	}
 }
@@ -421,9 +421,10 @@ function shuffleArray(array){
 function setProperties(obj, textValue, textColor, textBackGroundColor){
 	//set properties on page
 	obj.innerText = textValue;
-	obj.style.color = textColor;
+	//obj.style.color = textColor;
 	//obj.style.backgroundColor = textBackGroundColor;
 	document.body.style.backgroundColor = textBackGroundColor;
+	document.body.style.color = textColor
 
 
 	//console.log(obj.id + ": " + textValue);

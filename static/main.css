@@ -24,6 +24,16 @@ body {
 .starter-template {
   text-align: center;
 }
+
+.researcherCopy {
+  border-radius: 4px;
+  background-color: #fff;
+  color: #555;
+  padding: 10px 10px 10px 10px;
+  margin: 10px 0px 10px 0px;
+  border: 1px solid #ccc;
+}
+
 .container {
   width: auto;
   height:100%;
@@ -39,6 +49,7 @@ body {
   font-variant: normal;
   text-transform: none;
 }
+
 .container h1{
   text-align: center;
   font-weight: 700;
@@ -62,8 +73,13 @@ body {
   font-weight: 400;
   font-size:1em;
 }
-/* Custom Styling
--------------------------------------------------- */
+.form-group label{
+  font-size:1.25em;
+}
+.form-checkl p{
+  padding:10,0,10,0;
+}
+
 .lead {
   padding: 1em;
   text-align: left;

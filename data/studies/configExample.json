@@ -1,6 +1,5 @@
 {
     "studyName": "20181117-DEV-TEST002",
-    "studyTitle": "20181117-DEV-TEST002 - (studyTitle)",
     "refreshRateMS": 400,
     "shuffleDecks": false,
     "shuffleAll": false,
@@ -22,7 +21,7 @@
             "sampleMode":"sequential"
         }
     ],
-    "studyTextbackgroundColor": "white",
+    "studybackgroundColor": "white",
     "studyTextColor": "black",
     "PROLIFIC_PID": "",
     "STUDY_ID": "",
