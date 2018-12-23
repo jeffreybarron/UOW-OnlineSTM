@@ -1,0 +1,148 @@
+// routes/lab/index.js
+
+// create another router for getting 'product' resources
+const express 	    = require('express'); //express module
+const router        = express.Router();
+
+//Published modules
+const http 		      = require('http');
+const bodyParser 	  = require('body-parser');
+const sanitizeHtml  = require('sanitize-html');
+const sanitizer     = require('express-sanitizer');
+const favicon 	    = require('serve-favicon');
+const fs			      = require('fs');
+
+
+router.use((request, response, next) => {
+  for (let propName in request.body){
+     request.body[propName] = request.sanitize(request.body[propName]);
+  }
+  next();
+});
+
+router.get('/preflight', function(request, response) {
+	response.render('preflight');
+});
+
+router.get('/participant/:studyName', function(request, response, next) {
+	try {
+		if (fs.existsSync('data/studies/' + request.params.studyName + '.json')) {
+			response.render('participant', {studyName: request.params.studyName, qs: request.query});
+		} else {
+			var fTemplate = fs.readFileSync('404.html', 'utf8');
+			response.send(fTemplate);
+		}
+	}
+	catch (err) {
+		var fTemplate = fs.readFileSync('404.html', 'utf8');
+		response.send(fTemplate);
+	}
+});
+
+router.get('/consent/:studyName', function(request, response, next) {
+	try {
+		if (fs.existsSync('data/studies/' + request.params.studyName + '.json')) {
+			response.render('consent', {studyName: request.params.studyName, qs: request.query});
+		} else {
+			var fTemplate = fs.readFileSync('404.html', 'utf8');
+			response.send(fTemplate);
+		}
+	}
+	catch (err) {
+		var fTemplate = fs.readFileSync('404.html', 'utf8');
+		response.send(fTemplate);
+	}
+});
+
+router.get('/instructions/:studyName', function(request, response, next) {
+	try {
+		if (request.query.checkConsent === "on") {
+			response.render('instructions', {studyName: request.params.studyName, qs: request.query});
+		} else {
+			var fTemplate = fs.readFileSync('404.html', 'utf8');
+			response.send(fTemplate);
+		}
+	}
+	catch (err) {
+		var fTemplate = fs.readFileSync('404.html', 'utf8');
+		response.send(fTemplate);
+	}
+});
+
+router.get('/study/:studyName', function(request, response, next) {
+	try {
+		var sStudyFile = 'data/studies/' + request.params.studyName + '.json'
+		if (fs.existsSync(sStudyFile)) {
+			response.render('study', {studyName: request.params.studyName, qs: request.query});
+		} else {
+			var fTemplate = fs.readFileSync('404.html', 'utf8');
+			response.send(fTemplate);
+		}
+	}
+	catch (err) {
+		var fTemplate = fs.readFileSync('404.html', 'utf8');
+		response.send(fTemplate);
+	}
+});
+
+router.post('/results', function(request,response, next) {
+	try {
+		var	jsonResult = JSON.stringify(request.body, null, 2);
+		var	studyName = request.body.studyName;
+		var participantID = request.body.PROLIFIC_PID;
+		var	studyID = request.body.STUDY_ID;
+		var sessionID = request.body.SESSION_ID;
+		var resultGUID = request.body.resultGUID; //restulGUID may be redundant if SessionID works
+		var jsonFileName = studyName + "_" + participantID + "_" + studyID + "_" + sessionID + '.json';
+		var writeResult = fs.writeFileSync('data/results/' + jsonFileName, jsonResult, function(err) {
+			if(err) {
+				console.log(".post('/results, WriteResult Error:" + err);
+				return console.err(err);
+			}
+		});
+		var getCodeFile = fs.readFileSync('data/codes/' + studyName + '_code.json', 'utf8');
+		var jsonGetCode = JSON.parse(getCodeFile);
+	} catch (err) {
+		var fTemplate = fs.readFileSync('404.html', 'utf8');
+		response.send(fTemplate);
+	} finally {
+		response.end();
+		next();
+	}
+});
+
+router.get('/sendCode/:studyName', function(request, response) {
+	var errLocation = "get.sendCode/:studyName', "
+	//the purpose of the this route\page is to collect the completion URL
+	try {
+		//check if the study has been saved first
+		var resultFileName = 'data/results/' + request.params.studyName + "_" +
+			request.query.PROLIFIC_PID + "_" +
+			request.query.STUDY_ID + "_" +
+			request.query.SESSION_ID + ".json";
+
+		if (fs.existsSync(resultFileName)) {
+			//in that case we can load the completion code from the _code.json file
+			var codeFileName = "data/codes/" + request.params.studyName + "_code.json"
+			if (fs.existsSync(codeFileName)) {
+				var getCodeFile = fs.readFileSync(codeFileName, 'utf8');
+				var jsonGetCode = JSON.parse(getCodeFile);
+				//studyName: request.params.studyName, qs: request.query
+				response.render('studycomplete', {qs: jsonGetCode});
+				return true;
+			} else {
+				throw errLocation + " codeFileName NOT FOUND: " + resultFileName;
+			}
+		} else {
+			throw errLocation + " resultFileName NOT FOUND: " + resultFileName;
+		}
+	}
+	catch (err) {
+		//var errFile = fs.readFileSync('404.html', 'utf8');
+		response.render('404', {qs: {"err":err}});
+		return false;
+	}
+});
+
+
+module.exports = router;

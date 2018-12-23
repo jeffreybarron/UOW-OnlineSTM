@@ -41,11 +41,32 @@ q:)---changes in 1.3.6-StudyCreator
 -add another page at the start to confirm prolific ID
 -also box copy text in a white box with round edges
 
+q:)---changes in 1.3.8-workingcopy
+-modularise code for maintainability (HALF)
+ - have completed the management module and utils modules
+  figured out problem of module paths and roots
+ -plan is to add another layer in here so we can use other providers.. (later)
+ -current module structure
+\routes\index.js
+\-\routes\manage\index.js
+\-\-\routes\manage\create
+\-\-\routes\manage\list (future)
+\-\-\routes\manage\export (future)
+\-\-\routes\manage\delete (future)
+\-\lab\index.js
+\-\-\lab\index.js
+\-\-\-\lab\participant
+\-\-\-\lab\consent
+\-\-\-\lab\instructions
+\-\-\-\lab\study
+\-\-\-\lab\complete
+
 
 TODO
 ====
+-finish the lab side of the modules, then clean up.
+
 -study\duplicate for prolific test fire adherants
-  -modularise code to maintainability
 -implement logging\ debuggings
 -implement some security protocols
 -port code to use kubernaughts or scaleable webservices
