@@ -1,0 +1,140 @@
+{
+  "studyName": "20190101-jb957-stroop01",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "setSizes": [
+    4,
+    2,
+    2,
+    4
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "deck01.json",
+      "pickQty": 4,
+      "sampleMode": "sequential"
+    },
+    {
+      "deckName": "deck02.json",
+      "pickQty": 4,
+      "sampleMode": "sequential"
+    },
+    {
+      "deckName": "deck03.json",
+      "pickQty": 4,
+      "sampleMode": "sequential"
+    }
+  ],
+  "shuffleDecks": false,
+  "shuffleAll": false,
+  "refreshRateMS": 300,
+  "PROLIFIC_PID": "GUID001",
+  "STUDY_ID": "GUID002",
+  "SESSION_ID": "GUID003",
+  "checkConsent": "on",
+  "checkInstructions": "on",
+  "sets": [
+    {
+      "set": [
+        {
+          "stimulus": "lorem",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "",
+          "responseTime": "20193301_22:33:08.0942"
+        },
+        {
+          "stimulus": "ipsum",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "",
+          "responseTime": "20193301_22:33:09.0155"
+        },
+        {
+          "stimulus": "dolor",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "",
+          "responseTime": "20193301_22:33:09.0347"
+        },
+        {
+          "stimulus": "sit",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "",
+          "responseTime": "20193301_22:33:09.0605"
+        }
+      ]
+    },
+    {
+      "set": [
+        {
+          "stimulus": "red",
+          "textColor": "red",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20193301_22:33:11.0294"
+        },
+        {
+          "stimulus": "green",
+          "textColor": "green",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20193301_22:33:11.0485"
+        }
+      ]
+    },
+    {
+      "set": [
+        {
+          "stimulus": "blue",
+          "textColor": "blue",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20193301_22:33:16.0391"
+        },
+        {
+          "stimulus": "yellow",
+          "textColor": "yellow",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20193301_22:33:16.0760"
+        }
+      ]
+    },
+    {
+      "set": [
+        {
+          "stimulus": "She",
+          "textColor": "white",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20193301_22:33:19.0135"
+        },
+        {
+          "stimulus": "felt",
+          "textColor": "white",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20193301_22:33:19.0338"
+        },
+        {
+          "stimulus": "smart",
+          "textColor": "white",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20193301_22:33:19.0551"
+        },
+        {
+          "stimulus": "they",
+          "textColor": "white",
+          "backGroundColor": "black",
+          "response": "",
+          "responseTime": "20193301_22:33:20.0080"
+        }
+      ]
+    }
+  ],
+  "loadTime": "20193201_22:32:52.0134",
+  "saveTime": "20193301_22:33:20.0080"
+}

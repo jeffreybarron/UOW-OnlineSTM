@@ -24,39 +24,35 @@ var pageHandler = main();
 function main(){
 	try {
 		var sPathName = window.location.pathname;
-		var n = sPathName.indexOf("/",1);
+		// console.log("sPathName",sPathName);
+		var n = sPathName.lastIndexOf("/");
+		// console.log(n);
 		var sourceURL = sPathName.substring(0, n);
-
+		// console.log("SourceURL:", sourceURL);
 		//switch
 		switch(sourceURL) {
-   			case "/":
-   				//Sending Users Back to Prolific in 5000ms, nothing to load.
-        		//console.log("entryPoint/ Loading.");
-        		break;
-    		case "/consent":
+    		case "/lab/consent":
 		    	//Page 1 - Entry Page from Prolific
 		    	//in: Prolific Paramater
 		    	//out: Prolific Paramaters, GUID\cookie
 		        //console.log("entryPoint/consent Loading");
-		    	loadConsent();
-
+					loadConsent();
 		        break;
-		    case "/instructions":
+		    case "/lab/instructions":
 		    	//Page 2 - Consent Recieved, Study Instructions
 		    	//in: GUID\Cookie
 		    	//out: GUID\Cookie
 		    	//console.log("entryPoint/instructions Loading");
 		    	loadInstructions();
 		    	break;
-		    case "/study":
+		    case "/lab/study":
 		    	//Page 3 - Consent Recieved GUID Created and Study
 		    	//in: GUID\Cookie => Studytemplate.json => loadQuestions()
 		    	//out: studyresult.json + GUID\Cookie => uploadAnswers(http.POST /results)
 		        //console.log("entryPoint/study Loading");
-
 		        loadStudy();
 		        break;
-		    case "/results":
+		    case "/lab/results":
 		    	//Page
 		        //console.log("entryPoint/results Loading");
 		        break;
@@ -340,18 +336,19 @@ function updateAnswers(){
 				//Write Study Result to Server
 				//postData(questionBank);
 				var data = JSON.stringify(oStudyConfig, null, 2);
+				//console.dir(data);
 				let xmlHttp = new XMLHttpRequest;
-			    xmlHttp.open("POST", "/results", true);
+			    xmlHttp.open("POST", "/lab/results", true);
 			    xmlHttp.setRequestHeader('Content-Type', 'application/json');
 			    //Save data to server
 			 	try {
 					//console.log(data);
 					xmlHttp.send(data);
-					//console.log("sent now wait");
+					// console.log("sent now wait");
 					xmlHttp.onreadystatechange = function() {
 						errLoc = "test.js.updateAnswer, onReadyStateChange, "
 			    	if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-							//console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
+							console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
 							completedStudy = "PROLIFIC_PID=" + oStudyConfig.PROLIFIC_PID + "&" +
 		        		"STUDY_ID=" + oStudyConfig.STUDY_ID + "&" +
 		        		"SESSION_ID=" + oStudyConfig.SESSION_ID;
@@ -359,16 +356,16 @@ function updateAnswers(){
 				      setProperties(questionObj, "", "white", "black");
 					    questionObj.style.display = "none";
 							studyText.style.display = "block"
-							studyText.outerHTML = "<p>You must click this <a href='/sendCode/" +
+							studyText.outerHTML = "<p>You must click this <a href='/lab/sendCode/" +
 							studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>"
 						} else {
-			      	//console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
-			        //alert("Problem saving study:");
+			      	console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
+			        // alert("Problem saving study:");
 			      }
 					}
 				} catch (err) {
 					console.log("error: " + err);
-					alert(errLoc + "There has been a problem saving your study!, Please contact the researcher: " + err);
+					// alert(errLoc + "There has been a problem saving your study!, Please contact the researcher: " + err);
 				}
 			}
 		}

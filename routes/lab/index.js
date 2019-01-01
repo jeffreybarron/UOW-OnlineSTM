@@ -13,20 +13,29 @@ const favicon 	    = require('serve-favicon');
 const fs			      = require('fs');
 
 
-router.use((request, response, next) => {
-  for (let propName in request.body){
-     request.body[propName] = request.sanitize(request.body[propName]);
-  }
-  next();
-});
+router.use('/data/studies', express.static('data/studies'));
+router.use('/data/decks', express.static('data/decks'));
+router.use('/data/codes', express.static('data/codes'));
+
+router.use(bodyParser.json()); // for parsing application/json
+router.use(sanitizer());
+// router.use((request, response, next) => {
+//   //this is used as a sanitizer for sxx attacks
+//   //needs to be tested again.
+//   // for (let propName in request.body){
+//   //    request.body[propName] = request.sanitize(request.body[propName]);
+//   // }
+//   // next();
+// });
 
 router.get('/preflight', function(request, response) {
 	response.render('preflight');
 });
 
 router.get('/participant/:studyName', function(request, response, next) {
-	try {
-		if (fs.existsSync('data/studies/' + request.params.studyName + '.json')) {
+
+  try {
+		if (fs.existsSync(appRoot + '/data/studies/' + request.params.studyName + '.json')) {
 			response.render('participant', {studyName: request.params.studyName, qs: request.query});
 		} else {
 			var fTemplate = fs.readFileSync('404.html', 'utf8');
@@ -41,7 +50,7 @@ router.get('/participant/:studyName', function(request, response, next) {
 
 router.get('/consent/:studyName', function(request, response, next) {
 	try {
-		if (fs.existsSync('data/studies/' + request.params.studyName + '.json')) {
+		if (fs.existsSync(appRoot + '/data/studies/' + request.params.studyName + '.json')) {
 			response.render('consent', {studyName: request.params.studyName, qs: request.query});
 		} else {
 			var fTemplate = fs.readFileSync('404.html', 'utf8');
@@ -71,7 +80,7 @@ router.get('/instructions/:studyName', function(request, response, next) {
 
 router.get('/study/:studyName', function(request, response, next) {
 	try {
-		var sStudyFile = 'data/studies/' + request.params.studyName + '.json'
+		var sStudyFile = appRoot + '/data/studies/' + request.params.studyName + '.json'
 		if (fs.existsSync(sStudyFile)) {
 			response.render('study', {studyName: request.params.studyName, qs: request.query});
 		} else {
@@ -86,28 +95,26 @@ router.get('/study/:studyName', function(request, response, next) {
 });
 
 router.post('/results', function(request,response, next) {
-	try {
-		var	jsonResult = JSON.stringify(request.body, null, 2);
-		var	studyName = request.body.studyName;
-		var participantID = request.body.PROLIFIC_PID;
-		var	studyID = request.body.STUDY_ID;
-		var sessionID = request.body.SESSION_ID;
-		var resultGUID = request.body.resultGUID; //restulGUID may be redundant if SessionID works
-		var jsonFileName = studyName + "_" + participantID + "_" + studyID + "_" + sessionID + '.json';
-		var writeResult = fs.writeFileSync('data/results/' + jsonFileName, jsonResult, function(err) {
-			if(err) {
+  try {
+		let	studyName = request.body.studyName;
+		let participantID = request.body.PROLIFIC_PID;
+		let	studyID = request.body.STUDY_ID;
+		let sessionID = request.body.SESSION_ID;
+		let jsonFileName = appRoot + '/data/results/' + studyName + "_" + participantID + "_" + studyID + "_" + sessionID + '.json';
+    let	jsonResult = JSON.stringify(request.body, null, 2);
+    let writeResult = fs.writeFileSync(jsonFileName, jsonResult, function(err) {
+      if(err) {
 				console.log(".post('/results, WriteResult Error:" + err);
 				return console.err(err);
 			}
 		});
-		var getCodeFile = fs.readFileSync('data/codes/' + studyName + '_code.json', 'utf8');
-		var jsonGetCode = JSON.parse(getCodeFile);
+    response.end();
+
+		// let getCodeFile = fs.readFileSync(appRoot + 'data/codes/' + studyName + '_code.json', 'utf8');
+		// let jsonGetCode = JSON.parse(getCodeFile);
 	} catch (err) {
-		var fTemplate = fs.readFileSync('404.html', 'utf8');
+		let fTemplate = fs.readFileSync(appRoot + '/404.html', 'utf8');
 		response.send(fTemplate);
-	} finally {
-		response.end();
-		next();
 	}
 });
 
@@ -116,14 +123,14 @@ router.get('/sendCode/:studyName', function(request, response) {
 	//the purpose of the this route\page is to collect the completion URL
 	try {
 		//check if the study has been saved first
-		var resultFileName = 'data/results/' + request.params.studyName + "_" +
+		var resultFileName = appRoot + '/data/results/' + request.params.studyName + "_" +
 			request.query.PROLIFIC_PID + "_" +
 			request.query.STUDY_ID + "_" +
 			request.query.SESSION_ID + ".json";
 
 		if (fs.existsSync(resultFileName)) {
 			//in that case we can load the completion code from the _code.json file
-			var codeFileName = "data/codes/" + request.params.studyName + "_code.json"
+			var codeFileName = appRoot + '/data/codes/' + request.params.studyName + '_code.json'
 			if (fs.existsSync(codeFileName)) {
 				var getCodeFile = fs.readFileSync(codeFileName, 'utf8');
 				var jsonGetCode = JSON.parse(getCodeFile);

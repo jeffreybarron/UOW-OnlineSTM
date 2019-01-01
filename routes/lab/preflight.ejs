@@ -31,7 +31,7 @@
 			var sTestFlightParams = studyName + "?PROLIFIC_PID=GUID001&STUDY_ID=GUID002&SESSION_ID=GUID003";
 			//console.log(sTestFlightParams);
 			try {
-				var sURL = '/participant/' + sTestFlightParams;
+				var sURL = '/lab/participant/' + sTestFlightParams;
 				window.location.href = sURL
 			} catch (err) {
 				consol.log("err" + err);

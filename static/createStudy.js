@@ -57,7 +57,7 @@ function createStudy() {
 	  //encode string
 	  //4- Post and direct to new pageTitle
 		if (created) {
-			alert("Study Created!\n\nWe suggest you leave this page open until you've finished setting up.");
+			alert("Study Created!\n\nWe suggest you, click ok, and leave this page open until you've finished setting up.");
 		}
 		return created
 
