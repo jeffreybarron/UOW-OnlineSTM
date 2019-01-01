@@ -1,11 +1,10 @@
 {
-  "studyName": "20190101-jb957-stroop01",
-  "studybackgroundColor": "Black",
+  "studyName": "20190101-stu4560-stroop1",
+  "studybackgroundColor": "Chocolate",
   "studyTextColor": "White",
   "setSizes": [
     4,
-    2,
-    2,
+    4,
     4
   ],
   "deckConfiguration": [
@@ -27,7 +26,7 @@
   ],
   "shuffleDecks": false,
   "shuffleAll": false,
-  "refreshRateMS": 300,
+  "refreshRateMS": 200,
   "PROLIFIC_PID": "GUID001",
   "STUDY_ID": "GUID002",
   "SESSION_ID": "GUID003",
@@ -41,28 +40,28 @@
           "textColor": "yellow",
           "backGroundColor": "green",
           "response": "",
-          "responseTime": "20193301_22:33:08.0942"
+          "responseTime": "20192901_23:29:58.0707"
         },
         {
           "stimulus": "ipsum",
           "textColor": "yellow",
           "backGroundColor": "green",
           "response": "",
-          "responseTime": "20193301_22:33:09.0155"
+          "responseTime": "20192901_23:29:59.0078"
         },
         {
           "stimulus": "dolor",
           "textColor": "yellow",
           "backGroundColor": "green",
           "response": "",
-          "responseTime": "20193301_22:33:09.0347"
+          "responseTime": "20192901_23:29:59.0315"
         },
         {
           "stimulus": "sit",
           "textColor": "yellow",
           "backGroundColor": "green",
           "response": "",
-          "responseTime": "20193301_22:33:09.0605"
+          "responseTime": "20193001_23:30:00.0180"
         }
       ]
     },
@@ -73,32 +72,28 @@
           "textColor": "red",
           "backGroundColor": "black",
           "response": "",
-          "responseTime": "20193301_22:33:11.0294"
+          "responseTime": "20193001_23:30:02.0048"
         },
         {
           "stimulus": "green",
           "textColor": "green",
           "backGroundColor": "black",
           "response": "",
-          "responseTime": "20193301_22:33:11.0485"
-        }
-      ]
-    },
-    {
-      "set": [
+          "responseTime": "20193001_23:30:02.0260"
+        },
         {
           "stimulus": "blue",
           "textColor": "blue",
           "backGroundColor": "black",
           "response": "",
-          "responseTime": "20193301_22:33:16.0391"
+          "responseTime": "20193001_23:30:02.0464"
         },
         {
           "stimulus": "yellow",
           "textColor": "yellow",
           "backGroundColor": "black",
           "response": "",
-          "responseTime": "20193301_22:33:16.0760"
+          "responseTime": "20193001_23:30:02.0926"
         }
       ]
     },
@@ -109,32 +104,32 @@
           "textColor": "white",
           "backGroundColor": "black",
           "response": "",
-          "responseTime": "20193301_22:33:19.0135"
+          "responseTime": "20193001_23:30:05.0187"
         },
         {
           "stimulus": "felt",
           "textColor": "white",
           "backGroundColor": "black",
           "response": "",
-          "responseTime": "20193301_22:33:19.0338"
+          "responseTime": "20193001_23:30:05.0401"
         },
         {
           "stimulus": "smart",
           "textColor": "white",
           "backGroundColor": "black",
           "response": "",
-          "responseTime": "20193301_22:33:19.0551"
+          "responseTime": "20193001_23:30:05.0592"
         },
         {
           "stimulus": "they",
           "textColor": "white",
           "backGroundColor": "black",
           "response": "",
-          "responseTime": "20193301_22:33:20.0080"
+          "responseTime": "20193001_23:30:06.0042"
         }
       ]
     }
   ],
-  "loadTime": "20193201_22:32:52.0134",
-  "saveTime": "20193301_22:33:20.0080"
+  "loadTime": "20192901_23:29:54.0600",
+  "saveTime": "20193001_23:30:06.0044"
 }

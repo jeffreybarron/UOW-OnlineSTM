@@ -12,9 +12,9 @@ const sanitizer     = require('express-sanitizer');
 const favicon 	    = require('serve-favicon');
 const fs			      = require('fs');
 
-
-router.use('/data/studies', express.static('data/studies'));
-router.use('/data/decks', express.static('data/decks'));
+router.use('/static', express.static('public/static'));
+router.use('/data/studies', express.static('public/data/studies'));
+router.use('/data/decks', express.static('public/data/decks'));
 router.use('/data/codes', express.static('data/codes'));
 
 router.use(bodyParser.json()); // for parsing application/json
@@ -101,7 +101,9 @@ router.post('/results', function(request,response, next) {
 		let	studyID = request.body.STUDY_ID;
 		let sessionID = request.body.SESSION_ID;
 		let jsonFileName = appRoot + '/data/results/' + studyName + "_" + participantID + "_" + studyID + "_" + sessionID + '.json';
-    let	jsonResult = JSON.stringify(request.body, null, 2);
+		console.log(jsonFileName);
+
+		let	jsonResult = JSON.stringify(request.body, null, 2);
     let writeResult = fs.writeFileSync(jsonFileName, jsonResult, function(err) {
       if(err) {
 				console.log(".post('/results, WriteResult Error:" + err);

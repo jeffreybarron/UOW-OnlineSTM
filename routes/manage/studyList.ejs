@@ -1,0 +1,29 @@
+<% include base_header.ejs %>
+    <!-- Custom styles for this template -->
+    <link href="/static/main.css" rel="stylesheet">
+    <title>UOW Online STM - Create New Study</title>
+  </head>
+  <body>
+    <noscript>
+        <h1>JavaScript Required</h1>
+        <p class="lead">This Website requires Javascript, i.e. it will not work without it.</p>
+        <p class="lead">If you wish to use this site you will need to enable Javasript,
+          however by enabling JavaScript, you are do so at your own risk.</p>
+        <p class="lead">If you're cool with that, Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+    </noscript>
+    <div class="container">
+      <h1 id="pageTitle">UOW Online STM</h1>
+      <h3>Study List</h3>
+      <div class="starter-template">
+        <table>
+          <% files.forEach(function(file) { %>
+            <tr>
+              <td>"<%= file.studyName %>"</td>
+            </tr>
+          <% }); %>
+        </table>
+    </div>
+    
+
+<!-- End of Main Body -->
+<% include base_footer.ejs %>

@@ -17,20 +17,36 @@ const fs			      = require('fs');
 const mDates        = require.main.require('./utils/mDates.js');
 const mUtils        = require.main.require('./utils/mUtils.js');
 
-manage.use('/data/studies', express.static('data/studies'));
-manage.use('/data/decks', express.static('data/decks'));
-manage.use('/manage', manage)
+manage.use('/manage', manage);
+manage.use('/data/studies', express.static('public/data/studies'));
+manage.use('/data/decks', express.static('public/data/decks'));
+
+
 manage.use(bodyParser.json()); // for parsing application/json
 manage.use(sanitizer());
 
-manage.get('/study/new', function(request, response) {
-  let fileList = fs.readdirSync('data/decks/');
+
+manage.get('/study/list', function(request, response) {
+  let fileList = fs.readdirSync('public/data/studies/');
   let files = []
   for (let i = 0; i < fileList.length; i++) {
-      files.push({ deckName : fileList[i], available : mUtils.getDeckLength('data/decks/' + fileList[i]) })
+      if (fileList[i].includes('.json')) {
+        files.push({ studyName : fileList[i] })
+      }  
+  }
+  response.render('studyList', {files: files});
+});
+
+
+manage.get('/study/new', function(request, response) {
+  let fileList = fs.readdirSync('public/data/decks/');
+  let files = []
+  for (let i = 0; i < fileList.length; i++) {
+      files.push({ deckName : fileList[i], available : mUtils.getDeckLength('public/data/decks/' + fileList[i]) })
   }
   response.render('studyNew', {files: files});
 });
+
 
 manage.post('/study/create', function(request, response, next) {
     // console.log("/study/create, Begin");
@@ -52,7 +68,7 @@ manage.post('/study/create', function(request, response, next) {
     // console.log("/study/create, success");
     // console.log(oStudyConfig);
 
-    if (fs.existsSync(appRoot + '/data/studies/' + request.body.studyName + '.json')) {
+    if (fs.existsSync(appRoot + 'public/data/studies/' + request.body.studyName + '.json')) {
       response.status(409);
       response.send("File Already Exists");
       response.end();
@@ -67,21 +83,21 @@ manage.post('/study/create', function(request, response, next) {
       delete oStudyConfig["completionCode"];
 
       //create Conset File
-      var writeResult = fs.writeFileSync(appRoot + '/data/studies/' + oStudyConfig.studyName + '_consent.html', oStudyConfig["consentCopy"], function(err) {
+      var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '_consent.html', oStudyConfig["consentCopy"], function(err) {
         if (err) throw "/study/create, could not process consentCopy\n", err;
         console.log("conset File Error");
   		});
       delete oStudyConfig["consentCopy"];
 
       //create Instruction File
-      var writeResult = fs.writeFileSync(appRoot + '/data/studies/' + oStudyConfig.studyName + '_instructions.html', oStudyConfig["instructionCopy"], function(err) {
+      var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '_instructions.html', oStudyConfig["instructionCopy"], function(err) {
         if (err) throw "/study/create, could not process instructionCopy\n", err;
         console.log("Instruction File Error");
   		});
       delete oStudyConfig["instructionCopy"];
 
       //Create the all important studyConfig file
-      var writeResult = fs.writeFileSync(appRoot + '/data/studies/' + oStudyConfig.studyName + '.json', JSON.stringify(oStudyConfig), function(err) {
+      var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '.json', JSON.stringify(oStudyConfig), function(err) {
         if (err) throw "/study/create, could not create study file\n", err;
         console.log("Config File Error");
   		});
@@ -96,6 +112,7 @@ manage.post('/study/create', function(request, response, next) {
   // }
 
 });
+
 
 
 module.exports = manage;

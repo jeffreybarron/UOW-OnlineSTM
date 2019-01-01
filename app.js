@@ -23,11 +23,10 @@ app.set('views', [
 ]);
 
 app.use('/', routes);
-app.use('/static', express.static('static'));
-app.use('/data/studies', express.static('data/studies'));
-app.use('/data/decks', express.static('data/decks'));
-
-app.use(favicon(__dirname + '/static/favicon.ico'));
+app.use('/static', express.static('public/static'));
+app.use('/data/studies', express.static('public/data/studies'));
+app.use('/data/decks', express.static('public/data/decks'));
+app.use(favicon(appRoot + '/public/static/favicon.ico'));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(sanitizer());
 app.use((request, response, next) => {
@@ -43,26 +42,5 @@ const server = app.listen(3000, () => {
   console.log('server is running at %s .', server.address().port);
 });
 
-app.get('/', function(request, response) {
-  //Home Page
-  response.render('index');
-});
-app.get('*', function(request, response) {
-  /*
-	Catchall all other routes
-	this route is placed last in the code, so it is read last.
-	if it is placed before any other routes those routes wont be handled
-	*/
-//	var readStudy = fs.readFileSync('404.html', 'utf8');
-	//response.send(readStudy);
-
-  //Log these as they may show nefarious behaviour and their attack vectors
-	var sLog = mDates.getDate() + ", source:" + request.ip + ", URL:" + request.originalUrl
-  console.log(sLog);
-  // fs.appendFile('/data/logs/UnhandledPageCalls.log', sLog + "\r\n", function (err) {
-	//   if (err) console.log(err);
-	// });
-  response.end;
-});
 
 module.exports = app;
