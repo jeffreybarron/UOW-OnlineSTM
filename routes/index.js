@@ -7,11 +7,13 @@ const fs	        = require('fs');
 const favicon 	    = require('serve-favicon');
 const manage        = require('./manage');
 const lab           = require('./lab')
+
 const mDates        = require(appRoot + '/utils/mDates.js');
-const mUtils        = require(appRoot + '/utils/mUtils.js');
+// const mUtils        = require(appRoot + '/utils/mUtils.js');
 
 router.use('/manage',       manage);
 router.use('/lab',          lab);
+
 router.use('/static',       express.static(appRoot  + '/public/static'));
 router.use('/data/studies', express.static(appRoot  + '/public/data/studies'));
 router.use('/data/decks',   express.static(appRoot  + '/public/data/decks'));
@@ -21,6 +23,9 @@ router.get('/', function(request, response) {
     //Home Page
     response.render('index');
 });
+
+
+
 router.get('*', function(request, response) {
 /*
     Catchall all other routes

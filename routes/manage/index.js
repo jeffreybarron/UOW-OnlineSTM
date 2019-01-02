@@ -1,30 +1,32 @@
 // routes/manage/index.js
-
-// create new Router instance
 "use strict";
 const express 	    = require('express'); //express module
 const manage        = express.Router();
-const http 		      = require('http');
-
-const favicon 	    = require('serve-favicon');
-
+// const http 		    = require('http');
+// const favicon 	    = require('serve-favicon');
 const bodyParser 	  = require('body-parser');
-const sanitizeHtml  = require('sanitize-html');
+// const sanitizeHtml  = require('sanitize-html');
 const sanitizer     = require('express-sanitizer');
-
 //require.main.require is more obcvious than ./../../../
 const fs			      = require('fs');
-const mDates        = require.main.require('./utils/mDates.js');
+// const mDates        = require.main.require('./utils/mDates.js');
 const mUtils        = require.main.require('./utils/mUtils.js');
 
-manage.use('/manage', manage);
+
+// manage.use('/manage', manage);
 manage.use('/data/studies', express.static('public/data/studies'));
 manage.use('/data/decks', express.static('public/data/decks'));
-
-
 manage.use(bodyParser.json()); // for parsing application/json
 manage.use(sanitizer());
 
+
+
+manage.get('/', function(request,response){
+  response.render(appRoot + '/routes/manage/index');
+});
+manage.get('/guide', function(request,response){
+  response.render(appRoot + '/routes/manage/guide');
+});
 
 manage.get('/study/list', function(request, response) {
   let fileList = fs.readdirSync('public/data/studies/');
@@ -36,8 +38,6 @@ manage.get('/study/list', function(request, response) {
   }
   response.render('studyList', {files: files});
 });
-
-
 manage.get('/study/new', function(request, response) {
   let fileList = fs.readdirSync('public/data/decks/');
   let files = []
@@ -46,8 +46,6 @@ manage.get('/study/new', function(request, response) {
   }
   response.render('studyNew', {files: files});
 });
-
-
 manage.post('/study/create', function(request, response, next) {
     // console.log("/study/create, Begin");
     // console.dir(request.body);
@@ -105,14 +103,10 @@ manage.post('/study/create', function(request, response, next) {
       response.status(201);
       response.send("File Created");
     }
-//  } catch (err) {
-  //   response.status(500);
-  //   console.log(err);
-  //   response.send(err);
-  // }
-
 });
 
-
+manage.get('/preflight', function(request, response) {
+	response.render('preflight');
+});
 
 module.exports = manage;

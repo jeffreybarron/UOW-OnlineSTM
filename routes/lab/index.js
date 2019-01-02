@@ -3,14 +3,13 @@
 // create another router for getting 'product' resources
 const express 	    = require('express'); //express module
 const router        = express.Router();
-
-//Published modules
-const http 		      = require('http');
+// const http 		      = require('http');
 const bodyParser 	  = require('body-parser');
-const sanitizeHtml  = require('sanitize-html');
+// const sanitizeHtml  = require('sanitize-html');
 const sanitizer     = require('express-sanitizer');
-const favicon 	    = require('serve-favicon');
+// const favicon 	    = require('serve-favicon');
 const fs			      = require('fs');
+
 
 router.use('/static', express.static('public/static'));
 router.use('/data/studies', express.static('public/data/studies'));
@@ -19,23 +18,14 @@ router.use('/data/codes', express.static('data/codes'));
 
 router.use(bodyParser.json()); // for parsing application/json
 router.use(sanitizer());
-// router.use((request, response, next) => {
-//   //this is used as a sanitizer for sxx attacks
-//   //needs to be tested again.
-//   // for (let propName in request.body){
-//   //    request.body[propName] = request.sanitize(request.body[propName]);
-//   // }
-//   // next();
-// });
 
-router.get('/preflight', function(request, response) {
-	response.render('preflight');
-});
+
 
 router.get('/participant/:studyName', function(request, response, next) {
-
-  try {
-		if (fs.existsSync(appRoot + '/data/studies/' + request.params.studyName + '.json')) {
+  console.log("get participant");
+	try {
+		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
+		if (fs.existsSync(sURL)) {
 			response.render('participant', {studyName: request.params.studyName, qs: request.query});
 		} else {
 			var fTemplate = fs.readFileSync('404.html', 'utf8');
