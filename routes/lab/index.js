@@ -3,7 +3,7 @@
 // create another router for getting 'product' resources
 const express 	    = require('express'); //express module
 const router        = express.Router();
-// const http 		      = require('http');
+const http 		      = require('http');
 const bodyParser 	  = require('body-parser');
 // const sanitizeHtml  = require('sanitize-html');
 const sanitizer     = require('express-sanitizer');

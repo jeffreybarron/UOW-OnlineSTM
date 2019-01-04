@@ -1,0 +1,31 @@
+{
+  "studyName": "20181224-stu456-stroop05",
+  "studybackgroundColor": "Chocolate",
+  "studyTextColor": "Yellow",
+  "setSizes": [
+    4,
+    2,
+    2,
+    4
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "deck01.json",
+      "pickQty": 4,
+      "sampleMode": "sequential"
+    },
+    {
+      "deckName": "deck02.json",
+      "pickQty": 4,
+      "sampleMode": "simple"
+    },
+    {
+      "deckName": "deck03.json",
+      "pickQty": 4,
+      "sampleMode": "replace"
+    }
+  ],
+  "shuffleDecks": true,
+  "shuffleAll": false,
+  "refreshRateMS": 750
+}

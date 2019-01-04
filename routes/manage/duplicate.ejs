@@ -1,0 +1,85 @@
+<% include manage_header.ejs %>
+    <div class="container">
+        <h1 id="pageTitle">UOW Online STM</h1>
+        <h2>Duplicate Study</h2>
+        <div class="starter-template">
+            <form id="studyForm" class="form-group row" method="POST" action="/manage/study/duplicate">
+                <div class="form-group" id="source_studyName_DIV">
+                    <label for="source_studyName">Study to Duplicate</label>
+                    <select class="form-control" id="source_studyName" 
+                        name="source_studyName" value="" onchange="updateOnChange()">
+                    <% files.forEach(function(file) { %>
+                        <option><%= file.studyName %></option>
+                    <% }); %>
+                    </select>
+                    <small id="setSizesHelpBlock" class="form-text text-muted">
+                    Choose an existing study to duplicate.
+                    </small>
+                </div>            
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-3" scope="col">Field</th>
+                            <th class="col-sm-9" scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Current studyName</td>
+                            <td id="currentStudyName"></td>
+                        </tr>
+                        <tr>
+                            <td>studybackgroundColor</td>
+                            <td id="studybackgroundColor"></td>
+                        </tr>
+                        <tr>
+                            <td>studyTextColor</td>
+                            <td id="studyTextColor"></td>
+                        </tr>
+                        <tr>
+                            <td>shuffleDecks</td>
+                            <td id="shuffleDecks"></td>
+                        </tr>
+                        <tr>
+                            <td>shuffleAll</td>
+                            <td id="shuffleAll"></td>
+                        </tr>
+                        <tr>
+                            <td>setSizes</td>
+                            <td id="setSizes"></td>
+                        </tr>
+                        <tr>
+                            <td>refreshRateMS</td>
+                            <td id="refreshRateMS"></td>
+                        </tr> 
+                        <tr>
+                            <td>deckConfiguration</td>
+                            <td>
+                                <pre id="deckConfiguration">
+
+                                </pre>
+                            </td>
+                        </tr> 
+                    </tbody>
+                </table>
+                <div class="form-group" id="new_studyName_DIV" >
+                <label for="new_studyName">New Study Name</label>
+                <input
+                    type="text" class="form-control"
+                    id="new_studyName" name="new_studyName"
+                    placeholder="[YYYY][MM][DD]-[6:userID]-[6:Desc][2:sequence]"
+                    pattern="^([0-9]{8}[-]{1}[a-zA-Z0-9]{1,6}[-]{1}[a-zA-Z0-9]{1,6}[0-9]{1,2})"
+                    required>
+                <small id="setSizesHelpBlock" class="form-text text-muted">
+                    Max:24 Characters, A-Z, a-z, 0-9, '-'' symbol only.
+                    <br />syntax:[YYYY][MM][DD]-[6:userID]-[6:Desc][2:sequence]
+                </small>
+                </div>
+                <button type="submit" id="buttonCreate" class="btn btn-primary">Duplicate Study</button>
+
+
+      </form>
+
+<!-- End of Main Body -->
+    <script src="/static/duplicateStudy.js"></script>
+<% include base_footer.ejs %>

@@ -72,6 +72,9 @@ q:)---changes in 1.3.10-workingcopy
 q:)---changes in 1.3.11-workingcopy
 -make a manage home page with links to functions - use a GUID for access
 
+q:)---changes in 1.3.12-workingcopy
+Trying to add duplicate feature. stuck with await functions... Arrggg
+
 
 TODO
 ====
