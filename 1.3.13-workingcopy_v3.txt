@@ -75,11 +75,14 @@ q:)---changes in 1.3.11-workingcopy
 q:)---changes in 1.3.12-workingcopy
 Trying to add duplicate feature. stuck with await functions... Arrggg
 
+q:)---changes in 1.3.13-workingcopy_v3
+Duplicate and error handling is for duplicate is working, its not very elegant but it mostly works.
+-Feature add, duplicate study for prolific test fire adherants
+
 
 TODO
 ====
 1.3.x
--Feature add, duplicate study for prolific test fire adherants
 -feature add, Deck Creator pages
 
 1.4.x

@@ -125,45 +125,37 @@ manage.post('/study/duplicate', function(request, response){
   let sNew = request.body.new_studyName
   try {
 
-    //
-    //
-    //I want to handle result, but I cant figure out how to get anything back?
-    //if one copy fails I'd like to delete any others, if all true keep all
-    //
-    //respond to client
-    //
-    //
-
     //Using Promise with Async\Await 
     let result = duplicateStudy(sSource,sNew)
-      .then((tmp) => {
-      response.send(tmp);
+      .then((resolved) => {
+      
+      console.dir(resolved);
+      response.render('duplicate_response', {files: resolved});
       response.end;
     })
-      .catch ((err) => {
-      response.send(err.message);
+      .catch ((error) => {
+      let txt = error.message;
+      console.log("Post /study/duplicate, failed", txt);
+      response.render('error', {err: txt});
       response.end;
-      console.log("Post /study/duplicate, failed");
+
     })
     
-    console.log("wow, how did we get here")
-    console.dir(result)
+    // console.log("wow, how did we get here");
+    // console.dir(result)
 
-    } catch (err) {
+    } catch (error) {
     response.status = 500
-    response.send(err); 
+      response.render('error', {err: error});
     response.end;
   } 
 
-  console.log("Wait what!! Im Asynchronus what do you expect!!");
+  // console.log("Wait what!! Im Asynchronus what do you expect!!");
 
 });
 
 
-
-
 async function duplicateStudy (sSource, sNew) {
-  let sURL = appRoot + '/public/data/studies/';
   try { 
     //validate sNewURL
     if( sNew.length < 20 || sNew.length > 25 || !sNew ){
@@ -171,26 +163,21 @@ async function duplicateStudy (sSource, sNew) {
     } 
 
     //does the new file exist then throw an error
+    let sURL = appRoot + '/public/data/studies/';
     let configResult = await copyConfig(sURL, sSource, sNew);
     let consentResult = await copyFile(sURL + sSource + '_consent.html',sURL + sNew + '_consent.html');
     let instructionResult = await copyFile(sURL + sSource + '_instructions.html',sURL + sNew + '_instructions.html');
 
+    let sPrivateURL = appRoot + '/data/codes/';
+    let prolificCode = await copyFile(sPrivateURL + sSource + '_code.json', sPrivateURL + sNew + '_code.json');
+    
     //I really dont know how to report back from here? this doesnt seem to work
-    if (configResult && consentResult && instructionResult){
-      return [configResult,consentResult, instructionResult];
+    return [configResult, consentResult, instructionResult, prolificCode];
 
-    } else {
-      sMsg = "One of the configuration files was not created " + 
-        "ConfigFile:" + configResult + "\n" +
-        "consentResult:" + consentResult + "\n" +
-        "instructionResult:" + instructionResult;
-      return false;
-    }
   } catch (err) {
-      console.log(err);
-      return err;
+      // console.log(err);
+      throw (err);
   }
-console.log("we should not be here either");
 }
 
   function copyFile(sourceURL, newURL) {
@@ -207,10 +194,10 @@ console.log("we should not be here either");
           if (err) throw err;
         });
         //SUCCESS!!
-        resolve('Created: ' + newURL);
+        resolve({"created": newURL});
 
       } else {      
-        reject(new Error(newURL + " file already exists, choose a new name!"));
+        reject(new Error("copyFile: " + newURL + " file already exists, choose a new name!"));
       }
 
     } catch (err) {
@@ -248,10 +235,10 @@ function copyConfig(URL, sourceStudy, newStudy) {
           }
         });
         //SUCCESS!!
-        resolve("Created: " + URL + newStudy + ".json");
+        resolve({"created": URL + newStudy + '.json'});
 
       } else {
-        reject(new Error(newStudy + " already Exists, duplication failed!"));
+        reject(new Error("copyConfig: " + newStudy + " already Exists, duplication failed!"));
       }
 
     } catch (err) {

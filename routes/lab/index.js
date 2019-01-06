@@ -22,7 +22,6 @@ router.use(sanitizer());
 
 
 router.get('/participant/:studyName', function(request, response, next) {
-  console.log("get participant");
 	try {
 		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
 		if (fs.existsSync(sURL)) {
@@ -40,7 +39,8 @@ router.get('/participant/:studyName', function(request, response, next) {
 
 router.get('/consent/:studyName', function(request, response, next) {
 	try {
-		if (fs.existsSync(appRoot + '/data/studies/' + request.params.studyName + '.json')) {
+		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
+		if (fs.existsSync(sURL)) {
 			response.render('consent', {studyName: request.params.studyName, qs: request.query});
 		} else {
 			var fTemplate = fs.readFileSync('404.html', 'utf8');
@@ -55,11 +55,16 @@ router.get('/consent/:studyName', function(request, response, next) {
 
 router.get('/instructions/:studyName', function(request, response, next) {
 	try {
-		if (request.query.checkConsent === "on") {
-			response.render('instructions', {studyName: request.params.studyName, qs: request.query});
+		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
+		if (fs.existsSync(sURL)) {
+			if (request.query.checkConsent === "on") {
+				response.render('instructions', {studyName: request.params.studyName, qs: request.query});
+			} else {
+				//if consent off then back for consent
+				response.render('consent', {studyName: request.params.studyName, qs: request.query});
+			}
 		} else {
-			var fTemplate = fs.readFileSync('404.html', 'utf8');
-			response.send(fTemplate);
+			throw "Study does not exist!";
 		}
 	}
 	catch (err) {
@@ -70,12 +75,16 @@ router.get('/instructions/:studyName', function(request, response, next) {
 
 router.get('/study/:studyName', function(request, response, next) {
 	try {
-		var sStudyFile = appRoot + '/data/studies/' + request.params.studyName + '.json'
-		if (fs.existsSync(sStudyFile)) {
-			response.render('study', {studyName: request.params.studyName, qs: request.query});
+		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
+		if (fs.existsSync(sURL)) {
+			if (request.query.checkInstructions === "on") {
+				response.render('study', {studyName: request.params.studyName, qs: request.query});
+			} else {
+				//if consent off then back for consent
+				response.render('instructions', {studyName: request.params.studyName, qs: request.query});
+			}
 		} else {
-			var fTemplate = fs.readFileSync('404.html', 'utf8');
-			response.send(fTemplate);
+			throw "Study does not exist!";
 		}
 	}
 	catch (err) {
