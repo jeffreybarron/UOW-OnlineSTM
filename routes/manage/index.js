@@ -4,13 +4,9 @@ const express 	    = require('express'); //express module
 const path          = require('path');
 const manage        = express.Router();
 const http 		    = require('http');
-// const favicon 	    = require('serve-favicon');
 const bodyParser 	  = require('body-parser');
-// const sanitizeHtml  = require('sanitize-html');
 const sanitizer     = require('express-sanitizer');
-//require.main.require is more obcvious than ./../../../
 const fs			      = require('fs');
-// const mDates        = require.main.require('./utils/mDates.js');
 const mUtils        = require.main.require('./utils/mUtils.js');
 
 
@@ -21,6 +17,8 @@ manage.use('/data/decks', express.static('public/data/decks'));
 manage.use(bodyParser.json()); // for parsing application/json
 manage.use(bodyParser.urlencoded({ extended: false }))
 manage.use(sanitizer());
+
+
 
 manage.get('/', function(request,response){
   response.render(appRoot + '/routes/manage/index');
@@ -36,7 +34,7 @@ manage.get('/study/new', function(request, response) {
   }
   response.render('studyNew', {files: files});
 });
-manage.post('/study/create', function(request, response, next) {
+manage.post('/study/create', function(request, response) {
     // console.log("/study/create, Begin");
     // console.dir(request.body);
   //try {
@@ -104,6 +102,9 @@ manage.get('/study/list', function(request, response) {
   }
   response.render('studyList', {files: files});
 });
+manage.get('/preflight', function(request, response) {
+	response.render('preflight');
+});
 manage.get('/study/duplicate', function(request, response){
   let fileList = fs.readdirSync('public/data/studies/');
   let files = []
@@ -115,45 +116,71 @@ manage.get('/study/duplicate', function(request, response){
   }
   response.render('duplicate', {files: files});
 });
-manage.post('/study/duplicate', function(request, response, next){
+
+
+
+manage.post('/study/duplicate', function(request, response){
   // we are going to use await for this.
   let sSource = request.body.source_studyName
   let sNew = request.body.new_studyName
   try {
-    let result = duplicateStudy(sSource,sNew);
-    // response.render('duplicate', {files: files});
-    console.log("duplicate returned");
-    response.status = 200
-  } catch (err) {
+
+    //
+    //
+    //I want to handle result, but I cant figure out how to get anything back?
+    //if one copy fails I'd like to delete any others, if all true keep all
+    //
+    //respond to client
+    //
+    //
+
+    //Using Promise with Async\Await 
+    let result = duplicateStudy(sSource,sNew)
+      .then((tmp) => {
+      response.send(tmp);
+      response.end;
+    })
+      .catch ((err) => {
+      response.send(err.message);
+      response.end;
+      console.log("Post /study/duplicate, failed");
+    })
+    
+    console.log("wow, how did we get here")
+    console.dir(result)
+
+    } catch (err) {
     response.status = 500
-    console.log(err)
+    response.send(err); 
+    response.end;
   } 
-  
-  console.log("WTF");
+
+  console.log("Wait what!! Im Asynchronus what do you expect!!");
+
 });
+
+
+
+
 async function duplicateStudy (sSource, sNew) {
   let sURL = appRoot + '/public/data/studies/';
   try { 
     //validate sNewURL
     if( sNew.length < 20 || sNew.length > 25 || !sNew ){
-      console.log("invalid studyName");
       throw "New studyName must be 24 characters, please use the documented Syntax"
     } 
-    
 
     //does the new file exist then throw an error
-      console.log("configResult, start");
     let configResult = await copyConfig(sURL, sSource, sNew);
-      // console.log("configResult, complete",configResult);
     let consentResult = await copyFile(sURL + sSource + '_consent.html',sURL + sNew + '_consent.html');
-      // console.log("configResult, complete",consentResult);
     let instructionResult = await copyFile(sURL + sSource + '_instructions.html',sURL + sNew + '_instructions.html');
-      // console.log("configResult, complete", instructionResult);
 
+    //I really dont know how to report back from here? this doesnt seem to work
     if (configResult && consentResult && instructionResult){
-      return true;
+      return [configResult,consentResult, instructionResult];
+
     } else {
-      sMsg = "One of the configuration files was not created\n " + 
+      sMsg = "One of the configuration files was not created " + 
         "ConfigFile:" + configResult + "\n" +
         "consentResult:" + consentResult + "\n" +
         "instructionResult:" + instructionResult;
@@ -161,108 +188,77 @@ async function duplicateStudy (sSource, sNew) {
     }
   } catch (err) {
       console.log(err);
-      return false;
+      return err;
   }
-console.log("WT");
+console.log("we should not be here either");
 }
 
-
-function copyFile(sourceURL, newURL) {
+  function copyFile(sourceURL, newURL) {
   return new Promise((resolve, reject) => {
     // exist already
     try{
+
       if (sourceURL === newURL){
-        Promise.reject(new Error("The Source File name and Destination File name are the same, a duplicate must have a new name!!"));
-        return false;
+        reject(new Error("The Source File name and Duplicate File name are the same, a duplicate must have a new name!!"));
       }
       
       if (!fs.existsSync(newURL)) {
         fs.copyFile(sourceURL, newURL, (err) => {
           if (err) throw err;
         });
-        let sMsg = newURL + " copied."
-        Promise.resolve('Success');
-        console.log(sMsg);
-        return true;
+        //SUCCESS!!
+        resolve('Created: ' + newURL);
+
       } else {      
-        let sMsg = newURL + " file already exists, choose a new name"
-        Promise.reject(new Error(sMsg));
-        console.log(sMsg);
-        return false;
+        reject(new Error(newURL + " file already exists, choose a new name!"));
       }
 
     } catch (err) {
-      let sMsg = "Unhandled copyFile err:" + err;
-      Promise.reject(new Error(sMsg));
-      return false;
+      reject(new Error("There was an unhandeled error at copyFile: " + err));
     }
   })
 }
 function copyConfig(URL, sourceStudy, newStudy) {
-  console.log("copyConfig:","0");
   return new Promise((resolve, reject) => {
     // copy config file 
     try{
-
       //need something to copy see if the source file exists
-      console.log("copyConfig:","1");
       if (!fs.existsSync(URL + sourceStudy + ".json")) {
         let sMsg = "Source File does not Exist:" + err;
-        Promise.reject(new Error(sMsg));
-        return false;
+        reject(new Error(sMsg));
       }
-      console.log("copyConfig:","2");
 
       if (sourceStudy === newStudy){
-        let sMsg = "The Source File name and Destination File name are the same, a duplicate must have a new name!!\n\n" + err;
-        Promise.reject(new Error(sMsg));
-        return false;
+        reject(new Error("The Source File name and Duplicate File name are the same, a duplicate must have a new name!!"));
       }
-      console.log("copyConfig:","3");
 
       //if new file does not exists then
       if (!fs.existsSync(URL + newStudy + ".json")) {
+
         // 2-read old file, update studyName
-        console.log("copyConfig:","4");
         let configFile = fs.readFileSync(URL + sourceStudy + ".json", 'utf8');
         let oStudyConfig = JSON.parse(configFile);
         oStudyConfig.studyName = newStudy
         let sNewFile = JSON.stringify(oStudyConfig,null,2)
+
         // 3-write updated config to file on the new studyName
         let writeResult = fs.writeFileSync(URL + newStudy + ".json", sNewFile, function(err) {
           if(err) {
-            let sMsg = "CopyConfig, WriteFile Failed: " + err;;
-            Promise.reject(new Error(sMsg));
-            // return false;
+             throw "fs.writeFileSync failed: " + err;
           }
         });
-        let sMsg = "CopyConfig, File Duplicated successfully: ";
-        Promise.resolve();
-        console.log(sMsg);
-        // return true;
+        //SUCCESS!!
+        resolve("Created: " + URL + newStudy + ".json");
+
       } else {
-        let sMsg = newStudy + " already Exists, duplication failed!";
-        Promise.reject(new Error(sMsg));
-        console.log(sMsg);
-        // return false;
+        reject(new Error(newStudy + " already Exists, duplication failed!"));
       }
 
     } catch (err) {
-      let sMsg = "CopyConfig, There was an unhandeled problem:" + err;
-      Promise.reject(new Error(sMsg));
-      console.log(sMsg);
-      // return false;
+      reject(new Error("There was an unhandeled error at copyConfig: " + err));
     }
   })
 }
 
-
-
-
-
-
-manage.get('/preflight', function(request, response) {
-	response.render('preflight');
-});
 
 module.exports = manage;
