@@ -1,10 +1,11 @@
 {
-  "name": "OnlineSTM",
-  "version": "1.4.0",
-  "description": "UOW Coglab Web Study Platform",
+  "name": "CogLab",
+  "version": "1.4.1",
+  "description": "UOW Cognition Lab Web Study Platform",
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "bunyan": "^1.8.12",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-sanitizer": "^1.0.4",

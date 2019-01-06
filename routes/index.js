@@ -6,13 +6,28 @@ const router        = express.Router();
 const fs	        = require('fs');
 const favicon 	    = require('serve-favicon');
 const manage        = require('./manage');
-const lab           = require('./lab')
-
+const ostm           = require('./ostm')
 const mDates        = require(appRoot + '/utils/mDates.js');
 // const mUtils        = require(appRoot + '/utils/mUtils.js');
+const bunyan        = require('bunyan');
+
+const log = bunyan.createLogger({
+  name: "UOW_CogLab",
+  streams: [
+    {
+      level: 'debug',
+      path: appRoot + '/data/logs/routes_logs.json'
+    },
+    {
+      level: 'info',
+      stream: process.stdout
+    }
+  ],
+  src: true,
+});
 
 router.use('/manage',       manage);
-router.use('/lab',          lab);
+router.use('/ostm',         ostm);
 
 router.use('/static',       express.static(appRoot  + '/public/static'));
 router.use('/data/studies', express.static(appRoot  + '/public/data/studies'));
@@ -22,6 +37,7 @@ router.use(favicon(appRoot                          + '/public/static/favicon.ic
 router.get('/', function(request, response) {
     //Home Page
     response.render('index');
+    log.info('home.rendered');
 });
 
 
@@ -34,17 +50,17 @@ router.get('*', function(request, response) {
     */
 
 //Log these as they may show nefarious behaviour and their attack vectors
-var sLog = mDates.getDate() + 
-    ", source:" + request.ip +
-    ", URL:" + request.originalUrl
-console.log(sLog);
-fs.appendFile(appRoot + '/data/logs/UnhandledPageCalls.log', sLog + "\r\n", function (err) {
-    if (err) console.log(err);
+    var sLog = mDates.getDate() + 
+        ", source:" + request.ip +
+        ", URL:" + request.originalUrl
+
+    fs.appendFile(appRoot + '/data/logs/UnhandledPageCalls.log', sLog + "\r\n", function (err) {
+        if (err) console.log(err);
     });
 
-var readStudy = fs.readFileSync(appRoot + '/404.html', 'utf8');
-response.send(readStudy);
-response.end;
+    var readStudy = fs.readFileSync(appRoot + '/404.html', 'utf8');
+    response.send(readStudy);
+    response.end;
 });
 
 

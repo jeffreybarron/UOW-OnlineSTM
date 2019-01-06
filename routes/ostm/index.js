@@ -1,15 +1,28 @@
-// routes/lab/index.js
+// routes/ostm/index.js
 
 // create another router for getting 'product' resources
+"use strict";
 const express 	    = require('express'); //express module
 const router        = express.Router();
-const http 		      = require('http');
 const bodyParser 	  = require('body-parser');
-// const sanitizeHtml  = require('sanitize-html');
 const sanitizer     = require('express-sanitizer');
-// const favicon 	    = require('serve-favicon');
 const fs			      = require('fs');
+const bunyan        = require('bunyan');
 
+const log = bunyan.createLogger({
+  name: "UOW_CogLab",
+  streams: [
+    {
+      level: 'debug',
+      path: appRoot + '/data/logs/ostm_logs.json'
+    },
+    {
+      level: 'info',
+      stream: process.stdout
+    }
+  ],
+  src: true,
+});
 
 router.use('/static', express.static('public/static'));
 router.use('/data/studies', express.static('public/data/studies'));
@@ -22,6 +35,7 @@ router.use(sanitizer());
 
 
 router.get('/participant/:studyName', function(request, response, next) {
+	log.info("Render, participant for:" + request.params.studyName);
 	try {
 		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
 		if (fs.existsSync(sURL)) {
@@ -74,11 +88,17 @@ router.get('/instructions/:studyName', function(request, response, next) {
 });
 
 router.get('/study/:studyName', function(request, response, next) {
+	let oInstance = {"studyName": request.params.studyName,
+		"PROLIFIC_PID":request.query.PROLIFIC_PID,
+		"STUDY_ID": request.query.STUDY_ID,
+		"SESSION_ID": request.query.SESSION_ID} 
+	
 	try {
 		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
 		if (fs.existsSync(sURL)) {
 			if (request.query.checkInstructions === "on") {
 				response.render('study', {studyName: request.params.studyName, qs: request.query});
+				log.info({"instance": oInstance},'study.rendered');
 			} else {
 				//if consent off then back for consent
 				response.render('instructions', {studyName: request.params.studyName, qs: request.query});

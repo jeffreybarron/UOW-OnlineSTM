@@ -3,12 +3,27 @@
 const express 	    = require('express'); //express module
 const path          = require('path');
 const manage        = express.Router();
-const http 		    = require('http');
+// const http 		       = require('http');
 const bodyParser 	  = require('body-parser');
 const sanitizer     = require('express-sanitizer');
 const fs			      = require('fs');
 const mUtils        = require.main.require('./utils/mUtils.js');
+const bunyan        = require('bunyan');
 
+const log = bunyan.createLogger({
+  name: "UOW_CogLab",
+  streams: [
+    {
+      level: 'debug',
+      path: appRoot + '/data/logs/manage_logs.json'
+    },
+    {
+      level: 'info',
+      stream: process.stdout
+    }
+  ],
+  src: true,
+});
 
 
 // manage.use('/manage', manage);
@@ -21,6 +36,7 @@ manage.use(sanitizer());
 
 
 manage.get('/', function(request,response){
+  log.info("first bunyan");
   response.render(appRoot + '/routes/manage/index');
 });
 manage.get('/guide', function(request,response){
@@ -35,8 +51,8 @@ manage.get('/study/new', function(request, response) {
   response.render('studyNew', {files: files});
 });
 manage.post('/study/create', function(request, response) {
-    // console.log("/study/create, Begin");
-    // console.dir(request.body);
+    log.info("/study/create, Begin");
+    log.info(request.body);
   //try {
     //a rudimentary check, if there are exactly 7 query string objects
     let oStudyConfig = request.body;
@@ -63,29 +79,29 @@ manage.post('/study/create', function(request, response) {
       let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' + request.body.completionCode + '","completionCode":"' + request.body.completionCode + '"}'
       sCompletionFile = JSON.parse(sCompletionFile);
       var writeResult = fs.writeFileSync(appRoot + '/data/codes/' + oStudyConfig.studyName + '_code.json', JSON.stringify(sCompletionFile), function(err) {
-        if (err) throw "/study/create, could not process completionCode\n", err;
-        console.log("completionCode File Error");
+        if (err) throw new Error("/study/create, could not process completionCode\n", err);
+        log.info("completionCode File Error");
       });
       delete oStudyConfig["completionCode"];
 
       //create Conset File
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '_consent.html', oStudyConfig["consentCopy"], function(err) {
-        if (err) throw "/study/create, could not process consentCopy\n", err;
-        console.log("conset File Error");
+        if (err) throw new Error("/study/create, could not process consentCopy\n", err);
+        log.info("conset File Error");
   		});
       delete oStudyConfig["consentCopy"];
 
       //create Instruction File
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '_instructions.html', oStudyConfig["instructionCopy"], function(err) {
         if (err) throw "/study/create, could not process instructionCopy\n", err;
-        console.log("Instruction File Error");
+        log.info("Instruction File Error");
   		});
       delete oStudyConfig["instructionCopy"];
 
       //Create the all important studyConfig file
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '.json', JSON.stringify(oStudyConfig), function(err) {
-        if (err) throw "/study/create, could not create study file\n", err;
-        console.log("Config File Error");
+        if (err) throw new Error("/study/create, could not create study file\n", err);
+        log.info("Config File Error");
   		});
 
       response.status(201);
@@ -97,7 +113,8 @@ manage.get('/study/list', function(request, response) {
   let files = []
   for (let i = 0; i < fileList.length; i++) {
       if (fileList[i].includes('.json')) {
-        files.push({ studyName : fileList[i] })
+        let url = path.parse(fileList[i])
+        files.push({ studyName : url.name })
       }  
   }
   response.render('studyList', {files: files});
@@ -129,13 +146,13 @@ manage.post('/study/duplicate', function(request, response){
     let result = duplicateStudy(sSource,sNew)
       .then((resolved) => {
       
-      console.dir(resolved);
+      log.info(resolved);
       response.render('duplicate_response', {files: resolved});
       response.end;
     })
       .catch ((error) => {
       let txt = error.message;
-      console.log("Post /study/duplicate, failed", txt);
+      log.info("Post /study/duplicate, failed", txt);
       response.render('error', {err: txt});
       response.end;
 
@@ -175,7 +192,7 @@ async function duplicateStudy (sSource, sNew) {
     return [configResult, consentResult, instructionResult, prolificCode];
 
   } catch (err) {
-      // console.log(err);
+      log.info(err);
       throw (err);
   }
 }

@@ -31,28 +31,28 @@ function main(){
 		// console.log("SourceURL:", sourceURL);
 		//switch
 		switch(sourceURL) {
-    		case "/lab/consent":
+    		case "/ostm/consent":
 		    	//Page 1 - Entry Page from Prolific
 		    	//in: Prolific Paramater
 		    	//out: Prolific Paramaters, GUID\cookie
 		        //console.log("entryPoint/consent Loading");
 					loadConsent();
 		        break;
-		    case "/lab/instructions":
+		    case "/ostm/instructions":
 		    	//Page 2 - Consent Recieved, Study Instructions
 		    	//in: GUID\Cookie
 		    	//out: GUID\Cookie
 		    	//console.log("entryPoint/instructions Loading");
 		    	loadInstructions();
 		    	break;
-		    case "/lab/study":
+		    case "/ostm/study":
 		    	//Page 3 - Consent Recieved GUID Created and Study
 		    	//in: GUID\Cookie => Studytemplate.json => loadQuestions()
 		    	//out: studyresult.json + GUID\Cookie => uploadAnswers(http.POST /results)
 		        //console.log("entryPoint/study Loading");
 		        loadStudy();
 		        break;
-		    case "/lab/results":
+		    case "/ostm/results":
 		    	//Page
 		        //console.log("entryPoint/results Loading");
 		        break;
@@ -338,7 +338,7 @@ function updateAnswers(){
 				var data = JSON.stringify(oStudyConfig, null, 2);
 				//console.dir(data);
 				let xmlHttp = new XMLHttpRequest;
-			    xmlHttp.open("POST", "/lab/results", true);
+			    xmlHttp.open("POST", "/ostm/results", true);
 			    xmlHttp.setRequestHeader('Content-Type', 'application/json');
 			    //Save data to server
 			 	try {
@@ -356,7 +356,7 @@ function updateAnswers(){
 				      setProperties(questionObj, "", "white", "black");
 					    questionObj.style.display = "none";
 							studyText.style.display = "block"
-							studyText.outerHTML = "<p>You must click this <a href='/lab/sendCode/" +
+							studyText.outerHTML = "<p>You must click this <a href='/ostm/sendCode/" +
 							studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>"
 						} else {
 			      	console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);

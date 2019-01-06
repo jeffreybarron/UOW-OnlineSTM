@@ -82,16 +82,17 @@ Duplicate and error handling is for duplicate is working, its not very elegant b
 ============================
 1.4.0-master
 ============================
+q:)---changes in 1.4.1-workingcopy
+-implement BUNYAN logging\ debuggings
+-change lab route to OSTM
+-Changed package.json name from OSTM to CogLab
 
 TODO
 ====
 1.4.x
 -centralise express error hangling for routes
--change lab route to OSTM
 -change manage route to OSTM\manage
-
 -feature add, Deck Creator pages
--implement logging\ debuggings
 
 
 1.5.x

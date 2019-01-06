@@ -1,25 +1,27 @@
 // server/app.js
 "use strict";
-process.title 		  = 'Online STM';
+process.title       = 'Online STM';
 const express       = require('express');
-const app 		      = express();
-// const http 		      = require('http');
-const bodyParser 	  = require('body-parser');
-// const sanitizer     = require('express-sanitizer');
-const favicon 	    = require('serve-favicon');
-// const fs			      = require('fs');
+const app           = express();
+const bodyParser    = require('body-parser');
+const favicon       = require('serve-favicon');
 
 const path          = require('path');
 global.appRoot      = path.resolve(__dirname);
 const routes        = require('./routes');
+// const bunyan        = require('bunyan');
 
-// const mDates        = require('./utils/mDates.js');
-// const mUtils        = require('./utils/mUtils.js');
+// const logger = bunyan.createLogger({
+//   name: "UOW_CogLab",
+//   level: "info",
+//   stream: process.stderr,
+//   src: true,
+// });
 
 app.set('view engine', 'ejs');
 app.set('views', [
   __dirname + '/views',
-  __dirname + '/routes/lab',
+  __dirname + '/routes/ostm',
   __dirname + '/routes/manage',
 ]);
 
@@ -42,6 +44,7 @@ app.use(bodyParser.json()); // for parsing application/json
 const server = app.listen(3000, () => {
   console.log('server is running at %s .', server.address().port);
 });
+
 
 
 module.exports = app;
