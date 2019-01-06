@@ -79,14 +79,20 @@ q:)---changes in 1.3.13-workingcopy_v3
 Duplicate and error handling is for duplicate is working, its not very elegant but it mostly works.
 -Feature add, duplicate study for prolific test fire adherants
 
+============================
+1.4.0-master
+============================
 
 TODO
 ====
-1.3.x
--feature add, Deck Creator pages
-
 1.4.x
+-centralise express error hangling for routes
+-change lab route to OSTM
+-change manage route to OSTM\manage
+
+-feature add, Deck Creator pages
 -implement logging\ debuggings
+
 
 1.5.x
 -implement some security protocols
