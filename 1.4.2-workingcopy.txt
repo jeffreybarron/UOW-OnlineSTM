@@ -87,15 +87,15 @@ q:)---changes in 1.4.1-workingcopy
 -change lab route to OSTM
 -Changed package.json name from OSTM to CogLab
 
-TODO
-====
-1.4.x
--centralise express error hangling for routes
--change manage route to OSTM\manage
+q:)---changes in 1.4.2-workingcopy
 -feature add, Deck Creator pages
 
 
+TODO
+====
 1.5.x
+-centralise express error hangling for routes
+-change manage route to OSTM\manage
 -implement some security protocols
 
 1.6.x

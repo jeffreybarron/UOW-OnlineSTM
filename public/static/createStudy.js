@@ -145,19 +145,27 @@ function getDeckArray(form,setSizes) {
 
 	// loop through list of radio buttons, build an array of decks chosen
   for (let i=0, len=deckNames.length; i<len; i++) {
-    let pickQty = form.elements["deckConfiguration[pickQty]"];
+    var pickQty = form.elements["deckConfiguration[pickQty]"];
     let sampleMode = form.elements["deckConfiguration[sampleMode]"];
-    if (!isNaN(pickQty[i].value)){
-      //if qty is not, not a number (ie a number), then add to newArray
-      // console.log(deckNames[i].value + ':' + pickQty[i].value);
+
+    if (isNaN(pickQty[i].value)){
+			continue;
+		}	else if (pickQty[i].value === null) {
+			continue;
+		} else if (pickQty[i].value === "") {
+			continue;
+		} else {
+			// console.log(deckNames[i].value + ':' + pickQty[i].value);
 			let sNewDeck = '{"deckName":"","pickQty":"","sampleMode":""}'
 			sNewDeck = JSON.parse(sNewDeck);
 			sNewDeck.deckName = deckNames[i].value;
-      sNewDeck.pickQty = parseInt(pickQty[i].value);
-      sNewDeck.sampleMode = sampleMode[i].value;
+			sNewDeck.pickQty = parseInt(pickQty[i].value);
+			console.log(sNewDeck.pickQty);
+			sNewDeck.sampleMode = sampleMode[i].value;
 			newArray.push(sNewDeck);
-    }
-  }
+		}
+	}
+    
 	// console.log(newArray);
 	//study needs at least one card!
 	let sumDeckSize = newArray.reduce((accumulator, currentValue) => {
@@ -175,6 +183,8 @@ function getDeckArray(form,setSizes) {
 	if (sumDeckSize != sumSetSizes){ throw "Mate, Mate, Maaaate! hold up cobba!\n\n (Sum of picked cards) needs to equal (sum of setSizes)!" }
 
   return newArray;
+
+
 }
 
 function cleanSetsArray(sText){

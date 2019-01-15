@@ -78,7 +78,7 @@ manage.post('/study/create', function(request, response) {
       //Create the completion code file
       let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' + request.body.completionCode + '","completionCode":"' + request.body.completionCode + '"}'
       sCompletionFile = JSON.parse(sCompletionFile);
-      var writeResult = fs.writeFileSync(appRoot + '/data/codes/' + oStudyConfig.studyName + '_code.json', JSON.stringify(sCompletionFile), function(err) {
+      var writeResult = fs.writeFileSync(appRoot + '/data/codes/' + oStudyConfig.studyName + '_code.json', JSON.stringify(sCompletionFile,null,2), function(err) {
         if (err) throw new Error("/study/create, could not process completionCode\n", err);
         log.info("completionCode File Error");
       });
@@ -99,7 +99,7 @@ manage.post('/study/create', function(request, response) {
       delete oStudyConfig["instructionCopy"];
 
       //Create the all important studyConfig file
-      var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '.json', JSON.stringify(oStudyConfig), function(err) {
+      var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '.json', JSON.stringify(oStudyConfig,null,2), function(err) {
         if (err) throw new Error("/study/create, could not create study file\n", err);
         log.info("Config File Error");
   		});
@@ -133,9 +133,6 @@ manage.get('/study/duplicate', function(request, response){
   }
   response.render('duplicate', {files: files});
 });
-
-
-
 manage.post('/study/duplicate', function(request, response){
   // we are going to use await for this.
   let sSource = request.body.source_studyName
@@ -172,6 +169,36 @@ manage.post('/study/duplicate', function(request, response){
 });
 
 
+
+manage.get('/deck/create', function(request,response){
+    response.render('deckNew');
+});
+manage.post('/deck/create/:deckName', function(request,response){
+  if (fs.existsSync(appRoot + '/public/data/decks/' + request.params.deckName + '.json')) {
+      response.status(409);
+      response.send("File Already Exists");
+  } else {
+      try{
+        let deck = request.body;
+        var writeResult = fs.writeFileSync(appRoot + '/public/data/decks/' + request.params.deckName + '.json', JSON.stringify(deck, null, 2), function(err) {
+          if (err) {
+            log.info("deck/create write error");
+            throw new Error("/deck/create, could not create Deck", err);
+          } 
+        });
+      } catch (err) {
+        log.info("deck/create write catch error"+ err);
+        response.status(500);
+        response.send("deck/create write catch error");
+      }   
+      response.status(201);
+      response.send("File Created");
+
+  }
+});
+
+
+
 async function duplicateStudy (sSource, sNew) {
   try { 
     //validate sNewURL
@@ -196,7 +223,6 @@ async function duplicateStudy (sSource, sNew) {
       throw (err);
   }
 }
-
   function copyFile(sourceURL, newURL) {
   return new Promise((resolve, reject) => {
     // exist already
