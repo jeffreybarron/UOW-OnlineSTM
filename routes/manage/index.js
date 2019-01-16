@@ -36,13 +36,15 @@ manage.use(sanitizer());
 
 
 manage.get('/', function(request,response){
-  log.info("first bunyan");
+  log.info("Rendered /manage/");
   response.render(appRoot + '/routes/manage/index');
 });
 manage.get('/guide', function(request,response){
+  log.info("Rendered /guide/");
   response.render(appRoot + '/routes/manage/guide');
 });
 manage.get('/study/new', function(request, response) {
+  log.info("/study/new/, 1");
   let fileList = fs.readdirSync('public/data/decks/');
   let files = []
   for (let i = 0; i < fileList.length; i++) {
@@ -71,39 +73,61 @@ manage.post('/study/create', function(request, response) {
     // console.log(oStudyConfig);
 
     if (fs.existsSync(appRoot + 'public/data/studies/' + request.body.studyName + '.json')) {
+      log.info("/study/create, 3, " + request.body.studyName + " file already exists");
       response.status(409);
       response.send("File Already Exists");
       response.end();
     } else {
       //Create the completion code file
+      log.info("/study/create, 4, Forming completionCode file content");
       let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' + request.body.completionCode + '","completionCode":"' + request.body.completionCode + '"}'
-      sCompletionFile = JSON.parse(sCompletionFile);
-      var writeResult = fs.writeFileSync(appRoot + '/data/codes/' + oStudyConfig.studyName + '_code.json', JSON.stringify(sCompletionFile,null,2), function(err) {
-        if (err) throw new Error("/study/create, could not process completionCode\n", err);
-        log.info("completionCode File Error");
+      
+      log.info("/study/create, 5, convert it to JSON");
+      let jCompletionFile = JSON.parse(sCompletionFile);
+      
+      log.info("/study/create, 6, Write the codeFile to server");
+      log.info("/study/create, 6.1, " + appRoot);
+      log.info("/study/create, 6.2, " + oStudyConfig.studyName);
+      
+      let sFileURL = appRoot + '/data/codes/' + oStudyConfig.studyName + '_code.json'
+      log.info("/study/create, 6.3, " + sFileURL);
+      var writeResult = fs.writeFileSync(sFileURL, JSON.stringify(jCompletionFile,null,2), function(err) {
+        if (err) {
+          log.info("/study/create, 7, there has been an error writing file to server",err);
+          throw new Error("/study/create, could not process completionCode\n", err);
+        }
       });
+      log.info("/study/create, 8, codeFile Created");
       delete oStudyConfig["completionCode"];
 
-      //create Conset File
+      //create Consent File
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '_consent.html', oStudyConfig["consentCopy"], function(err) {
-        if (err) throw new Error("/study/create, could not process consentCopy\n", err);
-        log.info("conset File Error");
+        if (err) {
+          log.info("/study/create, 9, Error writing Consent file: ",err);
+          throw new Error("/study/create, could not process consentCopy\n", err);
+        }
   		});
+      log.info("/study/create, 10, consentFile created");
       delete oStudyConfig["consentCopy"];
 
       //create Instruction File
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '_instructions.html', oStudyConfig["instructionCopy"], function(err) {
-        if (err) throw "/study/create, could not process instructionCopy\n", err;
-        log.info("Instruction File Error");
+        if (err) {
+          log.info("/study/create, 11, Error writing instructionFile: " ,err)
+          throw "/study/create, could not process instructionCopy\n", err;
+        }
   		});
+      log.info("/study/create, 12, InstuctionFile Created");
       delete oStudyConfig["instructionCopy"];
 
       //Create the all important studyConfig file
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '.json', JSON.stringify(oStudyConfig,null,2), function(err) {
-        if (err) throw new Error("/study/create, could not create study file\n", err);
-        log.info("Config File Error");
+        if (err) {
+          log.info("/study/create, 13, Error writing StudyConfig" ,err)
+          throw new Error("/study/create, could not create study file\n", err);
+        }
   		});
-
+      log.info("/study/create, 14, configFile created");
       response.status(201);
       response.send("File Created");
     }
