@@ -4,15 +4,130 @@
   <h2>Research Guide</h2>
     <p>This page is for researchers only. It provides basic information about key features.</p>
   <h3>Creating a Study</h3>
-    <h4>Study Name</h4>
-    <h4>studybackgroundColor</h4>
-      <p><em>Note:</em> This software is not internationalized, thus U.S.A spelling has been used for words relevent to software design</p>
-    <h4>studyTextColor</h4>
-    <h4>Pick Cards</h4>
-    <h4>Shuffle deck order</h4>
-    <h4>Shuffle All (Dealers Deck)</h4>
-    <h4>setSizes Array</h4>
-    <h4>refreshRateMS</h4>
+    <h4>Syntax warnings</h4>
+    <p><em>In this solution, you must follow the template and these rules strictly or your study will NOT work.</em></p>
+    <ul>
+      <li>Do NOT use single or double quotes ever; ‘ or “</li>
+      <li>DO NOT use non-english characters</li>
+      <li>YOU MAY safetly use character from the english alphabet, numbers and the minus symbol</li>
+      <li>Arrays are comma, but note, the last item in array has no closing comma</li>
+      <li>{} represents a JSON object, containing key:value pairs or key:array pairs</li>
+      <ul>
+        <li>“key”:”value”</li>
+        <li>“key”:[1,2,3,]</li>
+      </ul>
+      <li>An array can contain JSON Objects,strings or numbers</li>
+      <ul>
+        <li>[“key”:[{“key”:”value”},1,”hello”,3,{“key”:”value”}]</li>
+      </ul>
+    </ul>
+
+    <h4>Study Fields</h4>
+    <table class="table table-striped">
+      <thead>
+        <th>Field Name</th>
+        <th>Description</th>
+        <th>Comment</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>studyName</td>
+          <td>This is the name you will give the study in PROLIFIC</td>
+          <td>No Spaces or special characters, must be alphanumeric charaters only and less than 24 characters in lengeth.
+You may use minus - as a divider
+Recommended
+[international date]-[username]-[sequence]
+e.g
+20181117-SJR351-STM011a
+</td>
+        </tr>
+        <tr>
+          <td>studybackgoudColor</td>
+          <td>The page background color for start, between sets and end of the study</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>refreshRateMS</td>
+          <td>number of milliseconds between stimulus changes</td>
+          <td>Must be a number, do not put it in quotes.</td>
+        </tr>
+        <tr>
+          <td>shuffleDecks</td>
+          <td>false: your decks will be presented in the order you list in the deckConfiguration key:array
+true: your decks will be shuffled for everynew participant on every visit
+</td>
+          <td>Must be a value or true or false only.
+Do not use quotes for this key:value
+Lowercase only. 
+</td>
+        </tr>
+        <tr>
+          <td>shuffleAll</td>
+          <td>false: Does not shuffle the dealers deck of all cards prior to dealing them into each stimulus set.
+true: shuffles all cards in the dealers deck prior to dealing them into stimulus sets
+</td>
+          <td>Must be a value or true or false only.
+Do not use quotes for this key:value
+Lowercase only.
+</td>
+        </tr>                        
+        <tr>
+          <td>setSizes</td>
+          <td>An array or numbers representing both how many sets you want to show the participant and the size of each set.</td>
+          <td>This summation of numbers in the set size must equal the summation of pickQty from all decks in the deckConfiguration</td>
+        </tr>
+        <tr>
+          <td>deckConfiguration</td>
+          <td>An array of JSON objects containing 3 key:value pairs 
+deckName
+pickQty
+sampleMode
+</td>
+          <td>Decks are wrapped in {} seperated by comma’s</td>
+        </tr>
+        <tr>
+          <td>deckName</td>
+          <td>The name of a file containing a list of stimuli</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>pickQty</td>
+          <td>How many cards do you wish to use from this deck</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>sampleMode</td>
+          <td>sequential: 
+pick stimuli in the order provided within the [deckName].json file
+simple: 
+Random Sample (no replacement)
+shuffle the deck and pick the cards off the front of the deck removing them as you go from [deckName].json file
+ie no card can be picked twice
+
+replacement:
+Random Sample (with replacement)
+Pick as many cards as needed from random locations from [deckName].json
+</td>
+          <td>Lowercase words you have only three options and they must be enclosed in double quotes
+“sequential”
+“simple”
+Or 
+“replace”
+
+
+Shuffle loosely based on 
+-Fisher–Yates shuffle
+
+Simple sample loosely based on 
+-Sunter, A. B. (1977). 
+</td>
+        </tr>
+      </tbody>
+    </table>                                                       
+
+      </tbody>
+    </table>
+
     <h4>consentCopy</h4>
       <p>Copy; "something considered printable or newsworthy —used without an article" -  https://www.merriam-webster.com/dictionary/copy</p>
     <h4>instructionCopy</h4>
