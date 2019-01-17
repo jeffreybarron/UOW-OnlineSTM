@@ -16,3 +16,4 @@ Associate Professor Leonie Miller
 1.0.2 - Jeffrey Barron (jeffreybarron.com)
 1.1.8 - Jeffrey Barron
 1.3.1 - Jeffrey Barron
+1.4.4 - Jeffrey Barron
