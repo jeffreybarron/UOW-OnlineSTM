@@ -1,6 +1,6 @@
 {
   "apps" : [{
-  "name": "UOW Cognition Labb",
+  "name": "UOW Cognition Lab",
   "script": "./app.js",
   "exec_mode": "cluster",
   "watch": true,
