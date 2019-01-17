@@ -15,7 +15,7 @@ const log = bunyan.createLogger({
   streams: [
     {
       level: 'debug',
-      path: appRoot + '/data/logs/manage_logs.json'
+      path: appRoot + '/data/logs/manage-logs.json'
     },
     {
       level: 'info',
@@ -36,24 +36,25 @@ manage.use(sanitizer());
 
 
 manage.get('/', function(request,response){
-  log.info("Rendered /manage/");
+  log.info("Rendered /manage/",request.ip);
   response.render(appRoot + '/routes/manage/index');
 });
 manage.get('/guide', function(request,response){
-  log.info("Rendered /guide/");
+  log.info("Rendered /guide/",request.ip);
   response.render(appRoot + '/routes/manage/guide');
 });
 manage.get('/study/new', function(request, response) {
-  log.info("/study/new/, 1");
+  log.info("GET /study/new/, Requested",request.ip);
   let fileList = fs.readdirSync('public/data/decks/');
   let files = []
   for (let i = 0; i < fileList.length; i++) {
       files.push({ deckName : fileList[i], available : mUtils.getDeckLength('public/data/decks/' + fileList[i]) })
   }
+  log.info("GET /study/new/, Rendered",request.ip);
   response.render('studyNew', {files: files});
 });
 manage.post('/study/create', function(request, response) {
-    log.info("/study/create, Begin");
+    log.info("POST /study/create, requested",request.ip);
     log.info(request.body);
   //try {
     //a rudimentary check, if there are exactly 7 query string objects
@@ -73,66 +74,67 @@ manage.post('/study/create', function(request, response) {
     // console.log(oStudyConfig);
 
     if (fs.existsSync(appRoot + 'public/data/studies/' + request.body.studyName + '.json')) {
-      log.info("/study/create, 3, " + request.body.studyName + " file already exists");
+      log.info("POST /study/create, 3, " + request.body.studyName + " file already exists",request.ip);
       response.status(409);
       response.send("File Already Exists");
       response.end();
     } else {
       //Create the completion code file
-      log.info("/study/create, 4, Forming completionCode file content");
+      log.info("POST /study/create, 4, Forming completionCode file content",request.ip);
       let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' + request.body.completionCode + '","completionCode":"' + request.body.completionCode + '"}'
       
-      log.info("/study/create, 5, convert it to JSON");
+      log.info("POST /study/create, 5, convert it to JSON");
       let jCompletionFile = JSON.parse(sCompletionFile);
       
-      log.info("/study/create, 6, Write the codeFile to server");
-      log.info("/study/create, 6.1, " + appRoot);
-      log.info("/study/create, 6.2, " + oStudyConfig.studyName);
+      log.info("POST /study/create, 6, Write the codeFile to server", request.ip);
+      log.info("POST /study/create, 6.1, " + appRoot,request.ip);
+      log.info("POST /study/create, 6.2, " + oStudyConfig.studyName, request.ip);
       
       let sFileURL = appRoot + '/data/codes/' + oStudyConfig.studyName + '_code.json'
-      log.info("/study/create, 6.3, " + sFileURL);
+      log.info("POST /study/create, 6.3, " + sFileURL, request.ip);
       var writeResult = fs.writeFileSync(sFileURL, JSON.stringify(jCompletionFile,null,2), function(err) {
         if (err) {
-          log.info("/study/create, 7, there has been an error writing file to server",err);
+          log.info("POST /study/create, 7, there has been an error writing file to server",err);
           throw new Error("/study/create, could not process completionCode\n", err);
         }
       });
-      log.info("/study/create, 8, codeFile Created");
+      log.info("POST /study/create, 8, codeFile Created", request.ip);
       delete oStudyConfig["completionCode"];
 
       //create Consent File
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '_consent.html', oStudyConfig["consentCopy"], function(err) {
         if (err) {
-          log.info("/study/create, 9, Error writing Consent file: ",err);
+          log.info("POST /study/create, 9, Error writing Consent file: ",err);
           throw new Error("/study/create, could not process consentCopy\n", err);
         }
   		});
-      log.info("/study/create, 10, consentFile created");
+      log.info("POST /study/create, 10, consentFile created", request.ip);
       delete oStudyConfig["consentCopy"];
 
       //create Instruction File
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '_instructions.html', oStudyConfig["instructionCopy"], function(err) {
         if (err) {
-          log.info("/study/create, 11, Error writing instructionFile: " ,err)
+          log.info("POST /study/create, 11, Error writing instructionFile: " ,err)
           throw "/study/create, could not process instructionCopy\n", err;
         }
   		});
-      log.info("/study/create, 12, InstuctionFile Created");
+      log.info("POST /study/create, 12, InstuctionFile Created", request.ip);
       delete oStudyConfig["instructionCopy"];
 
       //Create the all important studyConfig file
       var writeResult = fs.writeFileSync(appRoot + '/public/data/studies/' + oStudyConfig.studyName + '.json', JSON.stringify(oStudyConfig,null,2), function(err) {
         if (err) {
-          log.info("/study/create, 13, Error writing StudyConfig" ,err)
+          log.info("POST /study/create, 13, Error writing StudyConfig" ,err)
           throw new Error("/study/create, could not create study file\n", err);
         }
   		});
-      log.info("/study/create, 14, configFile created");
+      log.info("POST /study/create, 14, configFile created", request.ip);
       response.status(201);
       response.send("File Created");
     }
 });
 manage.get('/study/list', function(request, response) {
+  log.info("GET /study/list requested", request.ip);
   let fileList = fs.readdirSync('public/data/studies/');
   let files = []
   for (let i = 0; i < fileList.length; i++) {
@@ -141,12 +143,15 @@ manage.get('/study/list', function(request, response) {
         files.push({ studyName : url.name })
       }  
   }
+  log.info("GET /study/list rendered", request.ip);
   response.render('studyList', {files: files});
 });
 manage.get('/preflight', function(request, response) {
-	response.render('preflight');
+	log.info("GET /preflight/ rendered", request.ip)
+  response.render('preflight');
 });
 manage.get('/study/duplicate', function(request, response){
+  log.info("GET /study/duplicate requested", request.ip)
   let fileList = fs.readdirSync('public/data/studies/');
   let files = []
   for (let i = 0; i < fileList.length; i++) {
@@ -155,9 +160,11 @@ manage.get('/study/duplicate', function(request, response){
         files.push({ studyName : thisFile.name })
       }  
   }
+  log.info("GET /study/duplicate rendered", request.ip)
   response.render('duplicate', {files: files});
 });
 manage.post('/study/duplicate', function(request, response){
+  log.info("POST /study/duplicate requested", request.ip)
   // we are going to use await for this.
   let sSource = request.body.source_studyName
   let sNew = request.body.new_studyName
@@ -168,12 +175,13 @@ manage.post('/study/duplicate', function(request, response){
       .then((resolved) => {
       
       log.info(resolved);
+      log.info("POST /study/duplicate Successful", request.ip);
       response.render('duplicate_response', {files: resolved});
       response.end;
     })
       .catch ((error) => {
       let txt = error.message;
-      log.info("Post /study/duplicate, failed", txt);
+      log.info("POST /study/duplicate, failed", txt);
       response.render('error', {err: txt});
       response.end;
 
@@ -183,22 +191,23 @@ manage.post('/study/duplicate', function(request, response){
     // console.dir(result)
 
     } catch (error) {
-    response.status = 500
+      log.info("POST /study/duplicate, unhandled error", txt);
+      response.status = 500
       response.render('error', {err: error});
-    response.end;
+      response.end;
   } 
 
   // console.log("Wait what!! Im Asynchronus what do you expect!!");
 
 });
-
-
-
 manage.get('/deck/create', function(request,response){
-    response.render('deckNew');
+  log.info("POST /deck/create, rendered",request.ip);
+  response.render('deckNew');
 });
 manage.post('/deck/create/:deckName', function(request,response){
+  log.info("POST /deck/create/:" + request.params.deckName + ' requested', request.ip);
   if (fs.existsSync(appRoot + '/public/data/decks/' + request.params.deckName + '.json')) {
+      log.info("POST /deck/create/:" + request.params.deckName + ', File already exists error', request.ip);
       response.status(409);
       response.send("File Already Exists");
   } else {
@@ -215,6 +224,7 @@ manage.post('/deck/create/:deckName', function(request,response){
         response.status(500);
         response.send("deck/create write catch error");
       }   
+      log.info("POST /deck/create/:" + request.params.deckName + ' SEND File Created', request.ip);
       response.status(201);
       response.send("File Created");
 

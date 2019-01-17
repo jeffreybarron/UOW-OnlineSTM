@@ -14,7 +14,7 @@ const log = bunyan.createLogger({
   streams: [
     {
       level: 'debug',
-      path: appRoot + '/data/logs/ostm_logs.json'
+      path: appRoot + '/data/logs/ostm-logs.json'
     },
     {
       level: 'info',
@@ -35,7 +35,7 @@ router.use(sanitizer());
 
 
 router.get('/participant/:studyName', function(request, response, next) {
-	log.info("Render, participant for:" + request.params.studyName);
+	log.info("GET /participant/:" + request.params.studyName + ', requested', request.ip);
 	try {
 		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
 		if (fs.existsSync(sURL)) {
@@ -52,6 +52,7 @@ router.get('/participant/:studyName', function(request, response, next) {
 });
 
 router.get('/consent/:studyName', function(request, response, next) {
+	log.info("GET /consent/:" + request.params.studyName + ', requested', request.ip);
 	try {
 		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
 		if (fs.existsSync(sURL)) {
@@ -68,6 +69,7 @@ router.get('/consent/:studyName', function(request, response, next) {
 });
 
 router.get('/instructions/:studyName', function(request, response, next) {
+	log.info("GET /instructions/:" + request.params.studyName + ', requested', request.ip);
 	try {
 		let sURL = appRoot + '/public/data/studies/' + request.params.studyName + '.json'
 		if (fs.existsSync(sURL)) {
@@ -88,6 +90,7 @@ router.get('/instructions/:studyName', function(request, response, next) {
 });
 
 router.get('/study/:studyName', function(request, response, next) {
+	log.info("GET /study/:" + request.params.studyName + ', requested', request.ip);
 	let oInstance = {"studyName": request.params.studyName,
 		"PROLIFIC_PID":request.query.PROLIFIC_PID,
 		"STUDY_ID": request.query.STUDY_ID,
@@ -114,7 +117,8 @@ router.get('/study/:studyName', function(request, response, next) {
 });
 
 router.post('/results', function(request,response, next) {
-  try {
+  log.info("POST /results/ requested", request.ip);
+	try {
 		let	studyName = request.body.studyName;
 		let participantID = request.body.PROLIFIC_PID;
 		let	studyID = request.body.STUDY_ID;
@@ -140,6 +144,7 @@ router.post('/results', function(request,response, next) {
 });
 
 router.get('/sendCode/:studyName', function(request, response) {
+	log.info("GET /sendCode/:" + request.params.studyName + ', requested', request.ip);
 	var errLocation = "get.sendCode/:studyName', "
 	//the purpose of the this route\page is to collect the completion URL
 	try {

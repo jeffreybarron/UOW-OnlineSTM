@@ -1,13 +1,17 @@
 {
   "apps" : [{
-    "name"        : "UOW Online STM",
-    "script"      : "./app.js",
-    "exec_mode"   : "cluster",
-    "watch"       : true,
-    "instances"   : "max",
-    "env_production" : {
-       "NODE_ENV": "production",
-       "PORT": "3000"
+  "name": "UOW Cognition Labb",
+  "script": "./app.js",
+  "exec_mode": "cluster",
+  "watch": true,
+  "instances": "max",
+  "env": {
+      "NODE_ENV": "production",
+      "PORT": "3000"
+    },
+  "env_production" : {
+       "NODE_ENV" : "production",
+       "PORT" : "3000"
       }
   }]
 }

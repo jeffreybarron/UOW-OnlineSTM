@@ -5,19 +5,27 @@ const express       = require('express');
 const app           = express();
 const bodyParser    = require('body-parser');
 const favicon       = require('serve-favicon');
-
 const path          = require('path');
 global.appRoot      = path.resolve(__dirname);
 const routes        = require('./routes');
-// const bunyan        = require('bunyan');
+const bunyan        = require('bunyan');
 
-// const logger = bunyan.createLogger({
-//   name: "UOW_CogLab",
-//   level: "info",
-//   stream: process.stderr,
-//   src: true,
-// });
+const log = bunyan.createLogger({
+  name: "UOW-CogLab",
+  streams: [
+    {
+      level: 'debug',
+      path: appRoot + '/data/logs/app-logs.json'
+    },
+    {
+      level: 'info',
+      stream: process.stdout
+    }
+  ],
+  src: true,
+});
 
+app.set('trust proxy',true); //https://expressjs.com/en/guide/behind-proxies.html
 app.set('view engine', 'ejs');
 app.set('views', [
   __dirname + '/views',
@@ -42,6 +50,7 @@ app.use(bodyParser.json()); // for parsing application/json
 // });
 
 const server = app.listen(3000, () => {
+  log.info("UOW-Coglab started listening on " + server.address().port);
   console.log('server is running at %s .', server.address().port);
 });
 

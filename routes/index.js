@@ -16,7 +16,7 @@ const log = bunyan.createLogger({
   streams: [
     {
       level: 'debug',
-      path: appRoot + '/data/logs/routes_logs.json'
+      path: appRoot + '/data/logs/routes-logs.json'
     },
     {
       level: 'info',
@@ -37,7 +37,7 @@ router.use(favicon(appRoot                          + '/public/static/favicon.ic
 router.get('/', function(request, response) {
     //Home Page
     response.render('index');
-    log.info('home.rendered');
+    log.info('GET / (HOME) rendered', request.ip);
 });
 
 
@@ -54,6 +54,7 @@ router.get('*', function(request, response) {
         ", source:" + request.ip +
         ", URL:" + request.originalUrl
 
+    log.info('Client IP:' + request.ip + ' requested an unhandled page:' + request.originalUrl)
     fs.appendFile(appRoot + '/data/logs/UnhandledPageCalls.log', sLog + "\r\n", function (err) {
         if (err) console.log(err);
     });
