@@ -90,6 +90,9 @@ q:)---changes in 1.4.1-workingcopy
 q:)---changes in 1.4.2-workingcopy
 -feature add, Deck Creator pages
 
+q:)---changes in 1.4.3-Jeffcopy
+-improved logging
+
 
 TODO
 ====
