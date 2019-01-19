@@ -3,7 +3,6 @@
   "name": "UOW Cognition Lab",
   "script": "./app.js",
   "exec_mode": "cluster",
-  "watch": true,
   "instances": "max",
   "env": {
       "NODE_ENV": "production",
