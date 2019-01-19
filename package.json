@@ -18,5 +18,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jeff@jeffreybarron.com",
-  "license": "ISC"
+  "license": "ISC",
+  "jshintConfig":{
+    "browser" : true
+  }
 }

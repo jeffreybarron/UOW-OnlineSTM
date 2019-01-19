@@ -1,3 +1,5 @@
+"use strict";
+
 //this var is for the new Study
 var studyName = document.getElementById("studyName");
 //this var is the source studyName in the table for the user to copy.
@@ -17,32 +19,31 @@ var deckConfiguration = document.getElementById("deckConfiguration");
 
 
 var pageHandler = main();
+
+
+
 function main(){
   //console.log("main on load function");
   var oData = upDateTable(document.getElementById("source_studyName").firstElementChild.text);
-  
 }
-
 function updateOnChange (){
   console.log("Selected: ", document.getElementById("source_studyName").value);
   var oData = upDateTable(document.getElementById("source_studyName").value);
-
 }
-
 function upDateTable(studyName) {
-  let sUrl = '/data/studies/'+ studyName
+  let sUrl = '/data/studies/'+ studyName;
 
     //get study details, but ignore copy 
     getFile(sUrl + '.json').then(function(configFile){
-      oStudyConfig = configFile
-      studybackgroundColor.innerText = oStudyConfig.studybackgroundColor
+      var oStudyConfig = configFile;
+      studybackgroundColor.innerText = oStudyConfig.studybackgroundColor;
       console.log("oStudyConfig.studyName: ",oStudyConfig.studyName);
-      currentStudyName.innerText = oStudyConfig.studyName 
-      studyTextColor.innerText = oStudyConfig.studyTextColor
-      shuffleDecks.innerText = oStudyConfig.shuffleDecks
-      shuffleAll.innerText = oStudyConfig.shuffleAll
-      setSizes.innerText = oStudyConfig.setSizes
-      refreshRateMS.innerText = oStudyConfig.refreshRateMS
+      currentStudyName.innerText = oStudyConfig.studyName; 
+      studyTextColor.innerText = oStudyConfig.studyTextColor;
+      shuffleDecks.innerText = oStudyConfig.shuffleDecks;
+      shuffleAll.innerText = oStudyConfig.shuffleAll;
+      setSizes.innerText = oStudyConfig.setSizes;
+      refreshRateMS.innerText = oStudyConfig.refreshRateMS;
       deckConfiguration.innerHTML = JSON.stringify(oStudyConfig.deckConfiguration, undefined, 2);
 
     }).catch(function(err) {
@@ -78,5 +79,5 @@ function getFile(url) {
     // Make the request
     xmlHttp.send();
 
-  })
+  });
 }

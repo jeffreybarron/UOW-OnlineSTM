@@ -1,0 +1,18 @@
+{
+  "studyName": "20190117-stu456-stroop01",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "setSizes": [
+    2
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "deck03.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    }
+  ],
+  "shuffleDecks": false,
+  "shuffleAll": false,
+  "refreshRateMS": 250
+}

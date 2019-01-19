@@ -36,25 +36,25 @@ manage.use(sanitizer());
 
 
 manage.get('/', function(request,response){
-  log.info("Rendered /manage/",request.ip);
+  log.info("Rendered /manage/ for IP:" + request.ip + " using: " + request.headers['user-agent']);
   response.render(appRoot + '/routes/manage/index');
 });
 manage.get('/guide', function(request,response){
-  log.info("Rendered /guide/",request.ip);
+  log.info("Rendered /guide/ for IP:" + request.ip + " using: " + request.headers['user-agent']);
   response.render(appRoot + '/routes/manage/guide');
 });
 manage.get('/study/new', function(request, response) {
-  log.info("GET /study/new/, Requested",request.ip);
+  log.info("GET /study/new/, Requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
   let fileList = fs.readdirSync('public/data/decks/');
   let files = []
   for (let i = 0; i < fileList.length; i++) {
       files.push({ deckName : fileList[i], available : mUtils.getDeckLength('public/data/decks/' + fileList[i]) })
   }
-  log.info("GET /study/new/, Rendered",request.ip);
+  log.info("GET /study/new/, Rendered for IP:" + request.ip);
   response.render('studyNew', {files: files});
 });
 manage.post('/study/create', function(request, response) {
-    log.info("POST /study/create, requested",request.ip);
+    log.info("POST /study/create, requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
     log.info(request.body);
   //try {
     //a rudimentary check, if there are exactly 7 query string objects
@@ -86,7 +86,7 @@ manage.post('/study/create', function(request, response) {
       log.info("POST /study/create, 5, convert it to JSON");
       let jCompletionFile = JSON.parse(sCompletionFile);
       
-      log.info("POST /study/create, 6, Write the codeFile to server", request.ip);
+      log.info("POST /study/create, 6, Write the codeFile to server for IP:" + request.ip + " using: " + request.headers['user-agent']);
       log.info("POST /study/create, 6.1, " + appRoot,request.ip);
       log.info("POST /study/create, 6.2, " + oStudyConfig.studyName, request.ip);
       
@@ -134,7 +134,7 @@ manage.post('/study/create', function(request, response) {
     }
 });
 manage.get('/study/list', function(request, response) {
-  log.info("GET /study/list requested", request.ip);
+  log.info("GET /study/list requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
   let fileList = fs.readdirSync('public/data/studies/');
   let files = []
   for (let i = 0; i < fileList.length; i++) {
@@ -147,11 +147,11 @@ manage.get('/study/list', function(request, response) {
   response.render('studyList', {files: files});
 });
 manage.get('/preflight', function(request, response) {
-	log.info("GET /preflight/ rendered", request.ip)
+	log.info("GET /preflight/ rendered for IP:" + request.ip + " using: " + request.headers['user-agent']);
   response.render('preflight');
 });
 manage.get('/study/duplicate', function(request, response){
-  log.info("GET /study/duplicate requested", request.ip)
+  log.info("GET /study/duplicate requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
   let fileList = fs.readdirSync('public/data/studies/');
   let files = []
   for (let i = 0; i < fileList.length; i++) {
@@ -164,7 +164,7 @@ manage.get('/study/duplicate', function(request, response){
   response.render('duplicate', {files: files});
 });
 manage.post('/study/duplicate', function(request, response){
-  log.info("POST /study/duplicate requested", request.ip)
+  log.info("POST /study/duplicate requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
   // we are going to use await for this.
   let sSource = request.body.source_studyName
   let sNew = request.body.new_studyName
@@ -201,11 +201,11 @@ manage.post('/study/duplicate', function(request, response){
 
 });
 manage.get('/deck/create', function(request,response){
-  log.info("POST /deck/create, rendered",request.ip);
+  log.info("POST /deck/create, rendered for IP:" + request.ip + " using: " + request.headers['user-agent']);
   response.render('deckNew');
 });
 manage.post('/deck/create/:deckName', function(request,response){
-  log.info("POST /deck/create/:" + request.params.deckName + ' requested', request.ip);
+  log.info("POST /deck/create/:" + request.params.deckName + " requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
   if (fs.existsSync(appRoot + '/public/data/decks/' + request.params.deckName + '.json')) {
       log.info("POST /deck/create/:" + request.params.deckName + ', File already exists error', request.ip);
       response.status(409);

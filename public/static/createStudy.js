@@ -49,7 +49,7 @@ function createStudy() {
 
 	  //3- build query stringify, ie custom serialize
 		// console.dir(oStudyConfig);
-		let created = true
+		let created = true;
 		console.log("created:" + created);
 		created = studyPOST(oStudyConfig);
  		console.log("created:" + created);
@@ -59,7 +59,7 @@ function createStudy() {
 		if (created) {
 			alert("Study Created!\n\nWe suggest you, click ok, and leave this page open until you've finished setting up.");
 		}
-		return created
+		return created;
 
 	} catch (err) {
 		alert("createStudy ERROR: " + err);
@@ -70,10 +70,10 @@ function createStudy() {
 
 function studyPOST(oStudyConfig) {
   try {
-		console.log("studyPost, Begin")
-	  let errMsg = "studyPOST, start"
+		console.log("studyPost, Begin");
+	  let errMsg = "studyPOST, start";
 	  let data = JSON.stringify(oStudyConfig, null, 2);
-		let sPath = "create"
+		let sPath = "create";
 		let xmlHttp = new XMLHttpRequest;
     xmlHttp.open("POST", sPath, true);
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
@@ -83,30 +83,30 @@ function studyPOST(oStudyConfig) {
     xmlHttp.send(data);
      // console.log("sent now wait");
     xmlHttp.onreadystatechange = function() {
-      errMsg = "studyPOST, onReadyStateChange, "
+      errMsg = "studyPOST, onReadyStateChange, ";
       if (xmlHttp.readyState == 4 && xmlHttp.status == 201) {
 				//alert("studyPOST, Study Created");
-				return true
+				return true;
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 404){
 				alert("A required file on the server was not found, contact your supervisor");
-				return false
+				return false;
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 409){
 				alert("You must choose another studyName, this one is already in use");
-				return false
+				return false;
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 500){
 				alert("Server returned a general error state, go tell mum.");
-				return false
+				return false;
 			} else {
 				//alert("studyPOST, Error at server: xmlHttp.readyState: " + xmlHttp.readyState + ", xmlHttp.Status: " + xmlHttp.status);
 			}
-		}
+		};
 		//console.log("xmlHttp.readyState:", xmlHttp.readyState)
 	} catch (err) {
-		errMsg = "studyPOST, Error on Browser: " + err
+		let errMsg = "studyPOST, Error on Browser: " + err;
 		alert(errMsg);
-    return false
+    return false;
   } finally {
-		return true
+		return true;
 	}
 
 }
@@ -116,8 +116,7 @@ function rejectBlanks(element)	{
 	switch(element.value){
 			case "":
 			case null:
-					throw element.id + ": must contain valid data, blank or empty fields are not permitted."
-					break;
+					throw element.id + ": must contain valid data, blank or empty fields are not permitted.";
 			default:
 					return element.value;
 	}
@@ -140,7 +139,7 @@ function isTrue(value){
     }
 }
 function getDeckArray(form,setSizes) {
-  let newArray = []
+  let newArray = [];
   let deckNames = form.elements["deckConfiguration[deckName]"];
 
 	// loop through list of radio buttons, build an array of decks chosen
@@ -156,7 +155,7 @@ function getDeckArray(form,setSizes) {
 			continue;
 		} else {
 			// console.log(deckNames[i].value + ':' + pickQty[i].value);
-			let sNewDeck = '{"deckName":"","pickQty":"","sampleMode":""}'
+			let sNewDeck = '{"deckName":"","pickQty":"","sampleMode":""}';
 			sNewDeck = JSON.parse(sNewDeck);
 			sNewDeck.deckName = deckNames[i].value;
 			sNewDeck.pickQty = parseInt(pickQty[i].value);
@@ -174,13 +173,17 @@ function getDeckArray(form,setSizes) {
 			// console.log("accumulator:" + accumulator, "val:" + val);
 			return accumulator + val;
 	}, 0);
-	if (sumDeckSize < 1){ throw "Wait! What? You can't do a study with no cards?! "}
+	if (sumDeckSize < 1){ 
+    throw "Wait! What? You can't do a study with no cards?! ";
+  }
 
 	//does the number of cards selected in all decks equal the setSizes total?
 	let sumSetSizes = setSizes.reduce((accumulator, currentValue) => {
 			return accumulator + currentValue;
 	}, 0);
-	if (sumDeckSize != sumSetSizes){ throw "Mate, Mate, Maaaate! hold up cobba!\n\n (Sum of picked cards) needs to equal (sum of setSizes)!" }
+	if (sumDeckSize != sumSetSizes){ 
+    throw "Mate, Mate, Maaaate! hold up cobba!\n\n (Sum of picked cards) needs to equal (sum of setSizes)!"; 
+  }
 
   return newArray;
 
@@ -194,9 +197,9 @@ function cleanSetsArray(sText){
     sText = sText.replace(/(^,)|(,$)/g, "");
     //remove null elements from string e.g consecutive commas 4,,4 = 4,4
     sText = sText.replace(/\,+/g, ',');
-		sText = JSON.parse("[" + sText + "]")
+		sText = JSON.parse("[" + sText + "]");
 		// console.log("cleanedsetus:", sText);
-		return sText
+		return sText;
 }
 function getRadioValue(form, name) {
 //https://www.dyn-web.com/tutorials/forms/radio/get-selected.php

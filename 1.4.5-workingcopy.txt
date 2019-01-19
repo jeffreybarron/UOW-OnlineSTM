@@ -93,6 +93,10 @@ q:)---changes in 1.4.2-workingcopy
 q:)---changes in 1.4.3-Jeffcopy
 -improved logging
 
+q:)---changes in 1.4.5-workingcopy
+-improved logging
+-fixed letterbox menu on manage pages
+-cleaned up some javascript
 
 TODO
 ====

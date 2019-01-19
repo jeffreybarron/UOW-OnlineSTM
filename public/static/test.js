@@ -1,7 +1,9 @@
 "use strict";
 var questionObj = document.getElementById("question");
 var answerDIV = document.getElementById("answerDIV");
+var answer = document.getElementById("answer");
 var startDIV = document.getElementById("startDIV");
+
 //var buttonStart = document.getElementById('buttonStart');
 var studyName = document.getElementById("studyName");
 var studyID = document.getElementById("STUDY_ID");
@@ -80,7 +82,7 @@ function loadInstructions() {
 		    	var researcherCopy = document.getElementById("researcherCopy");
 		    	researcherCopy.innerHTML = this.responseText;
 		    }
-		}
+		};
 	} catch (err) {
 		//alert("No Study ID specified in URL, cannot proceed!");
 		setProperties(researcherCopy, err, "","");
@@ -99,7 +101,7 @@ function loadConsent() {
 		        var researcherCopy = document.getElementById("researcherCopy");
 		        researcherCopy.innerHTML = this.responseText;
 		    }
-		}
+		};
 	} catch (err) {
 		//alert("No Study ID specified in URL, cannot proceed!");
 		setProperties(researcherCopy, err, "","");
@@ -108,14 +110,14 @@ function loadConsent() {
 }
 function loadStudy() {
 	//load config file
-	var studyURL = '/data/studies/' + studyName.getAttribute('value') + '.json'
+	var studyURL = '/data/studies/' + studyName.getAttribute('value') + '.json';
 	//console.log("studyURL: " + studyURL);
 	getFile(studyURL).then(function(configFile){
 		//console.log("configFile:");
 		//console.log(configFile);
 		//setup the configFile for this 'game'
 		//Take the parameters from the URL and put them in our new studyConfig object
-	  oStudyConfig = configFile
+	  var oStudyConfig = configFile;
 	  oStudyConfig.PROLIFIC_PID = participantID.getAttribute('value');
 	  oStudyConfig.STUDY_ID = studyID.getAttribute('value');
 	  oStudyConfig.SESSION_ID = sessionID.getAttribute('value');
@@ -186,7 +188,7 @@ function loadStudy() {
 		}
 
 		//setup sets in the config file
-		let currentStimulus = 0
+		let currentStimulus = 0;
 		let sumSetSize = oStudyConfig.setSizes.reduce(function (accumulator, currentValue) {
   			return accumulator + currentValue;}, 0);
 		//console.log("sumSetSize:" + sumSetSize);
@@ -219,7 +221,7 @@ function loadStudy() {
 		document.body.style.color = oStudyConfig.studyTextColor;
 		oStudyConfig.loadTime = getDate();
     startDIV.style.display = "block";
-	})
+	});
 }
 function pickStimulus(deck, pickQty, sampleMode) {
 	//console.log("PickStimulus Start");
@@ -239,7 +241,9 @@ function pickStimulus(deck, pickQty, sampleMode) {
 				deck = shuffleArray(deck);
 				//let sampleIndex = getRandomIntInclusive(0,deck.length);
 				for (let cardIndex = 0; cardIndex < pickQty; cardIndex++) {
-					if (cardIndex > deck.length) { throw "pick quantity exceeds deck length" }
+					if (cardIndex > deck.length) { 
+						throw "pick quantity exceeds deck length"; 
+					}
 					privArray.push(deck[cardIndex]);
 				}
 				break;
@@ -248,8 +252,10 @@ function pickStimulus(deck, pickQty, sampleMode) {
 				//theory here is just to do a random pick from the unchanged array as many times as needed
 				//the getRandomIntInclusive provides the randomness
 				for (let cardIndex = 0; cardIndex < pickQty; cardIndex++) {
-					if (cardIndex > deck.length) { throw "pick quantity exceeds deck length" }
-					let rand = getRandomIntInclusive(0,deck.length-1)
+					if (cardIndex > deck.length) { 
+						throw "pick quantity exceeds deck length"; 
+					}
+					let rand = getRandomIntInclusive(0,deck.length-1);
 					privArray.push(deck[rand]);
 				}
 				break;
@@ -257,17 +263,19 @@ function pickStimulus(deck, pickQty, sampleMode) {
 				//this is the same as the simple randomsample without the pre-shuffle, so cards are picked sequentially as
 				//provided by the deckxx.json file
 				for (let cardIndex = 0; cardIndex < pickQty; cardIndex++) {
-					if (cardIndex > deck.length) { throw "pick quantity exceeds deck length" }
+					if (cardIndex > deck.length) { 
+						throw "pick quantity exceeds deck length"; 
+					}
 					privArray.push(deck[cardIndex]);
 				}
 				break;
 			default :
-				throw mode + " sampleMode not recognised. Try simple, replace or sequential"
+				throw mode + " sampleMode not recognised. Try simple, replace or sequential";
 		}
 		return privArray;
 	} catch (err) {
 		privArray = "[" + err + "]";
-		return privArray
+		return privArray;
 	}
 }
 
@@ -296,7 +304,7 @@ function changeQuestion() {
 }
 function updateAnswers(){
 	//console.log("answer:" + answer.name);
-	var errLoc = "test.js.updateAnswer, "
+	var errLoc = "test.js.updateAnswer, ";
 	//console.log(errLoc + 'Bank:' + deckCounter + ", answer.name:" + answer.name);
 	if (answer.name < questionCounter) {
 		//console.log(errLoc + 'saving: ' + answer.value +' to ' + answer.name + ' questionCounter=' + questionCounter);
@@ -304,7 +312,7 @@ function updateAnswers(){
 		oStudyConfig.sets[deckCounter].set[answer.name].responseTime = getDate(); //load answer into json
 		oStudyConfig.sets[deckCounter].set[answer.name].response = answer.value; //load answer into json
 		answer.value = ''; //reset form for next answer
-		answer.focus()
+		answer.focus();
 		answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
 
 		//console.log(errLoc + 'Bank:' + deckCounter + ', answer.name:' + answer.name);
@@ -346,7 +354,7 @@ function updateAnswers(){
 					xmlHttp.send(data);
 					// console.log("sent now wait");
 					xmlHttp.onreadystatechange = function() {
-						errLoc = "test.js.updateAnswer, onReadyStateChange, "
+						errLoc = "test.js.updateAnswer, onReadyStateChange, ";
 			    	if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
 							console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
 							completedStudy = "PROLIFIC_PID=" + oStudyConfig.PROLIFIC_PID + "&" +
@@ -355,14 +363,14 @@ function updateAnswers(){
 
 				      setProperties(questionObj, "", "white", "black");
 					    questionObj.style.display = "none";
-							studyText.style.display = "block"
+							studyText.style.display = "block";
 							studyText.outerHTML = "<p>You must click this <a href='/ostm/sendCode/" +
-							studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>"
+							studyName.getAttribute('value') + "?" + completedStudy + "'>Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>";
 						} else {
 			      	console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
 			        // alert("Problem saving study:");
 			      }
-					}
+					};
 				} catch (err) {
 					console.log("error: " + err);
 					// alert(errLoc + "There has been a problem saving your study!, Please contact the researcher: " + err);
@@ -421,7 +429,7 @@ function setProperties(obj, textValue, textColor, textBackGroundColor){
 	//obj.style.color = textColor;
 	//obj.style.backgroundColor = textBackGroundColor;
 	document.body.style.backgroundColor = textBackGroundColor;
-	document.body.style.color = textColor
+	document.body.style.color = textColor;
 
 
 	//console.log(obj.id + ": " + textValue);
@@ -432,7 +440,7 @@ function total(arr) {
 }
 function getDate() {
     var d = new Date();
-    return d.YYYYMMDDHHMMSSMMMM()
+    return d.YYYYMMDDHHmmSSmsec();
 }
 function pad(number, length) {
     var str = '' + number;
@@ -456,13 +464,13 @@ function S4() {
     //work out what this does again
     return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 }
-Date.prototype.YYYYMMDDHHMMSSMMMM = function () {
+Date.prototype.YYYYMMDDHHmmSSmsec = function () {
     var YYYY = this.getFullYear().toString();
     var MM = pad(this.getMonth() + 1,2);
     var DD = pad(this.getDate(), 2);
     var HH = pad(this.getHours(), 2);
-    var MM = pad(this.getMinutes(), 2)
-    var ss = pad(this.getSeconds(), 2)
-    var mmmm = pad(this.getMilliseconds(),4)
-    return YYYY + MM + DD + '_' + HH + ":" + MM + ":" +  ss + "." + mmmm;
-}
+    var mm = pad(this.getMinutes(), 2);
+    var ss = pad(this.getSeconds(), 2);
+    var msec = pad(this.getMilliseconds(),4);
+    return YYYY + MM + DD + '_' + HH + ":" + mm + ":" +  ss + "." + msec;
+};
