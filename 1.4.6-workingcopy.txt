@@ -98,8 +98,14 @@ q:)---changes in 1.4.5-workingcopy
 -fixed letterbox menu on manage pages
 -cleaned up some javascript
 
+q:)---changes in 1.4.5-workingcopy
+-fixed errors arising from code cleanup
+
 TODO
 ====
+1.4.7
+-get rid of syncronous code
+
 1.5.x
 -centralise express error hangling for routes
 -change manage route to OSTM\manage

@@ -59,14 +59,14 @@ var deckName = document.getElementById("deckName");
 function tableToJson(table) { 
   var data = []; // first row needs to be headers 
   var headers = []; 
-  for (var i=0; i < table.tHead.rows[0].cells.length; i++) {
-    headers[i] = table.tHead.rows[0].cells[i].innerText.toLowerCase().replace(/ /gi,''); 
+  for (var n=0; n < table.tHead.rows[0].cells.length; n++) {
+    headers[n] = table.tHead.rows[0].cells[n].innerText.toLowerCase().replace(/ /gi,''); 
   } 
   // go through cells 
-  for (var j = 1; j < table.rows.length; i++) { 
-    var tableRow = table.rows[j]; var rowData = {}; 
-    for (var k = 0; k < tableRow.cells.length; k++) { 
-      rowData[ headers[k] ] = tableRow.cells[k].children[0].value; 
+  for (var i = 1; i < table.rows.length; i++) { 
+    var tableRow = table.rows[i]; var rowData = {}; 
+    for (var j = 0; j < tableRow.cells.length; j++) { 
+      rowData[ headers[j] ] = tableRow.cells[j].children[0].value; 
     } data.push(rowData); 
   } 
   return data; 
