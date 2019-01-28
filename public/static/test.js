@@ -21,6 +21,8 @@ var deckCounter = 0;
 var completedStudy = "";
 var allDecks = [];
 var sampledStimulus = [];
+var studyURL = ''
+var oStudyConfig;
 
 var pageHandler = main();
 function main(){
@@ -110,14 +112,14 @@ function loadConsent() {
 }
 function loadStudy() {
 	//load config file
-	var studyURL = '/data/studies/' + studyName.getAttribute('value') + '.json';
+	studyURL = '/data/studies/' + studyName.getAttribute('value') + '.json';
 	//console.log("studyURL: " + studyURL);
 	getFile(studyURL).then(function(configFile){
 		//console.log("configFile:");
 		//console.log(configFile);
 		//setup the configFile for this 'game'
 		//Take the parameters from the URL and put them in our new studyConfig object
-	  var oStudyConfig = configFile;
+	  oStudyConfig = configFile;
 	  oStudyConfig.PROLIFIC_PID = participantID.getAttribute('value');
 	  oStudyConfig.STUDY_ID = studyID.getAttribute('value');
 	  oStudyConfig.SESSION_ID = sessionID.getAttribute('value');
@@ -132,7 +134,7 @@ function loadStudy() {
 		//console.log(oStudyConfig);
 
 		//Get the list of Stimulus Files
-		let stimulusFiles = [];
+		var stimulusFiles = [];
 		for (let i = 0; i < oStudyConfig.deckConfiguration.length; i++){
 			stimulusFiles.push("/data/decks/" + oStudyConfig.deckConfiguration[i].deckName);
 		}
