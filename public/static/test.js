@@ -21,7 +21,6 @@ var deckCounter = 0;
 var completedStudy = "";
 var allDecks = [];
 var sampledStimulus = [];
-var studyURL = ''
 var oStudyConfig;
 
 var pageHandler = main();
@@ -112,7 +111,7 @@ function loadConsent() {
 }
 function loadStudy() {
 	//load config file
-	studyURL = '/data/studies/' + studyName.getAttribute('value') + '.json';
+	var studyURL = '/data/studies/' + studyName.getAttribute('value') + '.json';
 	//console.log("studyURL: " + studyURL);
 	getFile(studyURL).then(function(configFile){
 		//console.log("configFile:");
