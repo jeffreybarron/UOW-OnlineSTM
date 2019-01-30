@@ -126,6 +126,8 @@ q:)---changes in 1.5.0
 TODO
 ====
 1.5.x
+-line up the logs so they are all in the same order
+  --IP, file, function, task, msg, data
 -implement Dynamic IP Filtering to block hackers, when they show up in the logs
 -centralise express error hangling for routes
 -change manage route to OSTM\manage
