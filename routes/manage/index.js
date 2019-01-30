@@ -56,7 +56,6 @@ manage.get('/preflight', function(request, response) {
 });
 
 
-
 manage.get('/study/list', function(request, response) {
   log.info("GET /study/list requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
   const getFileList = util.promisify(fs.readdir);
@@ -78,7 +77,6 @@ manage.get('/study/list', function(request, response) {
 		response.end;
   });
 });
-
 manage.get('/study/new', function(request, response) {
   log.info("GET /study/new/, Requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
   const getFileList = util.promisify(fs.readdir);
@@ -95,7 +93,6 @@ manage.get('/study/new', function(request, response) {
   	response.render('error', {err: error.message});
   });
 });
-
 manage.get('/study/duplicate', function(request, response){
   log.info("GET /study/duplicate, Requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
   const getFileList = util.promisify(fs.readdir);
@@ -116,44 +113,6 @@ manage.get('/study/duplicate', function(request, response){
   	response.render('error', {err: error.message});
 		response.end;
   });
-});
-
-
-
-manage.post('/study/duplicate', function(request, response){
-  log.info("POST /study/duplicate requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
-  // we are going to use await for this.
-  let sSource = request.body.source_studyName;
-  let sNew = request.body.new_studyName;
-  try {
-
-    //Using Promise with Async\Await 
-    let result = duplicateStudy(sSource,sNew)
-      .then((resolved) => {
-      
-      log.info(resolved);
-      log.info("POST /study/duplicate Successful", request.ip);
-      response.render('studyDuplicate_response', {files: resolved});
-
-    })
-      .catch ((error) => {
-      let txt = error.message;
-      log.info("POST /study/duplicate, failed", txt);
-      response.render('error', {err: txt});
-
-    });
-    
-    log.trace("wow, how did we get here");
-    log.trace(result);
-
-    } catch (error) {
-      log.info("POST /study/duplicate, unhandled error", txt);
-      response.status = 500;
-      response.render('error', {err: error});
-  };
-
-  log.trace("Wait what!! Im Asynchronus what do you expect!!");
-
 });
 
 manage.post('/deck/create/:deckName', function(request, response){
@@ -186,7 +145,6 @@ async function createDeck (deckName, deck) {
     
   return [deckNotExists, writeDeck];
 };
-
 
 manage.post('/study/create', function(request, response) {
 
@@ -232,10 +190,6 @@ manage.post('/study/create', function(request, response) {
     response.end;
   }
 });
-
-
-
-
 async function createStudy (studyName, completionCode, oStudyConfig) {
   // try { 
     //declare variables
@@ -266,6 +220,36 @@ async function createStudy (studyName, completionCode, oStudyConfig) {
     return [studyNotExists, codeFile, instructionFile, configFile];
 };
 
+manage.post('/study/duplicate', function(request, response){
+  log.info("POST /study/duplicate requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
+  // we are going to use await for this.
+  let sSource = request.body.currentStudyName;
+  let sNew = request.body.new_studyName;
+  try {
+
+    //Using Promise with Async\Await 
+    let result = duplicateStudy(sSource,sNew)
+      .then((resolved) => {
+        log.info("POST /study/duplicate, Successful", resolved);
+        log.info("POST /study/duplicate, from IP:", request.ip);
+        response.status(201).end();
+    })
+      .catch ((err) => {
+      if (err.message == "This file already exists!") {
+        log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
+        response.status(409).end();
+      } else {
+        log.info("POST /deck/create, failed", err.message);
+        response.status(500).end();
+      }
+    });
+
+  } catch (error) {
+    //handle the error
+  	response.render('error', {err: error.message});
+		response.end;
+  };
+});
 async function duplicateStudy (sSource, sNew) {
   try { 
     //validate sNewURL
@@ -290,24 +274,23 @@ async function duplicateStudy (sSource, sNew) {
       throw (err);
   }
 };
-  function copyFile(sourceURL, newURL) {
+
+function copyFile(sourceURL, newURL) {
   return new Promise((resolve, reject) => {
     // exist already
     try{
 
       if (sourceURL === newURL){
-        reject(new Error("The Source File name and Duplicate File name are the same, a duplicate must have a new name!!"));
+        reject(new Error("This file already exists!"));
       }
-      
       if (!fs.existsSync(newURL)) {
         fs.copyFile(sourceURL, newURL, (err) => {
           if (err) throw err;
         });
-        //SUCCESS!!
         resolve({"created": newURL});
 
       } else {      
-        reject(new Error("copyFile: " + newURL + " file already exists, choose a new name!"));
+        reject(new Error("This file already exists!"));
       }
 
     } catch (err) {
@@ -326,7 +309,7 @@ function copyConfig(URL, sourceStudy, newStudy) {
       }
 
       if (sourceStudy === newStudy){
-        reject(new Error("The Source File name and Duplicate File name are the same, a duplicate must have a new name!!"));
+        reject(new Error("This file already exists!"));
       }
 
       //if new file does not exists then
@@ -348,7 +331,7 @@ function copyConfig(URL, sourceStudy, newStudy) {
         resolve({"created": URL + newStudy + '.json'});
 
       } else {
-        reject(new Error("copyConfig: " + newStudy + " already Exists, duplication failed!"));
+        reject(new Error("This file already exists!"));
       }
 
     } catch (err) {
@@ -356,9 +339,6 @@ function copyConfig(URL, sourceStudy, newStudy) {
     }
   })
 };
-
-
-
 function writeJSON(sURL, data){
   return new Promise((resolve, reject) => {
     var sFile = JSON.stringify(data,null,2) 
@@ -410,7 +390,6 @@ function fileExists (sURL) {
 		}
 	});
 };
-
 //This Function is used on its own for asyncronous file checks on various routes.. no its not great.
 async function fileExistsAsync (sURL) {
 	let fileExists = await fs.existsSync(sURL);

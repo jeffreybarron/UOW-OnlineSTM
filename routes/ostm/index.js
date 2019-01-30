@@ -7,8 +7,6 @@ const sanitizer     = require('express-sanitizer');
 const fs			      = require('fs');
 const bunyan        = require('bunyan');
 
-
-
 const log = bunyan.createLogger({
   name: "UOW_CogLab",
   streams: [
@@ -140,29 +138,52 @@ router.get('/study/:studyName', function(request, response, next) {
 });
 
 router.post('/results', function(request,response, next) {
-  log.info("POST /results/ requested", request.ip);
-	try {
+	log.info("POST /ostm/results, requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
+  try {
 		let	studyName = request.body.studyName;
 		let participantID = request.body.PROLIFIC_PID;
 		let	studyID = request.body.STUDY_ID;
 		let sessionID = request.body.SESSION_ID;
 		let jsonFileName = appRoot + '/data/results/' + studyName + "_" + participantID + "_" + studyID + "_" + sessionID + '.json';
-		let	jsonResult = JSON.stringify(request.body, null, 2);
-    
-		writeFile = fs.writeFile(jsonFileName, jsonResult, (err) => {
-			if (err) {
-				throw err;
-			}
-			//return status 202 accepted to client javascript test.js/updateAnswers
-			response.status(202)
-			response.end();
-		});
+		let	jsonResult = request.body;
 
-	} catch (error) {
-		response.render('error', {err: error.message});
-		response.end;
-	}
+    var result = postResult(jsonFileName, jsonResult)
+      .then((resolved) => {
+        log.info("POST /ostm/results, Successful", resolved);
+        log.info("POST /ostm/results, from IP:", request.ip);
+        response.status(202).end();
+    })
+      .catch ((err) => {
+        if (err.message == "This file already exists!") {
+          log.info("POST /ostm/results, This file already exists!, from IP:", request.ip);
+          response.status(409).end();
+        } else {
+          log.info("POST /ostm/results, failed", err.message);
+          response.status(500).send(err);
+        }
+    });
+    
+  } catch (error) {
+    response.render('error', {err: error.message});
+    response.end;
+  }
 });
+
+async function postResult (jsonFileName, jsonResult ) {
+  log.trace("POST /deck/create PostResult: " + jsonFileName, jsonResult);
+  
+	//AWAIT --> does file already exist, if so then stop
+  // let fileNotExists = await fileNotExists(jsonFileName);
+  
+  //AWAIT --> create Deck
+  let writeDeck = await writeJSON(jsonFileName, jsonResult);
+    
+  // return [fileNotExists, writeDeck];
+	return [fileNotExists, writeDeck];
+	
+}
+
+
 
 router.get('/sendCode/:studyName', function(request, response) {
 // 	//the purpose of the this route\page is to pass the prolific code to the participant if they have completed 
@@ -205,8 +226,6 @@ try {
 
 
 
-/// supporting functions
-
 //used with get('/sendCode/:studyName'
 async function getProlificCode (sResultURL, sCodeURL) {
 // 		//check if the study has been saved first
@@ -233,6 +252,18 @@ function fileExists (sURL) {
 		}
 	});
 };
+function fileNotExists (sURL) {
+  return new Promise((resolve, reject) => {
+		let fileExists = fs.existsSync(sURL);
+		if (fileExists) {
+			reject (new Error("This file already exists!"));
+      //return; 
+		} else {
+			resolve (true);
+      return;
+		}
+	});
+};
 function readFile (sURL) {
 	return new Promise((resolve, reject) => {
 		fs.readFile(sURL, 'utf8', (err, data) => {
@@ -244,8 +275,34 @@ function readFile (sURL) {
 		});
 	});
 };
+function writeFile(sURL, data){
+  return new Promise((resolve, reject) => {
+    fs.writeFile(sURL, data, 'utf-8', function(err) {
+        if (err) {
+          reject(err);
+          return;
+        } else {
+          resolve(data);
+        };
+    });
 
+	});
+};
+function writeJSON(sURL, data){
+  return new Promise((resolve, reject) => {
+    var sFile = JSON.stringify(data,null,2) 
+    fs.writeFile(sURL, sFile, 'utf-8', function(err) {
+        if (err) {
+          //Deal with error
+          reject(err);
+          return;
+        } else {
+          resolve(data);
+        };
+    });
 
+	});
+}
 //This Function is used on its own for asyncronous file checks on various routes.. no its not great.
 async function fileExistsAsync (sURL) {
 	let fileExists = await fs.existsSync(sURL);
@@ -255,6 +312,7 @@ async function fileExistsAsync (sURL) {
 		throw "File does not exist.";
 	}
 };
+
 
 
 
