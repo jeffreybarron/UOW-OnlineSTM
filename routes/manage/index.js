@@ -147,15 +147,17 @@ async function createDeck (deckName, deck) {
 };
 
 manage.post('/study/create', function(request, response) {
+  var errLocation = 'IP:' + request.ip + ', POST /study/create '
+      log.info(errLocation +  
+      ', user-agent:' + request.headers['user-agent'] +
+      ', log: 1' 
+      );
 
-    log.info("POST /study/create, requested for IP:" + request.ip + " using: " + request.headers['user-agent']);
-    log.info(request.body);
-  //try {
     //a rudimentary check, if there are exactly 7 query string objects
     let oStudyConfig = request.body;
-    log.trace(oStudyConfig);
+    log.info(errLocation + ', log: 2', oStudyConfig);
     //sanitize Fields, one-by-one becuase they each need a little tweek
-    log.trace("/study/create, begin load");
+    log.info(errLocation + ', log: 4');
     oStudyConfig["studyName"] = request.sanitize(oStudyConfig["studyName"]);
     oStudyConfig["consentCopy"] = request.sanitize(oStudyConfig["consentCopy"]);
     oStudyConfig["instructionCopy"] = request.sanitize(oStudyConfig["instructionCopy"]);
@@ -164,23 +166,20 @@ manage.post('/study/create', function(request, response) {
     oStudyConfig["shuffleDecks"] = mUtils.isTrue(request.sanitize(oStudyConfig["shuffleDecks"]));
     oStudyConfig["shuffleAll"] = mUtils.isTrue(request.sanitize(oStudyConfig["shuffleAll"]));
     oStudyConfig["completionCode"] = request.sanitize(oStudyConfig["completionCode"]);
-    log.trace("/study/create, success");
-    log.trace(oStudyConfig);
-
+    log.info(errLocation + ', log: 5');
   try {
 
     var result = createStudy(request.body.studyName,request.body.completionCode, oStudyConfig)
       .then((resolved) => {
-        log.info("POST /study/create, Successful", resolved);
-        log.info("POST /study/created, from IP:", request.ip);
+        log.info(errLocation + ', log: 6, Success', resolved);
         response.status(201).end();
     })
       .catch ((err) => {
         if (err.message == "This file already exists!") {
-          log.info("POST /study/created, This file already exists!, from IP:", request.ip);
+          log.info(errLocation + ', log: 7, This file already exists!');
           response.status(409).end();
         } else {
-          log.info("POST /study/create, failed", err.message);
+          log.info(errLocation + ', log: 8, Server Error (500)');
           response.status(500).send(err);
         }
     });
@@ -190,34 +189,43 @@ manage.post('/study/create', function(request, response) {
     response.end;
   }
 });
+
 async function createStudy (studyName, completionCode, oStudyConfig) {
-  // try { 
-    //declare variables
-    let sURL = appRoot + '/public/data/studies/';
-    let sPrivateURL = appRoot + '/data/codes/';
-        
-    //AWAIT --> does file already exist, if so then stop
-    let studyNotExists = await fileNotExists(sURL + studyName + '.json')
-   
-    //AWAIT --> write codeFile
-    let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' + completionCode + '","completionCode":"' + completionCode + '"}';
-    let jCompletionFile = JSON.parse(sCompletionFile);
-    let codeFile = await writeJSON(sPrivateURL + studyName + '_code.json', jCompletionFile);
-    delete oStudyConfig["completionCode"];
+  var errLocation = 'creatStudy '
+  log.info(errLocation + ', log: 1, called');
 
-    //AWAIT --> write consentFile
-    let consentFile = await writeFile (sURL + oStudyConfig.studyName + '_consent.html', 
-      oStudyConfig["consentCopy"]);
-    delete oStudyConfig["consentCopy"];
+  //declare variables
+  let sURL = appRoot + '/public/data/studies/';
+  let sPrivateURL = appRoot + '/data/codes/';
+      
+  //AWAIT --> does file already exist, if so then stop
+  let studyNotExists = await fileNotExists(sURL + studyName + '.json')
+  log.info(errLocation + ', log: 2');   
+  //AWAIT --> write codeFile
 
-    //AWAIT --> write instructionFile
-    let instructionFile = await writeFile(sURL + oStudyConfig.studyName + '_instructions.html',  oStudyConfig["instructionCopy"]);
-    delete oStudyConfig["instructionCopy"];
+  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' + completionCode + '","completionCode":"' + completionCode + '"}';
+  let jCompletionFile = JSON.parse(sCompletionFile);
+  log.info(errLocation + ', log: 3');
+  let codeFile = await writeJSON(sPrivateURL + studyName + '_code.json', jCompletionFile);
+  delete oStudyConfig["completionCode"];
 
-    //AWAIT --> write configfile
-    let configFile = await writeJSON(sURL + oStudyConfig.studyName + '.json', oStudyConfig);
+  //AWAIT --> write consentFile
+  log.info(errLocation + ', log: 4');
+  let consentFile = await writeFile (sURL + oStudyConfig.studyName + '_consent.html', 
+    oStudyConfig["consentCopy"]);
+  delete oStudyConfig["consentCopy"];
 
-    return [studyNotExists, codeFile, instructionFile, configFile];
+  //AWAIT --> write instructionFile
+  log.info(errLocation + ', log: 5');
+  let instructionFile = await writeFile(sURL + oStudyConfig.studyName + '_instructions.html',  oStudyConfig["instructionCopy"]);
+  delete oStudyConfig["instructionCopy"];
+
+  //AWAIT --> write configfile
+  log.info(errLocation + ', log: 6');
+  let configFile = await writeJSON(sURL + oStudyConfig.studyName + '.json', oStudyConfig);
+
+  log.info(errLocation + ', log: 7');
+  return [studyNotExists, codeFile, instructionFile, configFile];
 };
 
 manage.post('/study/duplicate', function(request, response){
@@ -341,13 +349,26 @@ function copyConfig(URL, sourceStudy, newStudy) {
 };
 function writeJSON(sURL, data){
   return new Promise((resolve, reject) => {
+    log.info('File: manage.index.js' +
+      ', Function: writeJSON' +
+      ', Location: 1' +
+      ', sURL: ' + sURL, data
+      );
     var sFile = JSON.stringify(data,null,2) 
     fs.writeFile(sURL, sFile, 'utf-8', function(err) {
         if (err) {
           //Deal with error
+          log.info('File: manage.index.js' +
+            ', Function: writeJSON' +
+            ', Location: 2', err 
+            );
           reject(err);
           return;
         } else {
+          log.info('File: manage.index.js' +
+            ', Function: writeJSON' +
+            ', Location: 3', data 
+            );
           resolve(data);
         };
     });
