@@ -2,16 +2,16 @@
 //DOC Elements by ID
 var studyForm = document.getElementById("studyForm");
 var buttonCreate = document.getElementById("buttonCreate");
-
 var studyName = document.getElementById("studyName");
 var consentCopy = document.getElementById("consentCopy");
 var instructionCopy = document.getElementById("instructionCopy");
 var studybackgroundColor = document.getElementById("studybackgroundColor");
 var studyTextColor = document.getElementById("studyTextColor");
-
 var refreshRateMS = document.getElementById("refreshRateMS");
 var setSizes = document.getElementById("setSizes");
 var completionCode = document.getElementById("completionCode");
+var msgResult = document.getElementById("msgResult");
+
 
 //JScript Variables
 var oStudyConfig = {};
@@ -49,16 +49,12 @@ function createStudy() {
 
 	  //3- build query stringify, ie custom serialize
 		// console.dir(oStudyConfig);
-		let created = true;
-		console.log("created:" + created);
+		let created = false;
 		created = studyPOST(oStudyConfig);
- 		console.log("created:" + created);
 
 	  //encode string
 	  //4- Post and direct to new pageTitle
-		if (created) {
-			alert("Study Created!\n\nWe suggest you, click ok, and leave this page open until you've finished setting up.");
-		}
+
 		return created;
 
 	} catch (err) {
@@ -70,7 +66,6 @@ function createStudy() {
 
 function studyPOST(oStudyConfig) {
   try {
-		console.log("studyPost, Begin");
 	  let errMsg = "studyPOST, start";
 	  let data = JSON.stringify(oStudyConfig, null, 2);
 		let sPath = "create";
@@ -85,16 +80,28 @@ function studyPOST(oStudyConfig) {
     xmlHttp.onreadystatechange = function() {
       errMsg = "studyPOST, onReadyStateChange, ";
       if (xmlHttp.readyState == 4 && xmlHttp.status == 201) {
-				//alert("studyPOST, Study Created");
+				// alert("Study Created!\n\nWe suggest you, click ok, and leave this page open until you've finished setting up.");
+				msgResult.innerHTML = '<p>Study Created!</><p>We suggest you:<ul><li>leave this page open</li><li>open a new browser tab</li><li>Do any other setup on the new tab</li></ul></p>';
+        msgResult.style.display = "block";
+        msgResult.className = "msgResult-success";
 				return true;
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 404){
-				alert("A required file on the server was not found, contact your supervisor");
+				// alert("A required file on the server was not found, contact your supervisor");
+				msgResult.innerHTML = '<p>A required file on the server was not found, contact your supervisor</p>';
+				msgResult.style.display = "block";
+				msgResult.className = "msgResult-error";
 				return false;
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 409){
-				alert("You must choose another studyName, this one is already in use");
+				// alert("You must choose another studyName, this one is already in use");
+				msgResult.innerHTML = '<p>You must choose another studyName, this one is already in use</p>';
+				msgResult.style.display = "block";
+				msgResult.className = "msgResult-error";
 				return false;
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 500){
-				alert("Server returned a general error state, go tell mum.");
+				// alert("Server returned a general error state, go tell mum.");
+				msgResult.innerHTML = '<p>Server returned a general error state (500), your deck was not created.</p>';
+				msgResult.style.display = "block";
+				msgResult.className = "msgResult-error";
 				return false;
 			} else {
 				//alert("studyPOST, Error at server: xmlHttp.readyState: " + xmlHttp.readyState + ", xmlHttp.Status: " + xmlHttp.status);
@@ -159,7 +166,6 @@ function getDeckArray(form,setSizes) {
 			sNewDeck = JSON.parse(sNewDeck);
 			sNewDeck.deckName = deckNames[i].value;
 			sNewDeck.pickQty = parseInt(pickQty[i].value);
-			console.log(sNewDeck.pickQty);
 			sNewDeck.sampleMode = sampleMode[i].value;
 			newArray.push(sNewDeck);
 		}

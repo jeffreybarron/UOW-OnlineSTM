@@ -1,19 +1,28 @@
 "use strict";
 var stimuliTable = document.getElementById("stimuliTable");
-var deckNewResult = document.getElementById("deckNewResult");
+var msgResult = document.getElementById("msgResult");
 let iRowCount = 1;
 
 function addRow(){
-  let newRow = stimuliTable.insertRow(-1);
-  var iRow = newRow.insertCell(0);
-  var stimuli = newRow.insertCell(1);
-  var textColor = newRow.insertCell(2);
-  var bgColor = newRow.insertCell(3);
+  let lastRow = stimuliTable.rows[ stimuliTable.rows.length - 1 ];
+  let lastTextColor = lastRow.getElementsByClassName("form-control")[2].value
+  let lastbackgroundColor = lastRow.getElementsByClassName("form-control")[2].value
 
-  iRow.innerHTML='<input type="text" class="form-control" id="row_' + iRowCount + '" name="row_' + iRowCount + '" value=' + iRowCount + ' readonly>';
-  stimuli.innerHTML='<input type="text" class="form-control" id="stimulus_' + iRowCount + '" name="stimulus_' + iRowCount + '" required>';
-  textColor.innerHTML='<input type="text" class="form-control" id="textColor_' + iRowCount + '" name="textColor_' + iRowCount + '" required>';
-  bgColor.innerHTML='<input type="text" class="form-control" id="backgroundColor_' + iRowCount + '" name="backgroundColor_' + iRowCount + '" required>';
+  let newRow = stimuliTable.insertRow(-1);
+  let iRow = newRow.insertCell(0);
+  let stimuli = newRow.insertCell(1);
+  let textColor = newRow.insertCell(2);
+  let bgColor = newRow.insertCell(3);
+
+  iRow.innerHTML='<input type="text" class="form-control" id="row_' + iRowCount + 
+    '" name="row_' + iRowCount + '" value=' + iRowCount + ' readonly>';
+  stimuli.innerHTML='<input type="text" class="form-control" id="stimulus_' + iRowCount + 
+    '" name="stimulus_' + iRowCount + '" required>';
+  textColor.innerHTML='<input type="text" class="form-control" id="textColor_' + iRowCount + 
+    '" name="textColor_' + iRowCount + '" value="' + lastTextColor + '" required>';
+  bgColor.innerHTML='<input type="text" class="form-control" id="backgroundColor_' + iRowCount + 
+    '" name="backgroundColor_' + iRowCount + '" value="' + lastbackgroundColor + '" required>';
+  
   iRowCount++;
 
 }
@@ -34,18 +43,21 @@ var deckName = document.getElementById("deckName");
       // console.log ('xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
       if (xmlHttp.readyState == 4 && xmlHttp.status == 201) {
 				// alert("studyPOST, Study Created");
-        deckNewResult.innerHTML = '<p>' + deckName.value + ' created.</p>';
-        deckNewResult.style.display = "block";
-        deckNewResult.className = "deckNewResult-success";
+        msgResult.innerHTML = '<p>' + deckName.value + ' created.</p>';
+        msgResult.style.display = "block";
+        msgResult.className = "msgResult-success";
         //return true
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 409){
 				// alert("You must choose another deckName, this one is already in use");
-        deckNewResult.innerHTML = '<p>You must choose another deckName, ' + deckName.value + ' is already in use.</p>';
-        deckNewResult.style.display = "block";
-        deckNewResult.className = "deckNewResult-error";
+        msgResult.innerHTML = '<p>You must choose another deckName, ' + deckName.value + ' is already in use.</p>';
+        msgResult.style.display = "block";
+        msgResult.className = "msgResult-error";
 				return false;
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 500){
-				alert("Server returned a general error state, go tell mum.");
+				//alert("Server returned a general error state, go tell mum.");
+        msgResult.innerHTML = '<p>Server returned a general error state (500), your deck was not created.</p>';
+        msgResult.style.display = "block";
+        msgResult.className = "msgResult-error";
 				return false;
 			} else {
 				//alert("studyPOST, Error at server: xmlHttp.readyState: " + xmlHttp.readyState + ", xmlHttp.Status: " + xmlHttp.status);

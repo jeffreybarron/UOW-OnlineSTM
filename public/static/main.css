@@ -116,14 +116,14 @@ body {
   border: 1px solid #003666;
 }
 
-.deckNewResult-error {
+.msgResult-error {
   padding: 1em;
   margin: 1em;
   border-radius: 10px;
   border: 2px solid #003666;
   background-color: #FC600A;
 }
-.deckNewResult-success {
+.msgResult-success {
   padding: 1em;
   margin: 1em;
   border-radius: 10px;

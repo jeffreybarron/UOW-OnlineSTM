@@ -1,0 +1,47 @@
+{
+  "studyName": "20190130-stu456-stroop02",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "setSizes": [
+    2
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "cloths.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    }
+  ],
+  "shuffleDecks": true,
+  "shuffleAll": true,
+  "refreshRateMS": 250,
+  "PROLIFIC_PID": "Jeff",
+  "STUDY_ID": "GUID002",
+  "SESSION_ID": "GUID003",
+  "checkConsent": "on",
+  "checkInstructions": "on",
+  "sets": [
+    {
+      "set": [
+        {
+          "row": "0",
+          "stimulus": "pants",
+          "textcolor": "black",
+          "backgroundcolor": "white",
+          "responseTime": "20190130_00:06:52.0880",
+          "response": ""
+        },
+        {
+          "row": "1",
+          "stimulus": "shirt",
+          "textcolor": "black",
+          "backgroundcolor": "black",
+          "responseTime": "20190130_00:06:53.0376",
+          "response": ""
+        }
+      ]
+    }
+  ],
+  "loadTime": "20190130_00:06:49.0646",
+  "saveTime": "20190130_00:06:53.0377"
+}

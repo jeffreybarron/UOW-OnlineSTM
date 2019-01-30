@@ -356,7 +356,7 @@ function updateAnswers(){
 					// console.log("sent now wait");
 					xmlHttp.onreadystatechange = function() {
 						errLoc = "test.js.updateAnswer, onReadyStateChange, ";
-			    	if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+			    	if(xmlHttp.readyState == 4 && xmlHttp.status == 202) {
 							console.log (errLoc + 'xmlHttp.readyState: ' + xmlHttp.readyState + ', xmlHttp.Status: ' + xmlHttp.status);
 							completedStudy = "PROLIFIC_PID=" + oStudyConfig.PROLIFIC_PID + "&" +
 		        		"STUDY_ID=" + oStudyConfig.STUDY_ID + "&" +

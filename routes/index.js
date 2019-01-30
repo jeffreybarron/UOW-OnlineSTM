@@ -6,9 +6,8 @@ const router        = express.Router();
 const fs	        = require('fs');
 const favicon 	    = require('serve-favicon');
 const manage        = require('./manage');
-const ostm           = require('./ostm')
+const ostm          = require('./ostm');
 const mDates        = require(appRoot + '/utils/mDates.js');
-// const mUtils        = require(appRoot + '/utils/mUtils.js');
 const bunyan        = require('bunyan');
 
 
