@@ -6,7 +6,7 @@ let iRowCount = 1;
 function addRow(){
   let lastRow = stimuliTable.rows[ stimuliTable.rows.length - 1 ];
   let lastTextColor = lastRow.getElementsByClassName("form-control")[2].value
-  let lastbackgroundColor = lastRow.getElementsByClassName("form-control")[2].value
+  let lastbackgroundColor = lastRow.getElementsByClassName("form-control")[3].value
 
   let newRow = stimuliTable.insertRow(-1);
   let iRow = newRow.insertCell(0);

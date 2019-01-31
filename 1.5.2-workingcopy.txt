@@ -124,21 +124,43 @@ q:)---changes in 1.5.0
 q:)---changes in 1.5.1
 - add more detailed logging
 
+q:)---changes in 1.5.2
+-fix deckNew txbackgroundcolour incorrectly copied
+
 
 TODO
 ====
-1.5.x
+\security
+-move manage under OSTM
+-rename manage to GUID
+
+\Manage
+\\study
+\\\create
+-Feature: Differentiate build time settings from run time settings with colour change
+
+-Feature: Add Shuffle Cards within Deck for each Participant
+
+-Feature: new instruction per deck?
+
+-Feature: Participation Log file
+  rowID, IP, Date\Time, studyName, ProlificID, STUDYID, SESSIONID, A/B Test
+
+-Feature: A\B Testing, or ABCD, ie 
+Use Particpation Log File to determine last issued AB test then issue next in list, in rotation.
+i.e each new participant is assigned a test A, B or C 
+this will need to work for A Only and A-Z
+use 2 dimensional Array to configure, persist and to present
+=================
+| Test | Sets |
+| A    | 1,2,3|
+| B    | 3,2,1|
+| C    | 2,3,1|
+
 -line up the logs so they are all in the same order
   --IP, file, function, task, msg, data
--implement Dynamic IP Filtering to block hackers, when they show up in the logs
--centralise express error hangling for routes
--change manage route to OSTM\manage
 -implement some security protocols
-
-1.6.x
 -Add user basic management
-
-2.x.x
 -port to AWS Serverless
 --this may require moving to mongoDB? due data persistance changes with services
 -add deck analysis? use R!

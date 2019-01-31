@@ -1,7 +1,7 @@
 {
   "name": "CogLab",
-  "version": "1.5.0",
-  "description": "UOW Cognition Lab Web Study Platform",
+  "version": "1.5.2",
+  "description": "UOW Cognition Lab, Web Study Platform",
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.3",
