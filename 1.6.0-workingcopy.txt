@@ -127,6 +127,11 @@ q:)---changes in 1.5.1
 q:)---changes in 1.5.2
 -fix deckNew txbackgroundcolour incorrectly copied
 
+============================
+1.6.0-master
+============================
+q:)---changes in 1.6.0
+
 
 TODO
 ====
