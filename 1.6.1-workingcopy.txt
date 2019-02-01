@@ -133,11 +133,12 @@ q:)---changes in 1.5.2
 q:)---changes in 1.6.0
 -move manage under OSTM - used modular app pattern for routing instead of express.router() as Router didnt allow the level of seperation I wanted, particullay with views and filepaths
 
+q:)---changes in 1.6.1
+-remove commenting from javascript on redirecting pages
 
 TODO
 ====
--modularisation - configure relative paths throughout.. and test.
--remove commenting from javascript on redirecting pages
+
 
 \security
 -rename manage to GUID
