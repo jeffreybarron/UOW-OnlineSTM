@@ -1,4 +1,5 @@
 "use strict";
+var sPath = '/ostm/manage'
 //DOC Elements by ID
 var studyForm = document.getElementById("studyForm");
 var buttonCreate = document.getElementById("buttonCreate");
@@ -68,9 +69,11 @@ function studyPOST(oStudyConfig) {
   try {
 	  let errMsg = "studyPOST, start";
 	  let data = JSON.stringify(oStudyConfig, null, 2);
-		let sPath = "create";
+		let sPostPath = sPath + "/study/new";
+		console.log(sPostPath);
+
 		let xmlHttp = new XMLHttpRequest;
-    xmlHttp.open("POST", sPath, true);
+		xmlHttp.open("POST", sPostPath, true);
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
     //Save data to server
 
@@ -87,7 +90,7 @@ function studyPOST(oStudyConfig) {
 				return true;
 			} else if (xmlHttp.readyState == 4 && xmlHttp.status == 404){
 				// alert("A required file on the server was not found, contact your supervisor");
-				msgResult.innerHTML = '<p>A required file on the server was not found, contact your supervisor</p>';
+				msgResult.innerHTML = '<p>(Error 404) A required file on the server was not found, contact your supervisor</p>';
 				msgResult.style.display = "block";
 				msgResult.className = "msgResult-error";
 				return false;

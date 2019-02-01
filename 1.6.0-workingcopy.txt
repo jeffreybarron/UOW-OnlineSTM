@@ -131,17 +131,22 @@ q:)---changes in 1.5.2
 1.6.0-master
 ============================
 q:)---changes in 1.6.0
+-move manage under OSTM - used modular app pattern for routing instead of express.router() as Router didnt allow the level of seperation I wanted, particullay with views and filepaths
 
 
 TODO
 ====
+-modularisation - configure relative paths throughout.. and test.
+-remove commenting from javascript on redirecting pages
+
 \security
--move manage under OSTM
 -rename manage to GUID
 
 \Manage
 \\study
 \\\create
+FIX: set focus to input box for each offer of input box
+
 -Feature: Differentiate build time settings from run time settings with colour change
 
 -Feature: Add Shuffle Cards within Deck for each Participant

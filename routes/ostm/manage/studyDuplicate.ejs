@@ -2,7 +2,7 @@
     <div class="container">
         <h1 id="pageTitle">UOW Online STM</h1>
         <h2>Duplicate Study</h2>
-        <form id="studyForm" class="form-group row" method="POST" action="/manage/study/duplicate">
+        <form id="studyForm" class="form-group row" method="POST" action="/<%= rPath %>/study/duplicate">
             <div class="form-group" id="source_studyName_DIV">
                 <label for="source_studyName">Study to Duplicate</label>
                 <select class="form-control" id="source_studyName" 
@@ -78,5 +78,5 @@
             <button type="submit" id="buttonCreate" class="btn btn-primary" onclick="studyDuplicate();return false">Duplicate Study</button>
         </form>
 <!-- End of Main Body -->
-    <script src="/ostm/manage/static/studyDuplicate.js"></script>
+    <script src="/<%= rPath %>/static/studyDuplicate.js"></script>
 <% include manage_footer.ejs %>

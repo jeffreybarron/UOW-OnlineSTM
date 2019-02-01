@@ -13,12 +13,12 @@ app.use('/', require('./routes'));
 
 
 app.set("trust proxy", true); //https://expressjs.com/en/guide/behind-proxies.html
-app.set("view engine", "ejs");
-app.set("views", [
-  __dirname + "/routes",
-  __dirname + "/routes/ostm",
-  __dirname + "/routes/ostm/manage"
-]);
+// app.set("view engine", "ejs");
+// // app.set("views", [
+// //   __dirname + "/routes",
+// //   __dirname + "/routes/ostm",
+// //   __dirname + "/routes/ostm/manage"
+// // ]);
 
 
 app.use("/static", express.static(path.join(__dirname, '/routes/public/static')));

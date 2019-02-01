@@ -2,23 +2,30 @@
 
 // create new Router instance for api routes
 const express = require("express"); //express module
-const router = express.Router();
+const app = express();
+
 const favicon = require("serve-favicon");
 const fs = require("fs");
 const mDates = require(appRoot + "/utils/mDates.js");
 const ostm = require("./ostm");
 const bunyan = require("bunyan");
 
-router.use("/ostm", ostm);
-router.use('/static', express.static(__dirname  + '/public/static'));
-router.use(favicon(__dirname + '/public/static/favicon.ico'));
+app.use("/ostm", ostm);
+app.use('/static', express.static(__dirname  + '/public/static'));
+app.use(favicon(__dirname + '/public/static/favicon.ico'));
+
+app.set("view engine", "ejs");
+app.set("views", [
+  __dirname
+]);
+
 
 const log = bunyan.createLogger({
   name: "UOW_CogLab",
   streams: [
     {
       level: "debug",
-      path: appRoot + "/data/logs/routes-logs.json"
+      path: __dirname + "/logs/routes-log.json"
     },
     {
       level: "info",
@@ -28,14 +35,14 @@ const log = bunyan.createLogger({
   src: true
 });
 
-router.get("/", function(request, response) {
+app.get("/", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET / ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   //Home Page
   response.render("index");
 });
 
-router.get("*", function(request, response) {
+app.get("*", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET * ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   /*
@@ -45,10 +52,12 @@ router.get("*", function(request, response) {
     */
 
   //Log these as they may show nefarious behaviour and their attack vectors
-  var sLog = mDates.getDate() + ", source:" + request.ip + ", URL:" + request.originalUrl;
 
-  log.info("Client IP:" + request.ip + " requested an unhandled page:" + request.originalUrl);
-  fs.appendFile(appRoot + "/data/logs/UnhandledPageCalls.log", sLog + "\r\n", function(err) {
+  log.info(errLocation + ", requested an unhandled page:" + request.originalUrl);
+
+  //keep this it is handy way to track malicious activity, outside the noise of the normal logs
+  var sLog = mDates.getDate() + ", source:" + request.ip + ", URL:" + request.originalUrl;
+  fs.appendFile(__dirname + "/logs/unhandledPageCalls.log", sLog + "\r\n", function(err) {
     if (err) console.log(err);
   });
 
@@ -57,4 +66,4 @@ router.get("*", function(request, response) {
   response.end;
 });
 
-module.exports = router;
+module.exports = app;

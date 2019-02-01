@@ -1,31 +1,35 @@
 // routes/ostm/index.js
 "use strict";
-
+const moduleName = "ostm";
 
 const express = require("express"); //express module
-const ostm = express.Router();
+const app = express();
 const bodyParser = require("body-parser");
 const sanitizer = require("express-sanitizer");
 const fs = require("fs");
 const bunyan = require("bunyan");
 
 const manage = require("./manage");
-ostm.use("/manage", manage);
+app.use("/manage", manage);
 
 
-ostm.use("/static", express.static(__dirname + "/public/static"));
-ostm.use("/data/studies", express.static(__dirname + "/public/data/studies"));
-ostm.use("/data/decks", express.static(__dirname + "/public/data/decks"));
-ostm.use(bodyParser.json()); // for parsing application/json
+app.use("/static", express.static(__dirname + "/public/static"));
+app.use("/resources/studies", express.static(__dirname + "/public/resources/studies"));
+app.use("/resources/decks", express.static(__dirname + "/public/resources/decks"));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(sanitizer());
 
-ostm.use(sanitizer());
+app.set("view engine", "ejs");
+app.set("views", [
+  __dirname
+]);
 
 const log = bunyan.createLogger({
   name: "UOW_CogLab",
   streams: [
     {
       level: "debug",
-      path: appRoot + "/data/logs/ostm-log.json"
+      path: __dirname + "/logs/ostm-log.json"
     },
     {
       level: "info",
@@ -35,20 +39,22 @@ const log = bunyan.createLogger({
   src: true
 });
 
-ostm.get("/", function(request, response) {
-  //Home Page
-  response.render('ostm');
-  log.info("GET / (HOME) rendered", request.ip);
+app.get("/", function(request, response) {
+  log.info("GET /participant/:" + request.params.studyName + ", requested", request.ip);
+  let sURL = appRoot + "/public/resources/studies/" + request.params.studyName + ".json";
+
+  response.render('index',{ rPath: moduleName });
+  
 });
 
-ostm.get("/participant/:studyName", function(request, response, next) {
+app.get("/participant/:studyName", function(request, response, next) {
   log.info("GET /participant/:" + request.params.studyName + ", requested", request.ip);
-  let sURL = appRoot + "/public/data/studies/" + request.params.studyName + ".json";
+  let sURL = __dirname + "/public/resources/studies/" + request.params.studyName + ".json";
   //Using Promise with Async\Await
   let result = fileExistsAsync(sURL)
     .then(resolved => {
       log.info("GET /participant/:" + request.params.studyName + ", Successful", request.ip);
-      response.render("participant", { studyName: request.params.studyName, qs: request.query });
+      response.render("participant", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
       response.end;
     })
     .catch(error => {
@@ -60,14 +66,14 @@ ostm.get("/participant/:studyName", function(request, response, next) {
     });
 });
 
-ostm.get("/consent/:studyName", function(request, response, next) {
+app.get("/consent/:studyName", function(request, response, next) {
   log.info("GET /consent/:" + request.params.studyName + ", requested", request.ip);
-  let sURL = appRoot + "/public/data/studies/" + request.params.studyName + ".json";
+  let sURL = __dirname + "/public/resources/studies/" + request.params.studyName + ".json";
   //Using Promise with Async\Await
   let result = fileExistsAsync(sURL)
     .then(resolved => {
       log.info("GET /consent/:" + request.params.studyName + ", Successful", request.ip);
-      response.render("consent", { studyName: request.params.studyName, qs: request.query });
+      response.render("consent", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
       response.end;
     })
     .catch(error => {
@@ -79,18 +85,18 @@ ostm.get("/consent/:studyName", function(request, response, next) {
     });
 });
 
-ostm.get("/instructions/:studyName", function(request, response, next) {
+app.get("/instructions/:studyName", function(request, response, next) {
   log.info("GET /instructions/:" + request.params.studyName + ", requested", request.ip);
-  let sURL = appRoot + "/public/data/studies/" + request.params.studyName + ".json";
+  let sURL = __dirname + "/public/resources/studies/" + request.params.studyName + ".json";
   //Using Promise with Async\Await
   let result = fileExistsAsync(sURL)
     .then(resolved => {
       log.info("GET /instructions/:" + request.params.studyName + ", Successful", request.ip);
       if (request.query.checkConsent === "on") {
-        response.render("instructions", { studyName: request.params.studyName, qs: request.query });
+        response.render("instructions", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
       } else {
         //if consent tickbox is off then redirect back to consent
-        response.render("consent", { studyName: request.params.studyName, qs: request.query });
+        response.render("consent", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
       }
       response.end;
     })
@@ -103,18 +109,18 @@ ostm.get("/instructions/:studyName", function(request, response, next) {
     });
 });
 
-ostm.get("/study/:studyName", function(request, response, next) {
+app.get("/study/:studyName", function(request, response, next) {
   log.info("GET /study/:" + request.params.studyName + ", requested", request.ip);
-  let sURL = appRoot + "/public/data/studies/" + request.params.studyName + ".json";
+  let sURL = __dirname + "/public/resources/studies/" + request.params.studyName + ".json";
   //Using Promise with Async\Await
   let result = fileExistsAsync(sURL)
     .then(resolved => {
       if (!request.query.checkConsent === "on") {
-        response.render("consent", { studyName: request.params.studyName, qs: request.query });
+        response.render("consent", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
         response.end;
       }
       if (!request.query.checkInstructions === "on") {
-        response.render("instructions", { studyName: request.params.studyName, qs: request.query });
+        response.render("instructions", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
         response.end;
       }
 
@@ -125,7 +131,7 @@ ostm.get("/study/:studyName", function(request, response, next) {
         STUDY_ID: request.query.STUDY_ID,
         SESSION_ID: request.query.SESSION_ID
       };
-      response.render("study", { studyName: request.params.studyName, qs: request.query });
+      response.render("study", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
       log.info({ instance: oInstance }, ": study .rendered");
       response.end;
     })
@@ -138,7 +144,7 @@ ostm.get("/study/:studyName", function(request, response, next) {
     });
 });
 
-ostm.post("/results", function(request, response, next) {
+app.post("/results", function(request, response, next) {
   log.info(
     "POST /ostm/results, requested for IP:" +
       request.ip +
@@ -151,7 +157,7 @@ ostm.post("/results", function(request, response, next) {
     let studyID = request.body.STUDY_ID;
     let sessionID = request.body.SESSION_ID;
     let jsonFileName =
-      appRoot + "/data/results/" +
+      __dirname + "/data/results/" +
       studyName + "_" +
       participantID + "_" +
       studyID + "_" +
@@ -192,23 +198,23 @@ async function postResult(jsonFileName, jsonResult) {
   return [fileNotExists, writeDeck];
 }
 
-ostm.get("/sendCode/:studyName", function(request, response) {
+app.get("/sendCode/:studyName", function(request, response) {
   // 	//the purpose of the this route\page is to pass the prolific code to the participant if they have completed
 
   //declare file URL's
   var resultFileName =
-    appRoot + "/data/results/" +
+    __dirname + "/data/results/" +
     request.params.studyName + "_" +
     request.query.PROLIFIC_PID + "_" +
     request.query.STUDY_ID + "_" +
     request.query.SESSION_ID + ".json";
-  var codeFileName = appRoot + "/data/codes/" + request.params.studyName + "_code.json";
+  var codeFileName = __dirname + "/data/codes/" + request.params.studyName + "_code.json";
 
   try {
     var prolificCode = getProlificCode(resultFileName, codeFileName)
       .then(jsonGetCode => {
         // the study has been saved and the prolific code retrieved
-        response.render("studycomplete", { qs: jsonGetCode });
+        response.render("studycomplete", { rPath: moduleName, qs: jsonGetCode });
         log.info(
           "GET /sendCode/:" + request.params.studyName + ", passe code to client: " + prolificCode
         );
@@ -221,20 +227,20 @@ ostm.get("/sendCode/:studyName", function(request, response) {
             "GET /sendCode/:" + request.params.studyName + "_code.json does not exist",
             request.ip
           );
-          response.render("error", {
+          response.render("error", { rPath: moduleName,
             err: request.params.studyName + "_code does not exist, contact Researcher."
           });
           response.end;
         } else {
           // there is a missing file
           log.info("POST /study/duplicate, failed", error.message);
-          response.render("error", { err: error.message });
+          response.render("error", { rPath: moduleName, err: error.message });
           response.end;
         }
       });
   } catch (err) {
     //unhandled exception.
-    response.render("error", { err: error.message });
+    response.render("error", { rPath: moduleName, err: error.message });
     response.end;
   }
 });
@@ -324,4 +330,4 @@ async function fileExistsAsync(sURL) {
   }
 }
 
-module.exports = ostm;
+module.exports = app;

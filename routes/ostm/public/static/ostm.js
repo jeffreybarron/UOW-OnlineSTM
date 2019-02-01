@@ -1,4 +1,5 @@
 "use strict";
+var sPath = '/ostm'
 var questionObj = document.getElementById("question");
 var answerDIV = document.getElementById("answerDIV");
 var answer = document.getElementById("answer");
@@ -34,28 +35,28 @@ function main() {
     // console.log("SourceURL:", sourceURL);
     //switch
     switch (sourceURL) {
-      case "/ostm/consent":
+      case sPath + "/consent":
         //Page 1 - Entry Page from Prolific
         //in: Prolific Paramater
         //out: Prolific Paramaters, GUID\cookie
         //console.log("entryPoint/consent Loading");
         loadConsent();
         break;
-      case "/ostm/instructions":
+      case sPath + "/instructions":
         //Page 2 - Consent Recieved, Study Instructions
         //in: GUID\Cookie
         //out: GUID\Cookie
         //console.log("entryPoint/instructions Loading");
         loadInstructions();
         break;
-      case "/ostm/study":
+      case sPath + "/study":
         //Page 3 - Consent Recieved GUID Created and Study
         //in: GUID\Cookie => Studytemplate.json => loadQuestions()
         //out: studyresult.json + GUID\Cookie => uploadAnswers(http.POST /results)
         //console.log("entryPoint/study Loading");
         loadStudy();
         break;
-      case "/ostm/results":
+      case sPath + "/results":
         //Page
         //console.log("entryPoint/results Loading");
         break;
@@ -74,7 +75,7 @@ function loadInstructions() {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open(
       "GET",
-      "/data/studies/" + studyName.getAttribute("value") + "_instructions.html",
+      sPath + "/resources/studies/" + studyName.getAttribute("value") + "_instructions.html",
       true
     );
     xmlHttp.setRequestHeader("Content-Type", "text/html");
@@ -95,7 +96,7 @@ function loadConsent() {
   try {
     //console.log("ostm.js.loadConsent, studyID: " + studyName.getAttribute('value'))
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "/data/studies/" + studyName.getAttribute("value") + "_consent.html", true);
+    xmlHttp.open("GET", sPath + "/resources/studies/" + studyName.getAttribute("value") + "_consent.html", true);
     xmlHttp.setRequestHeader("Content-Type", "text/html");
     xmlHttp.send();
     xmlHttp.onreadystatechange = function() {
@@ -111,127 +112,132 @@ function loadConsent() {
   }
 }
 function loadStudy() {
-  //load config file
-  var studyURL = "/data/studies/" + studyName.getAttribute("value") + ".json";
-  //console.log("studyURL: " + studyURL);
-  getFile(studyURL)
-    .then(function(configFile) {
-      //console.log("configFile:");
-      //console.log(configFile);
-      //setup the configFile for this 'game'
-      //Take the parameters from the URL and put them in our new studyConfig object
-      oStudyConfig = configFile;
-      oStudyConfig.PROLIFIC_PID = participantID.getAttribute("value");
-      oStudyConfig.STUDY_ID = studyID.getAttribute("value");
-      oStudyConfig.SESSION_ID = sessionID.getAttribute("value");
-      oStudyConfig.checkConsent = checkConsent.getAttribute("value");
-      oStudyConfig.checkInstructions = checkInstructions.getAttribute("value");
+  
+  try {
+    //load config file
+    var studyURL = sPath + "/resources/studies/" + studyName.getAttribute("value") + ".json";
+    //console.log("studyURL: " + studyURL);
+    getFile(studyURL)
+      .then(function(configFile) {
+        //console.log("configFile:");
+        //console.log(configFile);
+        //setup the configFile for this 'game'
+        //Take the parameters from the URL and put them in our new studyConfig object
+        oStudyConfig = configFile;
+        oStudyConfig.PROLIFIC_PID = participantID.getAttribute("value");
+        oStudyConfig.STUDY_ID = studyID.getAttribute("value");
+        oStudyConfig.SESSION_ID = sessionID.getAttribute("value");
+        oStudyConfig.checkConsent = checkConsent.getAttribute("value");
+        oStudyConfig.checkInstructions = checkInstructions.getAttribute("value");
 
-      //Shuffle the Stimulus Files if needed
-      if (oStudyConfig.shuffleDecks === true) {
-        oStudyConfig.deckConfiguration = shuffleArray(oStudyConfig.deckConfiguration).splice(0);
-        //console.log("shuffled decks");
-      }
-      //console.log(oStudyConfig);
-
-      //Get the list of Stimulus Files
-      var stimulusFiles = [];
-      for (let i = 0; i < oStudyConfig.deckConfiguration.length; i++) {
-        stimulusFiles.push("/data/decks/" + oStudyConfig.deckConfiguration[i].deckName);
-      }
-      //console.log("stimulusFiles");
-      //console.log(stimulusFiles);
-
-      // Take an array of promises and wait on them all
-      return Promise.all(
-        // Map our array of chapter urls to
-        // an array of chapter json promises
-        stimulusFiles.map(getFile)
-      );
-    })
-    .then(function(deckList) {
-      //console.log("The DeckList");
-      //console.log(deckList);
-
-      // Now we have the decks from the Config File order! Loop through…
-      deckList.forEach(function(deck) {
-        //At this point Im just going to add all decks to an allDecks object, so I
-        //can use it once everything is loaded.
-        allDecks.push(deck);
-      });
-    })
-    .catch(function(err) {
-      // catch any error that happened so far
-      //console.log("Argh, broken: " + err.message);
-    })
-    .then(function() {
-      let dealersDeck = [];
-      //load the samples
-      //console.log(allDecks);
-
-      for (let i = 0; i < allDecks.length; i++) {
-        sampledStimulus.push(
-          pickStimulus(
-            allDecks[i],
-            oStudyConfig.deckConfiguration[i].pickQty,
-            oStudyConfig.deckConfiguration[i].sampleMode
-          )
-        );
-        //console.log("sampledStimulus");
-        //console.log(sampledStimulus);
-
-        //load them into a single dealer container to be
-        //https://davidwalsh.name/combining-js-arrays
-        dealersDeck = sampledStimulus[i].reduce(function(coll, item) {
-          coll.push(item);
-          return coll;
-        }, dealersDeck);
-        //console.log(dealersDeck);
-      }
-
-      //Shuffle the dealersDeck if needed
-      if (oStudyConfig.shuffleAll === true) {
-        //console.log(dealersDeck);
-        dealersDeck = shuffleArray(dealersDeck);
-        //console.log(dealersDeck);
-      }
-
-      //setup sets in the config file
-      let currentStimulus = 0;
-      let sumSetSize = oStudyConfig.setSizes.reduce(function(accumulator, currentValue) {
-        return accumulator + currentValue;
-      }, 0);
-      //console.log("sumSetSize:" + sumSetSize);
-
-      //for each set
-      oStudyConfig["sets"] = [];
-      for (let iSetNumber = 0; iSetNumber < oStudyConfig.setSizes.length; iSetNumber++) {
-        //add set frame
-        oStudyConfig.sets.push(JSON.parse('{"set":[]}'));
-        let setSize = oStudyConfig.setSizes[iSetNumber];
-        //console.log("\tiSetNumber:" + iSetNumber + ", setSize:" + setSize);
-
-        //console.log(dealersDeck);
-        //console.log(oStudyConfig);
-
-        //dish out the number of cards required from the front of the deck
-        for (let i = 0; i < setSize; i++) {
-          //push first element of dealersDeck onto the end of config file sets.set
-          //console.log("iSetNumber:" + iSetNumber + ", setSize:" + setSize + ", i:" + i);
-          oStudyConfig.sets[iSetNumber].set.push(dealersDeck[0]); //because zero is always the front
-          dealersDeck.shift(); //remove first element of dealersDeck
+        //Shuffle the Stimulus Files if needed
+        if (oStudyConfig.shuffleDecks === true) {
+          oStudyConfig.deckConfiguration = shuffleArray(oStudyConfig.deckConfiguration).splice(0);
+          //console.log("shuffled decks");
         }
-        //console.log(dealersDeck);
         //console.log(oStudyConfig);
-      }
 
-      //console.log('LoadTime updated');
-      //update page Settings
-      document.body.style.backgroundColor = oStudyConfig.studybackgroundColor;
-      document.body.style.color = oStudyConfig.studyTextColor;
-      oStudyConfig.loadTime = getDate();
-      startDIV.style.display = "block";
-    });
+        //Get the list of Stimulus Files
+        var stimulusFiles = [];
+        for (let i = 0; i < oStudyConfig.deckConfiguration.length; i++) {
+          stimulusFiles.push(sPath + "/resources/decks/" + oStudyConfig.deckConfiguration[i].deckName);
+        }
+        //console.log("stimulusFiles");
+        //console.log(stimulusFiles);
+
+        // Take an array of promises and wait on them all
+        return Promise.all(
+          // Map our array of chapter urls to
+          // an array of chapter json promises
+          stimulusFiles.map(getFile)
+        );
+      })
+      .then(function(deckList) {
+        //console.log("The DeckList");
+        //console.log(deckList);
+
+        // Now we have the decks from the Config File order! Loop through…
+        deckList.forEach(function(deck) {
+          //At this point Im just going to add all decks to an allDecks object, so I
+          //can use it once everything is loaded.
+          allDecks.push(deck);
+        });
+      })
+      .catch(function(err) {
+        // catch any error that happened so far
+        console.log("Argh, broken: " + err.message);
+      })
+      .then(function() {
+        let dealersDeck = [];
+        //load the samples
+        //console.log(allDecks);
+
+        for (let i = 0; i < allDecks.length; i++) {
+          sampledStimulus.push(
+            pickStimulus(
+              allDecks[i],
+              oStudyConfig.deckConfiguration[i].pickQty,
+              oStudyConfig.deckConfiguration[i].sampleMode
+            )
+          );
+          //console.log("sampledStimulus");
+          //console.log(sampledStimulus);
+
+          //load them into a single dealer container to be
+          //https://davidwalsh.name/combining-js-arrays
+          dealersDeck = sampledStimulus[i].reduce(function(coll, item) {
+            coll.push(item);
+            return coll;
+          }, dealersDeck);
+          //console.log(dealersDeck);
+        }
+
+        //Shuffle the dealersDeck if needed
+        if (oStudyConfig.shuffleAll === true) {
+          //console.log(dealersDeck);
+          dealersDeck = shuffleArray(dealersDeck);
+          //console.log(dealersDeck);
+        }
+
+        //setup sets in the config file
+        let currentStimulus = 0;
+        let sumSetSize = oStudyConfig.setSizes.reduce(function(accumulator, currentValue) {
+          return accumulator + currentValue;
+        }, 0);
+        //console.log("sumSetSize:" + sumSetSize);
+
+        //for each set
+        oStudyConfig["sets"] = [];
+        for (let iSetNumber = 0; iSetNumber < oStudyConfig.setSizes.length; iSetNumber++) {
+          //add set frame
+          oStudyConfig.sets.push(JSON.parse('{"set":[]}'));
+          let setSize = oStudyConfig.setSizes[iSetNumber];
+          //console.log("\tiSetNumber:" + iSetNumber + ", setSize:" + setSize);
+
+          //console.log(dealersDeck);
+          //console.log(oStudyConfig);
+
+          //dish out the number of cards required from the front of the deck
+          for (let i = 0; i < setSize; i++) {
+            //push first element of dealersDeck onto the end of config file sets.set
+            //console.log("iSetNumber:" + iSetNumber + ", setSize:" + setSize + ", i:" + i);
+            oStudyConfig.sets[iSetNumber].set.push(dealersDeck[0]); //because zero is always the front
+            dealersDeck.shift(); //remove first element of dealersDeck
+          }
+          //console.log(dealersDeck);
+          //console.log(oStudyConfig);
+        }
+
+        //console.log('LoadTime updated');
+        //update page Settings
+        document.body.style.backgroundColor = oStudyConfig.studybackgroundColor;
+        document.body.style.color = oStudyConfig.studyTextColor;
+        oStudyConfig.loadTime = getDate();
+        startDIV.style.display = "block";
+      });
+  } catch (err) {
+    console.log(err);
+  }
 }
 function pickStimulus(deck, pickQty, sampleMode) {
   //console.log("PickStimulus Start");
@@ -345,7 +351,7 @@ function updateAnswers() {
         var data = JSON.stringify(oStudyConfig, null, 2);
         //console.dir(data);
         let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("POST", "/ostm/results", true);
+        xmlHttp.open("POST", sPath + "/results", true);
         xmlHttp.setRequestHeader("Content-Type", "application/json");
         //Save data to server
         try {
@@ -363,9 +369,9 @@ function updateAnswers() {
               questionObj.style.display = "none";
               studyText.style.display = "block";
               studyText.outerHTML =
-                "<p>You must click this <a href='/ostm/sendCode/" + 
-								studyName.getAttribute("value") + "?" + completedStudy +
-                "'>Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>";
+                '<p>You must click this <a href="' + sPath + '/sendCode/' + 
+								studyName.getAttribute('value') + '?' + completedStudy +
+                '">Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>';
             } else {
               // alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status );
             }

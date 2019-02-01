@@ -1,4 +1,4 @@
-/* BootStrap Stying
+/* Styling - /ostm/static/main.css
 -------------------------------------------------- */
 html {
   position: relative;
@@ -8,7 +8,7 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
   /*padding-top: 50px;*/
-  background-color: AliceBlue;
+  background-color: #D4EDF7;
 }
 
 .navbar .navbar-nav {

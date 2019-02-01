@@ -1,4 +1,5 @@
 "use strict";
+var sPath = '/ostm/manage'
 var currentStudyName = document.getElementById("currentStudyName");
 var new_studyName = document.getElementById("new_studyName");
 
@@ -24,7 +25,7 @@ function updateOnChange() {
   var oData = upDateTable(document.getElementById("source_studyName").value);
 }
 function upDateTable(studyName) {
-  let sUrl = "/data/studies/" + studyName;
+  let sUrl = sPath + "/resources/studies/" + studyName;
 
   //get study details, but ignore copy
   getFile(sUrl + ".json")
@@ -79,10 +80,10 @@ function studyDuplicate() {
       "currentStudyName": currentStudyName.innerText,
       "new_studyName": new_studyName.value
     };
-    let sPath = "duplicate";
+    let sUrl = sPath + "/study/duplicate";
     let xmlHttp = new XMLHttpRequest();
 
-    xmlHttp.open("POST", sPath, true);
+    xmlHttp.open("POST", sUrl, true);
     xmlHttp.setRequestHeader("Content-Type", "application/json");
     //Save data to server
 
@@ -109,10 +110,15 @@ function studyDuplicate() {
         msgResult.style.display = "block";
         msgResult.className = "msgResult-error";
         return false;
+      } else if (xmlHttp.readyState == 4 && xmlHttp.status == 412) {
+        // alert("You must choose another studyName, this one is already in use");
+        msgResult.innerHTML = xmlHttp.responseText;
+        msgResult.style.display = "block";
+        msgResult.className = "msgResult-error";
+        return false;
       } else if (xmlHttp.readyState == 4 && xmlHttp.status == 500) {
         // alert("Server returned a general error state, go tell mum.");
-        msgResult.innerHTML =
-          "<p>Server returned a general error state (500), your deck was not created.</p>";
+        msgResult.innerHTML = xmlHttp.responseText;
         msgResult.style.display = "block";
         msgResult.className = "msgResult-error";
         return false;
@@ -121,7 +127,7 @@ function studyDuplicate() {
       }
     };
   } catch (err) {
-    msgResult.innerHTML = "<p>So here is the thing, we dont actually know what.</p>";
+    msgResult.innerHTML = "<p>So here is the thing, we dont actually know what happened. Some kind of error I guess!!</p>";
     msgResult.style.display = "block";
     msgResult.className = "msgResult-error";
   }

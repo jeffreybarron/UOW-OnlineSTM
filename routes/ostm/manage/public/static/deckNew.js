@@ -1,4 +1,5 @@
 "use strict";
+var sPath = '/ostm/manage'
 var stimuliTable = document.getElementById("stimuliTable");
 var msgResult = document.getElementById("msgResult");
 let iRowCount = 1;
@@ -34,7 +35,7 @@ var deckName = document.getElementById("deckName");
   let jData = tableToJson(stimuliTable);
   var data = JSON.stringify(jData, null, 2);
   let xmlHttp = new XMLHttpRequest;
-    xmlHttp.open("POST", "/manage/deck/create/" + deckName.value, true);
+    xmlHttp.open("POST", sPath + "/deck/create/" + deckName.value, true);
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
     //Save data to server
   try {

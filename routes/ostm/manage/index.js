@@ -1,9 +1,10 @@
 // routes/ostm/manage/index.js
 "use strict";
 const moduleName = "manage";
+const sPath = 'ostm/manage'
 
 const express = require("express"); //express module
-const manage = express.Router();
+const app = express();
 const bodyParser = require("body-parser");
 const sanitizer = require("express-sanitizer");
 const fs = require("fs");
@@ -14,19 +15,23 @@ const util = require("util");
 const mUtils = require(appRoot + "/utils/mUtils.js");
 const ostmPublic = appRoot + '/routes/ostm/public'
 
-manage.use("/static", express.static(__dirname + '/public/static'));
-manage.use("/data/studies", express.static(ostmPublic + '/data/studies'));
-manage.use("/data/decks", express.static(ostmPublic + '/data/decks'));
-manage.use(bodyParser.json()); // for parsing application/json
-manage.use(bodyParser.urlencoded({ extended: false }));
-manage.use(sanitizer());
+app.use("/static", express.static(__dirname + '/public/static'));
+app.use("/resources/studies", express.static(ostmPublic + '/resources/studies'));
+app.use("/resources/decks", express.static(ostmPublic + '/resources/decks'));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(sanitizer());
+app.set("view engine", "ejs");
+app.set("views", [
+  __dirname
+]);
 
 const log = bunyan.createLogger({
   name: "UOW_CogLab",
   streams: [
     {
       level: "debug",
-      path: appRoot + "/data/logs/ostm-" + moduleName + "-log.json"
+      path: __dirname + "/logs/" + moduleName + "-log.json"
     },
     {
       level: "info",
@@ -36,33 +41,33 @@ const log = bunyan.createLogger({
   src: true
 });
 
-manage.get("/", function(request, response) {
+app.get("/", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET /ostm/manage/ ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('manage');
+  response.render('index', { rPath: sPath});
 });
-manage.get("/guide", function(request, response) {
+app.get("/guide", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET /ostm/manage/guide ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('guide');
+  response.render('guide', { rPath: sPath});
 });
-manage.get("/deck/create", function(request, response) {
+app.get("/deck/create", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET /ostm/manage/deck/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('deckNew');
+  response.render('deckNew', { rPath: sPath});
 });
-manage.get("/preflight", function(request, response) {
+app.get("/preflight", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET /ostm/manage/preflight ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render("preflight");
+  response.render("preflight", { rPath: sPath});
 });
 
-manage.get("/study/list", function(request, response) {
+app.get("/study/list", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET /ostm/manage/study/list ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/data/studies/')
+  getFileList(ostmPublic + '/resources/studies/')
     .then(fileList => {
       //do somthing with file list
       let files = [];
@@ -72,97 +77,40 @@ manage.get("/study/list", function(request, response) {
           files.push({ studyName: url.name });
         }
       }
-      response.render('studyList', { files: files });
+      response.render('studyList', { rPath: sPath, files: files });
       log.info("GET /study/list rendered", request.ip);
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render("error", { err: error.message });
+      response.render("error", { rPath: sPath, err: error.message });
       response.end;
     });
 });
-manage.get("/study/new", function(request, response) {
+app.get("/study/new", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET /ostm/manage/study/new ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/data/decks/')
+  getFileList(ostmPublic + '/resources/decks/')
     .then(fileList => {
       //do somthing with file list
       let files = [];
       for (let i = 0; i < fileList.length; i++) {
         files.push({
           deckName: fileList[i],
-          available: mUtils.getDeckLength(ostmPublic + '/data/decks/' + fileList[i])
+          available: mUtils.getDeckLength(ostmPublic + '/resources/decks/' + fileList[i])
         });
       }
       log.info("GET /study/new/, Rendered for IP:" + request.ip);
-      response.render('studyNew', { files: files });
+      response.render('studyNew', { rPath: sPath, files: files });
     })
     .catch(error => {
       //handle the error
-      response.render('error', { err: error.message });
+      response.render('error', { rPath: sPath, err: error.message });
     });
 });
-manage.get("/study/duplicate", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/study/duplicate ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
-  const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/data/studies/')
-    .then(fileList => {
-      //do somthing with file list
-      let files = [];
-      for (let i = 0; i < fileList.length; i++) {
-        if (fileList[i].includes(".json")) {
-          var thisFile = path.parse(fileList[i]);
-          files.push({ studyName: thisFile.name });
-        }
-      }
-      log.info("GET /study/duplicate, Rendered for IP:", request.ip);
-      response.render('studyDuplicate', { files: files });
-      response.end;
-    })
-    .catch(error => {
-      //handle the error
-      response.render('error', { err: error.message });
-      response.end;
-    });
-});
-
-manage.post("/deck/create/:deckName", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /ostm/manage/deck/create ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
-  var result = createDeck(request.params.deckName, request.body)
-    .then(resolved => {
-      log.info("POST /deck/create, Successful", resolved);
-      log.info("POST /deck/created, from IP:", request.ip);
-      response.status(201).end();
-    })
-    .catch(err => {
-      if (err.message == "This file already exists!") {
-        log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
-        response.status(409).end();
-      } else {
-        log.info("POST /deck/create, failed", err.message);
-        response.status(500).end();
-      }
-    });
-});
-async function createDeck(deckName, deck) {
-  log.info("POST /deck/create createDeck: " + deckName, deck);
-  //AWAIT --> does file already exist, if so then stop
-  let deckNotExists = await fileNotExists(ostmPublic + '/data/decks/' + deckName + ".json");
-
-  //AWAIT --> create Deck
-  let writeDeck = await writeJSON(ostmPublic + '/data/decks/' + deckName + ".json", deck);
-
-  return [deckNotExists, writeDeck];
-}
-
-manage.post("/study/create", function(request, response) {
+app.post("/study/new", function(request, response) {
   var errLocation = "IP:" + request.ip + ", POST /ostm/manage/study/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
@@ -205,8 +153,8 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   log.info(errLocation + ", log: 1, called");
 
   //declare variables
-  let sURL = ostmPublic + '/data/studies/';
-  let sPrivateURL = appRoot + "/data/codes/";
+  let sURL = ostmPublic + '/resources/studies/';
+  let sPrivateURL = appRoot + "/routes/ostm/data/codes/";
 
   //AWAIT --> does file already exist, if so then stop
   let studyNotExists = await fileNotExists(sURL + studyName + ".json");
@@ -243,27 +191,93 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   return [studyNotExists, codeFile, instructionFile, configFile];
 }
 
-manage.post("/study/duplicate", function(request, response) {
+
+
+app.post("/deck/create/:deckName", function(request, response) {
+  var errLocation = "IP:" + request.ip + ", POST /ostm/manage/deck/create ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+
+  var result = createDeck(request.params.deckName, request.body)
+    .then(resolved => {
+      log.info("POST /deck/create, Successful", resolved);
+      log.info("POST /deck/created, from IP:", request.ip);
+      response.status(201).end();
+    })
+    .catch(err => {
+      if (err.message == "This file already exists!") {
+        log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
+        response.status(409).end();
+      } else {
+        log.info("POST /deck/create, failed", err.message);
+        response.status(500).end();
+      }
+    });
+});
+async function createDeck(deckName, deck) {
+  log.info("POST /deck/create createDeck: " + deckName, deck);
+  //AWAIT --> does file already exist, if so then stop
+  let deckNotExists = await fileNotExists(ostmPublic + '/resources/decks/' + deckName + ".json");
+
+  //AWAIT --> create Deck
+  let writeDeck = await writeJSON(ostmPublic + '/resources/decks/' + deckName + ".json", deck);
+
+  return [deckNotExists, writeDeck];
+}
+
+
+
+app.get("/study/duplicate", function(request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/study/duplicate ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+
+  const getFileList = util.promisify(fs.readdir);
+  getFileList(ostmPublic + '/resources/studies/')
+    .then(fileList => {
+      //do somthing with file list
+      let files = [];
+      for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].includes(".json")) {
+          var thisFile = path.parse(fileList[i]);
+          files.push({ studyName: thisFile.name });
+        }
+      }
+      log.info("GET /study/duplicate, Rendered for IP:", request.ip);
+      response.render('studyDuplicate', { rPath: sPath, files: files });
+      response.end;
+    })
+    .catch(error => {
+      //handle the error
+      response.render('error', { rPath: sPath, err: error.message });
+      response.end;
+    });
+});
+app.post("/study/duplicate", function(request, response) {
   var errLocation = "IP:" + request.ip + ", POST /ostm/manage/study/duplicate ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   // we are going to use await for this.
   let sSource = request.body.currentStudyName;
   let sNew = request.body.new_studyName;
   try {
+
+    //validate sNewURL
+    if (sNew.length < 20 || sNew.length > 25 || !sNew) {
+      log.info("POST /study/duplicate, No Study Name or Malformed studyName was provided, try a new studyName:", request.ip);
+        return response.status(412).send("No studyName or studyName is malformed, try a new studyName");
+    }
     //Using Promise with Async\Await
     let result = duplicateStudy(sSource, sNew)
       .then(resolved => {
         log.info("POST /study/duplicate, Successful", resolved);
         log.info("POST /study/duplicate, from IP:", request.ip);
-        response.status(201).end();
+        return response.status(201).send('The study was duplicated successfully');
       })
       .catch(err => {
         if (err.message == "This file already exists!") {
           log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
-          response.status(409).end();
+          return response.status(409).send('This file already exists!');
         } else {
           log.info("POST /deck/create, failed", err.message);
-          response.status(500).end();
+          return response.status(500).send(err.message);
         }
       });
   } catch (error) {
@@ -273,15 +287,10 @@ manage.post("/study/duplicate", function(request, response) {
   }
 });
 async function duplicateStudy(sSource, sNew) {
-  try {
-    //validate sNewURL
-    if (sNew.length < 20 || sNew.length > 25 || !sNew) {
-      throw "New studyName must be 24 characters, please use the documented Syntax";
-    }
-
     //does the new file exist then throw an error
-    let sURL = ostmPublic + '/data/studies/';
+    let sURL = ostmPublic + '/resources/studies/';
     let configResult = await copyConfig(sURL, sSource, sNew);
+    
     let consentResult = await copyFile(
       sURL + sSource + "_consent.html",
       sURL + sNew + "_consent.html"
@@ -291,18 +300,13 @@ async function duplicateStudy(sSource, sNew) {
       sURL + sNew + "_instructions.html"
     );
 
-    let sPrivateURL = appRoot + "/data/codes/";
+    let sPrivateURL = appRoot + "/routes/ostm/data/codes/";
     let prolificCode = await copyFile(
       sPrivateURL + sSource + "_code.json",
       sPrivateURL + sNew + "_code.json"
     );
 
-    //I really dont know how to report back from here? this doesnt seem to work
     return [configResult, consentResult, instructionResult, prolificCode];
-  } catch (err) {
-    log.info(err);
-    throw err;
-  }
 }
 
 
@@ -316,14 +320,22 @@ function copyFile(sourceURL, newURL) {
       }
       if (!fs.existsSync(newURL)) {
         fs.copyFile(sourceURL, newURL, err => {
-          if (err) throw err;
+          if (err === null ) {
+            resolve({ created: newURL });
+            return;
+          } else {
+            log.info('Problem writing File:' + newURL);
+            reject(new Error("Server Error, URL malformed on server, advise research supervisor"));
+            return;
+          }
         });
-        resolve({ created: newURL });
       } else {
         reject(new Error("This file already exists!"));
+        return;
       }
     } catch (err) {
       reject(new Error("There was an unhandeled error at copyFile: " + err));
+      return;
     }
   });
 }
@@ -367,10 +379,7 @@ function copyConfig(URL, sourceStudy, newStudy) {
 }
 function writeJSON(sURL, data) {
   return new Promise((resolve, reject) => {
-    log.info(
-      "File: manage.index.js" + ", Function: writeJSON" + ", Location: 1" + ", sURL: " + sURL,
-      data
-    );
+    log.info("File: manage.index.js" + ", Function: writeJSON" + ", Location: 1" + ", sURL: " + sURL, data);
     var sFile = JSON.stringify(data, null, 2);
     fs.writeFile(sURL, sFile, "utf-8", function(err) {
       if (err) {
@@ -429,4 +438,4 @@ async function fileExistsAsync(sURL) {
   }
 }
 
-module.exports = manage;
+module.exports = app;
