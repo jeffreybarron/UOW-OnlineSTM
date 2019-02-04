@@ -1,0 +1,88 @@
+{
+  "studyName": "20190204-stu456-twodeck01",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "setSizes": [
+    2,
+    2,
+    2
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "deck01.json",
+      "pickQty": 3,
+      "sampleMode": "sequential"
+    },
+    {
+      "deckName": "deck02.json",
+      "pickQty": 3,
+      "sampleMode": "sequential"
+    }
+  ],
+  "shuffleDecks": false,
+  "shuffleAll": false,
+  "refreshRateMS": 100,
+  "PROLIFIC_PID": "GUID001",
+  "STUDY_ID": "GUID002",
+  "SESSION_ID": "GUID003",
+  "checkConsent": "on",
+  "checkInstructions": "on",
+  "sets": [
+    {
+      "set": [
+        {
+          "stimulus": "lorem",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "lorem",
+          "responseTime": "20190204_20:26:30.0983"
+        },
+        {
+          "stimulus": "ipsum",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "ipsum",
+          "responseTime": "20190204_20:26:33.0232"
+        }
+      ]
+    },
+    {
+      "set": [
+        {
+          "stimulus": "dolor",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "red",
+          "responseTime": "20190204_20:26:40.0568"
+        },
+        {
+          "stimulus": "red",
+          "textColor": "red",
+          "backGroundColor": "black",
+          "response": "delor",
+          "responseTime": "20190204_20:26:42.0581"
+        }
+      ]
+    },
+    {
+      "set": [
+        {
+          "stimulus": "green",
+          "textColor": "green",
+          "backGroundColor": "black",
+          "response": "green",
+          "responseTime": "20190204_20:26:48.0825"
+        },
+        {
+          "stimulus": "blue",
+          "textColor": "blue",
+          "backGroundColor": "black",
+          "response": "blue",
+          "responseTime": "20190204_20:26:53.0900"
+        }
+      ]
+    }
+  ],
+  "loadTime": "20190204_20:26:26.0022",
+  "saveTime": "20190204_20:26:53.0901"
+}

@@ -136,6 +136,9 @@ q:)---changes in 1.6.0
 q:)---changes in 1.6.1
 -remove commenting from javascript on redirecting pages
 
+q:)---changes in 1.6.2
+-tidyup ostm.js loadstudy() function
+
 TODO
 ====
 

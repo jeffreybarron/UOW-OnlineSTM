@@ -1,0 +1,18 @@
+{
+  "studyName": "20190204-stu456-test01",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "setSizes": [
+    2
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "Equine.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    }
+  ],
+  "shuffleDecks": false,
+  "shuffleAll": false,
+  "refreshRateMS": 250
+}

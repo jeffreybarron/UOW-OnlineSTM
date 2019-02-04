@@ -1,0 +1,47 @@
+{
+  "studyName": "20190204-stu456-test02",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "setSizes": [
+    2
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "Equine.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    }
+  ],
+  "shuffleDecks": false,
+  "shuffleAll": false,
+  "refreshRateMS": 250,
+  "PROLIFIC_PID": "GUID001",
+  "STUDY_ID": "GUID002",
+  "SESSION_ID": "GUID003",
+  "checkConsent": "on",
+  "checkInstructions": "on",
+  "sets": [
+    {
+      "set": [
+        {
+          "row": "0",
+          "stimulus": "pony",
+          "textcolor": "black",
+          "backgroundcolor": "white",
+          "responseTime": "20190204_20:25:20.0287",
+          "response": "pony unicorn"
+        },
+        {
+          "row": "1",
+          "stimulus": "unicorn",
+          "textcolor": "black",
+          "backgroundcolor": "white",
+          "responseTime": "20190204_20:25:24.0798",
+          "response": "unicorn"
+        }
+      ]
+    }
+  ],
+  "loadTime": "20190204_20:25:09.0748",
+  "saveTime": "20190204_20:25:24.0799"
+}
