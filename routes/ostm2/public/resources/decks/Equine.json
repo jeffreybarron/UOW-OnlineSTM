@@ -1,0 +1,14 @@
+[
+  {
+    "row": "0",
+    "stimulus": "pony",
+    "textcolor": "black",
+    "backgroundcolor": "white"
+  },
+  {
+    "row": "1",
+    "stimulus": "unicorn",
+    "textcolor": "black",
+    "backgroundcolor": "white"
+  }
+]

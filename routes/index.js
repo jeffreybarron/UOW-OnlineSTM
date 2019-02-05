@@ -7,10 +7,14 @@ const app = express();
 const favicon = require("serve-favicon");
 const fs = require("fs");
 const mDates = require(appRoot + "/utils/mDates.js");
-const ostm = require("./ostm");
 const bunyan = require("bunyan");
 
+const ostm = require("./ostm");
 app.use("/ostm", ostm);
+const ostm2 = require("./ostm2");
+app.use("/ostm2", ostm2);
+
+
 app.use('/static', express.static(__dirname  + '/public/static'));
 app.use(favicon(__dirname + '/public/static/favicon.ico'));
 

@@ -1,0 +1,189 @@
+============================
+1.3.x-master
+============================
+q:)---changes in 1.3.1
+-all the errors created by merging 1.2.6 and 1.1.8 have been resolved
+-moved study buttons down away from stimulus prompt
+-changed colour or start button to green
+-arranged button layout so start and submit buttons are in roughly the same spot
+ when they appear, this make the UI experience smoother
+
+q:)---changes in 1.3.2
+-remove <h2>You are finished</h2> from completion screen because the participant
+must still click the link and this text may confuse them into closing the
+browser. if this happens their study will not be saved to the server.
+-removed studyText key:value which is now redundant in the configuration file.
+
+============================
+1.3.3-StudyCreator
+============================
+-q:)---changes in 1.3.3-StudyCreator
+labour time: 40hrs
+Added Study Setup Feature http://uowcoglab.com/study/new
+Note this still requires sence and significant amount of checking from researcher
+also this is an alpha release so UI feedback when stuff goes wrong is lacking
+and its a bit buggy. (like the rest of the solution)
+
+q:)---changes in 1.3.4-StudyCreator
+-added available cards counter to study/new page to help researchers
+
+q:)---changes in 1.3.5-StudyCreator
+-Removed studyTitle
+-set background colour and font to change with every card for study
+-set start and between set colours
+-UI feedback that the study has been created, or there was a problem
+-Code Clean up kind of
+
+q:)---changes in 1.3.6-StudyCreator
+-implemented SXX sanitization,
+  ** but deckConfiguration is not cleaning. **
+-handle if consent\instructions are not ticked
+-add another page at the start to confirm prolific ID
+-also box copy text in a white box with round edges
+
+q:)---changes in 1.3.8-workingcopy
+-modularise code for maintainability (HALF)
+ - have completed the management module and utils modules
+  figured out problem of module paths and roots
+ -plan is to add another layer in here so we can use other providers.. (later)
+ -current module structure
+    \routes\index.js
+    \-\routes\manage\index.js
+    \-\-\routes\manage\create
+    \-\-\routes\manage\list (future)
+    \-\-\routes\manage\export (future)
+    \-\-\routes\manage\delete (future)
+    \-\lab\index.js
+    \-\-\lab\index.js
+    \-\-\-\lab\participant
+    \-\-\-\lab\consent
+    \-\-\-\lab\instructions
+    \-\-\-\lab\study
+    \-\-\-\lab\complete
+
+q:)---changes in 1.3.9-workingcopy
+-completed modularisation
+
+q:)---changes in 1.3.10-workingcopy
+-move public accessible files into public folder
+-fixed error url catchall and home page response- moved to routes
+-Feature add, manage/study/list
+
+q:)---changes in 1.3.11-workingcopy
+-make a manage home page with links to functions - use a GUID for access
+
+q:)---changes in 1.3.12-workingcopy
+Trying to add duplicate feature. stuck with await functions... Arrggg
+
+q:)---changes in 1.3.13-workingcopy_v3
+Duplicate and error handling is for duplicate is working, its not very elegant but it mostly works.
+-Feature add, duplicate study for prolific test fire adherants
+
+============================
+1.4.0-master
+============================
+q:)---changes in 1.4.1-workingcopy
+-implement BUNYAN logging\ debuggings
+-change lab route to OSTM
+-Changed package.json name from OSTM to CogLab
+
+q:)---changes in 1.4.2-workingcopy
+-feature add, Deck Creator pages
+
+q:)---changes in 1.4.3-Jeffcopy
+-improved logging
+
+q:)---changes in 1.4.5-workingcopy
+-improved logging
+-fixed letterbox menu on manage pages
+-cleaned up some javascript
+
+q:)---changes in 1.4.5-workingcopy
+-fixed errors arising from code cleanup
+
+q:)---changes in 1.4.6-workingcopy
+-copy colour from previous stimulus on newDeck Tool
+
+q:)---changes in 1.4.7
+-get rid of syncronous code
+--added promise/await aysnc code to OSTM
+--add recheck logging for OSTM
+--add promise/await to management features
+-rename client js files to standard
+-remove alert boxs and replaced with on page notifications
+--deckNew
+--studyNew
+--studyDuplicate
+
+============================
+1.5.0-master
+============================
+q:)---changes in 1.5.0
+-Major Release
+
+q:)---changes in 1.5.1
+- add more detailed logging
+
+q:)---changes in 1.5.2
+-fix deckNew txbackgroundcolour incorrectly copied
+
+============================
+1.6.0-master
+============================
+q:)---changes in 1.6.0
+-move manage under OSTM - used modular app pattern for routing instead of express.router() as Router didnt allow the level of seperation I wanted, particullay with views and filepaths
+
+q:)---changes in 1.6.1
+-remove commenting from javascript on redirecting pages
+
+q:)---changes in 1.6.2
+-tidyup ostm.js loadstudy() function
+
+===========================
+2.0.0-workingcopy
+============================
+Comment: Major Structural Change, from here on we will be building decks at design time and shuffle at run time.
+
+q:)---changes in 2.0.0-workingcopy
+-further module Setup
+-creating new study create form
+
+TODO
+====
+Major Feature: Steve has requested A/B testing, but ABCD. This may have to go in 2.1.0 if at all
+
+\security
+-rename manage to GUID
+
+\Manage
+\\study
+\\\create
+FIX: set focus to input box for each offer of input box
+
+-Feature: Differentiate build time settings from run time settings with colour change
+
+-Feature: Add Shuffle Cards within Deck for each Participant
+
+-Feature: new instruction per deck?
+
+-Feature: Participation Log file
+  rowID, IP, Date\Time, studyName, ProlificID, STUDYID, SESSIONID, A/B Test
+
+-Feature: A\B Testing, or ABCD, ie 
+Use Particpation Log File to determine last issued AB test then issue next in list, in rotation.
+i.e each new participant is assigned a test A, B or C 
+this will need to work for A Only and A-Z
+use 2 dimensional Array to configure, persist and to present
+=================
+| Test | Sets |
+| A    | 1,2,3|
+| B    | 3,2,1|
+| C    | 2,3,1|
+
+-line up the logs so they are all in the same order
+  --IP, file, function, task, msg, data
+-implement some security protocols
+-Add user basic management
+-port to AWS Serverless
+--this may require moving to mongoDB? due data persistance changes with services
+-add deck analysis? use R!

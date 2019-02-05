@@ -1,0 +1,58 @@
+<% include manage_header.ejs %>
+    <div class="container">
+      <h1 id="pageTitle">UOW Online STM</h1>
+      <h2>Create a New Deck (Stimulus File)</h2>
+
+        <div class="form-group" id="deckNew_DIV" >
+          <form id="deckForm" class="form-group row" >
+          <p id="setSizesHelpBlock" class="form-text text-muted">
+            Choose Websafe Color Names or Hex Color Codes from <a target="_blank" href="https://www.w3schools.com/colors/colors_picker.asp">https://www.w3schools.com/colors/colors_picker.asp</a>
+          </p>  
+            <p>
+              <label for="deckName">Deck Name</label>
+              <input type="text" class="form-control" 
+                id="deckName" name="deckName"
+                pattern="^([a-zA-Z0-9]{1,24})"
+                required>
+              <small id="setSizesHelpBlock" class="form-text text-muted">
+                Max:24 Characters, A-Z, a-z, 0-9.
+              </small>
+            </p>
+            <div class="msgResult-error" id="msgResult" style="display:none"></div>
+            <div class="stimulusTable">
+              <table id="stimuliTable" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>row</th>
+                    <th>stimulus                      
+                    <th>textColor</th>
+                    <th>backgroundColor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input type="text" class="form-control" id="row_0" name="row_0" value=0 readonly></td>
+                    <td>
+                      <input type="text" class="form-control" 
+                        id="stimulus_0" name="stimulus_0" 
+                        pattern="^([a-zA-Z0-9]{1,24})"
+                        required>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" id="textColor_0" name="textColor_0" value="black" required>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" id="backgroundColor_0" name="backgroundColor_0" value="white" required>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addRow();">Add Row</button>
+            <button type="button" class="btn btn-primary" onclick="createDeck();">Create Deck</button>
+          </form>
+      </div>
+<!-- End of Main Body -->
+    <script src="/<%= rPath %>/static/deckNew.js"></script>
+<% include manage_footer.ejs %>

@@ -1,0 +1,25 @@
+<% include manage_header.ejs %>
+    <div class="container">
+      <h1 id="pageTitle">UOW Online STM</h1>
+      <h2>Study Duplicated</h2>
+      <h3>Created Files...</h3>
+      <div class="starter-template">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+                <th>File Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% files.forEach(function(file) { %>
+            <tr>
+              <td><%= file.created %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+    </div>
+    
+
+<!-- End of Main Body -->
+<% include manage_footer.ejs %>

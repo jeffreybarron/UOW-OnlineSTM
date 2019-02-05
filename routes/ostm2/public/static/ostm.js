@@ -24,8 +24,7 @@ var allDecks = [];
 var sampledStimulus = [];
 var oStudyConfig;
 
-var pageHandler = main();
-function main() {
+$(document).ready(function(){
   try {
     var sPathName = window.location.pathname;
     // console.log("sPathName",sPathName);
@@ -67,8 +66,10 @@ function main() {
     console.log("loadPage Error: " + err);
   } finally {
     //console.log("loadPage COMPLETE");
-  }
-};
+  };
+});
+
+
 function loadInstructions() {
   try {
     let xmlHttp = new XMLHttpRequest();
@@ -260,7 +261,14 @@ async function loadStudy() {
       )
     );
 
-     //--------------------------------------------------------------
+    //--------------------------------------------------------------
+    //shuffle Cards within Decks
+    //
+    // if (oStudyConfig.deckConfiguration[i].shuffleStimuli === true) {
+    //   sampledStimulus[i].shuffleArray
+    // }
+
+    //--------------------------------------------------------------
     //Join each deck into a single deck for dealing into sets
     //https://davidwalsh.name/combining-js-arrays
     //

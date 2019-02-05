@@ -1,0 +1,22 @@
+[
+	{
+		"stimulus":"comfortable",
+		"textColor":"white",
+		"backGroundColor":"black"
+	},
+	{
+		"stimulus":"examination",
+		"textColor":"white",
+		"backGroundColor":"black"
+	},
+	{
+		"stimulus":"grandfather",
+		"textColor":"white",
+		"backGroundColor":"black"
+	},
+	{
+		"stimulus":"grandmother",
+		"textColor":"white",
+		"backGroundColor":"black"
+	}
+]

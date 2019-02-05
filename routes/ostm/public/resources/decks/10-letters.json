@@ -1,0 +1,27 @@
+[
+	{
+		"stimulus":"photograph",
+		"textColor":"white",
+		"backGroundColor":"black"
+	},
+	{
+		"stimulus":"restaurant",
+		"textColor":"white",
+		"backGroundColor":"black"
+	},
+	{
+		"stimulus":"successful",
+		"textColor":"white",
+		"backGroundColor":"black"
+	},
+	{
+		"stimulus":"television",
+		"textColor":"white",
+		"backGroundColor":"black"
+	},
+	{
+		"stimulus":"understand",
+		"textColor":"white",
+		"backGroundColor":"black"
+	}
+]

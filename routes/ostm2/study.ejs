@@ -1,0 +1,55 @@
+<% include ostm_header.ejs %>
+    <!-- Custom styles for this template -->
+    <link href="/<%= rPath %>/static/ostm.css" rel="stylesheet">
+    <title>UOW Online STM - Study</title>
+  </head>
+<body>
+  <noscript>
+      <h1>JavaScript Required</h1>
+      <p class="lead">This Website requires Javascript, i.e. it will not work without it.</p>
+      <p class="lead">If you wish to use this site you will need to enable Javasript,
+        however by enabling JavaScript, you are do so at your own risk.</p>
+      <p class="lead">If you're cool with that, Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
+  </noscript>
+<div class="outer">
+  <div class="middle">
+    <div class="inner">
+    	<div class="stimulus" id="question">+</div>
+
+      <div class="studyButtons" id="startDIV" style="display:none">
+        <div class="col-sm-6"></div><div class="col-sm-4">
+          <button id="buttonStart" class="btn btn-success" onclick="startQuestions()">Click to Start</button>
+        </div>
+      </div>
+
+      <div class="studyButtons" id="answerDIV" style="display:none">
+        <label for="answer" class="col-sm-2 col-form-label">Enter Word</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" id="answer" name="0" value="">
+        </div>
+		    <div class="col-sm-4">
+		      <button class="btn btn-primary" onclick="updateAnswers()">Submit</button>
+	      </div>
+  			<p id="completionLink" style="display:none"></p>
+  			<form id="form_answers" style="display:none">
+  	      <input style="display:none" id="studyName" name="studyName" value="<%= studyName %>" />
+  				<input style="display:none" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
+  				<input style="display:none" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
+  				<input style="display:none" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
+          <input style="display:none" id="checkConsent" name="checkConsent" value="<%= qs.checkConsent %>" />
+          <input style="display:none" id="checkInstructions" name="checkInstructions" value="<%= qs.checkInstructions %>" />
+      	</form>
+  		</div>
+
+      <p id="studyText"></p>
+    </div>
+  </div>
+<!-- End of Main Body -->
+  <script src="/<%= rPath %>/static/ostm.js"></script>
+</div><!-- /.container -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>
