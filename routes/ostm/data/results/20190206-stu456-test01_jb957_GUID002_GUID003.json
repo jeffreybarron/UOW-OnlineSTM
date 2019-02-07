@@ -1,0 +1,45 @@
+{
+  "studyName": "20190206-stu456-test01",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "setSizes": [
+    2
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "deck01.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    }
+  ],
+  "shuffleDecks": false,
+  "shuffleAll": false,
+  "refreshRateMS": 250,
+  "PROLIFIC_PID": "jb957",
+  "STUDY_ID": "GUID002",
+  "SESSION_ID": "GUID003",
+  "checkConsent": "on",
+  "checkInstructions": "on",
+  "sets": [
+    {
+      "set": [
+        {
+          "stimulus": "lorem",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "loreum",
+          "responseTime": "20190206_11:01:45.0464"
+        },
+        {
+          "stimulus": "ipsum",
+          "textColor": "yellow",
+          "backGroundColor": "green",
+          "response": "ipsum",
+          "responseTime": "20190206_11:01:48.0445"
+        }
+      ]
+    }
+  ],
+  "loadTime": "20190206_11:01:35.0616",
+  "saveTime": "20190206_11:01:48.0447"
+}

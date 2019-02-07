@@ -1,3 +1,4 @@
+// ostm2/public/static
 "use strict";
 var sPath = '/ostm'
 var questionObj = document.getElementById("question");

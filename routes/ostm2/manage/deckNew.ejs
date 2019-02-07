@@ -1,4 +1,4 @@
-<% include manage_header.ejs %>
+<% include header_manage.ejs %>
     <div class="container">
       <h1 id="pageTitle">UOW Online STM</h1>
       <h2>Create a New Deck (Stimulus File)</h2>
@@ -53,6 +53,19 @@
             <button type="button" class="btn btn-primary" onclick="createDeck();">Create Deck</button>
           </form>
       </div>
+
+<% include footer_doc.ejs %>
+    </div>
 <!-- End of Main Body -->
+
+<!-- Bootstrap Footer, includes jQuery -->
+<% include footer_bootstrap.ejs %>
+
+<!-- Pages specific Scripts -->
     <script src="/<%= rPath %>/static/deckNew.js"></script>
-<% include manage_footer.ejs %>
+
+<!-- Close out HTML -->
+  </body>
+</html>
+
+

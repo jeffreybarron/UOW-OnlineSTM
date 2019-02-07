@@ -1,22 +1,22 @@
-<% include manage_header.ejs %>
+<% include header_manage.ejs %>
     <div class="container">
       <h1 id="pageTitle">UOW Online STM</h1>
       <h2>Create a New Study</h2>
       <form id="studyForm" class="form-group row" >
-        <div class="form-group" id="studyName_DIV" >
+        <div class="form-group" title="studyName" >
           <label for="studyName">StudyName</label>
           <input
             type="text" class="form-control"
             id="studyName" name="studyName"
-            placeholder="[YYYY][MM][DD]-[6:userID]-[6:Desc][2:sequence]"
+            placeholder="[YYYY][MM][DD]-[&lt;6:userID]-[&lt;12:Desc][2:sequence]"
             pattern="^([0-9]{8}[-]{1}[a-zA-Z0-9]{1,6}[-]{1}[a-zA-Z0-9]{1,12}[0-9]{1,2})"
             required>
           <small id="setSizesHelpBlock" class="form-text text-muted">
             Max:24 Characters, A-Z, a-z, 0-9, '-'' symbol only.
-            <br />syntax:[YYYY][MM][DD]-[6:userID]-[12:Desc][2:sequence]
+            <br />syntax:[YYYY][MM][DD]-[&lt;6:userID]-[&lt;12:Desc][2:sequence]
           </small>
         </div>
-        <div class="form-group" id="studybackgroundColor_DIV">
+        <div class="form-group" title="studybackgroundColor">
             <label for="studybackgroundColor">Starting backgroundColor</label>
             <select class="form-control" id="studybackgroundColor" name="studybackgroundColor" value="">
               <option selected="selected">Black</option>
@@ -164,7 +164,7 @@
               Choose from the list of Websafe Colours.
             </small>
         </div>
-        <div class="form-group" id="studyTextColor_DIV">
+        <div class="form-group" title="studyTextColor">
             <label for="studyTextColor">Starting TextColor</label>
             <select class="form-control" id="studyTextColor" name="studyTextColor" value=""">
               <option>Black</option>
@@ -312,56 +312,76 @@
               Choose from the list of Websafe Colours.
             </small>
         </div>
-
-        <div class="form-group"  id="pickCards_DIV">
-          <label>Pick Cards (REMEMBER: for each participant)</label>
-          <table id="deckConfigTable" class="table table-striped w-auto">
+        <div class="form-group" title="pickCards">
+          <label>Pick Cards</label>
+          <table id="pickCards_table" class="table table-responsive-sm table-striped w-auto">
             <thead>
               <tr>
-                <th class="th-sm">Order</th>
-                <th class="th-lg">Stimulus File (deckName)</th>
-                <th class="th-lg">SetSize Array<br />(e.g. 3,3,3)</th>
-                <th class="th-lg">Inside Shuffle<br />(e.g. cards within a set)</th>
-                <th class="th-lg">Cross Shuffle<br />(e.g. cards across any set)</th>
+                <th class="col-sm-1">Block</th>
+                <th class="col-sm-3">Stimulus File</th>
+                <th class="col-sm-3">SetSize Array</th>
+                <th class="col-sm-1">Refresh Rate</th>
+                <th class="col-sm-2">Shuffle Mode</th>
+                <th class="col-sm-2">Page after Block</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                  <input type="text" class="form-control" name="order_0" value="0" readonly>
+                  <input type="text" class="form-control" name="block" value="0" readonly>
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="deckName_0" required>
+                  <select class="form-control" name="stimulusFile" value="">
+                    <% files.forEach(function(file) { %>
+                      <option><%= file.deckName %></option>
+                    <% }); %>
+                  </select>
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="setSizes_0" required>
+                  <input type="text" class="form-control" name="setSizes" required>
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="insideShuffle_0" required>
+                  <input type="text" class="form-control" name="refreshRateMS" required>
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="crossShuffle_0" required>
+                    <select class="form-control" name="shuffleMode" value="">
+                      <option value="no">No Shuffle</option>
+                      <option value="within">within, stimuli within each set</option>
+                      <option value="sets">sets, the set order</option>
+                      <option value="across">across, stimuli across sets in this block</option>
+                    </select>
+                </td>
+                <td>
+                  <input type="text" class="form-control" name="pageAfterBlock" required>
                 </td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <td class="col-sm-1"><em class="design-time">design-time</em><br />Played sequentially</td>
+                <td class="col-sm-3"><em class="design-time">design-time</em><br />deckName</td>
+                <td class="col-sm-3"><em class="design-time">design-time</em><br />e.g. 8,8,8,8,8</td>
+                <td class="col-sm-1"><em class="run-time">run-time</em><br />Milliseconds between stimuli</td>
+                <td class="col-sm-2"><em class="run-time">run-time</em><br />No, within, sets, or across</td>
+                <td class="col-sm-2"><em class="run-time">run-time</em><br />Page shown after last set in block</em></td>
+              </tr>
+            </tfoot>
           </table>
           <div>
             <button type="button" class="btn btn-primary" id="addRow">Add Row</button>
           </div>
         </div>  
-        <div class="form-group" id="refreshMS_DIV">
-          <label for="refreshRateMS">refreshRateMS</label>
-          <input
-            type="text" class="form-control"
-            id="refreshRateMS" name="refreshRateMS"
-            pattern="^([0-9]{1,5})$"
-            placeholder="required"
-            required>
-          <small id="refreshRateMS" class="form-text text-muted">
-            Numeral (integer) in milliseconds, up to 5 digits
-          </small>
+        <div class="form-check" title="shuffleBlocks">
+          <label class="form-check-label" for="shuffleBlocks">
+            Shuffle Block order<em class="run-time"> at run-time</em></label>
+          <p>
+            <input type="radio" class="form-check-input" name="shuffleBlocks"
+              value="true"> true
+            <input type="radio" class="form-check-input" name="shuffleBlocks"
+              value="false" checked> false
+          </p>
         </div>
-        <div class="form-group" id="consentCopy_DIV">
+        <div class="form-group" title="consentCopy">
           <label for="consentCopy">consentCopy:</label>
           <textarea
             name="consentCopy" id="consentCopy"
@@ -374,7 +394,7 @@
             </small>
           </small>
         </div>
-        <div class="form-group" id="instructionCopy_DIV">
+        <div class="form-group" title="instructionCopy">
           <label for="instructionCopy">instructionCopy:</label>
           <textarea
             name="instructionCopy" id="instructionCopy"
@@ -385,7 +405,7 @@
             <br />'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div','table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td'
           </small>
         </div>
-        <div class="form-group" id="completionCode_DIV">
+        <div class="form-group" title="completionCode">
           <label for="completionCode">completionCode</label>
           <input
             type="text" class="form-control"
@@ -399,14 +419,14 @@
       <div class="msgResult-error" id="msgResult" style="display:none"></div>
       <div><button type="button" class="btn btn-primary" id="studyCreate">Create Study</button></div>
 <% include footer_doc.ejs %>
+    </div>
 <!-- End of Main Body -->
 
 <!-- Bootstrap Footer, includes jQuery -->
 <% include footer_bootstrap.ejs %>
 
 <!-- Pages specific Scripts -->
-    </div>
-    <script src="/<%= rPath %>/static/studyNew.js"></script>
+    <script src="/<%= rPath %>/static/studyCreate.js"></script>
 
 <!-- Close out HTML -->
   </body>

@@ -143,13 +143,39 @@ q:)---changes in 1.6.2
 2.0.0-workingcopy
 ============================
 Comment: Major Structural Change, from here on we will be building decks at design time and shuffle at run time.
-
 q:)---changes in 2.0.0-workingcopy
 -further module Setup
 -creating new study create form
+EDIT: introduced JQUERY to some of the code section, replacing older code with more parsimonious version
+will begin rewriting code blocks with JQUERY from this point as it reads better and is much simpler to use than vanilla javascript
+Note: learn Vanilla Javascript first then JQUERY.
+
+q:)---changes in 2.0.1-workingcopy
+-Added pageCreate for New Blocks design- run-time module
+ -- pageCreate implements 
+-updated EJS Structure on OSTM2
+-modules are now working effectively so we have ostm and ostm2 versions which can be accessed at the same time, this provides a methology to add completly new tests later.
+-have completely re-writter studyCreate.js and the route to match
+ -- new page/create POST route picks the cards from BLOCKS into sets and saves them in the config file at design time
+ only shuffling will take place at run-time for ostm2
+Note: OSTM remains on the old model and ostm2 is fork where new development is taking place. once excepted ostm will be removed and ostm2 renamed to ostm.
+
 
 TODO
 ====
+-code the client side logic for ostm2
+ -- shuffles per block config
+ -- post block page show or skip if blank
+
+-update the manage/guide page to accept a tinyMCE.html page into a DIV
+-update study create to select pre-written tinyMCE conset page
+-update study create to select pre-written tinyMCE instruction page
+
+-log Particpation to studyName_log.json
+id, prolificID, StudyID, sessionID, DateTime, eventType(nameCheckRender, consentRender, instructionRemder, blockStart(blockID), blockEnd(blockID), studyComplete, studySaved, codeIssued)
+
+
+
 Major Feature: Steve has requested A/B testing, but ABCD. This may have to go in 2.1.0 if at all
 
 \security

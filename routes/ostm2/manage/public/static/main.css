@@ -46,7 +46,7 @@ body {
 .container {
   width: auto;
   height:100%;
-  max-width: 680px;
+  max-width: 80%;
   font-family: Verdana, Geneva, sans-serif;
   font-size: 12px;
   letter-spacing: 0px;
@@ -115,6 +115,14 @@ body {
 .stimulusTable table{
   border: 1px solid #003666;
 }
+
+.design-time{
+  color: #B2D732;
+}
+.run-time{
+  color: #FC600A;
+}
+
 
 .msgResult-error {
   padding: 1em;
