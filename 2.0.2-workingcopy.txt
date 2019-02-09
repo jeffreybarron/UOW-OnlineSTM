@@ -160,9 +160,43 @@ q:)---changes in 2.0.1-workingcopy
  only shuffling will take place at run-time for ostm2
 Note: OSTM remains on the old model and ostm2 is fork where new development is taking place. once excepted ostm will be removed and ostm2 renamed to ostm.
 
+q:)---changes in 2.0.2-workingcopy
+-got custom state and template engine working /ostm2/data/config/statFlow.json
+  I probably should have gone with REACT and REDUX though
+
+-User browses to /ostm2/study?studyName=20190101-jb957-stroop01&PROLIFIC_PID=GUID01.... etc
+Base.ejs page is rendered and original query string is passed along to the client by rending a script tag containing data stored in the footer withing <script>, and a default view of 0 is issued.
+if the post is success then the pageContent will be updated with the pageView just requested
+an ajax call is made to /API/page to collect the page content
+finally an ajax script get will activate this pages load functions if needed
+
 
 TODO
 ====
+Using page script (make one)
+Configure buttons for this page (view 0)
+
+View 0
+Button: submit —> view 1
+Parse the current value of the Participant ID Input
+
+View 1
+Conset will need two buttons
+Agree —> save agree and view 2
+Reject —> save reject and redirect prolific
+
+View 2
+Instructions will need one button
+I Understand and Agree —> save agree and view 3
+Reject —> save reject and redirect prolific
+
+View 3
+Actual Test
+For each block
+	for each set
+
+
+
 -code the client side logic for ostm2
  -- shuffles per block config
  -- post block page show or skip if blank

@@ -1,0 +1,54 @@
+{
+  "views": [
+    {
+      "view": 0,
+      "name":"participant",
+      "script":"",
+      "rendered":"date/time value",
+      "response":"",
+      "responseTime":"",
+      "viewNext":"consent",
+      "viewAlternative":"http://www.prolific.com"
+    },
+    {
+      "view": 1,
+      "name":"consent",
+      "script":"",
+      "rendered":"date/time value",
+      "response":"",
+      "responseTime":"",
+      "viewNext":"instructions",
+      "viewAlternative":"http://www.prolific.com"
+    },
+    {
+      "view": 2,
+      "name":"instructions",
+      "script":"",
+      "rendered":"date/time value",
+      "response":"",
+      "responseTime":"",
+      "viewNext":"study",
+      "viewAlternative":"http://www.prolific.com"
+    },
+    {
+      "view": 3,
+      "name":"study",
+      "script":"",
+      "rendered":"date/time value",
+      "response":"",
+      "responseTime":"",
+      "viewNext":"completion",
+      "viewAlternative":"http://www.prolific.com"
+    },
+    {
+      "view": 4,
+      "name":"completion",
+      "script":"",
+      "rendered":"date/time value",
+      "response":"",
+      "responseTime":"",
+      "viewNext":"http://www.prolific.com",
+      "viewAlternative":"http://www.prolific.com"
+    }
+  ]
+}

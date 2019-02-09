@@ -1,20 +1,10 @@
 // ostm2/public/static
 "use strict";
-var sPath = '/ostm'
-var questionObj = document.getElementById("question");
-var answerDIV = document.getElementById("answerDIV");
-var answer = document.getElementById("answer");
-var startDIV = document.getElementById("startDIV");
 
-//var buttonStart = document.getElementById('buttonStart');
-var studyName = document.getElementById("studyName");
-var studyID = document.getElementById("STUDY_ID");
-var participantID = document.getElementById("PROLIFIC_PID");
-var sessionID = document.getElementById("SESSION_ID");
-var pageTitle = document.getElementById("pageTitle");
-var studyText = document.getElementById("studyText");
-var checkConsent = document.getElementById("checkConsent");
-var checkInstructions = document.getElementById("checkInstructions");
+// Application Settings
+var sPath = '/ostm2'
+
+//application state variables
 var oStudyConfig;
 var questionBank;
 var myTicker;
@@ -23,54 +13,156 @@ var deckCounter = 0;
 var completedStudy = "";
 var allDecks = [];
 var sampledStimulus = [];
-var oStudyConfig;
+//document elements
+var questionObj = document.getElementById("question");
+var answerDIV = document.getElementById("answerDIV");
+var answer = document.getElementById("answer");
+var startDIV = document.getElementById("startDIV");
+var studyName = "test" //document.getElementById("studyName");
+var studyID = document.getElementById("STUDY_ID");
+var participantID = document.getElementById("PROLIFIC_PID");
+var sessionID = document.getElementById("SESSION_ID");
+var pageTitle = document.getElementById("pageTitle");
+var studyText = document.getElementById("studyText");
+var checkConsent = document.getElementById("checkConsent");
+var checkInstructions = document.getElementById("checkInstructions");
+
+Window.onerror = function (message, filename, linenumber) {
+		var msg = message;
+		alert(msg);
+		console.log(msg + ", file: " + filename + ", line:" + linenumber);
+    return true; 
+}
 
 $(document).ready(function(){
-  try {
-    var sPathName = window.location.pathname;
-    // console.log("sPathName",sPathName);
-    var n = sPathName.lastIndexOf("/");
-    // console.log(n);
-    var sourceURL = sPathName.substring(0, n);
-    // console.log("SourceURL:", sourceURL);
-    //switch
-    switch (sourceURL) {
-      case sPath + "/consent":
-        //Page 1 - Entry Page from Prolific
-        //in: Prolific Paramater
-        //out: Prolific Paramaters, GUID\cookie
-        //console.log("entryPoint/consent Loading");
-        loadConsent();
-        break;
-      case sPath + "/instructions":
-        //Page 2 - Consent Recieved, Study Instructions
-        //in: GUID\Cookie
-        //out: GUID\Cookie
-        //console.log("entryPoint/instructions Loading");
-        loadInstructions();
-        break;
-      case sPath + "/study":
-        //Page 3 - Consent Recieved GUID Created and Study
-        //in: GUID\Cookie => Studytemplate.json => loadQuestions()
-        //out: studyresult.json + GUID\Cookie => uploadAnswers(http.POST /results)
-        //console.log("entryPoint/study Loading");
-        loadStudy();
-        break;
-      case sPath + "/results":
-        //Page
-        //console.log("entryPoint/results Loading");
-        break;
-      default:
-      //console.log("I have never heard of that fruit...");
-    }
+  try{
+
+    //load StateData from page <script id="stateData"> innerHTML
+    //var stateData = JSON.parse($('#stateData').html()); //just checking
+    // var stateData = JSON.stringify($('#stateData').html());
+    var stateData = $('#stateData').html();
+
+    $.ajax({
+      method: "POST",
+      url: "/ostm2/API/page",
+      contentType: "application/json", //request data i.e. POSTed
+      data: stateData,
+      async: true,
+      cache: false,
+      dataType: "json", //response data, recieved from server
+      statusCode: {
+        404: function() {
+          alert( "page not found" );
+        }
+      },
+      success: function(response) {
+        var data = response;
+        //load HTML
+        $("#pageContent").html( data.pageContent );
+
+        //load scripts
+        $.getScript( data.scriptPath )
+          .done(function( script, textStatus ) {
+          console.log( textStatus );
+        })
+          .fail(function( jqxhr, settings, exception ) {
+          $( "div.log" ).text( "Triggered ajaxError handler." );
+        });
+
+        $("#pageContent").attr("style", "display:block");
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+        $("#pageContent").html("there was an error");
+        $("#pageContent").attr("style", "display:block");
+
+      }
+    });
   } catch (err) {
-    console.log("loadPage Error: " + err);
-  } finally {
-    //console.log("loadPage COMPLETE");
-  };
+    alert(err);
+  }
+
+  
+  // /*===============================================================
+  // * Page Load Behaviour
+  // */
+  // try {
+  //   var sPathName = window.location.pathname;
+  //   // console.log("sPathName",sPathName);
+  //   var n = sPathName.lastIndexOf("/");
+  //   // console.log(n);
+  //   var sourceURL = sPathName.substring(0, n);
+  //   // console.log("SourceURL:", sourceURL);
+  //   //switch
+  //   switch (sPathName) {
+  //     case sPath + "/base":
+  //       alert("Base Loaded");
+  //       loadConsentView();
+  //       break;
+  //     case sPath + "/consent":
+  //       //Page 1 - Entry Page from Prolific
+  //       //in: Prolific Paramater
+  //       //out: Prolific Paramaters, GUID\cookie
+  //       //console.log("entryPoint/consent Loading");
+  //       loadConsent();
+  //       break;
+  //     case sPath + "/instructions":
+  //       //Page 2 - Consent Recieved, Study Instructions
+  //       //in: GUID\Cookie
+  //       //out: GUID\Cookie
+  //       //console.log("entryPoint/instructions Loading");
+  //       loadInstructions();
+  //       break;
+  //     case sPath + "/study":
+  //       //Page 3 - Consent Recieved GUID Created and Study
+  //       //in: GUID\Cookie => Studytemplate.json => loadQuestions()
+  //       //out: studyresult.json + GUID\Cookie => uploadAnswers(http.POST /results)
+  //       //console.log("entryPoint/study Loading");
+  //       loadStudy();
+  //       break;
+  //     case sPath + "/results":
+  //       //Page
+  //       //console.log("entryPoint/results Loading");
+  //       break;
+  //     default:
+  //     //console.log("I have never heard of that fruit...");
+  //   }
+  // } catch (err) {
+  //   console.log("loadPage Error: " + err);
+  // } finally {
+  //   //console.log("loadPage COMPLETE");
+  // };
+
+
+
 });
 
 
+
+/*===============================================================
+*
+* Page Load Functions
+*
+*/
+function loadConsent() {
+  try {
+    //console.log("ostm.js.loadConsent, studyID: " + studyName.getAttribute('value'))
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", sPath + "/resources/studies/" + studyName.getAttribute("value") + "_consent.html", true);
+    xmlHttp.setRequestHeader("Content-Type", "text/html");
+    xmlHttp.send();
+    xmlHttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var researcherCopy = document.getElementById("researcherCopy");
+        researcherCopy.innerHTML = this.responseText;
+      }
+    };
+  } catch (err) {
+    //alert("No Study ID specified in URL, cannot proceed!");
+    setProperties(researcherCopy, err, "", "");
+    return false;
+  }
+};
 function loadInstructions() {
   try {
     let xmlHttp = new XMLHttpRequest();
@@ -93,120 +185,6 @@ function loadInstructions() {
     return false;
   }
 };
-function loadConsent() {
-  try {
-    //console.log("ostm.js.loadConsent, studyID: " + studyName.getAttribute('value'))
-    let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", sPath + "/resources/studies/" + studyName.getAttribute("value") + "_consent.html", true);
-    xmlHttp.setRequestHeader("Content-Type", "text/html");
-    xmlHttp.send();
-    xmlHttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        var researcherCopy = document.getElementById("researcherCopy");
-        researcherCopy.innerHTML = this.responseText;
-      }
-    };
-  } catch (err) {
-    //alert("No Study ID specified in URL, cannot proceed!");
-    setProperties(researcherCopy, err, "", "");
-    return false;
-  }
-};
-
-
-
-function startQuestions() {
-  myTicker = setInterval(changeQuestion, oStudyConfig.refreshRateMS);
-  startDIV.style.display = "none";
-};
-function changeQuestion() {
-  //console.log(oStudyConfig.sets[deckCounter].set.length);
-  if (questionCounter < oStudyConfig.sets[deckCounter].set.length) {
-    //console.log(oStudyConfig.sets[deckCounter].set[questionCounter].stimulus);
-    setProperties(
-      questionObj,
-      oStudyConfig.sets[deckCounter].set[questionCounter].stimulus,
-      oStudyConfig.sets[deckCounter].set[questionCounter].textColor,
-      oStudyConfig.sets[deckCounter].set[questionCounter].backGroundColor
-    );
-    questionCounter++;
-  } else {
-    // clear the text area and stop the ticker
-    clearInterval(myTicker);
-    setProperties(questionObj, "+", oStudyConfig.studyTextColor, oStudyConfig.studybackgroundColor);
-    answerDIV.style.display = "block";
-  }
-}
-function updateAnswers() {
-  if (answer.name < questionCounter) {
-    oStudyConfig.sets[deckCounter].set[answer.name].responseTime = getDate(); //load answer into json
-    oStudyConfig.sets[deckCounter].set[answer.name].response = answer.value; //load answer into json
-    answer.value = ""; //reset form for next answer
-    answer.focus();
-    answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
-
-    if (answer.name == questionCounter) {
-      //reset question counter for next questionBank and
-      //reset answers
-      questionCounter = 0;
-      answer.name = 0;
-      startDIV.style.display = "block";
-      answerDIV.style.display = "none";
-      deckCounter++;
-
-      //if we have also reached the last question bank then stop
-      if (deckCounter >= oStudyConfig.sets.length) {
-        setProperties(questionObj, "+", "white", "black");
-        answerDIV.style.display = "none";
-
-        //Study is complete return to provider
-        oStudyConfig.saveTime = getDate();
-
-        //Update Page Form
-        startDIV.style.display = "none";
-        answerDIV.style.display = "none";
-
-        //Write Study Result to Server
-        //postData(questionBank);
-        var data = JSON.stringify(oStudyConfig, null, 2);
-        //console.dir(data);
-        let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("POST", sPath + "/results", true);
-        xmlHttp.setRequestHeader("Content-Type", "application/json");
-        //Save data to server
-        try {
-          //console.log(data);
-          xmlHttp.send(data);
-          // console.log("sent now wait");
-          xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 202) {
-              completedStudy =
-                "PROLIFIC_PID=" + oStudyConfig.PROLIFIC_PID +
-                "&" + "STUDY_ID=" + oStudyConfig.STUDY_ID +
-                "&" + "SESSION_ID=" + oStudyConfig.SESSION_ID;
-
-              setProperties(questionObj, "", "white", "black");
-              questionObj.style.display = "none";
-              studyText.style.display = "block";
-              studyText.outerHTML =
-                '<p>You must click this <a href="' + sPath + '/sendCode/' + 
-								studyName.getAttribute('value') + '?' + completedStudy +
-                '">Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>';
-            } else {
-              // alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status );
-            }
-          };
-        } catch (err) {
-          console.log("error: " + err);
-
-        }
-      }
-    }
-  }
-}
-
-
-
 async function loadStudy() {
   //1- build the oStudyConfig variable for use by other functions
   //2-set the page initial state when loaded
@@ -320,6 +298,101 @@ async function loadStudy() {
   startDIV.style.display = "block";
 
 };
+
+
+
+function startQuestions() {
+  myTicker = setInterval(changeQuestion, oStudyConfig.refreshRateMS);
+  startDIV.style.display = "none";
+};
+function changeQuestion() {
+  //console.log(oStudyConfig.sets[deckCounter].set.length);
+  if (questionCounter < oStudyConfig.sets[deckCounter].set.length) {
+    //console.log(oStudyConfig.sets[deckCounter].set[questionCounter].stimulus);
+    setProperties(
+      questionObj,
+      oStudyConfig.sets[deckCounter].set[questionCounter].stimulus,
+      oStudyConfig.sets[deckCounter].set[questionCounter].textColor,
+      oStudyConfig.sets[deckCounter].set[questionCounter].backGroundColor
+    );
+    questionCounter++;
+  } else {
+    // clear the text area and stop the ticker
+    clearInterval(myTicker);
+    setProperties(questionObj, "+", oStudyConfig.studyTextColor, oStudyConfig.studybackgroundColor);
+    answerDIV.style.display = "block";
+  }
+}
+function updateAnswers() {
+  if (answer.name < questionCounter) {
+    oStudyConfig.sets[deckCounter].set[answer.name].responseTime = getDate(); //load answer into json
+    oStudyConfig.sets[deckCounter].set[answer.name].response = answer.value; //load answer into json
+    answer.value = ""; //reset form for next answer
+    answer.focus();
+    answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
+
+    if (answer.name == questionCounter) {
+      //reset question counter for next questionBank and
+      //reset answers
+      questionCounter = 0;
+      answer.name = 0;
+      startDIV.style.display = "block";
+      answerDIV.style.display = "none";
+      deckCounter++;
+
+      //if we have also reached the last question bank then stop
+      if (deckCounter >= oStudyConfig.sets.length) {
+        setProperties(questionObj, "+", "white", "black");
+        answerDIV.style.display = "none";
+
+        //Study is complete return to provider
+        oStudyConfig.saveTime = getDate();
+
+        //Update Page Form
+        startDIV.style.display = "none";
+        answerDIV.style.display = "none";
+
+        //Write Study Result to Server
+        //postData(questionBank);
+        var data = JSON.stringify(oStudyConfig, null, 2);
+        //console.dir(data);
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", sPath + "/results", true);
+        xmlHttp.setRequestHeader("Content-Type", "application/json");
+        //Save data to server
+        try {
+          //console.log(data);
+          xmlHttp.send(data);
+          // console.log("sent now wait");
+          xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 202) {
+              completedStudy =
+                "PROLIFIC_PID=" + oStudyConfig.PROLIFIC_PID +
+                "&" + "STUDY_ID=" + oStudyConfig.STUDY_ID +
+                "&" + "SESSION_ID=" + oStudyConfig.SESSION_ID;
+
+              setProperties(questionObj, "", "white", "black");
+              questionObj.style.display = "none";
+              studyText.style.display = "block";
+              studyText.outerHTML =
+                '<p>You must click this <a href="' + sPath + '/sendCode/' + 
+								studyName.getAttribute('value') + '?' + completedStudy +
+                '">Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>';
+            } else {
+              // alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status );
+            }
+          };
+        } catch (err) {
+          console.log("error: " + err);
+
+        }
+      }
+    }
+  }
+}
+
+
+
 function pickStimulus(deck, pickQty, sampleMode) {
   //console.log("PickStimulus Start");
   let privArray = [];
