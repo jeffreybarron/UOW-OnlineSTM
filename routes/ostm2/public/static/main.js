@@ -56,18 +56,20 @@ $(document).ready(function(){
         }
       },
       success: function(response) {
-        var data = response;
+        var state = response;
         //load HTML
-        $("#pageContent").html( data.pageContent );
+        $("#pageContent").html( state.pageContent );
 
         //load scripts
-        $.getScript( data.scriptPath )
+        $.getScript( state.stateFlowConfig.views[state.getView].script )
           .done(function( script, textStatus ) {
           console.log( textStatus );
         })
           .fail(function( jqxhr, settings, exception ) {
           $( "div.log" ).text( "Triggered ajaxError handler." );
         });
+
+
 
         $("#pageContent").attr("style", "display:block");
       },
@@ -137,6 +139,17 @@ $(document).ready(function(){
 
 });
 
+
+$( "#continue" ).on( "click", function( event ) {
+  event.stopPropagation();
+  try{
+    alert("this");
+
+    } catch (err) {
+      alert(err);
+    }
+
+});
 
 
 /*===============================================================

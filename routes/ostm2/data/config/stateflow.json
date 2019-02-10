@@ -3,7 +3,7 @@
     {
       "view": 0,
       "name":"participant",
-      "script":"",
+      "script":"participant.js",
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",
