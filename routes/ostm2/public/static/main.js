@@ -2,7 +2,8 @@
 "use strict";
 
 // Application Settings
-var sPath = '/ostm2'
+const sPath = '/ostm2';
+var state = {};
 
 //application state variables
 var oStudyConfig;
@@ -55,9 +56,30 @@ $(document).ready(function(){
         }
       },
       success: function(response) {
-        var state = response;
+        state = response;
+        result = loadView();
 
-        /* ==================================== 
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+        $("#contentContainer").html("there was an error");
+        $("#contentContainer").attr("style", "display:block");
+
+      }
+    });
+  } catch (err) {
+    alert(err);
+  }
+
+  /* ====================================
+  * Make pageContent Visibble
+  */
+  $("#contentContainer").attr("style", "display:block");
+
+});
+
+function loadView(){
+ /* ==================================== 
         * Here is where you clear old pageConent CSS and load the new page Css
         * Need to figure this out
         * I think what i'll do is put a css element placeholder above page content, and update that.?
@@ -70,7 +92,6 @@ $(document).ready(function(){
         var cssContainer = document.getElementById("cssContainer");
         cssContainer.appendChild(newLink);
 
-
         /* ====================================
         * Load the page.html into our wrapper Page
         */
@@ -81,14 +102,7 @@ $(document).ready(function(){
         newDiv.innerHTML = state.pageContent;
         var contentContainer = document.getElementById("contentContainer");
         contentContainer.appendChild(newDiv);
-
-
-        /* ====================================
-        * Do any changes to the page
-        */
-        // $("#PROLIFIC_PID").val('wow');
-        
-    
+   
        /* ====================================
         * Unload old pageConent Scripts and reload this page scripts
         */
@@ -96,79 +110,44 @@ $(document).ready(function(){
         newScript.setAttribute("type","text/javascript")
         newScript.setAttribute("src", state.stateFlowConfig.views[state.getView].script)
         
-        
         var contentContainer = document.getElementById("scriptContainer");
         scriptContainer.appendChild(newScript);
+}
 
+function next() {
+  //make the page Visible
+  $("#contentContainer").attr("style", "display:none");
 
-        /* ====================================
-        * Make pageContent Visibble
-        */
-        // $("#contentContainer").attr("style", "display:block");
-      },
-      error: function(xhr) {
-        //Do Something to handle error
-        $("#pageContent").html("there was an error");
-        $("#pageContent").attr("style", "display:block");
-      }
-    });
-  } catch (err) {
-    alert(err);
-  }
+  //first check if this is the last then we cant go forward
+  state.getView++
+  let result = loadView()//state is a document level variable so we dont need to pass it.
+  //make the page Visible
+  $("#contentContainer").attr("style", "display:block");
+  return true
 
-$("#contentContainer").attr("style", "display:block");
+}
+function redirect(){
+  //abandon ship the end has come.
+  window.location.replace(state.stateFlowConfig.views[state.getView].pageRedirect);
+  return true
+}
+function back(){
+  //make the page Visible
+  $("#contentContainer").attr("style", "display:none");
 
-});
-  
-  // /*===============================================================
-  // * Page Load Behaviour
-  // */
-  // try {
-  //   var sPathName = window.location.pathname;
-  //   // console.log("sPathName",sPathName);
-  //   var n = sPathName.lastIndexOf("/");
-  //   // console.log(n);
-  //   var sourceURL = sPathName.substring(0, n);
-  //   // console.log("SourceURL:", sourceURL);
-  //   //switch
-  //   switch (sPathName) {
-  //     case sPath + "/base":
-  //       alert("Base Loaded");
-  //       loadConsentView();
-  //       break;
-  //     case sPath + "/consent":
-  //       //Page 1 - Entry Page from Prolific
-  //       //in: Prolific Paramater
-  //       //out: Prolific Paramaters, GUID\cookie
-  //       //console.log("entryPoint/consent Loading");
-  //       loadConsent();
-  //       break;
-  //     case sPath + "/instructions":
-  //       //Page 2 - Consent Recieved, Study Instructions
-  //       //in: GUID\Cookie
-  //       //out: GUID\Cookie
-  //       //console.log("entryPoint/instructions Loading");
-  //       loadInstructions();
-  //       break;
-  //     case sPath + "/study":
-  //       //Page 3 - Consent Recieved GUID Created and Study
-  //       //in: GUID\Cookie => Studytemplate.json => loadQuestions()
-  //       //out: studyresult.json + GUID\Cookie => uploadAnswers(http.POST /results)
-  //       //console.log("entryPoint/study Loading");
-  //       loadStudy();
-  //       break;
-  //     case sPath + "/results":
-  //       //Page
-  //       //console.log("entryPoint/results Loading");
-  //       break;
-  //     default:
-  //     //console.log("I have never heard of that fruit...");
-  //   }
-  // } catch (err) {
-  //   console.log("loadPage Error: " + err);
-  // } finally {
-  //   //console.log("loadPage COMPLETE");
-  // };
+  //first check if this is the last then we cant go forward
+  state.getView--
+  let result = loadView(state.getView)
+
+  //make the page Visible
+  $("#contentContainer").attr("style", "display:block");
+  return true
+}
+
+async function saveState(){
+  alert("hey code my save state!!")
+}
+
 
 
 

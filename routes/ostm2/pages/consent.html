@@ -17,14 +17,11 @@
   <div class="researcherCopy" id="researcherCopy">
       <p>The CUSTOM Consent text hasnt loaded</p>
   </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="col-sm-1 form-check-input" type="checkbox" id="checkConsent" name="checkConsent" required>
-      <label class="col-sm-11 form-check-label" for="checkConsent">I have read and understood the information above and I agree to participate in this research.</label>
+
+    <div class="form-group">
+      <button id="reject" type="button" class="btn btn-danger" value="reject">Reject</button>
+      <button id="accept" type="button" class="btn btn-success" value="accept" >Accept</button>
     </div>
-    <button type="submit" class="btn btn-primary" value="Submit">Continue</button>
-  </div>
+    
 </form>
 
-<!-- End of Main Body -->
-<script src="/<%= rPath %>/static/ostm.js"></script>
