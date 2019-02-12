@@ -3,7 +3,8 @@
     {
       "view": 0,
       "name":"participant",
-      "script":"participant.js",
+      "style":"/styles/participant.css",
+      "script":"/scripts/participant.js",
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",

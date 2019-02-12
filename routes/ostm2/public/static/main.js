@@ -41,7 +41,6 @@ $(document).ready(function(){
     //var stateData = JSON.parse($('#stateData').html()); //just checking
     // var stateData = JSON.stringify($('#stateData').html());
     var stateData = $('#stateData').html();
-
     $.ajax({
       method: "POST",
       url: "/ostm2/API/page",
@@ -57,33 +56,69 @@ $(document).ready(function(){
       },
       success: function(response) {
         var state = response;
-        //load HTML
-        $("#pageContent").html( state.pageContent );
 
-        //load scripts
-        $.getScript( state.stateFlowConfig.views[state.getView].script )
-          .done(function( script, textStatus ) {
-          console.log( textStatus );
-        })
-          .fail(function( jqxhr, settings, exception ) {
-          $( "div.log" ).text( "Triggered ajaxError handler." );
-        });
+        /* ==================================== 
+        * Here is where you clear old pageConent CSS and load the new page Css
+        * Need to figure this out
+        * I think what i'll do is put a css element placeholder above page content, and update that.?
+        * http://www.javascriptkit.com/javatutors/loadjavascriptcss.shtml
+        */        
+        var newLink=document.createElement("link");
+        newLink.setAttribute("rel", "stylesheet");
+        newLink.setAttribute("type", "text/css");
+        newLink.setAttribute("href", state.stateFlowConfig.views[state.getView].style);
+        var cssContainer = document.getElementById("cssContainer");
+        cssContainer.appendChild(newLink);
 
 
+        /* ====================================
+        * Load the page.html into our wrapper Page
+        */
+        //document.getElementById("pageContent").innerHTML = state.pageContent;
+        //following resolves the issue above that updating innerHTML doesnt add the elements to the DOM
+        var newDiv = document.createElement("div");
+        newDiv.setAttribute("id", "pageContent");
+        newDiv.innerHTML = state.pageContent;
+        var contentContainer = document.getElementById("contentContainer");
+        contentContainer.appendChild(newDiv);
 
-        $("#pageContent").attr("style", "display:block");
+
+        /* ====================================
+        * Do any changes to the page
+        */
+        // $("#PROLIFIC_PID").val('wow');
+        
+    
+       /* ====================================
+        * Unload old pageConent Scripts and reload this page scripts
+        */
+        var newScript=document.createElement('script')
+        newScript.setAttribute("type","text/javascript")
+        newScript.setAttribute("src", state.stateFlowConfig.views[state.getView].script)
+        
+        
+        var contentContainer = document.getElementById("scriptContainer");
+        scriptContainer.appendChild(newScript);
+
+
+        /* ====================================
+        * Make pageContent Visibble
+        */
+        // $("#contentContainer").attr("style", "display:block");
       },
       error: function(xhr) {
         //Do Something to handle error
         $("#pageContent").html("there was an error");
         $("#pageContent").attr("style", "display:block");
-
       }
     });
   } catch (err) {
     alert(err);
   }
 
+$("#contentContainer").attr("style", "display:block");
+
+});
   
   // /*===============================================================
   // * Page Load Behaviour
@@ -136,8 +171,6 @@ $(document).ready(function(){
   // };
 
 
-
-});
 
 
 $( "#continue" ).on( "click", function( event ) {

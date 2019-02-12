@@ -14,6 +14,8 @@ const modulePath_Public = "/ostm2"
 
 app.use("/manage", manage);
 app.use("/static", express.static(__dirname + "/public/static"));
+app.use("/static/styles", express.static(__dirname + "/public/static"));
+app.use("/static/scripts", express.static(__dirname + "/public/static"));
 app.use("/resources/studies", express.static(__dirname + "/public/resources/studies"));
 app.use("/resources/decks", express.static(__dirname + "/public/resources/decks"));
 app.use(bodyParser.json()); // for parsing application/json
@@ -253,7 +255,7 @@ app.get("/study", function(request, response) {
     .then(resolved => {
       JSONstateData.stateFlowConfig = resolved;
       JSONstateData = JSON.stringify(request.query);
-      console.log(JSONstateData);
+      //console.log(JSONstateData);
       response.render('base', { stateData: JSONstateData });
 
     })
@@ -313,7 +315,7 @@ async function preparePage (state) {
   */
   
   //Fixed Variables
-  let scriptPath = modulePath_Public + "/static/";
+  let resourcePath = modulePath_Public + "/static";
   
   //if there is no view we may as will stop now!!
   if (state.getView == isNaN){
@@ -322,9 +324,15 @@ async function preparePage (state) {
 
   //If a script is provided then prepend the module path, saving new value
   if ( state.stateFlowConfig.views[state.getView].script ) {
-    state.stateFlowConfig.views[state.getView].script = modulePath_Public + 
-      "/static/" + state.stateFlowConfig.views[state.getView].script;
+    state.stateFlowConfig.views[state.getView].script = resourcePath + 
+      state.stateFlowConfig.views[state.getView].script;
   }
+  //If a CSS is provided then prepend the module path, saving new value
+  if ( state.stateFlowConfig.views[state.getView].script ) {
+    state.stateFlowConfig.views[state.getView].style = resourcePath + 
+      state.stateFlowConfig.views[state.getView].style;
+  }
+
 
   //load the HMTL for this view state
   state.pageContent = await readFile(
