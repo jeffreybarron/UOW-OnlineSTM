@@ -25,7 +25,8 @@
     {
       "view": 2,
       "name":"instructions",
-      "script":"",
+      "style":"/styles/instructions.css",
+      "script":"/scripts/instructions.js",
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",
@@ -35,7 +36,8 @@
     {
       "view": 3,
       "name":"study",
-      "script":"",
+      "style":"/styles/study.css",
+      "script":"/scripts/study.js",
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",

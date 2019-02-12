@@ -1,11 +1,7 @@
-<!-- Custom styles for this template -->
-<link href="/<%= rPath %>/static/ostm.css" rel="stylesheet">
-
 <div class="outer">
   <div class="middle">
     <div class="inner">
     	<div class="stimulus" id="question">+</div>
-
       <div class="studyButtons" id="startDIV" style="display:none">
         <div class="col-sm-6"></div><div class="col-sm-4">
           <button id="buttonStart" class="btn btn-success" onclick="startQuestions()">Click to Start</button>
@@ -20,19 +16,7 @@
 		    <div class="col-sm-4">
 		      <button class="btn btn-primary" onclick="updateAnswers()">Submit</button>
 	      </div>
-  			<p id="completionLink" style="display:none"></p>
-  			<form id="form_answers" style="display:none">
-  	      <input style="display:none" id="studyName" name="studyName" value="<%= studyName %>" />
-  				<input style="display:none" id="STUDY_ID" name="STUDY_ID" value="<%= qs.STUDY_ID %>" />
-  				<input style="display:none" id="PROLIFIC_PID" name="PROLIFIC_PID" value="<%= qs.PROLIFIC_PID %>" />
-  				<input style="display:none" id="SESSION_ID" name="SESSION_ID" value="<%= qs.SESSION_ID %>" />
-          <input style="display:none" id="checkConsent" name="checkConsent" value="<%= qs.checkConsent %>" />
-          <input style="display:none" id="checkInstructions" name="checkInstructions" value="<%= qs.checkInstructions %>" />
-      	</form>
   		</div>
       <p id="studyText"></p>
     </div>
   </div>
-  
-<!-- End of Main Body -->
-<script src="/<%= rPath %>/static/ostm.js"></script>
