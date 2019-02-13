@@ -219,7 +219,7 @@ app.post("/results", function(request, response, next) {
       sessionID + ".json";
     let jsonResult = request.body;
 
-    var result = postResult(jsonFileName, jsonResult)
+    var result = saveState(jsonFileName, jsonResult)
       .then(resolved => {
         log.info("POST /ostm/results, Successful", resolved);
         log.info("POST /ostm/results, from IP:", request.ip);
@@ -302,12 +302,18 @@ app.post("/API/page", function(request, response) {
       } else {
         response.status(500).send(err);
       }
+    });
+
+  var result = saveState(stateData)    
+    .catch(err => {
+      if (err.message == "This file already exists!") {
+        response.status(409).end();
+      } else {
+        response.status(500).send(err);
+      }
+    });
+
   });;
-
-
-
-
-});
 
 async function preparePage (state) {
   /* so what we are doing is updating and checking data within the state JSON object
@@ -340,24 +346,28 @@ async function preparePage (state) {
     state.stateFlowConfig.views[state.getView].name + ".html"
   )
 
+  //update the render date/tim
+  state.stateFlowConfig.views[state.getView].rendered = getDate(); 
+
+
   return state;
 
 }
 
 
 
+async function saveState(state) {
 
-async function postResult(jsonFileName, jsonResult) {
-  log.trace("POST /deck/create PostResult: " + jsonFileName, jsonResult);
-
-  //AWAIT --> does file already exist, if so then stop
+  // //AWAIT --> does file already exist, if so then stop
   // let fileNotExists = await fileNotExists(jsonFileName);
-
+console.log(state);
   //AWAIT --> create Deck
-  let writeDeck = await writeJSON(jsonFileName, jsonResult);
+  let stateFile = modulePath_Private + "/data/results/" + state.studyName + "_" + state.PROLIFIC_PID + "_" + state.SESSION_ID + "_" + state.STUDY_ID + ".html";
+
+  let writeDeck = await writeJSON(stateFile, state);
 
   // return [fileNotExists, writeDeck];
-  return [fileNotExists, writeDeck];
+  return [writeDeck];
 }
 
 //used with get('/sendCode/:studyName'
@@ -427,10 +437,9 @@ function writeJSON(sURL, data) {
     fs.writeFile(sURL, sFile, "utf-8", function(err) {
       if (err) {
         //Deal with error
-        reject(err);
-        return;
+        return reject(err);
       } else {
-        resolve(data);
+        return resolve(data);
       }
     });
   });

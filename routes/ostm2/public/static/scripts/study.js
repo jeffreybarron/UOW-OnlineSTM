@@ -1,8 +1,30 @@
+"use strict";
+//application state variables
+/* // var oStudyConfig;*/
+var questionBank;
+var myTicker;
+var questionCounter = 0;
+var deckCounter = 0;
+var completedStudy = "";
+var allDecks = [];
+var sampledStimulus = []; */
+//document elements
+var questionObj = document.getElementById("question");
+var answerDIV = document.getElementById("answerDIV");
+var answer = document.getElementById("answer");
+var startDIV = document.getElementById("startDIV");
+var participantID = document.getElementById("PROLIFIC_PID");
+var pageTitle = document.getElementById("pageTitle");
+var studyText = document.getElementById("studyText");
+var checkConsent = document.getElementById("checkConsent");
+var checkInstructions = document.getElementById("checkInstructions");
+
+
+
+
 $( document ).ready(function() {
     $ ("#studyName").val(state.studyName);
     $ ("#PROLIFIC_PID").val(state.PROLIFIC_PID);
-
-
 
 });
 
@@ -330,17 +352,7 @@ function total(arr) {
   if (!Array.isArray(arr)) return;
   return arr.reduce((a, v) => a + v);
 }
-function getDate() {
-  var d = new Date();
-  return d.YYYYMMDDHHmmSSmsec();
-}
-function pad(number, length) {
-  var str = "" + number;
-  while (str.length < length) {
-    str = "0" + str;
-  }
-  return str;
-}
+
 function getRandomIntInclusive(min, max) {
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
   min = Math.ceil(min);
@@ -369,13 +381,6 @@ function S4() {
   //work out what this does again
   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 }
-Date.prototype.YYYYMMDDHHmmSSmsec = function() {
-  var YYYY = this.getFullYear().toString();
-  var MM = pad(this.getMonth() + 1, 2);
-  var DD = pad(this.getDate(), 2);
-  var HH = pad(this.getHours(), 2);
-  var mm = pad(this.getMinutes(), 2);
-  var ss = pad(this.getSeconds(), 2);
-  var msec = pad(this.getMilliseconds(), 4);
-  return YYYY + MM + DD + "_" + HH + ":" + mm + ":" + ss + "." + msec;
-};
+
+
+
