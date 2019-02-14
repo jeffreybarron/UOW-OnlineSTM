@@ -3,15 +3,15 @@
   "PROLIFIC_PID": "GUID01",
   "STUDY_ID": "GUID002",
   "SESSION_ID": "GUID003",
-  "getView": 0,
-  "stateFlowConfig": {
+  "getView": "0",
+  "flow": {
     "views": [
       {
         "view": 0,
         "name": "participant",
         "style": "/ostm2/static/styles/participant.css",
         "script": "/ostm2/static/scripts/participant.js",
-        "rendered": "date/time value",
+        "rendered": "20190214T17:55:19.0464",
         "response": "",
         "responseTime": "",
         "pageNext": "",
@@ -60,6 +60,8 @@
         "pageNext": "",
         "pageRedirect": "http://www.prolific.ac"
       }
-    ]
-  }
+    ],
+    "initialised": "20190214T17:55:19.0452"
+  },
+  "pageContent": "<!-- pageContent body -->\n<h2>Confirm\\provide Participant Identification (PID)</h2>\n<div class=\"starter-template\">\n  <form id=\"participantIDForm\">\n    <div class=\"form-group row\">\n      <label for=\"studyName\" class=\"col-sm-3 col-form-label\">Study Name</label>\n        <div class=\"col-sm-9\">\n          <input class=\"form-control\" type=\"text\" id=\"studyName\" name=\"studyName\" readonly />\n        </div>\n    </div>\n    <div class=\"form-group row\">\n      <label for=\"PROLIFIC_PID\" class=\"col-sm-3 col-form-label\">Prolific PID</label>\n        <div class=\"col-sm-9\">\n          <input class=\"form-control\" type=\"text\" id=\"PROLIFIC_PID\" name=\"PROLIFIC_PID\"/>\n        </div>\n    </div>\n    <div class=\"form-group\">\n      <button id=\"reject\" type=\"button\" class=\"btn btn-danger\" value=\"reject\">Reject</button>\n      <button id=\"accept\" type=\"button\" class=\"btn btn-success\" value=\"accept\" >Accept</button>\n    </div>\n  </form>"
 }

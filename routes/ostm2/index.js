@@ -248,36 +248,30 @@ app.get("/study", function(request, response) {
   * /data/configuration/statflow.json defines pagination via AJAX API calls after this page render
   * i.e. this part of the site, the study, is a single page site
   */
-  JSONstateData.getView = 0;
+  // JSONstateData.getView = 0;
 
-  //save stateFlow config to JSONstateData then render the  
-  var result = loadFlow()
-    .then(resolved => {
-      JSONstateData.stateFlowConfig = resolved;
-      JSONstateData = JSON.stringify(request.query);
-      //console.log(JSONstateData);
-      response.render('base', { stateData: JSONstateData });
+  // //save flow config to JSONstateData then render the  
+  // var result = loadFlow(state)
+  //   .then(resolved => {
+  //     JSONstateData.flow = resolved;
+  //     JSONstateData = JSON.stringify(request.query);
+  //     //console.log(JSONstateData);
+  //     response.render('base', { stateData: JSONstateData });
 
-    })
-    .catch(err => {
-      if (err.message == "This file already exists!") {
-        log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
-        response.status(409).end();
-      } else {
-        log.info("POST /deck/create, failed", err.message);
-        response.status(500).end();
-      }
-    });
-
+  //   })
+  //   .catch(err => {
+  //     if (err.message == "This file already exists!") {
+  //       log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
+  //       response.status(409).end();
+  //     } else {
+  //       log.info("POST /deck/create, failed", err.message);
+  //       response.status(500).end();
+  //     }
+  //   });
+response.render('base');
 
 });
 
-async function loadFlow(){
-
-  let jFlow = await readFile( modulePath_Private + "/data/config/stateflow.json" ); 
-  return JSON.parse(jFlow);
-
-}
 
 /*======================================================================================
 *
@@ -285,16 +279,13 @@ async function loadFlow(){
 * Usage: response.render('pageName')
 *
 */
-app.post("/API/page", function(request, response) {
-  //State Variables
-  let stateData = {};
-  stateData = request.body; //dont change these at this API Call
-
-  var pageData =  preparePage(stateData)
+app.post("/API/flow", function(request, response) {
+  
+  var result = loadFlow(request.body)
     .then(resolved => {
       //wrap the file in JSON and set some other data with it
-      let returnData = resolved;
-      response.status(202).send(returnData);
+      // let returnData = resolved;
+      response.status(202).send(resolved);
     })
     .catch(err => {
       if (err.message == "This file already exists!") {
@@ -304,7 +295,27 @@ app.post("/API/page", function(request, response) {
       }
     });
 
-  var result = saveState(stateData)    
+});
+async function loadFlow(state){
+
+  let jFlow = await readFile( modulePath_Private + "/data/config/stateflow.json" ); 
+  state.flow = JSON.parse(jFlow); 
+  state.flow.initialised = getDate();
+  let result = saveState(state);
+  return state;
+
+};
+
+
+app.post("/API/view", function(request, response) {
+
+  var pageData = loadView(request.body)
+    .then(resolved => {
+      //wrap the file in JSON and set some other data with it
+      // let returnData = resolved;
+      
+      response.status(202).send(resolved);
+    })
     .catch(err => {
       if (err.message == "This file already exists!") {
         response.status(409).end();
@@ -313,9 +324,9 @@ app.post("/API/page", function(request, response) {
       }
     });
 
-  });;
+});
+async function loadView (state) {
 
-async function preparePage (state) {
   /* so what we are doing is updating and checking data within the state JSON object
   * we store the data and send it along so we dont need to re-read files needlessly
   */
@@ -329,46 +340,63 @@ async function preparePage (state) {
   }
 
   //If a script is provided then prepend the module path, saving new value
-  if ( state.stateFlowConfig.views[state.getView].script ) {
-    state.stateFlowConfig.views[state.getView].script = resourcePath + 
-      state.stateFlowConfig.views[state.getView].script;
+  if ( state.flow.views[state.getView].script ) {
+    state.flow.views[state.getView].script = resourcePath + 
+      state.flow.views[state.getView].script;
   }
   //If a CSS is provided then prepend the module path, saving new value
-  if ( state.stateFlowConfig.views[state.getView].script ) {
-    state.stateFlowConfig.views[state.getView].style = resourcePath + 
-      state.stateFlowConfig.views[state.getView].style;
+  if ( state.flow.views[state.getView].script ) {
+    state.flow.views[state.getView].style = resourcePath + 
+      state.flow.views[state.getView].style;
   }
 
 
   //load the HMTL for this view state
   state.pageContent = await readFile(
     modulePath_Private + "/pages/" + 
-    state.stateFlowConfig.views[state.getView].name + ".html"
+    state.flow.views[state.getView].name + ".html"
   )
 
   //update the render date/tim
-  state.stateFlowConfig.views[state.getView].rendered = getDate(); 
+  state.flow.views[state.getView].rendered = getDate(); 
 
+  let result = saveState(state);
 
   return state;
 
 }
 
+app.post("/API/save", function(request, response) {
+  
+  var result = saveState(request.body)
+    .then(resolved => {
+      //wrap the file in JSON and set some other data with it
+      // let returnData = resolved;
+      response.status(202).send(resolved);
+    })
+    .catch(err => {
+      if (err.message == "This file already exists!") {
+        response.status(409).end();
+      } else {
+        response.status(500).send(err);
+      }
+    });
 
-
+});
 async function saveState(state) {
 
   // //AWAIT --> does file already exist, if so then stop
   // let fileNotExists = await fileNotExists(jsonFileName);
-console.log(state);
+
   //AWAIT --> create Deck
-  let stateFile = modulePath_Private + "/data/results/" + state.studyName + "_" + state.PROLIFIC_PID + "_" + state.SESSION_ID + "_" + state.STUDY_ID + ".html";
+  let stateFile = modulePath_Private + "/data/results/" + state.studyName + "_" + state.PROLIFIC_PID + "_" + state.STUDY_ID + "_" + state.SESSION_ID + ".json";
 
   let writeDeck = await writeJSON(stateFile, state);
 
   // return [fileNotExists, writeDeck];
   return [writeDeck];
-}
+
+};
 
 //used with get('/sendCode/:studyName'
 async function getProlificCode(sResultURL, sCodeURL) {
@@ -453,5 +481,32 @@ async function fileExistsAsync(sURL) {
     throw "File does not exist.";
   }
 }
+
+
+/* ====================================
+* Date Functions
+*/
+function getDate() {
+  var d = new Date();
+  return d.YYYYMMDDHHmmSSmsec();
+}
+Date.prototype.YYYYMMDDHHmmSSmsec = function() {
+  var YYYY = this.getFullYear().toString();
+  var MM = pad(this.getMonth() + 1, 2);
+  var DD = pad(this.getDate(), 2);
+  var HH = pad(this.getHours(), 2);
+  var mm = pad(this.getMinutes(), 2);
+  var ss = pad(this.getSeconds(), 2);
+  var msec = pad(this.getMilliseconds(), 4);
+  return YYYY + MM + DD + "T" + HH + ":" + mm + ":" + ss + "." + msec;
+};
+function pad(number, length) {
+  var str = "" + number;
+  while (str.length < length) {
+    str = "0" + str;
+  }
+  return str;
+}
+
 
 module.exports = app;

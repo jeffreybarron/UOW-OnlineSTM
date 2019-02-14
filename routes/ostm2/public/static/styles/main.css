@@ -44,9 +44,9 @@ body {
 }
 
 .container {
+  max-width: 680px;
   width: auto;
   height:100%;
-  max-width: 680px;
   font-family: Verdana, Geneva, sans-serif;
   font-size: 12px;
   letter-spacing: 0px;
