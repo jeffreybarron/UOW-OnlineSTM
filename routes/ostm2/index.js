@@ -119,40 +119,6 @@ app.get("/instructions/:studyName", function(request, response, next) {
       response.end;
     });
 });
-// app.get("/study/:studyName", function(request, response, next) {
-//   log.info("GET /study/:" + request.params.studyName + ", requested", request.ip);
-//   let sURL = __dirname + "/public/resources/studies/" + request.params.studyName + ".json";
-//   //Using Promise with Async\Await
-//   let result = fileExistsAsync(sURL)
-//     .then(resolved => {
-//       if (!request.query.checkConsent === "on") {
-//         response.render("consent", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
-//         response.end;
-//       }
-//       if (!request.query.checkInstructions === "on") {
-//         response.render("instructions", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
-//         response.end;
-//       }
-
-//       //checks are ok render the test
-//       let oInstance = {
-//         studyName: request.params.studyName,
-//         PROLIFIC_PID: request.query.PROLIFIC_PID,
-//         STUDY_ID: request.query.STUDY_ID,
-//         SESSION_ID: request.query.SESSION_ID
-//       };
-//       response.render("study", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
-//       log.info({ instance: oInstance }, ": study .rendered");
-//       response.end;
-//     })
-//     .catch(error => {
-//       let txt = error.message;
-//       log.info("GET /study/:" + request.params.studyName + ", failed", error.message);
-//       var fTemplate = fs.readFileSync("404.html", "utf8");
-//       response.send(fTemplate);
-//       response.end;
-//     });
-// });
 app.get("/sendCode/:studyName", function(request, response) {
   // 	//the purpose of the this route\page is to pass the prolific code to the participant if they have completed
 
@@ -245,30 +211,10 @@ app.get("/study", function(request, response) {
 
   /* As HTTP:GET on /base is the begining of the study 
   * we take the query string with Prolific data and add default state value of 0
-  * /data/configuration/statflow.json defines pagination via AJAX API calls after this page render
   * i.e. this part of the site, the study, is a single page site
   */
-  // JSONstateData.getView = 0;
 
-  // //save flow config to JSONstateData then render the  
-  // var result = loadFlow(state)
-  //   .then(resolved => {
-  //     JSONstateData.flow = resolved;
-  //     JSONstateData = JSON.stringify(request.query);
-  //     //console.log(JSONstateData);
-  //     response.render('base', { stateData: JSONstateData });
-
-  //   })
-  //   .catch(err => {
-  //     if (err.message == "This file already exists!") {
-  //       log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
-  //       response.status(409).end();
-  //     } else {
-  //       log.info("POST /deck/create, failed", err.message);
-  //       response.status(500).end();
-  //     }
-  //   });
-response.render('base');
+  response.render('base');
 
 });
 
@@ -340,16 +286,15 @@ async function loadView (state) {
   }
 
   //If a script is provided then prepend the module path, saving new value
-  if ( state.flow.views[state.getView].script ) {
-    state.flow.views[state.getView].script = resourcePath + 
-      state.flow.views[state.getView].script;
+  for ( let i = 0; i < state.flow.views[state.getView].scripts.length; i++ ) {
+    state.flow.views[state.getView].scripts[i] = resourcePath + state.flow.views[state.getView].scripts[i];
+    console.log(state.flow.views[state.getView].scripts[i]);
   }
   //If a CSS is provided then prepend the module path, saving new value
-  if ( state.flow.views[state.getView].script ) {
-    state.flow.views[state.getView].style = resourcePath + 
-      state.flow.views[state.getView].style;
+  for ( let j = 0; j < state.flow.views[state.getView].styles.length; j++ ) {
+    state.flow.views[state.getView].styles[j] = resourcePath + state.flow.views[state.getView].styles[j];
+    console.log(state.flow.views[state.getView].styles[j]);
   }
-
 
   //load the HMTL for this view state
   state.pageContent = await readFile(

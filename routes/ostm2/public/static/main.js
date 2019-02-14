@@ -111,12 +111,14 @@ function updateDOM(state){
     while (cssContainer.firstChild) {
         cssContainer.removeChild(cssContainer.firstChild);
     };
-    var newLink=document.createElement("link");
-      newLink.setAttribute("rel", "stylesheet");
-      newLink.setAttribute("type", "text/css");
-      newLink.setAttribute("href", state.flow.views[state.getView].style);
-    cssContainer.appendChild(newLink);
-
+    for (const style of state.flow.views[state.getView].styles){
+      var newLink=document.createElement("link");
+        newLink.setAttribute("rel", "stylesheet");
+        newLink.setAttribute("type", "text/css");
+        newLink.setAttribute("href", style);
+      cssContainer.appendChild(newLink);
+    };
+    
 
     /* ====================================
     * Load the page.html into our wrapper Page
@@ -140,10 +142,12 @@ function updateDOM(state){
     while (scriptContainer.firstChild) {
       scriptContainer.removeChild(scriptContainer.firstChild);
     };
-    var newScript=document.createElement('script')
-    newScript.setAttribute("type","text/javascript")
-    newScript.setAttribute("src", state.flow.views[state.getView].script)
-    scriptContainer.appendChild(newScript);
+    for (const script of state.flow.views[state.getView].scripts){
+      var newScript=document.createElement('script')
+        newScript.setAttribute("type","text/javascript")
+        newScript.setAttribute("src", script)
+      scriptContainer.appendChild(newScript);
+    };  
 
 
     $("#contentContainer").attr("style", "display:block");

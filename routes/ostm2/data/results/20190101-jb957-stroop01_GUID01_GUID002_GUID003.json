@@ -3,48 +3,68 @@
   "PROLIFIC_PID": "GUID01",
   "STUDY_ID": "GUID002",
   "SESSION_ID": "GUID003",
-  "getView": "0",
+  "getView": 3,
   "flow": {
     "views": [
       {
         "view": 0,
         "name": "participant",
-        "style": "/ostm2/static/styles/participant.css",
-        "script": "/ostm2/static/scripts/participant.js",
-        "rendered": "20190214T17:55:19.0464",
-        "response": "",
-        "responseTime": "",
+        "styles": [
+          "/ostm2/static/main.css",
+          "/ostm2/static/styles/participant.css"
+        ],
+        "scripts": [
+          "/ostm2/static/scripts/participant.js"
+        ],
+        "rendered": "20190214T20:55:22.0168",
+        "response": "accept",
+        "responseTime": "20190214T20:55:26.0406",
         "pageNext": "",
         "pageRedirect": "http://www.prolific.ac"
       },
       {
         "view": 1,
         "name": "consent",
-        "style": "/styles/consent.css",
-        "script": "/scripts/consent.js",
-        "rendered": "date/time value",
-        "response": "",
-        "responseTime": "",
+        "styles": [
+          "/ostm2/static/main.css",
+          "/ostm2/static/styles/consent.css"
+        ],
+        "scripts": [
+          "/ostm2/static/scripts/consent.js"
+        ],
+        "rendered": "20190214T20:55:26.0414",
+        "response": "accept",
+        "responseTime": "20190214T20:55:27.0577",
         "pageNext": "",
         "pageRedirect": "http://www.prolific.ac"
       },
       {
         "view": 2,
         "name": "instructions",
-        "style": "/styles/instructions.css",
-        "script": "/scripts/instructions.js",
-        "rendered": "date/time value",
-        "response": "",
-        "responseTime": "",
+        "styles": [
+          "/ostm2/static/main.css",
+          "/ostm2/static/styles/instructions.css"
+        ],
+        "scripts": [
+          "/ostm2/static/scripts/instructions.js"
+        ],
+        "rendered": "20190214T20:55:27.0585",
+        "response": "accept",
+        "responseTime": "20190214T20:55:31.0063",
         "pageNext": "study",
         "pageRedirect": "http://www.prolific.ac"
       },
       {
         "view": 3,
         "name": "study",
-        "style": "/styles/study.css",
-        "script": "/scripts/study.js",
-        "rendered": "date/time value",
+        "styles": [
+          "/ostm2/static/ostm2.css",
+          "/ostm2/static/styles/study.css"
+        ],
+        "scripts": [
+          "/ostm2/static/scripts/study.js"
+        ],
+        "rendered": "20190214T20:55:31.0071",
         "response": "",
         "responseTime": "",
         "pageNext": "save",
@@ -53,7 +73,13 @@
       {
         "view": 4,
         "name": "completion",
-        "script": "",
+        "styles": [
+          "/main.css",
+          "/styles/completion.css"
+        ],
+        "scripts": [
+          "/scripts/instructions.js"
+        ],
         "rendered": "date/time value",
         "response": "",
         "responseTime": "",
@@ -61,7 +87,7 @@
         "pageRedirect": "http://www.prolific.ac"
       }
     ],
-    "initialised": "20190214T17:55:19.0452"
+    "initialised": "20190214T20:55:22.0153"
   },
-  "pageContent": "<!-- pageContent body -->\n<h2>Confirm\\provide Participant Identification (PID)</h2>\n<div class=\"starter-template\">\n  <form id=\"participantIDForm\">\n    <div class=\"form-group row\">\n      <label for=\"studyName\" class=\"col-sm-3 col-form-label\">Study Name</label>\n        <div class=\"col-sm-9\">\n          <input class=\"form-control\" type=\"text\" id=\"studyName\" name=\"studyName\" readonly />\n        </div>\n    </div>\n    <div class=\"form-group row\">\n      <label for=\"PROLIFIC_PID\" class=\"col-sm-3 col-form-label\">Prolific PID</label>\n        <div class=\"col-sm-9\">\n          <input class=\"form-control\" type=\"text\" id=\"PROLIFIC_PID\" name=\"PROLIFIC_PID\"/>\n        </div>\n    </div>\n    <div class=\"form-group\">\n      <button id=\"reject\" type=\"button\" class=\"btn btn-danger\" value=\"reject\">Reject</button>\n      <button id=\"accept\" type=\"button\" class=\"btn btn-success\" value=\"accept\" >Accept</button>\n    </div>\n  </form>"
+  "pageContent": "<div class=\"outer\">\n  <div class=\"middle\">\n    <div class=\"inner\">\n    \t<div class=\"stimulus\" id=\"question\">+</div>\n      <div class=\"studyButtons\" id=\"startDIV\" style=\"display:none\">\n        <div class=\"col-sm-6\"></div><div class=\"col-sm-4\">\n          <button id=\"buttonStart\" class=\"btn btn-success\" onclick=\"startQuestions()\">Click to Start</button>\n        </div>\n      </div>\n\n      <div class=\"studyButtons\" id=\"answerDIV\" style=\"display:none\">\n        <label for=\"answer\" class=\"col-sm-2 col-form-label\">Enter Word</label>\n        <div class=\"col-sm-4\">\n          <input class=\"form-control\" type=\"text\" id=\"answer\" name=\"0\" value=\"\">\n        </div>\n\t\t    <div class=\"col-sm-4\">\n\t\t      <button class=\"btn btn-primary\" onclick=\"updateAnswers()\">Submit</button>\n\t      </div>\n  \t\t</div>\n      <p id=\"studyText\"></p>\n    </div>\n  </div>"
 }
