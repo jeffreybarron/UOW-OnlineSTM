@@ -102,33 +102,37 @@ function updateDOM(state){
     $("#contentContainer").attr("style", "display:none");
 
     /* ==================================== 
-    * Here is where you clear old pageConent CSS and load the new page Css
-    * Need to figure this out
-    * I think what i'll do is put a css element placeholder above page content, and update that.?
     * http://www.javascriptkit.com/javatutors/loadjavascriptcss.shtml
+    * load Page Styles
     */        
-    var cssContainer = document.getElementById("cssContainer");
-    while (cssContainer.firstChild) {
-        cssContainer.removeChild(cssContainer.firstChild);
+    var pageStyles = document.getElementById("pageStyles");
+    while (pageStyles.firstChild) {
+        pageStyles.removeChild(pageStyles.firstChild);
     };
-    for (const style of state.flow.views[state.getView].styles){
-      var newLink=document.createElement("link");
+    for (const pageStyle of state.flow.views[state.getView].pageStyles){
+      let newLink = document.createElement("link");
         newLink.setAttribute("rel", "stylesheet");
         newLink.setAttribute("type", "text/css");
-        newLink.setAttribute("href", style);
-      cssContainer.appendChild(newLink);
+        newLink.setAttribute("href", pageStyle);
+      pageStyles.appendChild(newLink);
     };
     
-
     /* ====================================
-    * Load the page.html into our wrapper Page
+    * Load the viewStyle and viewContent into our Page container
     */
-    //document.getElementById("pageContent").innerHTML = state.pageContent;
-    //following resolves the issue above that updating innerHTML doesnt add the elements to the DOM
     var contentContainer = document.getElementById("contentContainer");
     while (contentContainer.firstChild) {
       contentContainer.removeChild(contentContainer.firstChild);
     };
+    //first load viewStyles
+    for (const viewStyle of state.flow.views[state.getView].viewStyles){
+      let newLink = document.createElement("link");
+        newLink.setAttribute("rel", "stylesheet");
+        newLink.setAttribute("type", "text/css");
+        newLink.setAttribute("href", viewStyle);
+      contentContainer.appendChild(newLink);
+    };  
+    //then load pageContent
     var newContent = document.createElement("div");
       newContent.setAttribute("id", "pageContent");
       newContent.innerHTML = state.pageContent;
@@ -136,9 +140,23 @@ function updateDOM(state){
 
 
     /* ====================================
+    * Load the Footer into our Page container
+    */
+    var footerContainer = document.getElementById("footerContainer");
+    while (footerContainer.firstChild) {
+      footerContainer.removeChild(footerContainer.firstChild);
+    };
+    //then load pageContent
+    var newFooter = document.createElement("div");
+      newFooter.setAttribute("id", "pageContent");
+      newFooter.innerHTML = state.flow.views[state.getView].footer;
+    footerContainer.appendChild(newFooter);
+
+
+    /* ====================================
     * Unload old scripst and reload updated scripts
     */
-    var scriptContainer = document.getElementById("scriptContainer");
+    var scriptContainer = document.getElementById("scriptsCustom");
     while (scriptContainer.firstChild) {
       scriptContainer.removeChild(scriptContainer.firstChild);
     };

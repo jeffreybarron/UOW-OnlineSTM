@@ -3,57 +3,67 @@
     {
       "view": 0,
       "name":"participant",
-      "styles":["/main.css", "/styles/participant.css"],
-      "scripts":["/scripts/participant.js"],
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",
-      "pageNext":"", 
-      "pageRedirect":"http://www.prolific.ac"
+      "viewStyles":["/styles/participant.css"],
+      "scripts":["/scripts/participant.js"],
+      "pageRedirect":"http://www.prolific.ac",
+      "pageStyles":["/main.css"],
+      "header":"<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+      "footer":"<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>"
     },
     {
       "view": 1,
       "name":"consent",
-      "styles":["/main.css", "/styles/consent.css"],
-      "scripts":["/scripts/consent.js"],
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",
-      "pageNext":"", 
-      "pageRedirect":"http://www.prolific.ac"
+      "viewStyles":["/styles/consent.css"],
+      "scripts":["/scripts/consent.js"],
+      "pageRedirect":"http://www.prolific.ac",
+      "pageStyles":["/main.css"],
+      "header":"<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+      "footer":"<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>"
     },
     {
       "view": 2,
       "name":"instructions",
-      "styles":["/main.css", "/styles/instructions.css"],
-      "scripts":["/scripts/instructions.js"],
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",
-      "pageNext":"study", 
-      "pageRedirect":"http://www.prolific.ac"
+      "viewStyles":["/styles/instructions.css"],
+      "scripts":["/scripts/instructions.js"],
+      "pageRedirect":"http://www.prolific.ac",
+      "pageStyles":["/main.css"],
+      "header":"<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+      "footer":"<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>"
     },
     {
       "view": 3,
       "name":"study",
-      "styles":["/ostm2.css", "/styles/study.css"],
-      "scripts":["/scripts/study.js"],
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",
-      "pageNext":"save", 
-      "pageRedirect":"http://www.prolific.ac"
+      "viewStyles":["/styles/study.css"],
+      "scripts":["/scripts/study.js"],
+      "pageRedirect":"http://www.prolific.ac",
+      "pageStyles":["/ostm2.css"],
+      "header":"",
+      "footer":""
     },
     {
       "view": 4,
-      "name":"completion",      
-      "styles":["/main.css", "/styles/completion.css"],
-      "scripts":["/scripts/instructions.js"],
+      "name":"completion",
       "rendered":"date/time value",
       "response":"",
       "responseTime":"",
-      "pageNext":"", 
-      "pageRedirect":"http://www.prolific.ac"
+      "viewStyles":["/styles/completion.css"],
+      "scripts":["/scripts/completion.js"],
+      "pageRedirect":"http://www.prolific.ac",
+      "pageStyles":["/main.css"],
+      "header":"<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+      "footer":"<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>"
     }
   ]
 }

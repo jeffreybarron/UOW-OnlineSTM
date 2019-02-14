@@ -22,15 +22,13 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <!-- Custom styles for this template -->
-    <div id="cssContainer"  style="display:none">
-      <link href="/ostm2/static/main.css" rel="stylesheet">   
-    </div>
-
-
-    <title>UOW OSTM - Consent</title>
+    <title>UOW OSTM</title>
   </head>
   <body>
+    <div id="pageStyles" style="display:none">
+      <!-- Custom styles for this template -->
+      <link href="/ostm2/static/main.css" rel="stylesheet">   
+    </div>
     <noscript>
       <h1>JavaScript Required</h1>
       <p class="lead">This Website requires Javascript, i.e. it will not work without it.</p>
@@ -39,40 +37,34 @@
       <p class="lead">If you're cool with that, Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
     </noscript>
     <div class="container">
-      <div class="row" name="heading"><h1 id="pageTitle">UOW Online STM</h1></div>
-      <div class="row">
-        <div class="col-sm" name="pageLeft"></div>
-        <div class="col-sm" name="pageCentre" style="background-color: white">
-          <!-- Page Content is placed below -->
-          <div id="contentContainer" style="display:none"></div>
-          <!-- Page Content End -->
-        </div>
-        <div class="col-sm" name="pageRight"></div>
+      <div id="headerContainer" class="row">
+        <h1 id="pageTitle">UOW Short Term Memory (STM) Study</h1>
       </div>
-      <div class="row" name="footer">
+      <div id="centerRow" class="row">
+        <div id="pageLeft" class="col-sm"><!-- Left Gutter --></div>
+        <div id="contentContainer" class="col-sm" style="display:none"><!-- Page Content --></div>
+        <div id="pageRight" class="col-sm"><!-- Right Gutter --></div>
+      </div>
+      <div id="footerContainer" class="row">
         <footer class="footer">
           <p class="text-muted">Solution by <a href="http://www.jeffreybarron.com">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>
         </footer>
       </div>
-    </div> <!-- contain close-->
+    </div> 
+
+
+
     <!-- Bootstrap core JavaScript and JQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
       crossorigin="anonymous"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-    <!-- State Data -->
-   <div id="dataContainer"  style="display:none">
-     <script id="stateData" type="application/json"></script>
-   </div>
-   
     <!-- Custome Page Scripts-->
-    <div id="customScripts">
+    <div id="scriptsCore">
       <script src="/ostm2/static/main.js"></script>
     </div>
-    <div id="scriptContainer" style="display:none"></div>
+    <div id="scriptsCustom" style="display:none"></div>
 
   </body>
 </html>

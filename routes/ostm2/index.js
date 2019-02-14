@@ -285,16 +285,23 @@ async function loadView (state) {
     throw "No page state was provided!"
   }
 
-  //If a script is provided then prepend the module path, saving new value
-  for ( let i = 0; i < state.flow.views[state.getView].scripts.length; i++ ) {
-    state.flow.views[state.getView].scripts[i] = resourcePath + state.flow.views[state.getView].scripts[i];
-    console.log(state.flow.views[state.getView].scripts[i]);
+  //If a PAGE Styles CSS is provided then prepend the module path, saving new value
+  for ( let i = 0; i < state.flow.views[state.getView].pageStyles.length; i++ ) {
+    state.flow.views[state.getView].pageStyles[i] = resourcePath + state.flow.views[state.getView].pageStyles[i];
   }
-  //If a CSS is provided then prepend the module path, saving new value
-  for ( let j = 0; j < state.flow.views[state.getView].styles.length; j++ ) {
-    state.flow.views[state.getView].styles[j] = resourcePath + state.flow.views[state.getView].styles[j];
-    console.log(state.flow.views[state.getView].styles[j]);
+  console.dir(state.flow.views[state.getView].pageStyles);
+
+  //If a contentCSS are provided then prepend the module path, saving new value
+  for ( let j = 0; j < state.flow.views[state.getView].viewStyles.length; j++ ) {
+    state.flow.views[state.getView].viewStyles[j] = resourcePath + state.flow.views[state.getView].viewStyles[j];
   }
+  console.dir(state.flow.views[state.getView].viewStyles);
+  
+  //If SCRIPTS are provided then prepend the module path, saving new value
+  for ( let k = 0; k < state.flow.views[state.getView].scripts.length; k++ ) {
+    state.flow.views[state.getView].scripts[k] = resourcePath + state.flow.views[state.getView].scripts[k];
+  }
+  console.dir(state.flow.views[state.getView].scripts);
 
   //load the HMTL for this view state
   state.pageContent = await readFile(
