@@ -14,6 +14,8 @@ const modulePath_Public = "/ostm2"
 
 app.use("/manage", manage);
 app.use("/static", express.static(__dirname + "/public/static"));
+app.use("/static/layouts", express.static(__dirname + "/public/static"));
+app.use("/static/views", express.static(__dirname + "/public/static"));
 app.use("/static/styles", express.static(__dirname + "/public/static"));
 app.use("/static/scripts", express.static(__dirname + "/public/static"));
 app.use("/resources/studies", express.static(__dirname + "/public/resources/studies"));
@@ -173,19 +175,13 @@ app.post("/results", function(request, response, next) {
       request.headers["user-agent"]
   );
   try {
-    let studyName = request.body.studyName;
-    let participantID = request.body.PROLIFIC_PID;
-    let studyID = request.body.STUDY_ID;
-    let sessionID = request.body.SESSION_ID;
-    let jsonFileName =
-      __dirname + "/data/results/" +
-      studyName + "_" +
-      participantID + "_" +
-      studyID + "_" +
-      sessionID + ".json";
+    // let studyName = request.body.studyName;
+    // let participantID = request.body.PROLIFIC_PID;
+    // let studyID = request.body.STUDY_ID;
+    // let sessionID = request.body.SESSION_ID;
     let jsonResult = request.body;
 
-    var result = saveState(jsonFileName, jsonResult)
+    var result = saveState(jsonResult)
       .then(resolved => {
         log.info("POST /ostm/results, Successful", resolved);
         log.info("POST /ostm/results, from IP:", request.ip);
@@ -251,7 +247,51 @@ async function loadFlow(state){
   return state;
 
 };
+app.post("/API/layout", function(request, response) {
 
+  var pageData = loadLayout(request.body)
+    .then(resolved => {
+      //wrap the file in JSON and set some other data with it
+      // let returnData = resolved;
+      
+      response.status(202).send(resolved);
+    })
+    .catch(err => {
+      if (err.message == "This file already exists!") {
+        response.status(409).end();
+      } else {
+        response.status(500).send(err);
+      }
+    });
+
+});
+async function loadLayout (state) {
+
+  /* so what we are doing is updating and checking data within the state JSON object
+  * we store the data and send it along so we dont need to re-read files needlessly
+  */
+  
+  //Fixed Variables
+  let resourcePath = modulePath_Private + "/public/static" ;
+  
+  //if there is no view we may as will stop now!!
+  if (state.getView == isNaN){
+    throw "No page state was provided!"
+  }
+
+
+  //load the HMTL for this view state
+  let sURL = resourcePath + "/layouts/" + state.flow.views[state.getView].layout + ".html"
+  state.flow.views[state.getView].layoutContent = await readFile(sURL)
+
+  //update the render date/tim
+  state.flow.views[state.getView].layoutLoaded = getDate(); 
+
+  let result = saveState(state);
+
+  return state;
+
+}
 
 app.post("/API/view", function(request, response) {
 
@@ -278,7 +318,7 @@ async function loadView (state) {
   */
   
   //Fixed Variables
-  let resourcePath = modulePath_Public + "/static";
+  let sPath = modulePath_Public + "/static";
   
   //if there is no view we may as will stop now!!
   if (state.getView == isNaN){
@@ -286,31 +326,30 @@ async function loadView (state) {
   }
 
   //If a PAGE Styles CSS is provided then prepend the module path, saving new value
-  for ( let i = 0; i < state.flow.views[state.getView].pageStyles.length; i++ ) {
-    state.flow.views[state.getView].pageStyles[i] = resourcePath + state.flow.views[state.getView].pageStyles[i];
+  for ( let i = 0; i < state.flow.views[state.getView].layoutStyles.length; i++ ) {
+    state.flow.views[state.getView].layoutStyles[i] = sPath + "/styles/" + state.flow.views[state.getView].layoutStyles[i];
   }
-  console.dir(state.flow.views[state.getView].pageStyles);
+  console.dir(state.flow.views[state.getView].layoutStyles);
 
   //If a contentCSS are provided then prepend the module path, saving new value
   for ( let j = 0; j < state.flow.views[state.getView].viewStyles.length; j++ ) {
-    state.flow.views[state.getView].viewStyles[j] = resourcePath + state.flow.views[state.getView].viewStyles[j];
+    state.flow.views[state.getView].viewStyles[j] = sPath + "/styles/"  + state.flow.views[state.getView].viewStyles[j];
   }
   console.dir(state.flow.views[state.getView].viewStyles);
   
   //If SCRIPTS are provided then prepend the module path, saving new value
   for ( let k = 0; k < state.flow.views[state.getView].scripts.length; k++ ) {
-    state.flow.views[state.getView].scripts[k] = resourcePath + state.flow.views[state.getView].scripts[k];
+    state.flow.views[state.getView].scripts[k] = sPath + "/scripts/"  + state.flow.views[state.getView].scripts[k];
   }
   console.dir(state.flow.views[state.getView].scripts);
 
   //load the HMTL for this view state
-  state.pageContent = await readFile(
-    modulePath_Private + "/pages/" + 
-    state.flow.views[state.getView].name + ".html"
-  )
+  var sURL = modulePath_Private + "/public/static/views/" +  state.flow.views[state.getView].name + ".html"
+  state.flow.views[state.getView].viewContent = await readFile( sURL  )
+  console.log(sURL);
 
   //update the render date/tim
-  state.flow.views[state.getView].rendered = getDate(); 
+  state.flow.views[state.getView].viewLoaded = getDate(); 
 
   let result = saveState(state);
 
@@ -349,7 +388,49 @@ async function saveState(state) {
   return [writeDeck];
 
 };
+app.post("/API/issuecode", function(request, response) {
+  // 	//the purpose of the this route\page is to pass the prolific code to the participant if they have completed
 
+  let state = request.body
+  //declare file URL's
+  var resultFileName =
+    __dirname + "/data/results/" +
+    state.studyName + "_" +
+    state.PROLIFIC_PID + "_" +
+    state.STUDY_ID + "_" +
+    state.SESSION_ID + ".json";
+  var codeFileName = __dirname + "/data/codes/" + state.studyName + "_code.json";
+
+  try {
+
+    var prolificCode = getProlificCode(resultFileName, codeFileName)
+      .then(resolved => {
+        //wrap the file in JSON and set some other data with it
+        // let returnData = resolved;
+        response.status(202).send(resolved);
+      })
+      .catch(err => {
+        if (err.message == "This file already exists!") {
+          response.status(409).end();
+        } else {
+          response.status(500).send(err);
+        }
+      });
+
+  } catch (err) {
+    //unhandled exception.
+    response.render("error", { rPath: moduleName, err: error.message });
+    response.end;
+  }
+});
+
+
+
+/* ====================================================
+*
+* Utility Functions
+*
+*/
 //used with get('/sendCode/:studyName'
 async function getProlificCode(sResultURL, sCodeURL) {
   // 		//check if the study has been saved first

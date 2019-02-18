@@ -42,6 +42,8 @@ $(document).ready(function(){
 async function initialisePage(){
   let flowModel = await getFlowModel(state);
     state = flowModel;
+  let docLayout = await getLayout(state);
+    state = docLayout;
   let pageBody = await getView(state);
     state = pageBody;
   let theDOM = updateDOM(state);
@@ -70,9 +72,33 @@ function getFlowModel(state){
 
   });
 };
+function getLayout(state){
+  return new Promise((resolve, reject) => {
+    //load StateData from page <script id="stateData"> innerHTML
+    $.ajax({
+      method: "POST",
+      url: "/ostm2/API/layout",
+      contentType: "application/json", //request data i.e. POSTed
+      data: JSON.stringify(state),
+      async: true,
+      cache: false,
+      dataType: "json", //response data, recieved from server
+      success: function(response) {
+        return resolve(response)
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+        return reject(xhr);
+      }
+    });
+
+  });
+};
 async function updatePage(){
-  let pageBody = await getView(state);
-    state = pageBody;
+  let layout = await getLayout(state);
+    state = layout;
+  let view = await getView(state);
+    state = view;
   let theDOM = updateDOM(state);
   return true;
 };
@@ -99,24 +125,75 @@ function getView(state){
   });
 };
 function updateDOM(state){
-    $("#contentContainer").attr("style", "display:none");
+    $("#page").attr("style", "display:none");
+
+    //update layout
+    var layout = document.getElementById("page");
+    while (layout.firstChild) {
+        layout.removeChild(layout.firstChild);
+    };
+    var newLayout = document.createElement("div");
+      newLayout.setAttribute("id", "layout");
+      newLayout.innerHTML = state.flow.views[state.getView].layoutContent;
+    layout.appendChild(newLayout);
 
     /* ==================================== 
     * http://www.javascriptkit.com/javatutors/loadjavascriptcss.shtml
     * load Page Styles
     */        
-    var pageStyles = document.getElementById("pageStyles");
-    while (pageStyles.firstChild) {
-        pageStyles.removeChild(pageStyles.firstChild);
+    var layoutStyles = document.getElementById("layoutStyles");
+    while (layoutStyles.firstChild) {
+        layoutStyles.removeChild(layoutStyles.firstChild);
     };
-    for (const pageStyle of state.flow.views[state.getView].pageStyles){
+    for (const style of state.flow.views[state.getView].layoutStyles){
       let newLink = document.createElement("link");
         newLink.setAttribute("rel", "stylesheet");
         newLink.setAttribute("type", "text/css");
-        newLink.setAttribute("href", pageStyle);
-      pageStyles.appendChild(newLink);
+        newLink.setAttribute("href", style);
+      layoutStyles.appendChild(newLink);
     };
+
+    switch (state.flow.views[state.getView].layout) {
+      case "ostm2":
+        updateDOM_OSTMLayout(state);
+        break;
+      default:
+        updateDOM_DefaultLayout(state);
+    }
+
+    /* ====================================
+    * Unload old scripst and reload updated scripts
+    */
+    var scriptContainer = document.getElementById("scriptsCustom");
+    while (scriptContainer.firstChild) {
+      scriptContainer.removeChild(scriptContainer.firstChild);
+    };
+    for (const script of state.flow.views[state.getView].scripts){
+      var newScript=document.createElement('script')
+        newScript.setAttribute("type","text/javascript")
+        newScript.setAttribute("src", script)
+      scriptContainer.appendChild(newScript);
+    };  
+
+
+    $("#page").attr("style", "display:block");
+    return true;
+};
+function updateDOM_DefaultLayout(state) {
     
+    /* ====================================
+    * Load the Header into our Page container
+    */
+    var headerContainer = document.getElementById("headerContainer");
+    while (headerContainer.firstChild) {
+      headerContainer.removeChild(headerContainer.firstChild);
+    };
+    var newHeader = document.createElement("div");
+      newHeader.setAttribute("id", "headerContent");
+      newHeader.innerHTML = state.flow.views[state.getView].header;
+    headerContainer.appendChild(newHeader);
+
+
     /* ====================================
     * Load the viewStyle and viewContent into our Page container
     */
@@ -135,7 +212,7 @@ function updateDOM(state){
     //then load pageContent
     var newContent = document.createElement("div");
       newContent.setAttribute("id", "pageContent");
-      newContent.innerHTML = state.pageContent;
+      newContent.innerHTML = state.flow.views[state.getView].viewContent;
     contentContainer.appendChild(newContent);
 
 
@@ -146,31 +223,39 @@ function updateDOM(state){
     while (footerContainer.firstChild) {
       footerContainer.removeChild(footerContainer.firstChild);
     };
-    //then load pageContent
+    //then load footerContent
     var newFooter = document.createElement("div");
-      newFooter.setAttribute("id", "pageContent");
+      newFooter.setAttribute("id", "footerContent");
       newFooter.innerHTML = state.flow.views[state.getView].footer;
     footerContainer.appendChild(newFooter);
 
-
-    /* ====================================
-    * Unload old scripst and reload updated scripts
-    */
-    var scriptContainer = document.getElementById("scriptsCustom");
-    while (scriptContainer.firstChild) {
-      scriptContainer.removeChild(scriptContainer.firstChild);
-    };
-    for (const script of state.flow.views[state.getView].scripts){
-      var newScript=document.createElement('script')
-        newScript.setAttribute("type","text/javascript")
-        newScript.setAttribute("src", script)
-      scriptContainer.appendChild(newScript);
-    };  
-
-
-    $("#contentContainer").attr("style", "display:block");
-    return true;
 };
+function updateDOM_OSTMLayout(state) {
+    /* ====================================
+    * Load the viewStyle and viewContent into our Page container
+    */
+   console.log("updateDOM_OSTMLayout");
+    // var contentContainer = document.getElementById("contentContainer");
+    // while (contentContainer.firstChild) {
+    //   contentContainer.removeChild(contentContainer.firstChild);
+    // };
+    // //first load viewStyles
+    // for (const viewStyle of state.flow.views[state.getView].viewStyles){
+    //   let newLink = document.createElement("link");
+    //     newLink.setAttribute("rel", "stylesheet");
+    //     newLink.setAttribute("type", "text/css");
+    //     newLink.setAttribute("href", viewStyle);
+    //   contentContainer.appendChild(newLink);
+    // };  
+    // //then load pageContent
+    // var newContent = document.createElement("div");
+    //   newContent.setAttribute("id", "pageContent");
+    //   newContent.innerHTML = state.flow.views[state.getView].pageContent;
+    // contentContainer.appendChild(newContent);
+};
+
+
+
 function saveState(){
   return new Promise((resolve, reject) => {
     //load StateData from page <script id="stateData"> innerHTML

@@ -25,9 +25,9 @@
     <title>UOW OSTM</title>
   </head>
   <body>
-    <div id="pageStyles" style="display:none">
+    <div id="layoutStyles" style="display:none">
       <!-- Custom styles for this template -->
-      <link href="/ostm2/static/main.css" rel="stylesheet">   
+      <link href="/ostm2/static/main.css" rel="stylesheet"> 
     </div>
     <noscript>
       <h1>JavaScript Required</h1>
@@ -36,13 +36,14 @@
         however by enabling JavaScript, you are do so at your own risk.</p>
       <p class="lead">If you're cool with that, Here are the <a href="https://www.enable-javascript.com/">instructions to enable JavaScript</a> in your web browser.</p>
     </noscript>
-    <div class="container">
+    <div id="page" class="container">
+
       <div id="headerContainer" class="row">
         <h1 id="pageTitle">UOW Short Term Memory (STM) Study</h1>
       </div>
       <div id="centerRow" class="row">
         <div id="pageLeft" class="col-sm"><!-- Left Gutter --></div>
-        <div id="contentContainer" class="col-sm" style="display:none"><!-- Page Content --></div>
+        <div id="contentContainer" class="col-sm"><!-- Page Content --></div>
         <div id="pageRight" class="col-sm"><!-- Right Gutter --></div>
       </div>
       <div id="footerContainer" class="row">
@@ -50,9 +51,8 @@
           <p class="text-muted">Solution by <a href="http://www.jeffreybarron.com">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>
         </footer>
       </div>
+      
     </div> 
-
-
 
     <!-- Bootstrap core JavaScript and JQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="

@@ -130,9 +130,3 @@ body {
   border: 2px solid #003666;
   background-color: #B2D732;
 }
-
-#pageContainer { 
-  padding: 5px;
-  border: 1px solid #4d5c69;
-  border-radius: 5px;
-}

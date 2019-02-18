@@ -1,0 +1,24 @@
+{
+  "studyName": "v1",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "setSizes": [
+    2,
+    2
+  ],
+  "deckConfiguration": [
+    {
+      "deckName": "11-letters.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    },
+    {
+      "deckName": "2-letters.json",
+      "pickQty": 2,
+      "sampleMode": "sequential"
+    }
+  ],
+  "shuffleDecks": false,
+  "shuffleAll": false,
+  "refreshRateMS": 250
+}

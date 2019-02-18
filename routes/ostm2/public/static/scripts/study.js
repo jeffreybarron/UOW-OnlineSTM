@@ -16,15 +16,26 @@ var startDIV = document.getElementById("startDIV");
 var participantID = document.getElementById("PROLIFIC_PID");
 var pageTitle = document.getElementById("pageTitle");
 var studyText = document.getElementById("studyText");
-var checkConsent = document.getElementById("checkConsent");
-var checkInstructions = document.getElementById("checkInstructions");
+// var checkConsent = document.getElementById("checkConsent");
+// var checkInstructions = document.getElementById("checkInstructions");
 
 
 
 
 $( document ).ready(function() {
-    $ ("#studyName").val(state.studyName);
-    $ ("#PROLIFIC_PID").val(state.PROLIFIC_PID);
+  try {
+
+    var result = loadStudy()
+    .then(resolved => {
+      console.log(resolved);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  } catch (err) {
+    alert(err);
+  }
 
 });
 
@@ -33,14 +44,12 @@ $( "#accept" ).on( "click", function() {
   state.flow.views[state.getView].result = "accept";
   var result = next()
 });
-
 $( "#reject" ).on( "click", function() {
   //participant has rejected the study for some reason, pass them back to prolific without a completion code
   state.flow.views[state.getView].result = "reject";
 
   var result = redirect()
 });
-
 // $( "#back" ).on( "click", function() {
 //   var result = back();
 // });
@@ -54,7 +63,7 @@ async function loadStudy() {
 
   //--------------------------------------------------------------
   //load config file
-  var studyURL = sPath + "/resources/studies/" + studyName.getAttribute("value") + ".json";
+  var studyURL = sPath + "/resources/studies/" + state.studyName + ".json";
   var configFile = await getFile(studyURL)
   state.studyConfig = configFile;
   
@@ -94,26 +103,25 @@ async function loadStudy() {
         state.studyConfig.deckConfiguration[i].sampleMode
       )
     );
+  };
 
-    //--------------------------------------------------------------
-    //shuffle Cards within Decks
-    //
-    // if (oStudyConfig.deckConfiguration[i].shuffleStimuli === true) {
-    //   sampledStimulus[i].shuffleArray
-    // }
+  //--------------------------------------------------------------
+  //shuffle Cards within Decks
+  //
+  // if (oStudyConfig.deckConfiguration[i].shuffleStimuli === true) {
+  //   sampledStimulus[i].shuffleArray
+  // }
 
-    //--------------------------------------------------------------
-    //Join each deck into a single deck for dealing into sets
-    //https://davidwalsh.name/combining-js-arrays
-    //
-    // ***** see if you can do this to sampledStimulus without flattening the decks. ***
-    for (let i = 0; i < allDecks.length; i++) {
-      dealersDeck = sampledStimulus[i].reduce(function(coll, item) {
-        coll.push(item);
-        return coll;
-      }, dealersDeck);
-    };
-
+  //--------------------------------------------------------------
+  //Join each deck into a single deck for dealing into sets
+  //https://davidwalsh.name/combining-js-arrays
+  //
+  // ***** see if you can do this to sampledStimulus without flattening the decks. ***
+  for (let i = 0; i < allDecks.length; i++) {
+    dealersDeck = sampledStimulus[i].reduce(function(coll, item) {
+      coll.push(item);
+      return coll;
+    }, dealersDeck);
   };
 
   //--------------------------------------------------------------
@@ -122,8 +130,6 @@ async function loadStudy() {
   if (state.studyConfig.shuffleAll === true) {
     dealersDeck = shuffleArray(dealersDeck);
   };
-
-
 
   //--------------------------------------------------------------
   //setup sets in the config file
@@ -153,10 +159,14 @@ async function loadStudy() {
   startDIV.style.display = "block";
 
 };
+
+
 function startQuestions() {
   myTicker = setInterval(changeQuestion, state.studyConfig.refreshRateMS);
   startDIV.style.display = "none";
 };
+
+
 function changeQuestion() {
   //console.log(oStudyConfig.sets[deckCounter].set.length);
   if (questionCounter < state.studyConfig.sets[deckCounter].set.length) {
@@ -171,10 +181,11 @@ function changeQuestion() {
   } else {
     // clear the text area and stop the ticker
     clearInterval(myTicker);
-    setProperties(questionObj, "+", state.studyConfig.studyTextColor, oStudyConfig.studybackgroundColor);
+    setProperties(questionObj, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundColor);
     answerDIV.style.display = "block";
   }
 }
+
 function updateAnswers() {
   if (answer.name < questionCounter) {
     state.studyConfig.sets[deckCounter].set[answer.name].responseTime = getDate(); //load answer into json
@@ -206,7 +217,7 @@ function updateAnswers() {
 
         //Write Study Result to Server
         //postData(questionBank);
-        var data = JSON.stringify(state.studyConfig, null, 2);
+        var data = JSON.stringify(state, null, 2);
         //console.dir(data);
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.open("POST", sPath + "/results", true);
@@ -218,18 +229,12 @@ function updateAnswers() {
           // console.log("sent now wait");
           xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState == 4 && xmlHttp.status == 202) {
-              completedStudy =
-                "PROLIFIC_PID=" + state.studyConfig.PROLIFIC_PID +
-                "&" + "STUDY_ID=" + state.studyConfig.STUDY_ID +
-                "&" + "SESSION_ID=" + state.studyConfig.SESSION_ID;
 
-              setProperties(questionObj, "", "white", "black");
-              questionObj.style.display = "none";
-              studyText.style.display = "block";
-              studyText.outerHTML =
-                '<p>You must click this <a href="' + sPath + '/sendCode/' + 
-								studyName.getAttribute('value') + '?' + completedStudy +
-                '">Complete Study</a> link, to complete the study and generate a Prolific.ac completion code.</p>';
+              $("body").removeAttr("style");
+              state.flow.views[state.getView].response = "complete";
+              state.flow.views[state.getView].responseTime = getDate();
+              var result = next()
+
             } else {
               // alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status );
             }
@@ -242,6 +247,14 @@ function updateAnswers() {
     }
   }
 }
+
+
+
+/* ================================================================
+* 
+* Utility Functions
+*
+*/
 function pickStimulus(deck, pickQty, sampleMode) {
   //console.log("PickStimulus Start");
   let privArray = [];
