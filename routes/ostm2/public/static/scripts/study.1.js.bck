@@ -1,5 +1,4 @@
 "use strict";
-
 //application state variables
 /* // var oStudyConfig;*/
 var questionBank;
@@ -57,61 +56,103 @@ $( "#reject" ).on( "click", function() {
 
 
 async function loadStudy() {
-  
+  //1- build the oStudyConfig variable for use by other functions
+  //2-set the page initial state when loaded
+
+  //NOTE: We setup the study on the client to offload the work from the server 
+
+  //--------------------------------------------------------------
+  //load config file
   var studyURL = sPath + "/resources/studies/" + state.studyName + ".json";
   var configFile = await getFile(studyURL)
   state.studyConfig = configFile;
   
-    // shuffle blocks in study
-  if (state.studyConfig.shuffleBlocks === true) {
-    state.studyConfig.blocks = shuffleArray(state.studyConfig.blocks).splice(0);
+  //--------------------------------------------------------------
+  //Shuffle the deck\ stimulusFiles if needed
+  //
+  if (state.studyConfig.shuffleDecks === true) {
+    state.studyConfig.deckConfiguration = shuffleArray(state.studyConfig.deckConfiguration).splice(0);
   }
 
-  for ( let i = 0; i < state.studyConfig.blocks.length; i++ ){
+  //--------------------------------------------------------------
+  //Build a JSON onbject with Decks and there parameters
+  //
+  //first make a list of files
+  var stimulusFiles = []
+  for (let i = 0; i < state.studyConfig.deckConfiguration.length; i++) {
+    stimulusFiles.push(sPath + "/resources/decks/" + state.studyConfig.deckConfiguration[i].deckName);
+  };
+  //Call the getFile function on each of the items in stimulusFiles using map method
+  var deckList = await Promise.all(stimulusFiles.map(getFile)) ;
+  deckList.forEach(function(deck) {
+    //At this point Im just going to add all decks to an allDecks object, so I
+    //can use it once everything is loaded.
+    allDecks.push(deck);
+  });
 
-    // console.log("blocks(" + state.studyConfig.blocks[i].block + ")");
-    switch (state.studyConfig.blocks[i].shuffleMode) {
-      case "sets": // shuffle sets in a block
-        state.studyConfig.blocks[i].sets = shuffleArray(state.studyConfig.blocks[i].sets).splice(0);
-        break;
-      case "within": // shuffle cards within sets
-        for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
-          // console.log(state.studyConfig.blocks[i].sets[j].set);
-          state.studyConfig.blocks[i].sets[j].set = shuffleArray(state.studyConfig.blocks[i].sets[j].set).splice(0);
-          // console.log(state.studyConfig.blocks[i].sets[j].set)
-        }
-        break;
-      case "across": //shuffle cards across sets
-        //load all cards from all sets in this block into an array
-        let blockDeck = [];
-        
-        for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
-          for ( let k = 0; k < state.studyConfig.blocks[i].sets[j].set.length; k++ ){
-            blockDeck.push(state.studyConfig.blocks[i].sets[j].set[k]);
-          //end stimulus
-          }
-        //end set
-        }
-        //shuffle array
-        blockDeck = shuffleArray(blockDeck).splice(0)
+  //--------------------------------------------------------------
+  //Load all of the required cards from the decks into [sampledStimulus]
+  //according to pickQty and sampleMode rules
+  //
+  let dealersDeck = [];
+  for (let i = 0; i < allDecks.length; i++) {
+    sampledStimulus.push(
+      pickStimulus(
+        allDecks[i],
+        state.studyConfig.deckConfiguration[i].pickQty,
+        state.studyConfig.deckConfiguration[i].sampleMode
+      )
+    );
+  };
 
-          //put shuffled cards into sets again
-        for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
-          for ( let k = 0; k < state.studyConfig.blocks[i].sets[j].set.length; k++ ){
-            state.studyConfig.blocks[i].sets[j].set[k] = blockDeck[0];
-            blockDeck.shift();
-          //end stimulus
-          }
-        //end set
-        }         
-        break;
-      default:
-        //no
-    //end switch case
-    }
-  //end block
-  }
-  
+  //--------------------------------------------------------------
+  //shuffle Cards within Decks
+  //
+  // if (oStudyConfig.deckConfiguration[i].shuffleStimuli === true) {
+  //   sampledStimulus[i].shuffleArray
+  // }
+
+  //--------------------------------------------------------------
+  //Join each deck into a single deck for dealing into sets
+  //https://davidwalsh.name/combining-js-arrays
+  //
+  // ***** see if you can do this to sampledStimulus without flattening the decks. ***
+  for (let i = 0; i < allDecks.length; i++) {
+    dealersDeck = sampledStimulus[i].reduce(function(coll, item) {
+      coll.push(item);
+      return coll;
+    }, dealersDeck);
+  };
+
+  //--------------------------------------------------------------
+  //shuffle all Cards in the Dealers Deck (TOTALLY Scramble everything)
+  //
+  if (state.studyConfig.shuffleAll === true) {
+    dealersDeck = shuffleArray(dealersDeck);
+  };
+
+  //--------------------------------------------------------------
+  //setup sets in the config file
+  //
+  //for each set
+  state.studyConfig["sets"] = [];
+  for (let iSetNumber = 0; iSetNumber < state.studyConfig.setSizes.length; iSetNumber++) {
+    //add set frame
+    state.studyConfig.sets.push(JSON.parse('{"set":[]}'));
+    let setSize = state.studyConfig.setSizes[iSetNumber];
+
+    //dish out the number of cards required from the front of the deck
+    for (let i = 0; i < setSize; i++) {
+      //push first element of dealersDeck onto the end of config file sets.set
+      //console.log("iSetNumber:" + iSetNumber + ", setSize:" + setSize + ", i:" + i);
+      state.studyConfig.sets[iSetNumber].set.push(dealersDeck[0]); //because zero is always the front
+      dealersDeck.shift(); //remove first element of dealersDeck
+    };
+  };
+
+  //--------------------------------------------------------------
+  //update page Settings
+  //
   document.body.style.backgroundColor = state.studyConfig.studybackgroundColor;
   document.body.style.color = state.studyConfig.studyTextColor;
   state.studyConfig.loadTime = getDate();

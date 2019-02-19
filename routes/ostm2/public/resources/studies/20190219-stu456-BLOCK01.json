@@ -1,0 +1,131 @@
+{
+  "studyName": "20190219-stu456-BLOCK01",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "shuffleBlocks": true,
+  "blocks": [
+    {
+      "block": "0",
+      "stimulusFile": "3-letters.json",
+      "setSizes": [
+        2,
+        2
+      ],
+      "refreshRateMS": "250",
+      "shuffleMode": "sets",
+      "pageAfterBlock": "",
+      "sets": [
+        {
+          "set": [
+            {
+              "stimulus": "act",
+              "textColor": "white",
+              "backGroundColor": "black"
+            },
+            {
+              "stimulus": "add",
+              "textColor": "white",
+              "backGroundColor": "black"
+            }
+          ]
+        },
+        {
+          "set": [
+            {
+              "stimulus": "age",
+              "textColor": "white",
+              "backGroundColor": "black"
+            },
+            {
+              "stimulus": "ago",
+              "textColor": "white",
+              "backGroundColor": "black"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": "1",
+      "stimulusFile": "4-letters.json",
+      "setSizes": [
+        2,
+        2
+      ],
+      "refreshRateMS": "250",
+      "shuffleMode": "within",
+      "pageAfterBlock": "1",
+      "sets": [
+        {
+          "set": [
+            {
+              "stimulus": "area",
+              "textColor": "white",
+              "backGroundColor": "black"
+            },
+            {
+              "stimulus": "army",
+              "textColor": "white",
+              "backGroundColor": "black"
+            }
+          ]
+        },
+        {
+          "set": [
+            {
+              "stimulus": "aunt",
+              "textColor": "white",
+              "backGroundColor": "black"
+            },
+            {
+              "stimulus": "away",
+              "textColor": "white",
+              "backGroundColor": "black"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": "2",
+      "stimulusFile": "5-letters.json",
+      "setSizes": [
+        2,
+        2
+      ],
+      "refreshRateMS": "250",
+      "shuffleMode": "across",
+      "pageAfterBlock": "2",
+      "sets": [
+        {
+          "set": [
+            {
+              "stimulus": "about",
+              "textColor": "white",
+              "backGroundColor": "black"
+            },
+            {
+              "stimulus": "above",
+              "textColor": "white",
+              "backGroundColor": "black"
+            }
+          ]
+        },
+        {
+          "set": [
+            {
+              "stimulus": "after",
+              "textColor": "white",
+              "backGroundColor": "black"
+            },
+            {
+              "stimulus": "again",
+              "textColor": "white",
+              "backGroundColor": "black"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

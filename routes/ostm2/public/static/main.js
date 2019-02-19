@@ -231,27 +231,9 @@ function updateDOM_DefaultLayout(state) {
 
 };
 function updateDOM_OSTMLayout(state) {
-    /* ====================================
-    * Load the viewStyle and viewContent into our Page container
-    */
+
    console.log("updateDOM_OSTMLayout");
-    // var contentContainer = document.getElementById("contentContainer");
-    // while (contentContainer.firstChild) {
-    //   contentContainer.removeChild(contentContainer.firstChild);
-    // };
-    // //first load viewStyles
-    // for (const viewStyle of state.flow.views[state.getView].viewStyles){
-    //   let newLink = document.createElement("link");
-    //     newLink.setAttribute("rel", "stylesheet");
-    //     newLink.setAttribute("type", "text/css");
-    //     newLink.setAttribute("href", viewStyle);
-    //   contentContainer.appendChild(newLink);
-    // };  
-    // //then load pageContent
-    // var newContent = document.createElement("div");
-    //   newContent.setAttribute("id", "pageContent");
-    //   newContent.innerHTML = state.flow.views[state.getView].pageContent;
-    // contentContainer.appendChild(newContent);
+
 };
 
 
