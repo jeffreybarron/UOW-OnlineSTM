@@ -1,0 +1,26 @@
+<div class="outer">
+  <div class="middle">
+    <div class="inner">
+    	<div class="stimulus" id="question">+</div>
+
+      <div class="studyButtons" id="startDIV" style="display:none">
+        <div class="col-sm-6"></div><div class="col-sm-4">
+          <button id="buttonStart" class="btn btn-success" onclick="startQuestions()">Click to Start</button>
+        </div>
+      </div>
+
+      <div class="studyButtons" id="answerDIV" style="display:none">
+        <label for="answer" class="col-sm-2 col-form-label">Enter Word</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" id="answer" name="0" value="">
+        </div>
+		    <div class="col-sm-4">
+		      <button id="buttonStart" class="btn btn-primary" onclick="updateAnswers()">Submit</button>
+	      </div>
+  			<p id="completionLink" style="display:none"></p>
+  		</div>
+
+      <p id="studyText"></p>
+    </div>
+  </div>
+</div>

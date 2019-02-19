@@ -1,7 +1,8 @@
 // routes/ostm/manage/index.js
 "use strict";
+const moduleRoot = 'ostm'
 const moduleName = "manage";
-const sPath = 'ostm/manage'
+const sPath = moduleRoot + '/manage'
 
 const express = require("express"); //express module
 const app = express();
@@ -13,7 +14,7 @@ const bunyan = require("bunyan");
 const util = require("util");
 
 const mUtils = require(appRoot + "/utils/mUtils.js");
-const ostmPublic = appRoot + '/routes/ostm/public'
+const ostmPublic = appRoot + '/routes/' + moduleRoot + '/public'
 
 app.use("/static", express.static(__dirname + '/public/static'));
 app.use("/resources/studies", express.static(ostmPublic + '/resources/studies'));
@@ -41,160 +42,46 @@ const log = bunyan.createLogger({
   src: true
 });
 
+
+
+/* 
+*
+* / Home Page Routes 
+*
+*/
 app.get("/", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/ ";
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath;
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   response.render('index', { rPath: sPath});
 });
+
+
+
+/* 
+*
+* /guide/ Routes 
+*
+*/
 app.get("/guide", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/guide ";
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/guide ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   response.render('guide', { rPath: sPath});
 });
+
+
+
+/* 
+*
+* /deck/ Routes 
+*
+*/
 app.get("/deck/create", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/deck/create ";
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/deck/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   response.render('deckNew', { rPath: sPath});
 });
-app.get("/preflight", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/preflight ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render("preflight", { rPath: sPath});
-});
-
-app.get("/study/list", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/study/list ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
-  const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/resources/studies/')
-    .then(fileList => {
-      //do somthing with file list
-      let files = [];
-      for (let i = 0; i < fileList.length; i++) {
-        if (fileList[i].includes(".json")) {
-          let url = path.parse(fileList[i]);
-          files.push({ studyName: url.name });
-        }
-      }
-      response.render('studyList', { rPath: sPath, files: files });
-      log.info("GET /study/list rendered", request.ip);
-      response.end;
-    })
-    .catch(error => {
-      //handle the error
-      response.render("error", { rPath: sPath, err: error.message });
-      response.end;
-    });
-});
-app.get("/study/new", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/study/new ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
-  const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/resources/decks/')
-    .then(fileList => {
-      //do somthing with file list
-      let files = [];
-      for (let i = 0; i < fileList.length; i++) {
-        files.push({
-          deckName: fileList[i],
-          available: mUtils.getDeckLength(ostmPublic + '/resources/decks/' + fileList[i])
-        });
-      }
-      log.info("GET /study/new/, Rendered for IP:" + request.ip);
-      response.render('studyNew', { rPath: sPath, files: files });
-    })
-    .catch(error => {
-      //handle the error
-      response.render('error', { rPath: sPath, err: error.message });
-    });
-});
-app.post("/study/new", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /ostm/manage/study/create ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
-  //a rudimentary check, if there are exactly 7 query string objects
-  let oStudyConfig = request.body;
-  log.info(errLocation + ", log: 2", oStudyConfig);
-  //sanitize Fields, one-by-one becuase they each need a little tweek
-  log.info(errLocation + ", log: 4");
-  oStudyConfig["studyName"] = request.sanitize(oStudyConfig["studyName"]);
-  oStudyConfig["consentCopy"] = request.sanitize(oStudyConfig["consentCopy"]);
-  oStudyConfig["instructionCopy"] = request.sanitize(oStudyConfig["instructionCopy"]);
-  oStudyConfig["studybackgroundColor"] = request.sanitize(oStudyConfig["studybackgroundColor"]);
-  oStudyConfig["refreshRateMS"] = parseInt(request.sanitize(oStudyConfig["refreshRateMS"]));
-  oStudyConfig["shuffleDecks"] = mUtils.isTrue(request.sanitize(oStudyConfig["shuffleDecks"]));
-  oStudyConfig["shuffleAll"] = mUtils.isTrue(request.sanitize(oStudyConfig["shuffleAll"]));
-  oStudyConfig["completionCode"] = request.sanitize(oStudyConfig["completionCode"]);
-  log.info(errLocation + ", log: 5");
-  try {
-    var result = createStudy(request.body.studyName, request.body.completionCode, oStudyConfig)
-      .then(resolved => {
-        log.info(errLocation + ", log: 6, Success", resolved);
-        response.status(201).end();
-      })
-      .catch(err => {
-        if (err.message == "This file already exists!") {
-          log.info(errLocation + ", log: 7, This file already exists!");
-          response.status(409).end();
-        } else {
-          log.info(errLocation + ", log: 8, Server Error (500)");
-          response.status(500).send(err);
-        }
-      });
-  } catch (error) {
-    response.render("error", { err: error.message });
-    response.end;
-  }
-});
-async function createStudy(studyName, completionCode, oStudyConfig) {
-  var errLocation = "creatStudy ";
-  log.info(errLocation + ", log: 1, called");
-
-  //declare variables
-  let sURL = ostmPublic + '/resources/studies/';
-  let sPrivateURL = appRoot + "/routes/ostm/data/codes/";
-
-  //AWAIT --> does file already exist, if so then stop
-  let studyNotExists = await fileNotExists(sURL + studyName + ".json");
-  log.info(errLocation + ", log: 2");
-  //AWAIT --> write codeFile
-
-  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' +
-    completionCode + '","completionCode":"' +
-    completionCode + '"}';
-  let jCompletionFile = JSON.parse(sCompletionFile);
-  log.info(errLocation + ", log: 3");
-  let codeFile = await writeJSON(sPrivateURL + studyName + "_code.json", jCompletionFile);
-  delete oStudyConfig["completionCode"];
-
-  //AWAIT --> write consentFile
-  log.info(errLocation + ", log: 4");
-  let consentFile = await writeFile(sURL + oStudyConfig.studyName + "_consent.html",
-    oStudyConfig["consentCopy"]
-  );
-  delete oStudyConfig["consentCopy"];
-
-  //AWAIT --> write instructionFile
-  log.info(errLocation + ", log: 5");
-  let instructionFile = await writeFile(sURL + oStudyConfig.studyName + "_instructions.html",
-    oStudyConfig["instructionCopy"]
-  );
-  delete oStudyConfig["instructionCopy"];
-
-  //AWAIT --> write configfile
-  log.info(errLocation + ", log: 6");
-  let configFile = await writeJSON(sURL + oStudyConfig.studyName + ".json", oStudyConfig);
-
-  log.info(errLocation + ", log: 7");
-  return [studyNotExists, codeFile, instructionFile, configFile];
-}
-
-
-
 app.post("/deck/create/:deckName", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /ostm/manage/deck/create ";
+  var errLocation = "IP:" + request.ip + ", POST /" + sPath + "/deck/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   var result = createDeck(request.params.deckName, request.body)
@@ -226,8 +113,252 @@ async function createDeck(deckName, deck) {
 
 
 
+/* 
+*
+* /preflight/ Routes 
+*
+*/
+app.get("/preflight", function(request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/preflight ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  response.render("preflight", { rPath: sPath});
+});
+
+
+
+/* 
+*
+* /pages/ Routes 
+*
+*/
+app.get("/page/create", function(request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/pageafterblock/create ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+
+  const getFileList = util.promisify(fs.readdir);
+  getFileList(ostmPublic + '/resources/studies/')
+    .then(fileList => {
+      //do somthing with file list
+      let files = [];
+      for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].includes(".json")) {
+          var thisFile = path.parse(fileList[i]);
+          files.push({ studyName: thisFile.name });
+        }
+      }
+      log.info("GET /pageafterblock/create, Rendered for IP:", request.ip);
+      response.render('page', { rPath: sPath, files: files });
+      response.end;
+    })
+    .catch(error => {
+      //handle the error
+      response.render('error', { rPath: sPath, err: error.message });
+      response.end;
+    });
+});
+app.post("/page/create", function(request, response) {
+  var errLocation = "IP:" + request.ip + ", POST /" + sPath + "/page/create ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  let pageJSON = request.body;
+  // console.dir(pageJSON);
+  let data = JSON.parse(pageJSON.pageContent);
+  var result = pageCreate(pageJSON.studyName, pageJSON.pageName.toLowerCase(), data)
+    .then(resolved => {
+      log.info("POST page/create Successful", resolved);
+      log.info("POST page/create, from IP:", request.ip);
+      response.status(201).end();
+    })
+    .catch(err => {
+      if (err.message == "This file already exists!") {
+        log.info("POST page/create, This file already exists!, from IP:", request.ip);
+        response.status(409).end();
+      } else if (err.code = "EXXIT") {
+        log.info("POST page/create, This file already exists!, from IP:", request.ip);
+        response.status(409).end();
+      } else {
+        log.info("POST page/create, failed", err.message);
+        response.status(500).end();
+      }
+    });
+});
+async function pageCreate(studyName, pageName, data) {
+  log.info("POST createPage: " + studyName + "_" + pageName);
+
+  let result = await writeFile(ostmPublic + "/resources/studies/" +  studyName + "_" + pageName + '.html',data);
+  
+  return [result];
+}
+
+
+
+/* 
+*
+* /Study/ Routes 
+*
+*/
+app.get("/study/list", function(request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/study/list ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+
+  const getFileList = util.promisify(fs.readdir);
+  getFileList(ostmPublic + '/resources/studies/')
+    .then(fileList => {
+      //do somthing with file list
+      let files = [];
+      for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].includes(".json")) {
+          let url = path.parse(fileList[i]);
+          files.push({ studyName: url.name });
+        }
+      }
+      response.render('studyList', { rPath: sPath, files: files });
+      log.info("GET /study/list rendered", request.ip);
+      response.end;
+    })
+    .catch(error => {
+      //handle the error
+      response.render("error", { rPath: sPath, err: error.message });
+      response.end;
+    });
+});
+app.get("/study/create", function(request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/study/new ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+
+  const getFileList = util.promisify(fs.readdir);
+  getFileList(ostmPublic + '/resources/decks/')
+    .then(fileList => {
+      //do somthing with file list
+      let files = [];
+      for (let i = 0; i < fileList.length; i++) {
+        files.push({
+          deckName: fileList[i],
+          available: mUtils.getDeckLength(ostmPublic + '/resources/decks/' + fileList[i])
+        });
+      }
+      log.info("GET /study/new/, Rendered for IP:" + request.ip);
+      response.render('studyCreate', { rPath: sPath, files: files });
+    })
+    .catch(error => {
+      //handle the error
+      response.render('error', { rPath: sPath, err: error.message });
+    });
+});
+app.post("/study/create", function(request, response) {
+    
+  var errLocation = "IP:" + request.ip + ", POST /" + sPath + "/study/create ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+
+  //a rudimentary check, if there are exactly 7 query string objects
+  let oStudyConfig = request.body;
+  log.info(errLocation + ", log: 2", oStudyConfig);
+  //sanitize Fields, one-by-one becuase they each need a little tweek
+  oStudyConfig["studyName"] = request.sanitize(oStudyConfig["studyName"]);
+  oStudyConfig["studybackgroundColor"] = request.sanitize(oStudyConfig["studybackgroundColor"]);
+  oStudyConfig["studyTextColor"] = request.sanitize(oStudyConfig["studyTextColor"]);
+  oStudyConfig["shuffleBlocks"] = mUtils.isTrue(request.sanitize(oStudyConfig["shuffleBlocks"]));
+  oStudyConfig["consentCopy"] = request.sanitize(oStudyConfig["consentCopy"]);
+  oStudyConfig["instructionCopy"] = request.sanitize(oStudyConfig["instructionCopy"]);
+  oStudyConfig["completionCode"] = request.sanitize(oStudyConfig["completionCode"]);
+  log.info(errLocation + ", log: 5, Sanitized");
+  
+  try {
+    var result = createStudy(request.body.studyName, request.body.completionCode, oStudyConfig)
+      .then(resolved => {
+        log.info(errLocation + ", log: 6, Success", resolved);
+        response.status(201).end();
+      })
+      .catch(err => {
+        if (err.message == "This file already exists!") {
+          log.info(errLocation + ", log: 7, This file already exists!");
+          response.status(409).end();
+        } else {
+          log.info(errLocation + ", log: 8, Server Error (500)");
+          response.status(500).send(err);
+        }
+      });
+  } catch (error) {
+    response.render("error", { err: error.message });
+    response.end;
+  }
+});
+async function createStudy(studyName, completionCode, oStudyConfig) {
+  /*======================================================================================================
+  * For inside shuffle to work the cards need to picked into their sets at study creation it will not
+  * work in done at runtime per participant. This means redesigning POST and how the data is saved.
+  * i.e. The sampled cards are stored now (at design-time) not later (at run-time).
+  */
+  var errLocation = "creatStudy ";
+  log.info(errLocation + ", log: 1, called");
+
+  //declare variables
+  let sURL = ostmPublic 
+  let sPrivateURL = appRoot + "/routes/" + moduleRoot + "/data/codes/";
+
+  //AWAIT --> does file already exist, if so then stop
+  let studyNotExists = await fileNotExists(sURL + studyName + ".json");
+  log.info(errLocation + ", log: 2");
+  //AWAIT --> write codeFile
+
+  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' +
+    completionCode + '","completionCode":"' +
+    completionCode + '"}';
+  let jCompletionFile = JSON.parse(sCompletionFile);
+  log.info(errLocation + ", log: 3");
+  let codeFile = await writeJSON(sPrivateURL + studyName + "_code.json", jCompletionFile);
+  delete oStudyConfig["completionCode"];
+
+  //AWAIT --> write consentFile
+  log.info(errLocation + ", log: 4");
+  let consentFile = await writeFile(ostmPublic + "/resources/studies/" + oStudyConfig.studyName + "_consent.html",
+    oStudyConfig["consentCopy"]
+  );
+  delete oStudyConfig["consentCopy"];
+
+  //AWAIT --> write instructionFile
+  log.info(errLocation + ", log: 5");
+  let instructionFile = await writeFile(ostmPublic + "/resources/studies/" +  oStudyConfig.studyName + "_instructions.html",
+    oStudyConfig["instructionCopy"]
+  );
+  delete oStudyConfig["instructionCopy"];
+
+  //AWAIT --> loadsets according to deckConfiguration Rules
+  log.info(errLocation + ", log: 5");
+  for (let i = 0; i < oStudyConfig.blocks.length; i++) {
+    /*--------------------------------------------------------------
+    * load the block stimulus file, create and fill the sets of each block
+    */
+    let block = oStudyConfig.blocks[i];
+    let fileURL = ostmPublic + "/resources/decks/" + block.stimulusFile;
+    let stimulusFile = await getFile(fileURL);
+    stimulusFile = JSON.parse(stimulusFile);
+    block["sets"] = [];
+    for (let iSetNumber = 0; iSetNumber < block.setSizes.length; iSetNumber++) {
+      let setSize = block.setSizes[iSetNumber];
+      block.sets.push(JSON.parse('{"set":[]}'));
+      //dish out the number of cards required from the front of the deck
+      for (let i = 0; i < setSize; i++) {
+        /*--------------------------------------------------------------
+        * push first element of dealersDeck onto the end of config file sets.set
+        * console.log("iSetNumber:" + iSetNumber + ", setSize:" + setSize + ", i:" + i);
+        */
+        block.sets[iSetNumber].set.push(stimulusFile[0]); //because zero is always the front
+        stimulusFile.shift(); //remove first element of dealersDeck
+      };
+    };
+  };
+
+  // //AWAIT --> write configfile
+  log.info(errLocation + ", log: 6");
+  let configFile = await writeJSON(ostmPublic + "/resources/studies/" + oStudyConfig.studyName + ".json", oStudyConfig);
+
+  log.info(errLocation + ", log: 7");
+  return [studyNotExists, codeFile, instructionFile, configFile];
+
+};
+
 app.get("/study/duplicate", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /ostm/manage/study/duplicate ";
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/study/duplicate ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   const getFileList = util.promisify(fs.readdir);
@@ -252,7 +383,7 @@ app.get("/study/duplicate", function(request, response) {
     });
 });
 app.post("/study/duplicate", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /ostm/manage/study/duplicate ";
+  var errLocation = "IP:" + request.ip + ", POST /" + sPath + "/study/duplicate ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   // we are going to use await for this.
   let sSource = request.body.currentStudyName;
@@ -311,6 +442,29 @@ async function duplicateStudy(sSource, sNew) {
 
 
 
+
+/* 
+*
+* Utility Functions
+*
+*/
+function getFile(URL) {
+  return new Promise((resolve, reject) => {
+    // copy config file
+    try {
+
+      fs.readFile(URL,'utf8', (err, data) => {
+        if (err) {
+          return reject(new Error("Error Reading File: " + url + " Error:" + err));
+        }
+        return resolve(data);
+      });
+
+    } catch (err) {
+      return reject(new Error("There was an unhandeled error at copyConfig: " + err));
+    }
+  });
+}
 function copyFile(sourceURL, newURL) {
   return new Promise((resolve, reject) => {
     // exist already
@@ -394,9 +548,18 @@ function writeJSON(sURL, data) {
     });
   });
 }
-function writeFile(sURL, data) {
+function writeFile(path, data) {
   return new Promise((resolve, reject) => {
-    fs.writeFile(sURL, data, "utf-8", function(err) {
+    let options = 
+    { 
+      encoding: 'utf-8',
+      flag: 'wx' 
+    } 
+    /* flag wx throws error if file exists 
+    /* https://nodejs.org/api/fs.html#fs_file_system_flags
+    * https://stackoverflow.com/questions/12899061/creating-a-file-only-if-it-doesnt-exist-in-node-js
+    */
+    fs.writeFile(path, data, options , function(err) {
       if (err) {
         reject(err);
         return;

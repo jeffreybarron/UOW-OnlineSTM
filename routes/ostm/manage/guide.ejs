@@ -1,4 +1,4 @@
-<% include manage_header.ejs %>
+<% include header_manage.ejs %>
 <div class="container">
   <h1 id="pageTitle">UOW Online STM</h1>
   <h2>Research Guide</h2>
@@ -150,7 +150,15 @@
     <p>You have created stimulus files (Decks), and study Configuration on www.uowcoglab.org.</p>
     <p>Before setting up your prolific study you can run a Pre-Flight test to validate the configuration. <em><b>This is highly recommended</b></em></p>
   
-
-  <div class="container">
+<% include footer_doc.ejs %>
+    </div>
 <!-- End of Main Body -->
-<% include manage_footer.ejs %>
+
+<!-- Bootstrap Footer, includes jQuery -->
+<% include footer_bootstrap.ejs %>
+
+<!-- Pages specific Scripts -->
+
+<!-- Close out HTML -->
+  </body>
+</html>
