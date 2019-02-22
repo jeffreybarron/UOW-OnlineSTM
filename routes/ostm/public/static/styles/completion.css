@@ -2,10 +2,10 @@
 -------------------------------------------------- */
 #pageContent { 
   box-sizing: border-box;
-  background-color: rgb(121, 149, 207);
+  background-color: #E4F1FE;
   border-style:solid;
   border-radius: 5px;
-  border-color: rgb(76, 118, 201);
+  border-color: #E4F1FE;
   border-width: 2px;
   padding:1.4em;
 }

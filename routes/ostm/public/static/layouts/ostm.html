@@ -1,26 +1,35 @@
 <div class="outer">
   <div class="middle">
     <div class="inner">
-    	<div class="stimulus" id="question">+</div>
+
+    	<div class="stimulus" id="stimulus">+</div><br />
 
       <div class="studyButtons" id="startDIV" style="display:none">
-        <div class="col-sm-6"></div><div class="col-sm-4">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
           <button id="buttonStart" class="btn btn-success" onclick="startQuestions()">Click to Start</button>
         </div>
       </div>
 
       <div class="studyButtons" id="answerDIV" style="display:none">
-        <label for="answer" class="col-sm-2 col-form-label">Enter Word</label>
+        <!-- <label for="answer" class="col-sm-2 col-form-label">Enter Word</label>-->
         <div class="col-sm-4">
           <input class="form-control" type="text" id="answer" name="0" value="">
+          <small>Enter Stimulus #<div id="stimulusCounter">1</div></small>
         </div>
 		    <div class="col-sm-4">
 		      <button id="buttonStart" class="btn btn-primary" onclick="updateAnswers()">Submit</button>
 	      </div>
-  			<p id="completionLink" style="display:none"></p>
-  		</div>
-
-      <p id="studyText"></p>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Modal Section-->
+<div id="modal" class="modal">
+  <div id="modal-content" class="modal-content">
+    <span id="modal-close" class="modal-close">&times;</span>
+    <div id="modal-body">
+        <p>Some text here.</p>
+    </div>
+  </div>

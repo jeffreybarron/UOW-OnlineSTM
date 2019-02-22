@@ -214,6 +214,12 @@ app.get("/study", function(request, response) {
 
 });
 
+app.get("/launch", function(request, response) {
+  let sPath = 'ostm'
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/launch ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  response.render("launch", { rPath: sPath});
+});
 
 /*======================================================================================
 *

@@ -1,6 +1,27 @@
 [
   {
-    "stimulus":"She",
+    "stimulus":"One",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"smart",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"fellow",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"he",
     "textColor":"white",
     "backGroundColor":"black",
     "response":"",
@@ -12,9 +33,29 @@
     "backGroundColor":"black",
     "response":"",
     "responseTime":""
-  },
+  },  
   {
     "stimulus":"smart",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"Two",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },{
+    "stimulus":"smart",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"fellows",
     "textColor":"white",
     "backGroundColor":"black",
     "response":"",
@@ -42,7 +83,48 @@
     "responseTime":""
   },
   {
-    "stimulus":"together",
+    "stimulus":"Three",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },{
+    "stimulus":"smart",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"fellows",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"they",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"all",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"felt",
+    "textColor":"white",
+    "backGroundColor":"black",
+    "response":"",
+    "responseTime":""
+  },
+  {
+    "stimulus":"smart",
     "textColor":"white",
     "backGroundColor":"black",
     "response":"",

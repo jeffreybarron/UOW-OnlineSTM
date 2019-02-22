@@ -16,6 +16,16 @@
             <br />syntax:[YYYY][MM][DD]-[&lt;6:userID]-[&lt;12:Desc][2:sequence]
           </small>
         </div>
+        <div class="form-group" title="completionCode">
+          <label for="completionCode">completionCode</label>
+          <input
+            type="text" class="form-control"
+            id="completionCode" name="completionCode"
+            required>
+          <small id="setSizesHelpBlock" class="form-text text-muted">
+            Prolific Completion Code
+          </small>
+        </div>        
         <div class="form-group" title="studybackgroundColor">
             <label for="studybackgroundColor">Starting backgroundColor</label>
             <select class="form-control" id="studybackgroundColor" name="studybackgroundColor" value="">
@@ -312,17 +322,31 @@
               Choose from the list of Websafe Colours.
             </small>
         </div>
+        <div class="form-group" title="consentCopy">
+          <label for="consentCopy">consentCopy:</label>
+          <textarea
+            name="consentCopy" id="consentCopy"
+            class="form-control" rows="5"
+            value="" required></textarea>
+        </div>
+        <div class="form-group" title="instructionCopy">
+          <label for="instructionCopy">instructionCopy:</label>
+          <textarea
+            name="instructionCopy" id="instructionCopy"
+            class="form-control" rows="5"
+            value="" required></textarea>
+        </div>        
         <div class="form-group" title="pickCards">
-          <label>Pick Cards</label>
+          <label>Stimuli Configuration</label>
           <table id="pickCards_table" class="table table-responsive-sm table-striped w-auto">
             <thead>
               <tr>
                 <th class="col-sm-1">Block</th>
-                <th class="col-sm-3">Stimulus File</th>
-                <th class="col-sm-3">SetSize Array</th>
-                <th class="col-sm-1">Refresh Rate</th>
-                <th class="col-sm-2">Shuffle Mode</th>
-                <th class="col-sm-2">Page after Block</th>
+                <th class="col-sm-1">Stimulus File</th>
+                <th class="col-sm-1">SetSize Array</th>
+                <th class="col-sm-1">Refresh Rate (MS)</th>
+                <th class="col-sm-1">Shuffle Mode</th>
+                <th class="col-sm-7">Block PopUp</th>
               </tr>
             </thead>
             <tbody>
@@ -331,17 +355,18 @@
                   <input type="text" class="form-control" name="block" value="0" readonly>
                 </td>
                 <td>
-                  <select class="form-control" name="stimulusFile" value="">
+                  <select class="form-control" name="stimulusFile" value="practice.json">
+                    <option selected>practice.json</option>
                     <% files.forEach(function(file) { %>
                       <option><%= file.deckName %></option>
                     <% }); %>
                   </select>
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="setSizes" required>
+                  <input type="text" class="form-control" name="setSizes" value="6,6,7" required>
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="refreshRateMS" required>
+                  <input type="text" class="form-control" name="refreshRateMS" value="1000" required>
                 </td>
                 <td>
                     <select class="form-control" name="shuffleMode" value="">
@@ -352,18 +377,27 @@
                     </select>
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="pageAfterBlock" readonly>
+                  <textarea name="blockPopUp" class="form-control" rows="1" id="0"
+                    value="" required>
+                    
+<h3 style="text-align: center;"><span style="color: #27ae60; font-family: verdana, geneva, sans-serif;">You have completed the practice session!</span></h3>
+<hr />
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 12pt;">After closing this message the study will begin.</span></p>
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 12pt;">Please pay careful attention and avoid distractions, <em>if safe to do so</em>.&nbsp;</span></p>
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 12pt;">Press 'X' at the top right of this message, to close this message.&nbsp;</span></p>
+                    
+                    </textarea>
                 </td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
                 <td class="col-sm-1"><em class="design-time">design-time</em><br />Played sequentially</td>
-                <td class="col-sm-3"><em class="design-time">design-time</em><br />deckName</td>
-                <td class="col-sm-3"><em class="design-time">design-time</em><br />e.g. 8,8,8,8,8</td>
+                <td class="col-sm-1"><em class="design-time">design-time</em><br />deckName</td>
+                <td class="col-sm-1"><em class="design-time">design-time</em><br />e.g. 8,8,8,8,8</td>
                 <td class="col-sm-1"><em class="run-time">run-time</em><br />Milliseconds between stimuli</td>
-                <td class="col-sm-2"><em class="run-time">run-time</em><br />No, within, sets, or across</td>
-                <td class="col-sm-2"><em class="run-time">run-time</em><br />Page shown after last set in block</em></td>
+                <td class="col-sm-1"><em class="run-time">run-time</em><br />No, within, sets, or across</td>
+                <td class="col-sm-7"><em class="run-time">run-time</em><br />PopUp shown after block</em>(Not a Popup Blocker!)</td>
               </tr>
             </tfoot>
           </table>
@@ -374,6 +408,7 @@
         <div class="form-check" title="shuffleBlocks">
           <label class="form-check-label" for="shuffleBlocks">
             Shuffle Block order<em class="run-time"> at run-time</em></label>
+          <br /><small>Note: Block Zero (0) is always used as the 'Practice' block and is not included in the shuffle.</small>
           <p>
             <input type="radio" class="form-check-input" name="shuffleBlocks"
               value="true"> true
@@ -381,42 +416,8 @@
               value="false" checked> false
           </p>
         </div>
-        <div class="form-group" title="consentCopy">
-          <label for="consentCopy">consentCopy:</label>
-          <textarea
-            name="consentCopy" id="consentCopy"
-            class="form-control" rows="5"
-            value="" required></textarea>
-          <small id="setSizesHelpBlock" class="form-text text-muted">
-            <small id="setSizesHelpBlock" class="form-text text-muted">
-              <br />Basic html tags are permitted:
-              <br />'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div','table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td'
-            </small>
-          </small>
-        </div>
-        <div class="form-group" title="instructionCopy">
-          <label for="instructionCopy">instructionCopy:</label>
-          <textarea
-            name="instructionCopy" id="instructionCopy"
-            class="form-control" rows="5"
-            value="" required></textarea>
-          <small id="setSizesHelpBlock" class="form-text text-muted">
-            <br />Basic html tags are permitted:
-            <br />'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div','table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td'
-          </small>
-        </div>
-        <div class="form-group" title="completionCode">
-          <label for="completionCode">completionCode</label>
-          <input
-            type="text" class="form-control"
-            id="completionCode" name="completionCode"
-            required>
-          <small id="setSizesHelpBlock" class="form-text text-muted">
-            Prolific Completion Code
-          </small>
-        </div>
       </form>
-      <div class="msgResult-error" id="msgResult" style="display:none"></div>
+      <div id="msgResult" class="msgResult-error" style="display:none"></div>
       <div><button type="button" class="btn btn-primary" id="studyCreate">Create Study</button></div>
 <% include footer_doc.ejs %>
     </div>
@@ -426,7 +427,12 @@
 <% include footer_bootstrap.ejs %>
 
 <!-- Pages specific Scripts -->
-    <script src="/<%= rPath %>/static/studyCreate.js"></script>
+  <script src="/<%= rPath %>/static/tinymce/tinymce.min.js"></script>
+  <script src="/<%= rPath %>/static/tinymce/jquery.tinymce.min.js"></script>
+
+  <script src="/<%= rPath %>/static/studyCreate.js"></script>
+
+  <!-- <script>tinymce.init({ selector: '#instructionCopy' });</script> -->
 
 <!-- Close out HTML -->
   </body>

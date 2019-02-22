@@ -32,14 +32,10 @@ function upDateTable(studyName) {
     .then(function(configFile) {
       var oStudyConfig = configFile;
       studybackgroundColor.innerText = oStudyConfig.studybackgroundColor;
-      // console.log("oStudyConfig.studyName: ", oStudyConfig.studyName);
       currentStudyName.innerText = oStudyConfig.studyName;
       studyTextColor.innerText = oStudyConfig.studyTextColor;
-      shuffleDecks.innerText = oStudyConfig.shuffleDecks;
-      shuffleAll.innerText = oStudyConfig.shuffleAll;
-      setSizes.innerText = oStudyConfig.setSizes;
-      refreshRateMS.innerText = oStudyConfig.refreshRateMS;
-      deckConfiguration.innerHTML = JSON.stringify(oStudyConfig.deckConfiguration, undefined, 2);
+      shuffleBlocks.innerText = oStudyConfig.shuffleBlocks;
+      // deckConfiguration.innerHTML = JSON.stringify(oStudyConfig.blocks, undefined, 2);
     })
     .catch(function(err) {
       // catch any error that happened so far

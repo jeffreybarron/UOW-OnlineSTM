@@ -4,6 +4,18 @@ var sPath = "/ostm/manage";
 /* not sure how I will use or delete this */
 var setSizes = $("#setSizes");
 var msgResult = $("#msgResult");
+const TINYMCE_SETTINGS = { 
+  selector: "textarea",
+  menubar: false,
+  toolbar: "fullscreen",
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor textcolor ',
+    'searchreplace visualblocks code fullscreen ',
+    'insertdatetime media table paste wordcount'
+  ],
+  toolbar: 'fullscreen | undo redo | formatselect | fontselect fontsizeselect forecolor backcolor | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | paste code | removeformat',
+  paste_as_text: true
+}
 
 /*
  *
@@ -19,6 +31,7 @@ window.onerror = function(message, filename, linenumber) {
 
 $(document).ready(function() {
   let iRowCount = 1;
+  tinymce.init(TINYMCE_SETTINGS);
 
   $("#pageCreate").click(function() {
     try {
@@ -76,3 +89,9 @@ function rejectBlanks(element) {
       return element;
   }
 }
+
+
+$( "#reject" ).on( "click", function() {
+  tinymce.EditorManager.execCommand('mceToggleEditor', true, textarea_id);
+});
+

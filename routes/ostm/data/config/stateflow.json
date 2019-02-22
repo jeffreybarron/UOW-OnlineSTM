@@ -3,7 +3,6 @@
     {
       "view": 0,
       "name":"participant",
-      "rendered":"",
       "response":"",
       "responseTime":"",
       "pageRedirect":"http://www.prolific.ac",
@@ -18,7 +17,6 @@
       "view": 1,
       "name":"consent",
       "rendered":"date/time value",
-      "response":"",
       "responseTime":"",
       "pageRedirect":"http://www.prolific.ac",
       "layout":"default",
@@ -32,7 +30,6 @@
       "view": 2,
       "name":"instructions",
       "rendered":"date/time value",
-      "response":"",
       "responseTime":"",
       "pageRedirect":"http://www.prolific.ac",      
       "layout":"default",
@@ -45,7 +42,6 @@
     {
       "view": 3,
       "name":"study",
-      "rendered":"",
       "response":"",
       "responseTime":"",
       "pageRedirect":"http://www.prolific.ac",
@@ -59,7 +55,6 @@
     {
       "view": 4,
       "name":"completion",
-      "rendered":"",
       "response":"",
       "responseTime":"",
       "pageRedirect":"http://www.prolific.ac",

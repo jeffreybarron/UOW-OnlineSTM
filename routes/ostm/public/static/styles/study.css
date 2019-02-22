@@ -21,4 +21,8 @@
   height: 40px;
   text-align: center;
   max-width: 680px;
+
+  border-style: solid;
+  border-color: rgb(45, 248, 4);
+  border-width: 1px;
 }

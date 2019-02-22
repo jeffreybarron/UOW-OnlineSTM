@@ -1,10 +1,30 @@
 "use strict";
-var sPath = '/ostm/manage'
 
+//note here I've chosen to use vanilla JS, beause I can pass the whole element when needed, such as when checking for blanks
+var studyName = document.getElementById("studyName");
+var studybackgroundColor = document.getElementById("studybackgroundColor");
+var studyTextColor = document.getElementById("studyTextColor");
+var shuffleBlocks = document.getElementById("shuffleDecks");
+var deckConfiguration = document.getElementById("deckConfiguration");
+var msgResult = document.getElementById("msgResult");
+
+var sPath = '/ostm/manage'
+const TINYMCE_SETTINGS = { 
+  selector: "textarea",
+  toolbar_items_size : 'small',
+  menubar: false,
+  toolbar: "fullscreen",
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table paste code help wordcount'
+  ],
+  toolbar: 'fullscreen | undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | code | bullist numlist outdent indent | formatselect | link image | fontselect fontsizeselect forecolor backcolor | removeformat'
+}
 
 /* not sure how I will use or delete this */
 var setSizes = $("#setSizes");
-var msgResult = $("#msgResult");
+
 
 /*
 *
@@ -12,9 +32,10 @@ var msgResult = $("#msgResult");
 *
 */
 window.onerror = function (message, filename, linenumber) {
-		var msg = message;
-		alert(msg);
-		console.log(msg + ", file: " + filename + ", line:" + linenumber);
+
+    msgResult.innerHTML = '<p>' + message + '</p>' + '<p>File: ' + filename + '</p>' + '<p>Line:' + linenumber + '</p>';
+    msgResult.style.display = "block";
+    msgResult.className = "msgResult-error";
     return true; // The exception is handled, don't show to the user.
 }
 
@@ -22,71 +43,106 @@ $(document).ready(function(){
 	let iRowCount = 1;
 	console.log("Document Ready");
 	
+  tinymce.init(TINYMCE_SETTINGS);
+
 	$("#addRow").click(function(){
 		try{
-			var pickCards_table = $("#pickCards_table tbody")
-			var clonedRow = pickCards_table.find('tr:last').clone();
-			// clonedRow.find('input:not([readonly])').val(''); //empty the values
-			clonedRow.find('input:read-only').val(iRowCount); //increment Order
-			// pickCards_table.append(markup);
-			pickCards_table.append(clonedRow);
-			iRowCount++;
-			$("#pickCards_table tbody tr:last").find('input:first').focus();
+      tinymce.remove();
+
+      var pickCards_table = $("#pickCards_table tbody")
+      var clonedRow = pickCards_table.find('tr:last').clone();
+      clonedRow.find('input:read-only').val(iRowCount); //increment block value
+      clonedRow.find('textarea').attr('id', iRowCount); //increment blockPopup id.value, for tinyMCE
+      
+      pickCards_table.append(clonedRow);
+      iRowCount++;
+      $("#pickCards_table tbody tr:last").find('input:first').focus();
+
+      tinymce.init(TINYMCE_SETTINGS);
+
 		} catch (err) {
 			alert(err);
 		}
   });
 
 	$("#studyCreate").click(function(){
-		let oStudyConfig = {};
 
-		/**** for inside shuffle to work the cards need to picked into their sets at study creation
-		 * it will not work in done at runtime per participant.
-		 */
-		$( "input[type=radio][name=shuffleBlocks]:checked" ).val();
-		
-    oStudyConfig["studyName"] = rejectBlanks($("#studyName").val());
-    oStudyConfig["studybackgroundColor"] = rejectBlanks($("#studybackgroundColor").val());
-    oStudyConfig["studyTextColor"] = rejectBlanks($("#studyTextColor").val());
-    oStudyConfig["shuffleBlocks"] = $( "input[type=radio][name=shuffleBlocks]:checked" ).val();
-    oStudyConfig["consentCopy"] = rejectBlanks( $("#consentCopy").val() );
-    oStudyConfig["instructionCopy"] = rejectBlanks( $("#instructionCopy").val() );
-    oStudyConfig["completionCode"] = rejectBlanks( $("#completionCode").val() );
+    try {
+      tinymce.triggerSave();
 
-		let dataArr = [];
-		oStudyConfig["blocks"] = []
-    //for each row\block
-		$("#pickCards_table tbody tr").each(function(){
-				//create column object and name:value\key:value pairs  
-				let col = {}
-				col[$(this.cells[0]).find('input')[0].name] = $(this.cells[0]).find('input')[0].value; //Block
-				col[$(this.cells[1]).find('select')[0].name] = $(this.cells[1]).find('select')[0].value; //stimulusFile
-				col[$(this.cells[2]).find('input')[0].name] = cleanSetsArray($(this.cells[2]).find('input')[0].value); //setSizes
-				col[$(this.cells[3]).find('input')[0].name] = $(this.cells[3]).find('input')[0].value; //refreshRateMS
-				col[$(this.cells[4]).find('select')[0].name] = $(this.cells[4]).find('select')[0].value; //shuffleMode
-				col[$(this.cells[5]).find('input')[0].name] = $(this.cells[5]).find('input')[0].value; //pageafterblock
-				//block.push(col); //add columns to a block
-				oStudyConfig["blocks"].push(col); //add the block to blocks
-    });
+      let oStudyConfig = {};
+      /**** for inside shuffle to work the cards need to picked into their sets at study creation
+       * it will not work in done at runtime per participant.
+       */
+      $( "input[type=radio][name=shuffleBlocks]:checked" ).val();
+      
+      oStudyConfig["studyName"] = rejectBlanks(studyName);
+      oStudyConfig["completionCode"] = rejectBlanks(completionCode);
+      oStudyConfig["studybackgroundColor"] = rejectBlanks(studybackgroundColor);
+      oStudyConfig["studyTextColor"] = rejectBlanks(studyTextColor);
+      oStudyConfig["consentCopy"] = rejectBlanks(consentCopy);
+      oStudyConfig["instructionCopy"] = rejectBlanks(instructionCopy);
+      // Get Block config
+      let dataArr = [];
+      oStudyConfig["blocks"] = []
+      //for each row\block
+      $("#pickCards_table tbody tr").each(function(){
+          //create column object and name:value\key:value pairs  
+          if ( !$(this.cells[2]).find('input')[0].value ) { 
+            throw "Study stimuli are picked at design-time. Therefore, 'Stimuli Configation' must have at least one block configured with at least one set of stimuli. Note: sets cannot exceed number of stimuli in the chosen stimulus file."
+          };
 
+          let col = {}
+          col[$(this.cells[0]).find('input')[0].name] = $(this.cells[0]).find('input')[0].value; //Block
+          col[$(this.cells[1]).find('select')[0].name] = $(this.cells[1]).find('select')[0].value; //stimulusFile
+          col[$(this.cells[2]).find('input')[0].name] = cleanSetsArray($(this.cells[2]).find('input')[0].value); //setSizes
+          col[$(this.cells[3]).find('input')[0].name] = $(this.cells[3]).find('input')[0].value; //refreshRateMS
+          col[$(this.cells[4]).find('select')[0].name] = $(this.cells[4]).find('select')[0].value; //shuffleMode
+          col[$(this.cells[5]).find('textarea')[0].name] = $(this.cells[5]).find('textarea').val(); //blockPopUp
+          //block.push(col); //add columns to a block
+          oStudyConfig["blocks"].push(col); //add the block to blocks
+      });
+      oStudyConfig["shuffleBlocks"] = isTrue(getRadioValue(document.getElementById('studyForm'), 'shuffleBlocks' ));
 
-		//POST Data to create Study
-		let sPostPath = sPath + "/study/create";
-		let request = $.ajax({
-			method: "POST",
-			url: sPostPath,
-			contentType: "application/json",
-			data: JSON.stringify(oStudyConfig)
-		});
-		request.done(function( msg ) {
-				alert( "Data Saved: " + msg );
-		});
-		request.fail(function( jqXHR, textStatus ) {
-  		alert( "Request failed: " + textStatus );
-		});
-  });
+      //POST Data to create Study
+      let sPostPath = sPath + "/study/create";
+      let request = $.ajax({
+        method: "POST",
+        url: sPostPath,
+        contentType: "application/json",
+        data: JSON.stringify(oStudyConfig)
+      });
+      request.done(function( msg ) {
+ 				msgResult.innerHTML = '<p>Study Created!</p><hr><p>We suggest you:<ul><li>leave this page open</li><li>open a new browser tab</li><li>Do any other setup on the new tab</li></ul></p>';
+        msgResult.style.display = "block";
+        msgResult.className = "msgResult-success";
+      });
+      request.fail(function( jqXHR, textStatus ) {
+        if (jqXHR.responseJSON.code === "EEXIST"){
+          msgResult.innerHTML = '<p><em>Study Creation Failed:</em> ' + 
+            'You have tried to use a studyName that is already in use, try a different studyName.' + '<br />';
+        } else {
+          msgResult.innerHTML = '<p><em>Study Creation Failed:</em> ' + 
+            textStatus + '<br />';
+        }
+        msgResult.style.display = "block";
+        msgResult.className = "msgResult-error";
+        console.log("Request Failed: " + jqXHR);
+      });
+    
+    } catch (err) {
 
-});
+      msgResult.innerHTML = '<p>' + err + '</p>';
+      msgResult.style.display = "block";
+      msgResult.className = "msgResult-error";
+      
+      return false; // The exception is handled, don't show to the user.
+
+    }// end catch block
+  
+  });// end studyCreate.Click
+
+});// end document.ready
 
 
 /*
@@ -96,12 +152,12 @@ $(document).ready(function(){
 */
 function rejectBlanks(element)	{
 	//console.log(element.id);
-	switch(element){
+	switch(element.value){
 			case "":
 			case null:
-					throw "Error: " + element.id + ": is Null or empty string.";
+					throw element.id + ": must contain valid data, blank or empty fields are not permitted.";
 			default:
-					return element;
+					return element.value;
 	}
 }
 function isTrue(value){
@@ -198,3 +254,5 @@ function getRadioValue(form, name) {
     // return val; // return value of checked radio or undefined if none checked
     return ''; // return value of checked radio or undefined if none checked
 }
+
+

@@ -10,7 +10,7 @@ var questionCounter = 0;
 var deckCounter = 0;
 
 //document elements
-var questionObj = document.getElementById("question");
+var stimulus = document.getElementById("stimulus");
 var answerDIV = document.getElementById("answerDIV");
 var answer = document.getElementById("answer");
 var startDIV = document.getElementById("startDIV");
@@ -48,7 +48,18 @@ async function loadStudy() {
   state.studyConfig = configFile;
     // shuffle blocks in study
   if (state.studyConfig.shuffleBlocks === true) {
-    state.studyConfig.blocks = shuffleArray(state.studyConfig.blocks).splice(0);
+    // state.studyConfig.blocks = shuffleArray(state.studyConfig.blocks).splice(0);
+    if (state.studyConfig.blocks.length > 0) {
+      //use splice function to seperate item zero from the rest, and shuffle it at the same time
+      let shuffled = shuffleArray(state.studyConfig.blocks.splice(1,state.studyConfig.blocks.length));
+      /* now push each item in the shuffled list back on to the block (which at this point 
+      * has only item remaining from the last operation) */
+      for (let n = 0; n < shuffled.length; n++) {
+        state.studyConfig.blocks.push(shuffled[n]);
+      }
+      //output to console if you want to check it..
+      // console.dir(state.studyConfig.blocks);
+    }
   }
   for ( let i = 0; i < state.studyConfig.blocks.length; i++ ){
     switch (state.studyConfig.blocks[i].shuffleMode) {
@@ -102,12 +113,12 @@ function startQuestions() {
 
 
 function changeQuestion() {
-  //console.log(oStudyConfig.sets[deckCounter].set.length);
-  // state.studyConfig.blocks[blockCounter].sets[setCounter].set.length
+
   if (stimulusCounter < state.studyConfig.blocks[blockCounter].sets[setCounter].set.length) {
-    //console.log(oStudyConfig.sets[deckCounter].set[questionCounter].stimulus);
+    //hide the ticker 
+    
     setProperties(
-      questionObj,
+      stimulus,
       state.studyConfig.blocks[blockCounter].sets[setCounter].set[stimulusCounter].stimulus,
       state.studyConfig.blocks[blockCounter].sets[setCounter].set[stimulusCounter].textColor,
       state.studyConfig.blocks[blockCounter].sets[setCounter].set[stimulusCounter].backGroundColor
@@ -115,9 +126,10 @@ function changeQuestion() {
     stimulusCounter++;
     answer.focus;
   } else {
+
     // clear the text area and stop the ticker
     clearInterval(myTicker);
-    setProperties(questionObj, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundColor);
+    setProperties(stimulus, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundColor);
     answerDIV.style.display = "block";
   }
   
@@ -132,6 +144,7 @@ function updateAnswers() {
     answer.focus();
     answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
   }
+  $("#stimulusCounter").html(parseInt(answer.name) + 1);
   if (answer.name == stimulusCounter) {
     //reset answers
     // alert("end of set:" + setCounter);
@@ -140,15 +153,22 @@ function updateAnswers() {
     startDIV.style.display = "block";
     answerDIV.style.display = "none";
     setCounter++;
+    $("#stimulusCounter").html(1);
     document.getElementById("buttonStart").focus();
   }
-  //if we have also reached the question in the set, increment the block
+
+  //if we have also reached the stimulus in the set, increment the block
   if (setCounter >= state.studyConfig.blocks[blockCounter].sets.length) {
-    alert("end of block:" + blockCounter);
+    // alert("end of block:" + blockCounter);
+    if ( state.studyConfig.blocks[blockCounter].blockPopUp.length > 1 ) {
+      $("#modal-body").html(state.studyConfig.blocks[blockCounter].blockPopUp);
+      toggleModal()
+    }
+  
     blockCounter++;
     setCounter = 0; //new block new sets
   }
-  //if we have also reached the last question bank then stop
+  //if we have also reached the last stimulus bank then stop
   if (blockCounter >= state.studyConfig.blocks.length) {
     saveStudy();
   }
@@ -160,7 +180,7 @@ function updateAnswers() {
 
 
 function saveStudy(){
-  setProperties(questionObj, "+", "white", "black");
+  setProperties(stimulus, "+", "white", "black");
   answerDIV.style.display = "none";
 
   //Study is complete return to provider
@@ -257,4 +277,22 @@ function setProperties(obj, textValue, textColor, textBackGroundColor) {
 }
 
 
-
+/*==========================================
+* 
+* Modal Javascript
+*
+*/
+var modal = document.getElementById("modal");
+function toggleModal() {
+  modal.style.display = 'flex';
+}
+document.getElementById("modal-close").addEventListener("click", event => {
+  modal.style.display = "none";
+  $("#modal-body").html("");
+});
+window.addEventListener("click", event => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+    $("#modal-body").html();
+  }
+});
