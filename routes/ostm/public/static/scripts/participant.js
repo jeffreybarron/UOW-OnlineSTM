@@ -1,8 +1,9 @@
 "use strict";
 
 $( document ).ready(function() {
-    $ ("#studyName").val(state.studyName);
-    $ ("#PROLIFIC_PID").val(state.PROLIFIC_PID);
+    $( "#studyName" ).val(state.studyName);
+    $( "#PROLIFIC_PID" ).val(state.PROLIFIC_PID);
+    $( "#accept" ).focus();
 });
 
 $( "#accept" ).on( "click", function() {

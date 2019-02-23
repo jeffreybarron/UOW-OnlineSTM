@@ -19,7 +19,7 @@ const TINYMCE_SETTINGS = {
     'searchreplace visualblocks code fullscreen',
     'insertdatetime media table paste code help wordcount'
   ],
-  toolbar: 'fullscreen | undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | code | bullist numlist outdent indent | formatselect | link image | fontselect fontsizeselect forecolor backcolor | removeformat'
+  toolbar: 'fullscreen code removeformat| undo redo | link image | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fontselect | fontsizeselect | formatselect'
 }
 
 /* not sure how I will use or delete this */

@@ -56,7 +56,6 @@ app.get("*", function(request, response) {
     */
 
   //Log these as they may show nefarious behaviour and their attack vectors
-
   log.info(errLocation + ", requested an unhandled page:" + request.originalUrl);
 
   //keep this it is handy way to track malicious activity, outside the noise of the normal logs

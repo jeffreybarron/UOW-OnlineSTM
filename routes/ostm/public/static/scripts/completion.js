@@ -1,7 +1,8 @@
 "use strict";
 
 $( document ).ready(function() {
-
+  $( "#accept" ).focus();
+  
   try {
   
       $.ajax({

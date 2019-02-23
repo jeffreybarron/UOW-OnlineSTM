@@ -118,11 +118,11 @@ async function createDeck(deckName, deck) {
 * /preflight/ Routes 
 *
 */
-app.get("/preflight", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/preflight ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render("preflight", { rPath: sPath});
-});
+// app.get("/preflight", function(request, response) {
+//   var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/preflight ";
+//   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+//   response.render("preflight", { rPath: sPath});
+// });
 
 
 
@@ -334,15 +334,18 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
     stimulusFile = JSON.parse(stimulusFile);
     block["sets"] = [];
     for (let iSetNumber = 0; iSetNumber < block.setSizes.length; iSetNumber++) {
+      block.sets.push(JSON.parse('{"set":"' + iSetNumber + '"}'))
       let setSize = block.setSizes[iSetNumber];
-      block.sets.push(JSON.parse('{"set":[]}'));
+      block.sets[iSetNumber].stimuli = [];
+      // block.sets.push(JSON.parse('{"set":[]}'));
       //dish out the number of cards required from the front of the deck
       for (let i = 0; i < setSize; i++) {
         /*--------------------------------------------------------------
         * push first element of dealersDeck onto the end of config file sets.set
         * console.log("iSetNumber:" + iSetNumber + ", setSize:" + setSize + ", i:" + i);
         */
-        block.sets[iSetNumber].set.push(stimulusFile[0]); //because zero is always the front
+        // block.sets[iSetNumber].set.push(stimulusFile[0]); //because zero is always the front
+        block.sets[iSetNumber].stimuli.push(stimulusFile[0]); //because zero is always the front
         stimulusFile.shift(); //remove first element of dealersDeck
       };
     };

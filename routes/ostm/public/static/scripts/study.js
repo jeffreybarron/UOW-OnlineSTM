@@ -42,6 +42,14 @@ $( "#reject" ).on( "click", function() {
   var result = redirect()
 });
 
+$( "#answer").on('keypress',function(e) {
+    if(e.which == 13) {
+        // alert(this.value);
+        updateAnswers()
+    }
+});
+
+
 async function loadStudy() {
   var studyURL = sPath + "/resources/studies/" + state.studyName + ".json";
   var configFile = await getFile(studyURL)
@@ -68,15 +76,16 @@ async function loadStudy() {
         break;
       case "within": // shuffle cards within sets
         for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
-          state.studyConfig.blocks[i].sets[j].set = shuffleArray(state.studyConfig.blocks[i].sets[j].set).splice(0);
+          // state.studyConfig.blocks[i].sets[j].set = shuffleArray(state.studyConfig.blocks[i].sets[j].set).splice(0);
+          state.studyConfig.blocks[i].sets[j].stimuli = shuffleArray(state.studyConfig.blocks[i].sets[j].stimuli).splice(0);
         }
         break;
       case "across": //shuffle cards across sets
-        //load all cards from all sets in this block into an array
+        //load all cards, from all sets (in this block) into an array
         let blockDeck = [];
         for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
-          for ( let k = 0; k < state.studyConfig.blocks[i].sets[j].set.length; k++ ){
-            blockDeck.push(state.studyConfig.blocks[i].sets[j].set[k]);
+          for ( let k = 0; k < state.studyConfig.blocks[i].sets[j].stimuli.length; k++ ){
+            blockDeck.push(state.studyConfig.blocks[i].sets[j].stimuli[k]);
           //end stimulus
           }
         //end set
@@ -85,8 +94,8 @@ async function loadStudy() {
         blockDeck = shuffleArray(blockDeck).splice(0)
         //put shuffled cards into sets again
         for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
-          for ( let k = 0; k < state.studyConfig.blocks[i].sets[j].set.length; k++ ){
-            state.studyConfig.blocks[i].sets[j].set[k] = blockDeck[0];
+          for ( let k = 0; k < state.studyConfig.blocks[i].sets[j].stimuli.length; k++ ){
+            state.studyConfig.blocks[i].sets[j].stimuli[k] = blockDeck[0];
             blockDeck.shift();
           //end stimulus
           }
@@ -114,23 +123,25 @@ function startQuestions() {
 
 function changeQuestion() {
 
-  if (stimulusCounter < state.studyConfig.blocks[blockCounter].sets[setCounter].set.length) {
+  if (stimulusCounter < state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli.length) {
     //hide the ticker 
     
     setProperties(
       stimulus,
-      state.studyConfig.blocks[blockCounter].sets[setCounter].set[stimulusCounter].stimulus,
-      state.studyConfig.blocks[blockCounter].sets[setCounter].set[stimulusCounter].textColor,
-      state.studyConfig.blocks[blockCounter].sets[setCounter].set[stimulusCounter].backGroundColor
+      state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[stimulusCounter].stimulus,
+      state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[stimulusCounter].textColor,
+      state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[stimulusCounter].backGroundColor
     );
     stimulusCounter++;
-    answer.focus;
+
   } else {
 
     // clear the text area and stop the ticker
     clearInterval(myTicker);
     setProperties(stimulus, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundColor);
     answerDIV.style.display = "block";
+    answer.focus();
+
   }
   
 }
@@ -138,26 +149,28 @@ function changeQuestion() {
 function updateAnswers() {
   let answerCounter = parseInt(answer.name);
   if (answer.name < stimulusCounter) {
-    state.studyConfig.blocks[blockCounter].sets[setCounter].set[answerCounter].responseTime = getDate(); //load answer into json
-    state.studyConfig.blocks[blockCounter].sets[setCounter].set[answerCounter].response = answer.value; //load answer into json
+    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].responseTime = getDate(); //load answer into json
+    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].response = answer.value; //load answer into json
     answer.value = ""; //reset form for next answer
     answer.focus();
     answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
   }
+
+  //if we have reached the last stimulus in the set then increment the set
   $("#stimulusCounter").html(parseInt(answer.name) + 1);
   if (answer.name == stimulusCounter) {
     //reset answers
     // alert("end of set:" + setCounter);
     stimulusCounter = 0;
     answer.name = 0;
-    startDIV.style.display = "block";
     answerDIV.style.display = "none";
+    startDIV.style.display = "block";
     setCounter++;
     $("#stimulusCounter").html(1);
     document.getElementById("buttonStart").focus();
   }
 
-  //if we have also reached the stimulus in the set, increment the block
+  //if we have reached the last set in the block?, then increment the block
   if (setCounter >= state.studyConfig.blocks[blockCounter].sets.length) {
     // alert("end of block:" + blockCounter);
     if ( state.studyConfig.blocks[blockCounter].blockPopUp.length > 1 ) {
@@ -168,13 +181,17 @@ function updateAnswers() {
     blockCounter++;
     setCounter = 0; //new block new sets
   }
+
+  //set focus on answer input box
+  document.getElementById("answer").focus();
+
   //if we have also reached the last stimulus bank then stop
   if (blockCounter >= state.studyConfig.blocks.length) {
     saveStudy();
   }
 
 
-}
+};
 
 
 
@@ -285,11 +302,17 @@ function setProperties(obj, textValue, textColor, textBackGroundColor) {
 var modal = document.getElementById("modal");
 function toggleModal() {
   modal.style.display = 'flex';
+  $( "#modal-continue" ).focus();
 }
 document.getElementById("modal-close").addEventListener("click", event => {
-  modal.style.display = "none";
-  $("#modal-body").html("");
+  modalClose()
 });
+function modalClose(){
+  modal.style.display = "none";
+  $( "#modal-body" ).html("");
+  $( "#buttonStart" ).focus();
+}
+
 window.addEventListener("click", event => {
   if (event.target === modal) {
     modal.style.display = "none";
