@@ -1,0 +1,221 @@
+{
+  "studyName": "abc",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "blocks": [
+    {
+      "block": "0",
+      "stimulusFile": "practice.json",
+      "setSizes": [
+        2,
+        2,
+        2
+      ],
+      "refreshRateMS": "100",
+      "shuffleMode": "no",
+      "blockPopUp": "",
+      "sets": [
+        {
+          "set": "0",
+          "stimuli": [
+            {
+              "stimulus": "One",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        },
+        {
+          "set": "1",
+          "stimuli": [
+            {
+              "stimulus": "fellow",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "he",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        },
+        {
+          "set": "2",
+          "stimuli": [
+            {
+              "stimulus": "felt",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": "1",
+      "stimulusFile": "practice.json",
+      "setSizes": [
+        2,
+        2,
+        2
+      ],
+      "refreshRateMS": "100",
+      "shuffleMode": "no",
+      "blockPopUp": "",
+      "sets": [
+        {
+          "set": "0",
+          "stimuli": [
+            {
+              "stimulus": "One",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        },
+        {
+          "set": "1",
+          "stimuli": [
+            {
+              "stimulus": "fellow",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "he",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        },
+        {
+          "set": "2",
+          "stimuli": [
+            {
+              "stimulus": "felt",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": "2",
+      "stimulusFile": "practice.json",
+      "setSizes": [
+        2,
+        2,
+        2
+      ],
+      "refreshRateMS": "100",
+      "shuffleMode": "no",
+      "blockPopUp": "",
+      "sets": [
+        {
+          "set": "0",
+          "stimuli": [
+            {
+              "stimulus": "One",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        },
+        {
+          "set": "1",
+          "stimuli": [
+            {
+              "stimulus": "fellow",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "he",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        },
+        {
+          "set": "2",
+          "stimuli": [
+            {
+              "stimulus": "felt",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "shuffleBlocks": false
+}

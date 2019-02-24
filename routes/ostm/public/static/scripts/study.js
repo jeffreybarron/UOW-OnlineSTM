@@ -149,7 +149,9 @@ function changeQuestion() {
 function updateAnswers() {
   let answerCounter = parseInt(answer.name);
   if (answer.name < stimulusCounter) {
-    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].responseTime = getDate(); //load answer into json
+    let timeStamp = Date.now();
+    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].timeStamp = timeStamp; //load answer into json
+    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].responseTime = getDate(timeStamp); //load answer into json
     state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].response = answer.value; //load answer into json
     answer.value = ""; //reset form for next answer
     answer.focus();
