@@ -1,0 +1,405 @@
+{
+  "studyName": "20190225-stu456-stroop02",
+  "PROLIFIC_PID": "GUID001",
+  "STUDY_ID": "GUID002",
+  "SESSION_ID": "GUID003",
+  "getView": 4,
+  "flow": {
+    "views": [
+      {
+        "view": 0,
+        "name": "participant",
+        "response": "accept",
+        "responseTime": "2019/02/25 22:24:49.0567",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "default",
+        "layoutStyles": [
+          "/ostm/static/styles/main.css"
+        ],
+        "header": "<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+        "footer": "<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>",
+        "viewStyles": [
+          "/ostm/static/styles/participant.css"
+        ],
+        "scripts": [
+          "/ostm/static/scripts/participant.js"
+        ],
+        "layoutContent": "      <div id=\"headerContainer\" class=\"row\">\n        <h1 id=\"pageTitle\">UOW Short Term Memory (STM) Study</h1>\n      </div>\n      <div id=\"centerRow\" class=\"row\">\n        <div id=\"pageLeft\" class=\"col-sm\"><!-- Left Gutter --></div>\n        <div id=\"contentContainer\" class=\"col-sm\"><!-- Page Content --></div>\n        <div id=\"pageRight\" class=\"col-sm\"><!-- Right Gutter --></div>\n      </div>\n      <div id=\"footerContainer\" class=\"row\">\n        <footer class=\"footer\">\n          <p class=\"text-muted\">Solution by <a href=\"http://www.jeffreybarron.com\">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>\n        </footer>\n      </div>",
+        "layoutLoaded": "2019/02/25 22:24:48.0627",
+        "viewContent": "<!-- pageContent body -->\n<p>To complete this study you MUST enable javascript, we recommend Chrome browser for the best experience</p>\n<p>Minimum Browswer Requirements\n  <ul>\n    <li>Chrome 72+</li>\n    <li>Firefox 65+</li>\n    <li>Safari 12+ (IOS 12.1+)</li>\n    <li>Opera 57+</li>\n    <li>Edge 18+ (IE 11 and lower is NOT supported)</li>\n  </ul>\n</p>\n<p>This study uses Pop-Ups to inform you of progress, they must not be blocked.</p>\n<h2>Confirm\\provide Participant Identification (PID)</h2>\n<div class=\"starter-template\">\n  <form id=\"participantIDForm\">\n    <div class=\"form-group row\">\n      <label for=\"studyName\" class=\"col-sm-3 col-form-label\">Study Name</label>\n        <div class=\"col-sm-9\">\n          <input class=\"form-control\" type=\"text\" id=\"studyName\" name=\"studyName\" readonly />\n        </div>\n    </div>\n    <div class=\"form-group row\">\n      <label for=\"PROLIFIC_PID\" class=\"col-sm-3 col-form-label\">Prolific PID</label>\n        <div class=\"col-sm-9\">\n          <input class=\"form-control\" type=\"text\" id=\"PROLIFIC_PID\" name=\"PROLIFIC_PID\"/>\n        </div>\n    </div>\n    <div class=\"form-group\">\n      <button id=\"reject\" type=\"button\" class=\"btn btn-danger\" value=\"reject\">Reject</button>\n      <button id=\"accept\" type=\"button\" class=\"btn btn-success\" value=\"accept\" autofocus>Accept</button>\n    </div>\n  </form>",
+        "viewLoaded": "2019/02/25 22:24:48.0637"
+      },
+      {
+        "view": 1,
+        "name": "consent",
+        "rendered": "date/time value",
+        "responseTime": "2019/02/25 22:24:51.0217",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "default",
+        "layoutStyles": [
+          "/ostm/static/styles/main.css"
+        ],
+        "header": "<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+        "footer": "<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>",
+        "viewStyles": [
+          "/ostm/static/styles/consent.css"
+        ],
+        "scripts": [
+          "/ostm/static/scripts/consent.js"
+        ],
+        "layoutContent": "      <div id=\"headerContainer\" class=\"row\">\n        <h1 id=\"pageTitle\">UOW Short Term Memory (STM) Study</h1>\n      </div>\n      <div id=\"centerRow\" class=\"row\">\n        <div id=\"pageLeft\" class=\"col-sm\"><!-- Left Gutter --></div>\n        <div id=\"contentContainer\" class=\"col-sm\"><!-- Page Content --></div>\n        <div id=\"pageRight\" class=\"col-sm\"><!-- Right Gutter --></div>\n      </div>\n      <div id=\"footerContainer\" class=\"row\">\n        <footer class=\"footer\">\n          <p class=\"text-muted\">Solution by <a href=\"http://www.jeffreybarron.com\">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>\n        </footer>\n      </div>",
+        "layoutLoaded": "2019/02/25 22:24:49.0574",
+        "viewContent": "<h2>Informed Consent</h2>\n<form id=\"informedConsent\">\n  <div class=\"form-group row\">\n    <label for=\"studyName\" class=\"col-sm-3 col-form-label\">Study Name</label>\n      <div class=\"col-sm-9\">\n        <input class=\"form-control\" type=\"text\" id=\"studyName\" name=\"studyName\" readonly value=\">\" />\n      </div>\n  </div>\n  <div class=\"form-group row\">\n    <label for=\"PROLIFIC_PID\" class=\"col-sm-3 col-form-label\">Prolific PID</label>\n      <div class=\"col-sm-9\">\n        <input class=\"form-control\" type=\"text\" id=\"PROLIFIC_PID\" name=\"PROLIFIC_PID\" readonly value=\"\"/>\n      </div>\n  </div>\n  <div class=\"researcherCopy\" id=\"researcherCopy\">\n      <p>The CUSTOM Consent text hasnt loaded</p>\n  </div>\n\n    <div class=\"form-group\">\n      <!--<button id=\"back\" type=\"button\" class=\"btn btn-warning\" value=\"back\" >back</button>-->\n      <button id=\"reject\" type=\"button\" class=\"btn btn-danger\" value=\"reject\">Reject</button>\n      <button id=\"accept\" type=\"button\" class=\"btn btn-success\" value=\"accept\" autofocus>Accept</button>\n    </div>\n    \n</form>\n\n",
+        "viewLoaded": "2019/02/25 22:24:49.0581",
+        "response": "accept"
+      },
+      {
+        "view": 2,
+        "name": "instructions",
+        "rendered": "date/time value",
+        "responseTime": "2019/02/25 22:24:52.0016",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "default",
+        "layoutStyles": [
+          "/ostm/static/styles/main.css"
+        ],
+        "header": "<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+        "footer": "<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>",
+        "viewStyles": [
+          "/ostm/static/styles/instructions.css"
+        ],
+        "scripts": [
+          "/ostm/static/scripts/instructions.js"
+        ],
+        "layoutContent": "      <div id=\"headerContainer\" class=\"row\">\n        <h1 id=\"pageTitle\">UOW Short Term Memory (STM) Study</h1>\n      </div>\n      <div id=\"centerRow\" class=\"row\">\n        <div id=\"pageLeft\" class=\"col-sm\"><!-- Left Gutter --></div>\n        <div id=\"contentContainer\" class=\"col-sm\"><!-- Page Content --></div>\n        <div id=\"pageRight\" class=\"col-sm\"><!-- Right Gutter --></div>\n      </div>\n      <div id=\"footerContainer\" class=\"row\">\n        <footer class=\"footer\">\n          <p class=\"text-muted\">Solution by <a href=\"http://www.jeffreybarron.com\">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>\n        </footer>\n      </div>",
+        "layoutLoaded": "2019/02/25 22:24:51.0224",
+        "viewContent": "<h2>Instructions for this study</h2>\n<form id=\"instructionsForm\" class=\"form-group row\">\n  <div class=\"form-group row\">\n    <label for=\"studyName\" class=\"col-sm-3 col-form-label\">Study Name</label>\n      <div class=\"col-sm-9\">\n        <input class=\"form-control\" type=\"text\" id=\"studyName\" name=\"studyName\" readonly value=\"\" />\n      </div>\n  </div>\n  <div class=\"form-group row\">\n    <label for=\"PROLIFIC_PID\" class=\"col-sm-3 col-form-label\">Prolific PID</label>\n      <div class=\"col-sm-9\">\n        <input class=\"form-control\" type=\"text\" id=\"PROLIFIC_PID\" name=\"PROLIFIC_PID\" readonly value=\"\"/>\n      </div>\n  </div>\n  <div class=\"researcherCopy\" id=\"researcherCopy\">\n    <p>The CUSTOM instructions have not loaded</p>\n  </div>\n    <div class=\"form-group\">\n      <!--<button id=\"back\" type=\"button\" class=\"btn btn-warning\" value=\"back\" >back</button>-->\n      <button id=\"reject\" type=\"button\" class=\"btn btn-danger\" value=\"reject\">Reject</button>\n      <button id=\"accept\" type=\"button\" class=\"btn btn-success\" value=\"accept\" autofocus>Accept</button>\n    </div>\n    \n</form>\n\n",
+        "viewLoaded": "2019/02/25 22:24:51.0233",
+        "response": "accept"
+      },
+      {
+        "view": 3,
+        "name": "study",
+        "response": "complete",
+        "responseTime": "2019/02/25 22:25:24.0662",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "ostm",
+        "layoutStyles": [
+          "/ostm/static/styles/ostm.css"
+        ],
+        "header": "",
+        "footer": "",
+        "viewStyles": [
+          "/ostm/static/styles/study.css"
+        ],
+        "scripts": [
+          "/ostm/static/scripts/study.js"
+        ],
+        "layoutContent": "<div class=\"outer\">\n  <div class=\"middle\">\n    <div id=\"studyStateContent\" class=\"inner\">\n\n      <div id='start_DIV' class='studyButtons' style='display:none'>\n        <div class='col-sm-4'>\n          <!-- <span style='display:none' name='label' >label text</span> -->\n        </div>\n        <div class='col-sm-4'>\n          <span id='focalPoint' class='target'>+</span>\n        </div>\n        <div class='col-sm-4'>\n          <button id='start_btn' class='btn btn-success' onclick='startQuestions()' autofocus>Click to Start</button>\n        </div>\n      </div>\n\n      <div id='show_DIV' class='studyButtons' style='display:none'>\n        <div class='col-sm-4'>\n          <!-- <span style='display:none' name='label'>label text</span> -->\n        </div>\n        <div class='col-sm-4'>\n          <span id='target' class='target'>+</span>\n        </div>\n        <div class='col-sm-4'>\n          <!-- <button style='display:none' id='placeholder_btn' class='btn btn-success' >pace holder</button> -->\n        </div>\n      </div>\n      \n      <div id='answer_DIV' class='studyButtons' style='display:none'>\n        <div class='col-sm-4'>\n          <span id='label' class='answerHelp'>Stimulus #<span id='stimulusCounter'>1</span></span>\n        </div>\n        <div class='col-sm-4'>\n          <input id='answer' name='0' class='form-control answer' type='text' value='' autofocus>\n        </div>\n        <div class='col-sm-4'>\n          <button id='submit_btn' class='btn btn-primary' onclick='updateAnswers()'>Submit</button>\n        </div>\n      </div>\n\n    </div>\n  </div>\n</div>\n\n<!-- Modal Section-->\n<div id=\"modal\" class=\"modal\">\n  <div id=\"modal-content\" class=\"modal-content\">\n    <span id=\"modal-close\" class=\"modal-close\">&times;</span>\n    <div id=\"modal-body\">\n        <p>Some text here.</p>\n    </div>\n    <!-- <hr>\n    <button id=\"modal-continue\" class=\"btn btn-primary\" onclick=\"modalClose()\">Continue</button> -->\n  </div>\n</div>",
+        "layoutLoaded": "2019/02/25 22:24:52.0023",
+        "viewContent": "<!-- this page comes from layout, i.e view is not used but this file must exist -->>",
+        "viewLoaded": "2019/02/25 22:24:52.0031"
+      },
+      {
+        "view": 4,
+        "name": "completion",
+        "response": "",
+        "responseTime": "",
+        "pageRedirect": "https://app.prolific.ac/submissions/complete?cc=cows R US",
+        "layout": "default",
+        "layoutStyles": [
+          "/ostm/static/styles/main.css"
+        ],
+        "header": "<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+        "footer": "<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>",
+        "viewStyles": [
+          "/ostm/static/styles/completion.css"
+        ],
+        "scripts": [
+          "/ostm/static/scripts/completion.js"
+        ],
+        "layoutContent": "      <div id=\"headerContainer\" class=\"row\">\n        <h1 id=\"pageTitle\">UOW Short Term Memory (STM) Study</h1>\n      </div>\n      <div id=\"centerRow\" class=\"row\">\n        <div id=\"pageLeft\" class=\"col-sm\"><!-- Left Gutter --></div>\n        <div id=\"contentContainer\" class=\"col-sm\"><!-- Page Content --></div>\n        <div id=\"pageRight\" class=\"col-sm\"><!-- Right Gutter --></div>\n      </div>\n      <div id=\"footerContainer\" class=\"row\">\n        <footer class=\"footer\">\n          <p class=\"text-muted\">Solution by <a href=\"http://www.jeffreybarron.com\">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>\n        </footer>\n      </div>",
+        "layoutLoaded": "2019/02/25 22:25:24.0671",
+        "viewContent": "<h4 id=\"pageTitle\">This study is now complete.</h4>\n<p>Your Prolific \"Completion Code\" is shown here in red, you can note it down or select and copy it.</p>\n<div id=\"prolificCode\" class=\"lead text-center\">\n  <p>[CODE]</p>\n</div>\n<p>Alternately, you can click Return to be Re-directed, or wait for the browser redirect in 30 seconds...</p>\n    <div class=\"form-group\">\n      <!--<button id=\"back\" type=\"button\" class=\"btn btn-warning\" value=\"back\" >back</button>-->\n      <button id=\"accept\" type=\"button\" class=\"btn btn-success\" value=\"accept\" autofocus>Return</button>\n    </div>\n\n</div>\n",
+        "viewLoaded": "2019/02/25 22:25:24.0684"
+      }
+    ],
+    "initialised": "2019/02/25 22:24:48.0616"
+  },
+  "studyConfig": {
+    "studyName": "20190225-stu456-stroop02",
+    "studybackgroundColor": "Black",
+    "studyTextColor": "White",
+    "blocks": [
+      {
+        "block": "0",
+        "stimulusFile": "practice.json",
+        "setSizes": [
+          6,
+          6,
+          7
+        ],
+        "refreshRateMS": "200",
+        "shuffleMode": "no",
+        "blockPopUp": "<h3 style=\"text-align: center;\"><span style=\"color: #27ae60; font-family: verdana, geneva, sans-serif;\">You have completed the practice session!</span></h3>\n<hr />\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">After closing this message the study will begin.</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Please pay careful attention and avoid distractions, <em>if safe to do so</em>.&nbsp;</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Press 'X' at the top right of this message, to close this message.&nbsp;</span></p>",
+        "sets": [
+          {
+            "set": "0",
+            "stimuli": [
+              {
+                "stimulus": "One",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:24:55.0100",
+                "timeStamp": 1551093895100
+              },
+              {
+                "stimulus": "smart",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:24:55.0505",
+                "timeStamp": 1551093895505
+              },
+              {
+                "stimulus": "fellow",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:24:55.0833",
+                "timeStamp": 1551093895833
+              },
+              {
+                "stimulus": "he",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:24:56.0146",
+                "timeStamp": 1551093896146
+              },
+              {
+                "stimulus": "felt",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:24:56.0406",
+                "timeStamp": 1551093896406
+              },
+              {
+                "stimulus": "smart",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:24:56.0967",
+                "timeStamp": 1551093896967
+              }
+            ]
+          },
+          {
+            "set": "1",
+            "stimuli": [
+              {
+                "stimulus": "Two",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:24:59.0634",
+                "timeStamp": 1551093899634
+              },
+              {
+                "stimulus": "smart",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:24:59.0961",
+                "timeStamp": 1551093899961
+              },
+              {
+                "stimulus": "fellows",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:00.0218",
+                "timeStamp": 1551093900218
+              },
+              {
+                "stimulus": "they",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:00.0478",
+                "timeStamp": 1551093900478
+              },
+              {
+                "stimulus": "felt",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:00.0716",
+                "timeStamp": 1551093900716
+              },
+              {
+                "stimulus": "smart",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:01.0118",
+                "timeStamp": 1551093901118
+              }
+            ]
+          },
+          {
+            "set": "2",
+            "stimuli": [
+              {
+                "stimulus": "Three",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:04.0246",
+                "timeStamp": 1551093904246
+              },
+              {
+                "stimulus": "smart",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:04.0493",
+                "timeStamp": 1551093904493
+              },
+              {
+                "stimulus": "fellows",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:04.0741",
+                "timeStamp": 1551093904741
+              },
+              {
+                "stimulus": "they",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:05.0023",
+                "timeStamp": 1551093905023
+              },
+              {
+                "stimulus": "all",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:05.0283",
+                "timeStamp": 1551093905283
+              },
+              {
+                "stimulus": "felt",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:05.0551",
+                "timeStamp": 1551093905551
+              },
+              {
+                "stimulus": "smart",
+                "textColor": "white",
+                "backGroundColor": "black",
+                "response": "",
+                "responseTime": "2019/02/25 22:25:06.0057",
+                "timeStamp": 1551093906057
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block": "1",
+        "stimulusFile": "bovine.json",
+        "setSizes": [
+          2,
+          2,
+          2
+        ],
+        "refreshRateMS": "1000",
+        "shuffleMode": "sets",
+        "blockPopUp": "<h3 style=\"text-align: center;\"><span style=\"color: #27ae60; font-family: verdana, geneva, sans-serif;\">You have completed the practice session!</span></h3>\n<hr />\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">After closing this message the study will begin.</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Please pay careful attention and avoid distractions, <em>if safe to do so</em>.&nbsp;</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Press 'X' at the top right of this message, to close this message.&nbsp;</span></p>",
+        "sets": [
+          {
+            "set": "1",
+            "stimuli": [
+              {
+                "row": "2",
+                "stimulus": "bison",
+                "textcolor": "white",
+                "backgroundcolor": "darkgreen",
+                "timeStamp": 1551093913832,
+                "responseTime": "2019/02/25 22:25:13.0832",
+                "response": ""
+              },
+              {
+                "row": "3",
+                "stimulus": "brangus",
+                "textcolor": "white",
+                "backgroundcolor": "darkgreen",
+                "timeStamp": 1551093914236,
+                "responseTime": "2019/02/25 22:25:14.0236",
+                "response": ""
+              }
+            ]
+          },
+          {
+            "set": "2",
+            "stimuli": [
+              {
+                "row": "4",
+                "stimulus": "jersey",
+                "textcolor": "white",
+                "backgroundcolor": "darkgreen",
+                "timeStamp": 1551093918940,
+                "responseTime": "2019/02/25 22:25:18.0940",
+                "response": ""
+              },
+              {
+                "row": "5",
+                "stimulus": "bonsmara",
+                "textcolor": "white",
+                "backgroundcolor": "darkgreen",
+                "timeStamp": 1551093919344,
+                "responseTime": "2019/02/25 22:25:19.0344",
+                "response": ""
+              }
+            ]
+          },
+          {
+            "set": "0",
+            "stimuli": [
+              {
+                "row": "0",
+                "stimulus": "hereford",
+                "textcolor": "white",
+                "backgroundcolor": "darkgreen",
+                "timeStamp": 1551093924239,
+                "responseTime": "2019/02/25 22:25:24.0239",
+                "response": ""
+              },
+              {
+                "row": "1",
+                "stimulus": "angus",
+                "textcolor": "white",
+                "backgroundcolor": "darkgreen",
+                "timeStamp": 1551093924642,
+                "responseTime": "2019/02/25 22:25:24.0642",
+                "response": ""
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "shuffleBlocks": false,
+    "loadTime": "2019/02/25 22:24:52.0056",
+    "saveTime": "2019/02/25 22:25:24.0644"
+  },
+  "completionCode": "cows R US",
+  "rendered": "2019/02/25 22:25:24.0719"
+}

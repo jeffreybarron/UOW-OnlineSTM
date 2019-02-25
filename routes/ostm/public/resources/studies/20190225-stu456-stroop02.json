@@ -1,0 +1,235 @@
+{
+  "studyName": "20190225-stu456-stroop02",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "blocks": [
+    {
+      "block": "0",
+      "stimulusFile": "practice.json",
+      "setSizes": [
+        6,
+        6,
+        7
+      ],
+      "refreshRateMS": "200",
+      "shuffleMode": "no",
+      "blockPopUp": "<h3 style=\"text-align: center;\"><span style=\"color: #27ae60; font-family: verdana, geneva, sans-serif;\">You have completed the practice session!</span></h3>\n<hr />\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">After closing this message the study will begin.</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Please pay careful attention and avoid distractions, <em>if safe to do so</em>.&nbsp;</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Press 'X' at the top right of this message, to close this message.&nbsp;</span></p>",
+      "sets": [
+        {
+          "set": "0",
+          "stimuli": [
+            {
+              "stimulus": "One",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "fellow",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "he",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "felt",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        },
+        {
+          "set": "1",
+          "stimuli": [
+            {
+              "stimulus": "Two",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "fellows",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "they",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "felt",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        },
+        {
+          "set": "2",
+          "stimuli": [
+            {
+              "stimulus": "Three",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "fellows",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "they",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "all",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "felt",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            },
+            {
+              "stimulus": "smart",
+              "textColor": "white",
+              "backGroundColor": "black",
+              "response": "",
+              "responseTime": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": "1",
+      "stimulusFile": "bovine.json",
+      "setSizes": [
+        2,
+        2,
+        2
+      ],
+      "refreshRateMS": "1000",
+      "shuffleMode": "sets",
+      "blockPopUp": "<h3 style=\"text-align: center;\"><span style=\"color: #27ae60; font-family: verdana, geneva, sans-serif;\">You have completed the practice session!</span></h3>\n<hr />\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">After closing this message the study will begin.</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Please pay careful attention and avoid distractions, <em>if safe to do so</em>.&nbsp;</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Press 'X' at the top right of this message, to close this message.&nbsp;</span></p>",
+      "sets": [
+        {
+          "set": "0",
+          "stimuli": [
+            {
+              "row": "0",
+              "stimulus": "hereford",
+              "textcolor": "white",
+              "backgroundcolor": "darkgreen"
+            },
+            {
+              "row": "1",
+              "stimulus": "angus",
+              "textcolor": "white",
+              "backgroundcolor": "darkgreen"
+            }
+          ]
+        },
+        {
+          "set": "1",
+          "stimuli": [
+            {
+              "row": "2",
+              "stimulus": "bison",
+              "textcolor": "white",
+              "backgroundcolor": "darkgreen"
+            },
+            {
+              "row": "3",
+              "stimulus": "brangus",
+              "textcolor": "white",
+              "backgroundcolor": "darkgreen"
+            }
+          ]
+        },
+        {
+          "set": "2",
+          "stimuli": [
+            {
+              "row": "4",
+              "stimulus": "jersey",
+              "textcolor": "white",
+              "backgroundcolor": "darkgreen"
+            },
+            {
+              "row": "5",
+              "stimulus": "bonsmara",
+              "textcolor": "white",
+              "backgroundcolor": "darkgreen"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "shuffleBlocks": false
+}
