@@ -296,7 +296,7 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   let sPrivateURL = appRoot + "/routes/" + moduleRoot + "/data/codes/";
 
   //AWAIT --> does file already exist, if so then stop
-  let studyNotExists = await fileNotExists(sURL + studyName + ".json");
+  let studyNotExists = await fileNotExists(sURL + "/resouces/studies/" + studyName + ".json");
   log.info(errLocation + ", log: 2");
   //AWAIT --> write codeFile
 

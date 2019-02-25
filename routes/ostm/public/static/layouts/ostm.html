@@ -1,26 +1,43 @@
 <div class="outer">
   <div class="middle">
-    <div class="inner">
+    <div id="studyStateContent" class="inner">
 
-    	<div class="stimulus" id="stimulus">+</div><br />
-
-      <div class="studyButtons" id="startDIV" style="display:none">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
-          <button id="buttonStart" class="btn btn-success" onclick="startQuestions()" autofocus>Click to Start</button>
+      <div id='start_DIV' class='studyButtons' style='display:none'>
+        <div class='col-sm-4'>
+          <!-- <span style='display:none' name='label' >label text</span> -->
+        </div>
+        <div class='col-sm-4'>
+          <span id='focalPoint' class='target'>+</span>
+        </div>
+        <div class='col-sm-4'>
+          <button id='start_btn' class='btn btn-success' onclick='startQuestions()' autofocus>Click to Start</button>
         </div>
       </div>
 
-      <div class="studyButtons" id="answerDIV" style="display:none">
-        <!-- <label for="answer" class="col-sm-2 col-form-label">Enter Word</label>-->
-        <div class="col-sm-4">
-          <input class="form-control" type="text" id="answer" name="0" value="">
-          <small>Enter Stimulus #<div id="stimulusCounter">1</div></small>
+      <div id='show_DIV' class='studyButtons' style='display:none'>
+        <div class='col-sm-4'>
+          <!-- <span style='display:none' name='label'>label text</span> -->
         </div>
-		    <div class="col-sm-4">
-		      <button id="buttonStart" class="btn btn-primary" onclick="updateAnswers()">Submit</button>
-	      </div>
+        <div class='col-sm-4'>
+          <span id='target' class='target'>+</span>
+        </div>
+        <div class='col-sm-4'>
+          <!-- <button style='display:none' id='placeholder_btn' class='btn btn-success' >pace holder</button> -->
+        </div>
       </div>
+      
+      <div id='answer_DIV' class='studyButtons' style='display:none'>
+        <div class='col-sm-4'>
+          <span id='label' class='answerHelp'>Stimulus #<span id='stimulusCounter'>1</span></span>
+        </div>
+        <div class='col-sm-4'>
+          <input id='answer' name='0' class='form-control answer' type='text' value='' autofocus>
+        </div>
+        <div class='col-sm-4'>
+          <button id='submit_btn' class='btn btn-primary' onclick='updateAnswers()'>Submit</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -32,6 +49,7 @@
     <div id="modal-body">
         <p>Some text here.</p>
     </div>
-    <hr>
-    <button id="modal-continue" class="btn btn-primary float-right" onclick="modalClose()">Continue</button>
+    <!-- <hr>
+    <button id="modal-continue" class="btn btn-primary" onclick="modalClose()">Continue</button> -->
   </div>
+</div>
