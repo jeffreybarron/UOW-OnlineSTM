@@ -1,0 +1,38 @@
+[
+  {
+    "row": "0",
+    "stimulus": "hereford",
+    "textcolor": "black",
+    "backgroundcolor": "darkgreen"
+  },
+  {
+    "row": "1",
+    "stimulus": "angus",
+    "textcolor": "black",
+    "backgroundcolor": "darkgreen"
+  },
+  {
+    "row": "2",
+    "stimulus": "bison",
+    "textcolor": "black",
+    "backgroundcolor": "darkgreen"
+  },
+  {
+    "row": "3",
+    "stimulus": "brangus",
+    "textcolor": "black",
+    "backgroundcolor": "darkgreen"
+  },
+  {
+    "row": "4",
+    "stimulus": "jersey",
+    "textcolor": "black",
+    "backgroundcolor": "darkgreen"
+  },
+  {
+    "row": "5",
+    "stimulus": "bonsmara",
+    "textcolor": "black",
+    "backgroundcolor": "darkgreen"
+  }
+]

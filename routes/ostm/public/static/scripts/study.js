@@ -6,22 +6,24 @@ var blockCounter = 0;
 var setCounter = 0;
 var stimulusCounter = 0;
 
-var questionCounter = 0;
-var deckCounter = 0;
-
 //document elements
-var stimulus = document.getElementById("stimulus");
-var answerDIV = document.getElementById("answerDIV");
+var start_DIV = document.getElementById("start_DIV");
+var start_DIV = document.getElementById("start_DIV");
+var show_DIV = document.getElementById("show_DIV");
+var answer_DIV = document.getElementById("answer_DIV");
+var target = document.getElementById("target");
 var answer = document.getElementById("answer");
-var startDIV = document.getElementById("startDIV");
-
 
 $( document ).ready(function() {
   try {
     var result = loadStudy()
     .then(resolved => {
       // console.log(resolved);
-      document.getElementById("buttonStart").focus(); 
+      start_DIV.style.display = "block";
+      show_DIV.style.display = "none";
+      answer_DIV.style.display = "none";
+      document.getElementById("start_btn").focus(); 
+
     })
     .catch(err => {
       console.log(err);
@@ -103,7 +105,6 @@ async function loadStudy() {
         }         
         break;
       default:
-        //shuffleMode = "no", so do nothing
     //end switch case
     }
   //end block
@@ -111,13 +112,17 @@ async function loadStudy() {
   document.body.style.backgroundColor = state.studyConfig.studybackgroundColor;
   document.body.style.color = state.studyConfig.studyTextColor;
   state.studyConfig.loadTime = getDate();
-  startDIV.style.display = "block";
+
 };
 
 
 function startQuestions() {
   myTicker = setInterval(changeQuestion, state.studyConfig.blocks[blockCounter].refreshRateMS);
-  startDIV.style.display = "none";
+  
+  start_DIV.style.display = "none";
+  show_DIV.style.display = "block";
+  answer_DIV.style.display = "none";
+
 };
 
 
@@ -125,26 +130,27 @@ function changeQuestion() {
 
   if (stimulusCounter < state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli.length) {
     //hide the ticker 
-    
+    start_DIV.style.display = "none";
+    show_DIV.style.display = "block";
+    answer_DIV.style.display = "none";
     setProperties(
-      stimulus,
+      target,
       state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[stimulusCounter].stimulus,
-      state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[stimulusCounter].textColor,
-      state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[stimulusCounter].backGroundColor
+      state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[stimulusCounter].textcolor,
+      state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[stimulusCounter].backgroundcolor
     );
     stimulusCounter++;
 
   } else {
-
     // clear the text area and stop the ticker
     clearInterval(myTicker);
-    setProperties(stimulus, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundColor);
-    answerDIV.style.display = "block";
+    setProperties(target, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundcolor);
+    start_DIV.style.display = "none";
+    show_DIV.style.display = "none";
+    answer_DIV.style.display = "block";
     answer.focus();
-
   }
-  
-}
+};
 
 function updateAnswers() {
   let answerCounter = parseInt(answer.name);
@@ -162,14 +168,16 @@ function updateAnswers() {
   $("#stimulusCounter").html(parseInt(answer.name) + 1);
   if (answer.name == stimulusCounter) {
     //reset answers
-    // alert("end of set:" + setCounter);
     stimulusCounter = 0;
     answer.name = 0;
-    answerDIV.style.display = "none";
-    startDIV.style.display = "block";
+    
+    start_DIV.style.display = "block";
+    show_DIV.style.display = "none";
+    answer_DIV.style.display = "none";
+
     setCounter++;
     $("#stimulusCounter").html(1);
-    document.getElementById("buttonStart").focus();
+    document.getElementById("start_btn").focus();
   }
 
   //if we have reached the last set in the block?, then increment the block
@@ -178,6 +186,12 @@ function updateAnswers() {
     if ( state.studyConfig.blocks[blockCounter].blockPopUp.length > 1 ) {
       $("#modal-body").html(state.studyConfig.blocks[blockCounter].blockPopUp);
       toggleModal()
+
+      start_DIV.style.display = "block";
+      show_DIV.style.display = "none";
+      answer_DIV.style.display = "none";
+      document.getElementById("start_btn").focus();
+
     }
   
     blockCounter++;
@@ -199,16 +213,16 @@ function updateAnswers() {
 
 
 function saveStudy(){
-  setProperties(stimulus, "+", "white", "black");
-  answerDIV.style.display = "none";
+  setProperties(target, "+", "white", "black");
+  start_DIV.style.display = "none";
+  show_DIV.style.display = "none";
+  answer_DIV.style.display = "none";
 
   //Study is complete return to provider
   state.studyConfig.saveTime = getDate();
 
   //Update Page Form
-  startDIV.style.display = "none";
-  answerDIV.style.display = "none";
-
+  
   //Write Study Result to Server
   var data = JSON.stringify(state, null, 2);
   //console.dir(data);
@@ -287,12 +301,14 @@ function shuffleArray(array) {
 function setProperties(obj, textValue, textColor, textBackGroundColor) {
   //set properties on page
   obj.innerText = textValue;
-  //obj.style.color = textColor;
-  //obj.style.backgroundColor = textBackGroundColor;
-  document.body.style.backgroundColor = textBackGroundColor;
-  document.body.style.color = textColor;
+ 
+  $( ".middle" ).css("background-color", textBackGroundColor);
 
-  //console.log(obj.id + ": " + textValue);
+  
+   // document.body.style.backgroundColor = textBackGroundColor;
+ 
+  $( "outer" ).css("color", textColor);
+  // document.body.style.color = textColor;
 }
 
 
