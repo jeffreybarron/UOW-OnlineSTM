@@ -296,9 +296,10 @@ async function saveState(state) {
 
   try {
     if (typeof state.studyConfig.blocks !== "undefined"){
-      let saveToCSV_wide = await writeCSV_wide (stateFile + "_wide.csv", state);
-      let saveToCSV_wide_grouped = await writeCSV_wide_grouped (stateFile + "_wide_grouped.csv", state);
+      // let saveToCSV_wide = await writeCSV_wide (stateFile + "_wide.csv", state);
+      // let saveToCSV_wide_grouped = await writeCSV_wide_grouped (stateFile + "_wide_grouped.csv", state);
       let saveToCSV_forSQL = await writeCSV_forSQL (stateFile + "_forSQL.csv", state);
+      let saveCSV_medium_grouped = await writeCSV_medium_grouped (stateFile + "_medium_grouped.csv", state);
     }
   } catch (err) {
     // console.log(err);
@@ -529,6 +530,88 @@ function writeCSV_wide_grouped (sURL, data) {
   }); 
 };
 
+function writeCSV_medium_grouped (sURL, data) {
+  return new Promise((resolve, reject) => {  
+    // let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID"];
+    let file = fs.createWriteStream(sURL);
+    let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID","block","set",];
+    let rows = [];
+
+    try {
+      for ( let i = 0; i < data.studyConfig.blocks.length; i++ ){
+        // console.log("new block");
+        for ( let j = 0; j < data.studyConfig.blocks[i].sets.length; j++ ){
+          // console.log("new Set");
+
+          let col = [`${data.studyName}`,`${data.PROLIFIC_PID}`,`${data.STUDY_ID}`,`${data.SESSION_ID}`];
+          let head1 = [];
+          let head2 = [];
+          let head3 = [];
+          let grp0 = [];
+          let grp1 = [];
+          let grp2 = [];
+          let grp3 = [];
+
+          grp0.push(`${i}`);
+          grp0.push(`${j}`);
+
+          for ( let k = 0; k < data.studyConfig.blocks[i].sets[j].stimuli.length; k++ ){
+            //now we move horizontally
+
+            head1.push(`stimulus-${k}`);
+            grp1.push(`${data.studyConfig.blocks[i].sets[j].stimuli[k].stimulus}`);
+
+            head2.push(`response-${k}`);
+            grp2.push(`${data.studyConfig.blocks[i].sets[j].stimuli[k].response}`);
+
+            head3.push(`responseTime-${k}`);
+            grp3.push(`${data.studyConfig.blocks[i].sets[j].stimuli[k].responseTime}`);
+
+          //end stimulus
+          }
+          
+          if (header.length < 7 ){ 
+            header = header.concat(head1, head2, head3); 
+          }; //ie we have never put the stimulus headers in before
+          col = col.concat(grp0,grp1,grp2,grp3);
+          rows.push(col);
+          // console.dir(col);
+
+        //end set
+        }
+
+      //end block
+      }
+
+    } catch (err) {
+        return reject(err);
+    }
+
+    //save csv here
+      
+    /* to strip the [] after stringify use .substring(1,strung.length-1) 
+    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
+    */
+    let sHeaderData = JSON.stringify(header);
+    file.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
+    for ( let n = 0; n < rows.length; n++ ){
+      let sRowData = JSON.stringify(rows[n]); 
+      file.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
+    }
+    file.end();
+    file.close();
+
+    //aysnc callbacks    
+    file.on("finish", () => { 
+      return resolve(true); 
+    }); // not sure why you want to pass a boolean
+    file.on("error", (e) => {
+      return reject(e)
+    }); // don't forget this!
+
+  }); 
+};
+
 function writeCSV_forSQL (sURL, data) {
   return new Promise((resolve, reject) => {  
     let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID","block","refreshRateMS", "set", "stimulusNo", "stimulus","response","responseTime","timeStamp","backGroundColor","textColor"];
@@ -632,93 +715,6 @@ module.exports = app;
 //       response.send(fTemplate);
 //       response.end;
 //     });
-// });
-// app.get("/consent/:studyName", function(request, response, next) {
-//   log.info("GET /consent/:" + request.params.studyName + ", requested", request.ip);
-//   let sURL = __dirname + "/public/resources/studies/" + request.params.studyName + ".json";
-//   //Using Promise with Async\Await
-//   let result = fileExistsAsync(sURL)
-//     .then(resolved => {
-//       log.info("GET /consent/:" + request.params.studyName + ", Successful", request.ip);
-//       response.render("consent", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
-//       response.end;
-//     })
-//     .catch(error => {
-//       let txt = error.message;
-//       log.info("GET /consent/:" + request.params.studyName + ", failed", error.message);
-//       var fTemplate = fs.readFileSync("404.html", "utf8");
-//       response.send(fTemplate);
-//       response.end;
-//     });
-// });
-// app.get("/instructions/:studyName", function(request, response, next) {
-//   log.info("GET /instructions/:" + request.params.studyName + ", requested", request.ip);
-//   let sURL = __dirname + "/public/resources/studies/" + request.params.studyName + ".json";
-//   //Using Promise with Async\Await
-//   let result = fileExistsAsync(sURL)
-//     .then(resolved => {
-//       log.info("GET /instructions/:" + request.params.studyName + ", Successful", request.ip);
-//       if (request.query.checkConsent === "on") {
-//         response.render("instructions", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
-//       } else {
-//         //if consent tickbox is off then redirect back to consent
-//         response.render("consent", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
-//       }
-//       response.end;
-//     })
-//     .catch(error => {
-//       let txt = error.message;
-//       log.info("GET /instructions/:" + request.params.studyName + ", failed", error.message);
-//       var fTemplate = fs.readFileSync("404.html", "utf8");
-//       response.send(fTemplate);
-//       response.end;
-//     });
-// });
-// app.get("/sendCode/:studyName", function(request, response) {
-//   // 	//the purpose of the this route\page is to pass the prolific code to the participant if they have completed
-
-//   //declare file URL's
-//   var resultFileName =
-//     __dirname + "/data/results/" +
-//     request.params.studyName + "_" +
-//     request.query.PROLIFIC_PID + "_" +
-//     request.query.STUDY_ID + "_" +
-//     request.query.SESSION_ID + ".json";
-//   var codeFileName = __dirname + "/data/codes/" + request.params.studyName + "_code.json";
-
-//   try {
-//     var prolificCode = getProlificCode(resultFileName, codeFileName)
-//       .then(jsonGetCode => {
-//         // the study has been saved and the prolific code retrieved
-//         response.render("studycomplete", { rPath: moduleName, qs: jsonGetCode });
-//         log.info(
-//           "GET /sendCode/:" + request.params.studyName + ", passe code to client: " + prolificCode
-//         );
-//         response.end;
-//       })
-//       .catch(error => {
-//         if (error.code === "ENOENT") {
-//           // code file is missing, did you delete it?
-//           log.info(
-//             "GET /sendCode/:" + request.params.studyName + "_code.json does not exist",
-//             request.ip
-//           );
-//           response.render("error", { rPath: moduleName,
-//             err: request.params.studyName + "_code does not exist, contact Researcher."
-//           });
-//           response.end;
-//         } else {
-//           // there is a missing file
-//           log.info("POST /study/duplicate, failed", error.message);
-//           response.render("error", { rPath: moduleName, err: error.message });
-//           response.end;
-//         }
-//       });
-//   } catch (err) {
-//     //unhandled exception.
-//     response.render("error", { rPath: moduleName, err: error.message });
-//     response.end;
-//   }
 // });
 
 //Deprecated Utils

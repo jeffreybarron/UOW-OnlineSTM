@@ -282,23 +282,28 @@ add content to the page based on the state.
   * (5) Add insert stimulus row (low priority) 
 * Create study 
   * (2) Put note on prolific ID, that if using prolific for study you must go get the code now (before saving the study) 
+* Study run-time 
+  * (1) Participant page, not saving participant id and passing to consent etc 
+
+# change-history-2.1.10
+* (1) entry box for 6 showing after modal closure.. need to fix show/hide
+  * added button disabler on modal open to prevent enter key starting next section while modal still open
+* Result 
+  * (1) Wide_grouped 
+    * New row per block and new row per set 
 
 
 #In Progress
 
 
 
-
 # Issues
+* save SQLCSV in one file per study
 * firefox raises error, check email from st
 * Documentation 
-  * (1) List of folders for steve 
+  * (1) List of folders for steve (file structure dependent)
 * Study run-time 
-  * (1) Participant page, not saving participant id and passing to consent etc 
   * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
-* Result 
-  * (1) Wide_grouped 
-    * New row per block and new row per set 
 * File structure 
   * (1) Move code diretory to Public  
   * (1) Move config flow directory elsewhere 
@@ -313,6 +318,7 @@ add content to the page based on the state.
 
 Feature Requests
 ==========================================================
+* save after every set completion
 * add open event for csv writestream
 * change to MIT license???
 * save particpant SQLOutput to combined out for [study, allTime] : Jeff

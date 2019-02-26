@@ -117,12 +117,12 @@ async function loadStudy() {
 
 
 function startQuestions() {
-  myTicker = setInterval(changeQuestion, state.studyConfig.blocks[blockCounter].refreshRateMS);
   
+  myTicker = setInterval(changeQuestion, state.studyConfig.blocks[blockCounter].refreshRateMS);
   start_DIV.style.display = "none";
   show_DIV.style.display = "block";
   answer_DIV.style.display = "none";
-
+  
 };
 
 
@@ -321,22 +321,28 @@ function setProperties(obj, textValue, textColor, textBackGroundColor) {
 *
 */
 var modal = document.getElementById("modal");
-function toggleModal() {
-  modal.style.display = 'flex';
-  $( "#modal-continue" ).focus();
-}
+
 document.getElementById("modal-close").addEventListener("click", event => {
   modalClose()
 });
+window.addEventListener("click", event => {
+  if (event.target === modal) {
+    modalClose();
+  }
+});
+
 function modalClose(){
+  /* needed to add btn disable because you can still press enter key activating the button with the modal open */
+  document.getElementById("submit_btn").disabled = false; 
+  document.getElementById("start_btn").disabled = false;
   modal.style.display = "none";
   $( "#modal-body" ).html("");
   $( "#buttonStart" ).focus();
 }
+function toggleModal() {
+  document.getElementById("submit_btn").disabled = true;
+  document.getElementById("start_btn").disabled = true;
+  modal.style.display = 'flex';
+  // $( "#modal-continue" ).focus();
+}
 
-window.addEventListener("click", event => {
-  if (event.target === modal) {
-    modal.style.display = "none";
-    $("#modal-body").html();
-  }
-});

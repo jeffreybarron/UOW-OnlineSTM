@@ -1,6 +1,6 @@
 {
   "name": "cog-lab",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "UOW Cognition Lab, Web Study Platform",
   "main": "app.js",
   "dependencies": {
