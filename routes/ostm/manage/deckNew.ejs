@@ -5,9 +5,9 @@
 
         <div class="form-group" id="deckNew_DIV" >
           <form id="deckForm" class="form-group row" >
-          <p id="setSizesHelpBlock" class="form-text text-muted">
-            Choose Websafe Color Names or Hex Color Codes from <a target="_blank" href="https://www.w3schools.com/colors/colors_picker.asp">https://www.w3schools.com/colors/colors_picker.asp</a>
-          </p>  
+            <p id="setSizesHelpBlock" class="form-text text-muted">
+              Choose Websafe Color Names or Hex Color Codes from <a target="_blank" href="https://www.w3schools.com/colors/colors_picker.asp">https://www.w3schools.com/colors/colors_picker.asp</a>
+            </p>  
             <p>
               <label for="deckName">Deck Name</label>
               <input type="text" class="form-control" 
@@ -18,15 +18,17 @@
                 Max:24 Characters, A-Z, a-z, 0-9.
               </small>
             </p>
+            <button type="button" class="btn btn-success" onclick="addRow();">Add Row</button>
             <div class="msgResult-error" id="msgResult" style="display:none"></div>
             <div class="stimulusTable">
               <table id="stimuliTable" class="table table-striped">
                 <thead>
                   <tr>
-                    <th>row</th>
+                    <th class="th.sm">row</th>
                     <th>stimulus                      
                     <th>textColor</th>
                     <th>backgroundColor</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -45,11 +47,18 @@
                     <td>
                       <input type="text" class="form-control" id="backgroundColor_0" name="backgroundColor_0" value="black" required>
                     </td>
+                    <td>
+                      <!-- <img class="icons insert" alt="insert" src="/static/iconfinder_table_row_insert_64776.png">
+                      <img class="icons trash" alt="trash" src="/static/trash_can_PNG18444.png"> -->
+                    </td>
                   </tr>
                 </tbody>
               </table>
+              <small>* trash-can image attribution <a href="https://creativecommons.org/licenses/by-nc/4.0/">https://creativecommons.org/licenses/by-nc/4.0/</a>
+              </small><br />
+              <small>** insert image attribution <a href="https://creativecommons.org/licenses/by/3.0/us/">https://https://creativecommons.org/licenses/by/3.0/us/</a>
+              </small>
             </div>
-            <button type="button" class="btn btn-primary" onclick="addRow();">Add Row</button>
             <button type="button" class="btn btn-primary" onclick="createDeck();">Create Deck</button>
           </form>
       </div>

@@ -272,24 +272,27 @@ add content to the page based on the state.
 * delete Jeff's practice.json file
 * update studyCreate default stimulus file to prac3letter12.json
 
+# change-history-2.1.9
+* (1) Fix backgroundcolor, and text color not updating properly on white background, black text
+* Management page 
+  * (1) Make preflight menu item open new tab 
+* (1) Put buttons on top of table to allow multiple quick row creation 
+* Create Decks 
+  * (3) Add delete stimulus rows (medium) 
+  * (5) Add insert stimulus row (low priority) 
+* Create study 
+  * (2) Put note on prolific ID, that if using prolific for study you must go get the code now (before saving the study) 
+
 
 #In Progress
 
 
 
+
 # Issues
-* (1) Fix backgroundcolor, and text color not updating properly on white background, black text
 * firefox raises error, check email from st
-* Management page 
-  * (1) Make preflight menu item open new tab 
 * Documentation 
   * (1) List of folders for steve 
-* Create Decks 
-  * (1) Put buttons on top of table to allow multiple quick row creation 
-  * (3) Add delete stimulus rows (medium) 
-  * (5) Add insert stimulus row (low priority) 
-* Create study 
-  * (2) Put note on prolific ID, that if using prolific for study you must go get the code now (before saving the study) 
 * Study run-time 
   * (1) Participant page, not saving participant id and passing to consent etc 
   * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
@@ -303,6 +306,7 @@ add content to the page based on the state.
       * Study files 
       * Result files 
       * And codesrc 
+* (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
 
  
 

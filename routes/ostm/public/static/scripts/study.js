@@ -144,10 +144,17 @@ function changeQuestion() {
   } else {
     // clear the text area and stop the ticker
     clearInterval(myTicker);
-    setProperties(target, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundcolor);
+ 
     start_DIV.style.display = "none";
+ 
     show_DIV.style.display = "none";
+    setProperties(target, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundColor);
+ 
+    $( ".middle" ).css("background-color", state.studyConfig.studybackgroundColor);
+    $( ".middle" ).css("color", state.studyConfig.studyTextColor);
     answer_DIV.style.display = "block";
+ 
+ 
     answer.focus();
   }
 };
@@ -303,12 +310,8 @@ function setProperties(obj, textValue, textColor, textBackGroundColor) {
   obj.innerText = textValue;
  
   $( ".middle" ).css("background-color", textBackGroundColor);
-
+  $( ".middle" ).css("color", textColor);
   
-   // document.body.style.backgroundColor = textBackGroundColor;
- 
-  $( "outer" ).css("color", textColor);
-  // document.body.style.color = textColor;
 }
 
 

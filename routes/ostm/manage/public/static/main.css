@@ -1,4 +1,4 @@
-/* BootStrap Stying
+/* BootStrap Stying /ostm/manage/static/main.css
 -------------------------------------------------- */
 html {
   position: relative;
@@ -116,7 +116,7 @@ body {
 }
 
 .stimulusTable {
-  padding: 2em;
+  padding: 1em;
   border-radius: 15px;
   border: 2px solid #003666;
   background-color: #e6f3ff;
@@ -124,6 +124,10 @@ body {
 
 .stimulusTable table{
   border: 1px solid #003666;
+}
+
+.stimulusTable td {
+  padding:2px;
 }
 
 .msgResult-error {
@@ -166,6 +170,14 @@ body {
     padding: .2em;
 }
 
+.icons {
+  /* position: relative; */
+  height:2em;
+  width:2em;
+  left:0;
+  top:0;
+  margin:2px;
+}
 /* * { border: 1px solid black; } */
 
 

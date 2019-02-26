@@ -5,6 +5,8 @@ var msgResult = document.getElementById("msgResult");
 let iRowCount = 1;
 
 function addRow(){
+
+  let n = stimuliTable.rows.length - 1;
   let lastRow = stimuliTable.rows[ stimuliTable.rows.length - 1 ];
   let lastTextColor = lastRow.getElementsByClassName("form-control")[2].value
   let lastbackgroundColor = lastRow.getElementsByClassName("form-control")[3].value
@@ -14,16 +16,19 @@ function addRow(){
   let stimuli = newRow.insertCell(1);
   let textColor = newRow.insertCell(2);
   let bgColor = newRow.insertCell(3);
+  let del = newRow.insertCell(4);
 
-  iRow.innerHTML='<input type="text" class="form-control" id="row_' + iRowCount + 
-    '" name="row_' + iRowCount + '" value=' + iRowCount + ' readonly>';
-  stimuli.innerHTML='<input type="text" class="form-control" id="stimulus_' + iRowCount + 
-    '" name="stimulus_' + iRowCount + '" required>';
-  textColor.innerHTML='<input type="text" class="form-control" id="textColor_' + iRowCount + 
-    '" name="textColor_' + iRowCount + '" value="' + lastTextColor + '" required>';
-  bgColor.innerHTML='<input type="text" class="form-control" id="backgroundColor_' + iRowCount + 
-    '" name="backgroundColor_' + iRowCount + '" value="' + lastbackgroundColor + '" required>';
-  
+  iRow.innerHTML=`
+    <input type="text" class="form-control" id="row_${n}" name="row_${n}" value="${n}" readonly>`;
+  stimuli.innerHTML=`
+    <input type="text" class="form-control" id="stimulus_${n}" name="stimulus_${n}" required>`;
+  textColor.innerHTML=`
+    <input type="text" class="form-control" id="textColor_${n}" name="textColor_${n}" value="${lastTextColor}" required>`;
+    bgColor.innerHTML=`<input type="text" class="form-control" id="backgroundColor_${n}" name="backgroundColor_${n}" value="${lastbackgroundColor}" required>`;
+  del.innerHTML = `
+    <img class="icons insert" alt="insert" src="/static/iconfinder_table_row_insert_64776.png">
+    <img class="icons trash" alt="trash-can" src="/static/trash_can_PNG18444.png">`;
+
   iRowCount++;
 
 }
@@ -84,3 +89,39 @@ function tableToJson(table) {
   } 
   return data; 
 }
+
+$(document).on('click', 'img.trash', function () {
+  
+    $(this).closest('tr').remove();
+    Array.prototype.forEach.call(document.querySelectorAll('td:first-child'), function (elem, idx) {
+        elem.innerHTML = `<input type="text" class="form-control" id="row_${idx}" name="row_${idx}" value="${idx}" readonly>`;
+    });
+
+});
+
+$(document).on('click', 'img.insert', function () {
+  
+  let n = $(this).closest('tr')[0].rowIndex;
+  
+  let lastRow = stimuliTable.rows[ n ];
+
+  let lastTextColor = lastRow.getElementsByClassName("form-control")[2].value
+  let lastbackgroundColor = lastRow.getElementsByClassName("form-control")[3].value
+    
+  let sNewRow = `
+    <tr>
+      <td><input type="text" class="form-control" id="row_${n}" name="row_${n}" value="${n}" readonly></td> 
+      <td><input type="text" class="form-control" id="stimulus_${n}" name="stimulus_${n}" required></td> 
+      <td><input type="text" class="form-control" id="textColor_${n}" name="textColor_${n}" value="${lastTextColor}" required></td>
+      <td><input type="text" class="form-control" id="backgroundColor_${n}" name="backgroundColor_${n}" value="${lastbackgroundColor}" required></td>
+      <td><img class="icons insert" alt="insert" src="/static/iconfinder_table_row_insert_64776.png"><img class="icons trash" alt="trash-can" src="/static/trash_can_PNG18444.png"></td>
+    </tr>`
+
+  $(this).closest('tr').before(sNewRow);
+
+
+    Array.prototype.forEach.call(document.querySelectorAll('td:first-child'), function (elem, idx) {
+        elem.innerHTML = `<input type="text" class="form-control" id="row_${idx}" name="row_${idx}" value="${idx}" readonly>`;
+    });
+
+});
