@@ -46,7 +46,6 @@ $( document ).ready(function() {
 
 
 $( "#accept" ).on( "click", function() {
-  event.stopPropagation();
   //participant has rejected the study for some reason, pass them back to prolific without a completion code
   window.location.replace(state.flow.views[state.getView].pageRedirect);
 

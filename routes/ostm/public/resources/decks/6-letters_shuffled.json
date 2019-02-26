@@ -1,0 +1,787 @@
+[
+  {
+    "stimulus": "office",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "second",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "orange",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "threat",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "report",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "except",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "person",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "people",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "prison",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "hungry",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "travel",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "return",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "clever",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "narrow",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "repeat",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "silver",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "really",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "wonder",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "little",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "record",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "invent",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pocket",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "modern",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "decide",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "afraid",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "ground",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "sudden",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bright",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "window",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "prince",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "double",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "weight",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "friend",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "female",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "number",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "heaven",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "better",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "cloudy",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "should",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "forest",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "circle",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "arrive",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "famous",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "potato",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "length",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "strong",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "lately",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "before",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "search",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "minute",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "autumn",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pepper",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "either",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "always",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "finger",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "member",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "remind",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "stupid",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "period",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "please",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "notice",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "freeze",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "across",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "enough",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "simple",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bottle",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bottom",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "middle",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "polite",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "coffee",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "inside",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "signal",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "hammer",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "nearly",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "rubber",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "expect",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "poison",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "result",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "object",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "basket",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "lonely",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "punish",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "around",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "matter",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "method",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "dinner",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "spring",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "plenty",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "attack",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "effect",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "common",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "remove",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "nature",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "course",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "choice",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "single",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "invite",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "appear",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "police",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "anyone",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "needle",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "monkey",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "repair",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "sister",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "square",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "letter",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "copper",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "petrol",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "lesson",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "behave",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pencil",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "market",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "borrow",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "colour",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "active",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "choose",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "change",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "moment",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "future",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "winter",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "parent",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "nation",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "proper",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "father",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "candle",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "chance",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "garden",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "corner",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "family",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "border",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "island",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "behind",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "flower",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "useful",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "escape",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "amount",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "street",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "tennis",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "listen",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "shadow",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "answer",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "school",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "finish",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "mother",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "depend",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "spread",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "forget",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "cheese",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "happen",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "though",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "summer",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bridge",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "public",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pretty",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "branch",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "ladder",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "height",
+    "textColor": "white",
+    "backGroundColor": "black"
+  }
+]

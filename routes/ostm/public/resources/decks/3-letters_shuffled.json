@@ -1,0 +1,612 @@
+[
+  {
+    "stimulus": "she",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "dry",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "use",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "nor",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "hot",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "day",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "new",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "yet",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "car",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "art",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "hat",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "act",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "sad",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "try",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "leg",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "cat",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "was",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "win",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pan",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "may",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "cry",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "cut",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "net",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "can",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "ice",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "why",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "gun",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "sun",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "and",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "tie",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "fit",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "his",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "him",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "the",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "far",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "how",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "all",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "lot",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "its",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "ask",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "six",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "you",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pig",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "boy",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "let",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "fat",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "box",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "fox",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "for",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "too",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bag",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bed",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "dog",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "egg",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "age",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "now",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "son",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bit",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "zoo",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "job",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "not",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "top",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "tea",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "few",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "any",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "run",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "hen",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pay",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "big",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "old",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "sex",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "our",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "eye",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "add",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "god",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "per",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "who",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bus",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "own",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "hit",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pin",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "pen",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "toe",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "eat",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "but",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "ear",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "map",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "fly",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "her",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "bad",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "low",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "out",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "are",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "arm",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "way",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "key",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "lip",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "fun",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "off",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "cap",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "cup",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "put",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "say",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "sit",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "sky",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "ten",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "rob",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "ago",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "lie",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "fix",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "buy",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "mix",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "man",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "end",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "red",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "get",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "one",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "die",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "air",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "see",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "oil",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "wet",
+    "textColor": "white",
+    "backGroundColor": "black"
+  }
+]

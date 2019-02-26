@@ -262,10 +262,49 @@ add content to the page based on the state.
 # Release Version 2.1.7-master
 * merge conflicts resolved in master
 
+# change-history-2.1.8
+* update createDeck, swapped background colour and text defaults
+* Added tool to shuffle stimulus files (decks), creating a new file_shuffled.json
+  * /utils/shuffleDecks.js
+* ran /utils/shuffleDecks.js creatin the new shuffled stimulus files.
+* changed naming pattern of this version file, as changing name according to branch was a bit problematic
+* removed stop eventpropogation code from each of the event blocks in \routes\ostm\public\static\sripts
+* delete Jeff's practice.json file
+* update studyCreate default stimulus file to prac3letter12.json
 
 
-## In progress
-None
+#In Progress
+
+
+
+# Issues
+* (1) Fix backgroundcolor, and text color not updating properly on white background, black text
+* firefox raises error, check email from st
+* Management page 
+  * (1) Make preflight menu item open new tab 
+* Documentation 
+  * (1) List of folders for steve 
+* Create Decks 
+  * (1) Put buttons on top of table to allow multiple quick row creation 
+  * (3) Add delete stimulus rows (medium) 
+  * (5) Add insert stimulus row (low priority) 
+* Create study 
+  * (2) Put note on prolific ID, that if using prolific for study you must go get the code now (before saving the study) 
+* Study run-time 
+  * (1) Participant page, not saving participant id and passing to consent etc 
+  * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
+* Result 
+  * (1) Wide_grouped 
+    * New row per block and new row per set 
+* File structure 
+  * (1) Move code diretory to Public  
+  * (1) Move config flow directory elsewhere 
+    * Ie we are keeping concerns isolated 
+      * Study files 
+      * Result files 
+      * And codesrc 
+
+ 
 
 
 Feature Requests

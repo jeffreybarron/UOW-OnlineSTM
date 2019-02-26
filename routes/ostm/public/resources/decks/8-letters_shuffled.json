@@ -1,0 +1,192 @@
+[
+  {
+    "stimulus": "position",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "friendly",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "question",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "business",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "remember",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "suitable",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "sentence",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "terrible",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "decrease",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "entrance",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "anything",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "mountain",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "opposite",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "medicine",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "probably",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "football",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "complete",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "scissors",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "children",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "everyone",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "activity",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "careless",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "computer",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "possible",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "surprise",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "elephant",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "increase",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "tomorrow",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "continue",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "exercise",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "cupboard",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "daughter",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "shoulder",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "electric",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "together",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "discover",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "birthday",
+    "textColor": "white",
+    "backGroundColor": "black"
+  },
+  {
+    "stimulus": "hospital",
+    "textColor": "white",
+    "backGroundColor": "black"
+  }
+]

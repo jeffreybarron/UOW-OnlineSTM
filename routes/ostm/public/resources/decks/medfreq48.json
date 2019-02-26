@@ -1,0 +1,290 @@
+[
+  {
+    "row": "0",
+    "stimulus": "chest",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "1",
+    "stimulus": "blind",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "2",
+    "stimulus": "stick",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "3",
+    "stimulus": "guest",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "4",
+    "stimulus": "chain",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "5",
+    "stimulus": "beer",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "6",
+    "stimulus": "steel",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "7",
+    "stimulus": "sight",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "8",
+    "stimulus": "breath",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "9",
+    "stimulus": "route",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "10",
+    "stimulus": "iron",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "11",
+    "stimulus": "plane",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "12",
+    "stimulus": "coast",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "13",
+    "stimulus": "storm",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "14",
+    "stimulus": "post",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "15",
+    "stimulus": "moon",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "16",
+    "stimulus": "match",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "17",
+    "stimulus": "dust",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "18",
+    "stimulus": "cream",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "19",
+    "stimulus": "card",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "20",
+    "stimulus": "loan",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "21",
+    "stimulus": "search",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "22",
+    "stimulus": "split",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "23",
+    "stimulus": "cash",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "24",
+    "stimulus": "mark",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "25",
+    "stimulus": "hunt",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "26",
+    "stimulus": "cross",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "27",
+    "stimulus": "prize",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "28",
+    "stimulus": "park",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "29",
+    "stimulus": "tail",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "30",
+    "stimulus": "beach",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "31",
+    "stimulus": "salt",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "32",
+    "stimulus": "boss",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "33",
+    "stimulus": "goal",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "34",
+    "stimulus": "rough",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "35",
+    "stimulus": "suit",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "36",
+    "stimulus": "pool",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "37",
+    "stimulus": "roof",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "38",
+    "stimulus": "block",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "39",
+    "stimulus": "shock",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "40",
+    "stimulus": "ship",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "41",
+    "stimulus": "page",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "42",
+    "stimulus": "belt",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "43",
+    "stimulus": "crowd",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "44",
+    "stimulus": "jack",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "45",
+    "stimulus": "smoke",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "46",
+    "stimulus": "drug",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "47",
+    "stimulus": "judge",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  }
+]

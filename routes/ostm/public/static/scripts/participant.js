@@ -7,7 +7,6 @@ $( document ).ready(function() {
 });
 
 $( "#accept" ).on( "click", function() {
-  event.stopPropagation();
   //Participant has accepted the studyName and PROLIFIC_PID, increment view state and update page
   state.flow.views[state.getView].response = "accept";
   state.flow.views[state.getView].responseTime = getDate();
@@ -15,7 +14,6 @@ $( "#accept" ).on( "click", function() {
 });
 
 $( "#reject" ).on( "click", function() {
-  event.stopPropagation();
   //participant has rejected the study for some reason, pass them back to prolific without a completion code
   state.flow.views[state.getView].response = "reject";
   state.flow.views[state.getView].responseTime = getDate();

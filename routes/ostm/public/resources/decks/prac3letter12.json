@@ -1,0 +1,74 @@
+[
+  {
+    "row": "0",
+    "stimulus": "bin",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "1",
+    "stimulus": "dog",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "2",
+    "stimulus": "egg",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "3",
+    "stimulus": "sip",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "4",
+    "stimulus": "toe",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "5",
+    "stimulus": "sun",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "6",
+    "stimulus": "gas",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "7",
+    "stimulus": "art",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "8",
+    "stimulus": "can",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "9",
+    "stimulus": "hat",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "10",
+    "stimulus": "jam",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "11",
+    "stimulus": "lad",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  }
+]
