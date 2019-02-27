@@ -19,8 +19,8 @@ app.use("/static/layouts", express.static(__dirname + "/public/static"));
 app.use("/static/views", express.static(__dirname + "/public/static"));
 app.use("/static/styles", express.static(__dirname + "/public/static"));
 app.use("/static/scripts", express.static(__dirname + "/public/static"));
-app.use("/resources/studies", express.static(__dirname + "/public/resources/studies"));
-// app.use("/resources/decks", express.static(__dirname + "/public/resources/decks"));
+app.use("/resources/studies", express.static(__dirname + "/data/resources/studies"));
+// app.use("/resources/decks", express.static(__dirname + "/data/resources/decks"));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(sanitizer());
 
@@ -58,10 +58,7 @@ const log = bunyan.createLogger({
 */
 app.get("/", function(request, response) {
   log.info("GET /participant/:" + request.params.studyName + ", requested", request.ip);
-  let sURL = appRoot + "/public/resources/studies/" + request.params.studyName + ".json";
-
   response.render('index',{ rPath: moduleName });
-  
 });
 app.get("/study", function(request, response) {
 
@@ -144,7 +141,7 @@ app.post("/API/flow", function(request, response) {
 });
 async function loadFlow(state){
 
-  let jFlow = await readFile( modulePath_Private + "/data/config/stateflow.json" ); 
+  let jFlow = await readFile( modulePath_Private + "/configuration/stateflow.json" ); 
   state.flow = JSON.parse(jFlow); 
   state.flow.initialised = getDate();
   let result = saveState(state);
@@ -322,7 +319,7 @@ app.post("/API/issuecode", function(request, response) {
     state.PROLIFIC_PID + "_" +
     state.STUDY_ID + "_" +
     state.SESSION_ID + ".json";
-  var codeFileName = __dirname + "/public/resources/codes/" + state.studyName + "_code.json";
+  var codeFileName = __dirname + "/data/resources/codes/" + state.studyName + "_code.json";
 
   try {
 

@@ -14,7 +14,7 @@ const bunyan = require("bunyan");
 const util = require("util");
 
 const mUtils = require(appRoot + "/utils/mUtils.js");
-const ostmPublic = appRoot + '/routes/' + moduleRoot + '/public'
+const ostmPublic = appRoot + '/routes/' + moduleRoot + '/data'
 
 app.use("/static", express.static(__dirname + '/public/static'));
 app.use("/resources/studies", express.static(ostmPublic + '/resources/studies'));
@@ -260,21 +260,24 @@ app.post("/study/create", function(request, response) {
   oStudyConfig["consentCopy"] = request.sanitize(oStudyConfig["consentCopy"]);
   oStudyConfig["instructionCopy"] = request.sanitize(oStudyConfig["instructionCopy"]);
   oStudyConfig["completionCode"] = request.sanitize(oStudyConfig["completionCode"]);
-  log.info(errLocation + ", log: 5, Sanitized");
+  log.info(errLocation + ", log: 3, Sanitized");
   
   try {
     var result = createStudy(request.body.studyName, request.body.completionCode, oStudyConfig)
       .then(resolved => {
-        log.info(errLocation + ", log: 6, Success", resolved);
+        log.info(errLocation + ", log: 4, Success", resolved);
         response.status(201).end();
       })
       .catch(err => {
-        if (err.message == "This file already exists!") {
-          log.info(errLocation + ", log: 7, This file already exists!");
-          response.status(409).end();
+        if ( err.message.includes("The sum of sets in block") ){
+          log.info(errLocation + ", log: 5, This file already exists!");
+          response.status(403).send(err.message);
+        } else if (err.message == "This file already exists!") {
+          log.info(errLocation + ", log: 6, This file already exists!");
+          response.status(409).send(err.message);
         } else {
-          log.info(errLocation + ", log: 8, Server Error (500)");
-          response.status(500).send(err);
+          log.info(errLocation + ", log: 7, Server Error (500)");
+          response.status(500).send(err.message);
         }
       });
   } catch (error) {
@@ -300,30 +303,8 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   log.info(errLocation + ", log: 2");
   //AWAIT --> write codeFile
 
-  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' +
-    completionCode + '","completionCode":"' +
-    completionCode + '"}';
-  let jCompletionFile = JSON.parse(sCompletionFile);
-  log.info(errLocation + ", log: 3");
-  let codeFile = await writeJSON(sURL + "/resources/codes/" + studyName + "_code.json", jCompletionFile);
-  delete oStudyConfig["completionCode"];
-
-  //AWAIT --> write consentFile
-  log.info(errLocation + ", log: 4");
-  let consentFile = await writeFile(ostmPublic + "/resources/studies/" + oStudyConfig.studyName + "_consent.html",
-    oStudyConfig["consentCopy"]
-  );
-  delete oStudyConfig["consentCopy"];
-
-  //AWAIT --> write instructionFile
-  log.info(errLocation + ", log: 5");
-  let instructionFile = await writeFile(ostmPublic + "/resources/studies/" +  oStudyConfig.studyName + "_instructions.html",
-    oStudyConfig["instructionCopy"]
-  );
-  delete oStudyConfig["instructionCopy"];
-
   //AWAIT --> loadsets according to deckConfiguration Rules
-  log.info(errLocation + ", log: 5");
+  log.info(errLocation + ", log: 3");
   for (let i = 0; i < oStudyConfig.blocks.length; i++) {
     /*--------------------------------------------------------------
     * load the block stimulus file, create and fill the sets of each block
@@ -332,6 +313,16 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
     let fileURL = ostmPublic + "/resources/decks/" + block.stimulusFile;
     let stimulusFile = await getFile(fileURL);
     stimulusFile = JSON.parse(stimulusFile);
+    
+    //check if stimulus file length is big enough for the sum of sets
+    let fileLength = stimulusFile.length;
+    let sumSets = block.setSizes.reduce(function (accumulator, currentValue) {
+      return accumulator + currentValue;
+    }, 0);
+    if (sumSets > fileLength) { 
+      await Promise.reject(new Error(`The sum of sets in block ${i} is larger than the file array, try again.`));
+    };
+    
     block["sets"] = [];
     for (let iSetNumber = 0; iSetNumber < block.setSizes.length; iSetNumber++) {
       block.sets.push(JSON.parse('{"set":"' + iSetNumber + '"}'))
@@ -351,9 +342,32 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
     };
   };
 
-  // //AWAIT --> write configfile
-  log.info(errLocation + ", log: 6");
+  //AWAIT --> write configfile
+  log.info(errLocation + ", log: 3");
   let configFile = await writeJSON(ostmPublic + "/resources/studies/" + oStudyConfig.studyName + ".json", oStudyConfig);
+
+  //AWAIT --> creation of completion code file
+  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' +
+    completionCode + '","completionCode":"' +
+    completionCode + '"}';
+  let jCompletionFile = JSON.parse(sCompletionFile);
+  log.info(errLocation + ", log: 4");
+  let codeFile = await writeJSON(sURL + "/resources/codes/" + studyName + "_code.json", jCompletionFile);
+  delete oStudyConfig["completionCode"];
+
+  //AWAIT --> write consentFile
+  log.info(errLocation + ", log: 5");
+  let consentFile = await writeFile(ostmPublic + "/resources/studies/" + oStudyConfig.studyName + "_consent.html",
+    oStudyConfig["consentCopy"]
+  );
+  delete oStudyConfig["consentCopy"];
+
+  //AWAIT --> write instructionFile
+  log.info(errLocation + ", log: 6");
+  let instructionFile = await writeFile(ostmPublic + "/resources/studies/" +  oStudyConfig.studyName + "_instructions.html",
+    oStudyConfig["instructionCopy"]
+  );
+  delete oStudyConfig["instructionCopy"];
 
   log.info(errLocation + ", log: 7");
   return [studyNotExists, codeFile, instructionFile, configFile];

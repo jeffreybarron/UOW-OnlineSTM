@@ -118,12 +118,12 @@ $(document).ready(function(){
         msgResult.className = "msgResult-success";
       });
       request.fail(function( jqXHR, textStatus ) {
-        if (jqXHR.responseJSON.code === "EEXIST"){
+        if (jqXHR.responseText === "This file already exists!"){
           msgResult.innerHTML = '<p><em>Study Creation Failed:</em> ' + 
             'You have tried to use a studyName that is already in use, try a different studyName.' + '<br />';
         } else {
           msgResult.innerHTML = '<p><em>Study Creation Failed:</em> ' + 
-            textStatus + '<br />';
+            jqXHR.responseText + '<br />';
         }
         msgResult.style.display = "block";
         msgResult.className = "msgResult-error";

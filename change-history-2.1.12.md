@@ -296,26 +296,36 @@ add content to the page based on the state.
 * File structure 
   * (1) Move code directory to Public  
 
-#In Progress
-
-
-
-# Issues
-* save SQLCSV in one file per study
-* firefox raises error, check email from st
-* Documentation 
-  * (1) List of folders for steve (file structure dependent)
-* Study run-time 
-  * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
+# change-history-2.1.12
+* firefox raises error, check email from st - Unable to Re-produce?
 * File structure 
   * (1) Move config flow directory elsewhere 
     * Ie we are keeping concerns isolated 
       * Study files 
       * Result files 
       * And codesrc 
-* (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
-* (jeff) make redirect timer configurable, > 600000 = Disabled 
 
+
+#In Progress
+
+
+
+# Issues
+
+* Documentation 
+  * (1) List of folders for steve (file structure dependent)
+* Study run-time 
+  * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
+* (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
+
+* Code File (jeff)
+  * add redirect timer configuration, > 600000 = Disabled
+  * add redirect path and redirect timer to studyCreate page
+* Completion Page
+  * configure redirect path and timer from code file.
+* study Create
+  * sets cannot exceed stimuli in file
+* save SQLCSV in one file per study
  
 
 

@@ -83,7 +83,8 @@ function tableToJson(table) {
   // go through cells 
   for (var i = 1; i < table.rows.length; i++) { 
     var tableRow = table.rows[i]; var rowData = {}; 
-    for (var j = 0; j < tableRow.cells.length; j++) { 
+    //we look at all cells except the last one where our buttons are.
+    for (var j = 0; j < tableRow.cells.length - 1; j++) { 
       rowData[ headers[j] ] = tableRow.cells[j].children[0].value; 
     } data.push(rowData); 
   } 

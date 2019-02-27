@@ -8,7 +8,7 @@
 */
 
 const fs = require("fs");
-const sPath = "/Users/jeffbarron/dev/client/uow/OnlineSTM/bin/current/routes/ostm/public/resources/decks";
+const sPath = "/Users/jeffbarron/dev/client/uow/OnlineSTM/bin/current/routes/ostm/data/resources/decks";
 const decks = ["2-letters","3-letters","4-letters","4-letters","6-letters","7-letters","8-letters","9-letters","10-letters","11-letters"];
 
 
