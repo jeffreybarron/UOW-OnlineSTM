@@ -2,6 +2,9 @@
 
 //note here I've chosen to use vanilla JS, beause I can pass the whole element when needed, such as when checking for blanks
 var studyName = document.getElementById("studyName");
+var completionCode = document.getElementById("completionCode");
+var redirectTimer = document.getElementById("redirectTimer");
+var completionURL = document.getElementById("completionURL");
 var studybackgroundColor = document.getElementById("studybackgroundColor");
 var studyTextColor = document.getElementById("studyTextColor");
 var shuffleBlocks = document.getElementById("shuffleDecks");
@@ -77,7 +80,9 @@ $(document).ready(function(){
       $( "input[type=radio][name=shuffleBlocks]:checked" ).val();
       
       oStudyConfig["studyName"] = rejectBlanks(studyName);
-      oStudyConfig["completionCode"] = rejectBlanks(completionCode);
+      oStudyConfig["completionCode"] = completionCode.value; //rejectBlanks(completionCode);
+      oStudyConfig["redirectTimer"] = redirectTimer.value; //rejectBlanks(redirectTimer);
+      oStudyConfig["completionURL"] = completionURL.value; //rejectBlanks(completionURL);
       oStudyConfig["studybackgroundColor"] = rejectBlanks(studybackgroundColor);
       oStudyConfig["studyTextColor"] = rejectBlanks(studyTextColor);
       oStudyConfig["consentCopy"] = rejectBlanks(consentCopy);

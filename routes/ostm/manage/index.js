@@ -260,6 +260,10 @@ app.post("/study/create", function(request, response) {
   oStudyConfig["consentCopy"] = request.sanitize(oStudyConfig["consentCopy"]);
   oStudyConfig["instructionCopy"] = request.sanitize(oStudyConfig["instructionCopy"]);
   oStudyConfig["completionCode"] = request.sanitize(oStudyConfig["completionCode"]);
+  oStudyConfig["redirectTimer"] = request.sanitize(oStudyConfig["redirectTimer"]);
+  oStudyConfig["completionURL"] = request.sanitize(oStudyConfig["completionURL"]);
+
+
   log.info(errLocation + ", log: 3, Sanitized");
   
   try {
@@ -347,13 +351,18 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   let configFile = await writeJSON(ostmPublic + "/resources/studies/" + oStudyConfig.studyName + ".json", oStudyConfig);
 
   //AWAIT --> creation of completion code file
-  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' +
-    completionCode + '","completionCode":"' +
-    completionCode + '"}';
-  let jCompletionFile = JSON.parse(sCompletionFile);
+  let sCompletionFile = await createCompletionFile(
+    oStudyConfig.completionCode,
+    oStudyConfig.redirectTimer,
+    oStudyConfig.completionURL
+    )
+  
+  //let jCompletionFile = JSON.parse(sCompletionFile);
   log.info(errLocation + ", log: 4");
-  let codeFile = await writeJSON(sURL + "/resources/codes/" + studyName + "_code.json", jCompletionFile);
+  let codeFile = await writeJSON(sURL + "/resources/codes/" + studyName + "_code.json", sCompletionFile);
   delete oStudyConfig["completionCode"];
+  delete oStudyConfig["redirectTimer"];
+  delete oStudyConfig["completionURL"];
 
   //AWAIT --> write consentFile
   log.info(errLocation + ", log: 5");
@@ -373,6 +382,20 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   return [studyNotExists, codeFile, instructionFile, configFile];
 
 };
+
+function createCompletionFile (code = mUtils.getGUID(),delay = "10000", url = "/ostm/launch") {
+
+  let strFile = {};
+  strFile.completionCode = code;
+  strFile.completionURL = url;
+  strFile.redirectTimer = delay;
+
+  return strFile;
+
+//  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' +
+//     completionCode + '","completionCode":"' +
+//     completionCode + '"}';
+}
 
 app.get("/study/duplicate", function(request, response) {
   var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/study/duplicate ";

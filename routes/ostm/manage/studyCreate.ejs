@@ -12,7 +12,7 @@
             pattern="^([0-9]{8}[-]{1}[a-zA-Z0-9]{1,6}[-]{1}[a-zA-Z0-9]{1,12}[0-9]{1,2})"
             required>
           <small id="setSizesHelpBlock" class="form-text text-muted">
-            Max:24 Characters, A-Z, a-z, 0-9, '-'' symbol only.
+            REQUIRED: Max 24 Characters, A-Z, a-z, 0-9, '-'' symbol only.
             <br />syntax:[YYYY][MM][DD]-[&lt;6:userID]-[&lt;12:Desc][2:sequence]
           </small>
         </div>
@@ -23,9 +23,31 @@
             id="completionCode" name="completionCode"
             required>
           <small id="setSizesHelpBlock" class="form-text text-muted">
-            Prolific Completion Code <em>must</em> be entered before saving study.
+            <p>Prolific Completion Code</p>
           </small>
-        </div>        
+        </div>
+        <div class="form-group" title="redirectTimer">
+          <label for="redirectTimer">redirectTimer (Milliseconds)</label>
+          <input
+            type="text" class="form-control"
+            id="redirectTimer" name="redirectTimer"
+            required>
+          <small id="setSizesHelpBlock" class="form-text text-muted">
+            <p>Redirect Timer, sets the wait time before auto redirect at conclusion of study</p>
+            <p>A value exceeding 60,000 milliseconds (10 minutes) will disable redirect.</p>
+          </small>
+        </div>                 
+        <div class="form-group" title="completionURL">
+          <label for="completionURL">completionURL</label>
+          <input
+            type="text" class="form-control"
+            id="completionURL" name="completionURL"
+            required value="https://app.prolific.ac/submissions/complete?cc=(APPEND completionCode)">
+          <small id="setSizesHelpBlock" class="form-text text-muted">
+            <p>e.g. https://app.prolific.ac/submissions/complete?cc=</p>
+            <p>Prolific Completion URL: At the end of the study, participants will be issued the completionCode above, the redirectTimer will fire an event to automatically redirect the particpants browser away from the site to this URL</p>
+          </small>
+        </div>         
         <div class="form-group" title="studybackgroundColor">
             <label for="studybackgroundColor">Starting backgroundColor</label>
             <select class="form-control" id="studybackgroundColor" name="studybackgroundColor" value="">
@@ -363,7 +385,7 @@
                   </select>
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="setSizes" value="6,6,7" required>
+                  <input type="text" class="form-control" name="setSizes" value="2,2" required>
                 </td>
                 <td>
                   <input type="text" class="form-control" name="refreshRateMS" value="1000" required>

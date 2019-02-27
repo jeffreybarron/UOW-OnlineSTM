@@ -206,7 +206,7 @@ function updateAnswers() {
   }
 
   //set focus on answer input box
-  document.getElementById("answer").focus();
+  // document.getElementById("answer").focus();
 
   //if we have also reached the last stimulus bank then stop
   if (blockCounter >= state.studyConfig.blocks.length) {

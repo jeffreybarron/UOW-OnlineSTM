@@ -303,28 +303,30 @@ add content to the page based on the state.
     * Ie we are keeping concerns isolated 
       * Study files 
       * Result files 
-      * And codesrc 
+      * And codesrc
 
-
-#In Progress
-
-
-
-# Issues
-
-* Documentation 
-  * (1) List of folders for steve (file structure dependent)
-* Study run-time 
-  * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
-* (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
-
+# change-history-2.1.13
+* Added better error checking for studyCreate, when sum setSizes > file.length
+* study Create
+  * sets cannot exceed stimuli in file
 * Code File (jeff)
   * add redirect timer configuration, > 600000 = Disabled
   * add redirect path and redirect timer to studyCreate page
 * Completion Page
   * configure redirect path and timer from code file.
-* study Create
-  * sets cannot exceed stimuli in file
+
+
+#In Progress
+
+
+Known ISSUES
+==========================================================
+* last block modal popup doesnt wait.
+* Documentation 
+  * (1) List of folders for steve (file structure dependent)
+* Study run-time 
+  * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
+* (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
 * save SQLCSV in one file per study
  
 
@@ -363,8 +365,4 @@ C | 2,3,1
 * add deck analysis? use R!
   * See bin/CSV Output Template.xlsx
 
-
-Known ISSUES
-==========================================================
-* 
 

@@ -17,16 +17,19 @@ $( document ).ready(function() {
         
         console.dir(response);
         $("#prolificCode").html(response.completionCode);
+        
         state.completionCode = response.completionCode;
+        state.completionURL = response.completionURL;
+        state.redirectTimer = response.redirectTimer;
         state.flow.views[state.getView].pageRedirect = response.completionURL;
         state.rendered = getDate();
+        
         saveState();
-        
-        
-        let myTicker = setInterval(() => {
-          window.location.replace(state.flow.views[state.getView].pageRedirect)
-        }, 30000);
-
+        if ( response.redirectTimer <= "600000" ) {
+          let myTicker = setInterval(() => {
+            window.location.href = state.flow.views[state.getView].pageRedirect;
+          }, parseInt(response.redirectTimer));
+        }
         //stick timer event here
 
       },
