@@ -21,6 +21,8 @@ $( document ).ready(function() {
         state.flow.views[state.getView].pageRedirect = response.completionURL;
         state.rendered = getDate();
         saveState();
+        
+        
         let myTicker = setInterval(() => {
           window.location.replace(state.flow.views[state.getView].pageRedirect)
         }, 30000);

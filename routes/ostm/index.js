@@ -20,7 +20,7 @@ app.use("/static/views", express.static(__dirname + "/public/static"));
 app.use("/static/styles", express.static(__dirname + "/public/static"));
 app.use("/static/scripts", express.static(__dirname + "/public/static"));
 app.use("/resources/studies", express.static(__dirname + "/public/resources/studies"));
-app.use("/resources/decks", express.static(__dirname + "/public/resources/decks"));
+// app.use("/resources/decks", express.static(__dirname + "/public/resources/decks"));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(sanitizer());
 
@@ -322,7 +322,7 @@ app.post("/API/issuecode", function(request, response) {
     state.PROLIFIC_PID + "_" +
     state.STUDY_ID + "_" +
     state.SESSION_ID + ".json";
-  var codeFileName = __dirname + "/data/codes/" + state.studyName + "_code.json";
+  var codeFileName = __dirname + "/public/resources/codes/" + state.studyName + "_code.json";
 
   try {
 
@@ -403,7 +403,6 @@ function writeJSON(sURL, data) {
     });
   });
 };
-
 function writeCSV_wide (sURL, data) {
   return new Promise((resolve, reject) => {  
     let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID"];
@@ -461,7 +460,6 @@ function writeCSV_wide (sURL, data) {
 
   }); 
 };
-
 function writeCSV_wide_grouped (sURL, data) {
   return new Promise((resolve, reject) => {  
     let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID"];
@@ -529,7 +527,6 @@ function writeCSV_wide_grouped (sURL, data) {
 
   }); 
 };
-
 function writeCSV_medium_grouped (sURL, data) {
   return new Promise((resolve, reject) => {  
     // let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID"];
@@ -611,7 +608,6 @@ function writeCSV_medium_grouped (sURL, data) {
 
   }); 
 };
-
 function writeCSV_forSQL (sURL, data) {
   return new Promise((resolve, reject) => {  
     let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID","block","refreshRateMS", "set", "stimulusNo", "stimulus","response","responseTime","timeStamp","backGroundColor","textColor"];

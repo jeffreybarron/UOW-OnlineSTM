@@ -292,6 +292,9 @@ add content to the page based on the state.
   * (1) Wide_grouped 
     * New row per block and new row per set 
 
+# change-history-2.1.11
+* File structure 
+  * (1) Move code directory to Public  
 
 #In Progress
 
@@ -305,13 +308,13 @@ add content to the page based on the state.
 * Study run-time 
   * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
 * File structure 
-  * (1) Move code diretory to Public  
   * (1) Move config flow directory elsewhere 
     * Ie we are keeping concerns isolated 
       * Study files 
       * Result files 
       * And codesrc 
 * (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
+* (jeff) make redirect timer configurable, > 600000 = Disabled 
 
  
 

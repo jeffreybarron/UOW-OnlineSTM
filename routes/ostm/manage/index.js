@@ -296,7 +296,7 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   let sPrivateURL = appRoot + "/routes/" + moduleRoot + "/data/codes/";
 
   //AWAIT --> does file already exist, if so then stop
-  let studyNotExists = await fileNotExists(sURL + "/resouces/studies/" + studyName + ".json");
+  let studyNotExists = await fileNotExists(sURL + "/resources/studies/" + studyName + ".json");
   log.info(errLocation + ", log: 2");
   //AWAIT --> write codeFile
 
@@ -305,7 +305,7 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
     completionCode + '"}';
   let jCompletionFile = JSON.parse(sCompletionFile);
   log.info(errLocation + ", log: 3");
-  let codeFile = await writeJSON(sPrivateURL + studyName + "_code.json", jCompletionFile);
+  let codeFile = await writeJSON(sURL + "/resources/codes/" + studyName + "_code.json", jCompletionFile);
   delete oStudyConfig["completionCode"];
 
   //AWAIT --> write consentFile
@@ -396,7 +396,7 @@ app.post("/study/duplicate", function(request, response) {
     //validate sNewURL
     if (sNew.length < 20 || sNew.length > 25 || !sNew) {
       log.info("POST /study/duplicate, No Study Name or Malformed studyName was provided, try a new studyName:", request.ip);
-        return response.status(412).send("No studyName or studyName is malformed, try a new studyName");
+        return response.status(412).send("No studyName or studyName is malformed, try a new studyName. \n Please check the naming syntax label below");
     }
     //Using Promise with Async\Await
     let result = duplicateStudy(sSource, sNew)
@@ -422,22 +422,21 @@ app.post("/study/duplicate", function(request, response) {
 });
 async function duplicateStudy(sSource, sNew) {
     //does the new file exist then throw an error
-    let sURL = ostmPublic + '/resources/studies/';
-    let configResult = await copyConfig(sURL, sSource, sNew);
+    let sURL = ostmPublic + '/resources';
+    let configResult = await copyConfig(
+      sURL + "/studies/", sSource, sNew);
     
     let consentResult = await copyFile(
-      sURL + sSource + "_consent.html",
-      sURL + sNew + "_consent.html"
+      sURL + "/studies/" + sSource + "_consent.html",
+      sURL + "/studies/" +  sNew + "_consent.html"
     );
     let instructionResult = await copyFile(
-      sURL + sSource + "_instructions.html",
-      sURL + sNew + "_instructions.html"
+      sURL + "/studies/" +  sSource + "_instructions.html",
+      sURL + "/studies/" +  sNew + "_instructions.html"
     );
-
-    let sPrivateURL = appRoot + "/routes/ostm/data/codes/";
     let prolificCode = await copyFile(
-      sPrivateURL + sSource + "_code.json",
-      sPrivateURL + sNew + "_code.json"
+      sURL + "/codes/" +  sSource + "_code.json",
+      sURL + "/codes/" +  sNew + "_code.json"
     );
 
     return [configResult, consentResult, instructionResult, prolificCode];
