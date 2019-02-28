@@ -250,7 +250,7 @@ function saveStudy(){
         var result = next()
 
       } else {
-        // alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status );
+        //  alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status );
       }
     };
   } catch (err) {

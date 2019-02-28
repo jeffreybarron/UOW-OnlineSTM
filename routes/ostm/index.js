@@ -403,7 +403,6 @@ function writeJSON(sURL, data) {
 function writeCSV_wide (sURL, data) {
   return new Promise((resolve, reject) => {  
     let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID"];
-    let file = fs.createWriteStream(sURL);
     let row = [];
     let col = [`${data.studyName}`,`${data.PROLIFIC_PID}`,`${data.STUDY_ID}`,`${data.SESSION_ID}`];
 
@@ -438,20 +437,24 @@ function writeCSV_wide (sURL, data) {
     /* to strip the [] after stringify use .substring(1,strung.length-1) 
     https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
     */
+    let participantResultFile = fs.createWriteStream(sURL, {
+        flags: 'w'
+    });
     let sHeaderData = JSON.stringify(header);
-    file.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
-    for ( let n = 0; n < row.length; n++ ){
-      let sRowData = JSON.stringify(row[n]); 
-      file.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
-    }
-    file.end();
-    file.close();
-
+    participantResultFile.on('open', function (fd) {
+        participantResultFile.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
+        for ( let n = 0; n < row.length; n++ ){
+          let sRowData = JSON.stringify(row[n]); 
+          participantResultFile.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
+        }
+        participantResultFile.end();
+        participantResultFile.close();
+    });
     //aysnc callbacks    
-    file.on("finish", () => { 
+    participantResultFile.on("finish", () => { 
       return resolve(true); 
     }); // not sure why you want to pass a boolean
-    file.on("error", (e) => {
+    participantResultFile.on("error", (e) => {
       return reject(e)
     }); // don't forget this!
 
@@ -460,7 +463,6 @@ function writeCSV_wide (sURL, data) {
 function writeCSV_wide_grouped (sURL, data) {
   return new Promise((resolve, reject) => {  
     let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID"];
-    let file = fs.createWriteStream(sURL);
     let row = [];
     let col = [`${data.studyName}`,`${data.PROLIFIC_PID}`,`${data.STUDY_ID}`,`${data.SESSION_ID}`];
 
@@ -505,20 +507,24 @@ function writeCSV_wide_grouped (sURL, data) {
     /* to strip the [] after stringify use .substring(1,strung.length-1) 
     https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
     */
+    let participantResultFile = fs.createWriteStream(sURL, {
+        flags: 'w'
+    });
     let sHeaderData = JSON.stringify(header);
-    file.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
-    for ( let n = 0; n < row.length; n++ ){
-      let sRowData = JSON.stringify(row[n]); 
-      file.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
-    }
-    file.end();
-    file.close();
-
+    participantResultFile.on('open', function (fd) {
+        participantResultFile.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
+        for ( let n = 0; n < row.length; n++ ){
+          let sRowData = JSON.stringify(row[n]); 
+          participantResultFile.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
+        }
+        participantResultFile.end();
+        participantResultFile.close();
+    });
     //aysnc callbacks    
-    file.on("finish", () => { 
+    participantResultFile.on("finish", () => { 
       return resolve(true); 
     }); // not sure why you want to pass a boolean
-    file.on("error", (e) => {
+    participantResultFile.on("error", (e) => {
       return reject(e)
     }); // don't forget this!
 
@@ -527,7 +533,6 @@ function writeCSV_wide_grouped (sURL, data) {
 function writeCSV_medium_grouped (sURL, data) {
   return new Promise((resolve, reject) => {  
     // let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID"];
-    let file = fs.createWriteStream(sURL);
     let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID","block","set",];
     let rows = [];
 
@@ -586,20 +591,24 @@ function writeCSV_medium_grouped (sURL, data) {
     /* to strip the [] after stringify use .substring(1,strung.length-1) 
     https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
     */
+    let participantResultFile = fs.createWriteStream(sURL, {
+        flags: 'w'
+    });
     let sHeaderData = JSON.stringify(header);
-    file.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
-    for ( let n = 0; n < rows.length; n++ ){
-      let sRowData = JSON.stringify(rows[n]); 
-      file.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
-    }
-    file.end();
-    file.close();
-
+    participantResultFile.on('open', function (fd) {
+        participantResultFile.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
+        for ( let n = 0; n < row.length; n++ ){
+          let sRowData = JSON.stringify(row[n]); 
+          participantResultFile.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
+        }
+        participantResultFile.end();
+        participantResultFile.close();
+    });
     //aysnc callbacks    
-    file.on("finish", () => { 
+    participantResultFile.on("finish", () => { 
       return resolve(true); 
     }); // not sure why you want to pass a boolean
-    file.on("error", (e) => {
+    participantResultFile.on("error", (e) => {
       return reject(e)
     }); // don't forget this!
 
@@ -641,22 +650,53 @@ function writeCSV_forSQL (sURL, data) {
     /* to strip the [] after stringify use .substring(1,strung.length-1) 
     https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
     */
+    let participantResultFile = fs.createWriteStream(sURL, {
+        flags: 'w'
+    });
     let sHeaderData = JSON.stringify(header);
-    file.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
-    for ( let n = 0; n < row.length; n++ ){
-      let sRowData = JSON.stringify(row[n]); 
-      file.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
-    }
-    file.end();
-    file.close();
-
+    participantResultFile.on('open', function (fd) {
+        participantResultFile.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
+        for ( let n = 0; n < row.length; n++ ){
+          let sRowData = JSON.stringify(row[n]); 
+          participantResultFile.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
+        }
+        participantResultFile.end();
+        participantResultFile.close();
+    });
     //aysnc callbacks    
-    file.on("finish", () => { 
+    participantResultFile.on("finish", () => { 
       return resolve(true); 
     }); // not sure why you want to pass a boolean
-    file.on("error", (e) => {
+    participantResultFile.on("error", (e) => {
       return reject(e)
     }); // don't forget this!
+
+    /* =========================================
+    *  
+    * //Now Write it to a study wide log
+    * 
+    */
+    let studyResultFile = fs.createWriteStream(modulePath_Private + "/data/results/" + data.studyName + ".csv", {
+        flags: 'a'
+    });
+    studyResultFile.on('open', function (fd) {
+        studyResultFile.write(sHeaderData.substring(1,sHeaderData.length-1) + "\r\n");
+        for ( let n = 0; n < row.length; n++ ){
+          let sRowData = JSON.stringify(row[n]); 
+          studyResultFile.write(sRowData.substring(1,sRowData.length-1) + "\r\n");
+        }
+        studyResultFile.end();
+        studyResultFile.close();
+    });
+    //aysnc callbacks    
+    studyResultFile.on("finish", () => { 
+      return resolve(true); 
+    }); // not sure why you want to pass a boolean
+    studyResultFile.on("error", (e) => {
+      return reject(e)
+    }); // don't forget this!
+
+
 
   }); 
 };

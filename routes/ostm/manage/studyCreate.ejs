@@ -23,7 +23,7 @@
             id="completionCode" name="completionCode"
             required>
           <small id="setSizesHelpBlock" class="form-text text-muted">
-            <p>Prolific Completion Code</p>
+            <p>Enter a CODE, or a unique 24 Character GUID will be created</p>
           </small>
         </div>
         <div class="form-group" title="redirectTimer">
@@ -31,10 +31,11 @@
           <input
             type="text" class="form-control"
             id="redirectTimer" name="redirectTimer"
-            required>
+            required value="30000">
           <small id="setSizesHelpBlock" class="form-text text-muted">
-            <p>Redirect Timer, sets the wait time before auto redirect at conclusion of study</p>
-            <p>A value exceeding 60,000 milliseconds (10 minutes) will disable redirect.</p>
+            <p>Redirect Timer, sets the wait time before the page is automatically redirected at the conclusion of study</p>
+            <p>A value exceeding 600,000 milliseconds (10 minutes) will disable redirect.</p>
+            <p>NOTE: enter your value without commas or decimal places. (e.g 30000 = 30 seconds) </p>
           </small>
         </div>                 
         <div class="form-group" title="completionURL">
@@ -42,10 +43,12 @@
           <input
             type="text" class="form-control"
             id="completionURL" name="completionURL"
-            required value="https://app.prolific.ac/submissions/complete?cc=(APPEND completionCode)">
+            required value="">
           <small id="setSizesHelpBlock" class="form-text text-muted">
-            <p>e.g. https://app.prolific.ac/submissions/complete?cc=</p>
-            <p>Prolific Completion URL: At the end of the study, participants will be issued the completionCode above, the redirectTimer will fire an event to automatically redirect the particpants browser away from the site to this URL</p>
+            <p>Default: http://www.uowcoglab.org/ostm/launch</p>
+            <p>Note: If http:// or https:// is prepended then the page will go to exactly that page, if not this value will be appended to the current website.</p>
+            <p>Enter the "Prolific Completion URL": At the end of the study along with the [Prolific Completion CODE]. Participants will be issued the completionCode (above), then the redirectTimer will fire an event to automatically redirect the particpant's browser away from the site to this URL</p>
+            <p>e.g. https://app.prolific.ac/submissions/complete?cc=[Prolific Completion CODE]</p>
           </small>
         </div>         
         <div class="form-group" title="studybackgroundColor">

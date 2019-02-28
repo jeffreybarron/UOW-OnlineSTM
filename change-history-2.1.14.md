@@ -315,24 +315,29 @@ add content to the page based on the state.
 * Completion Page
   * configure redirect path and timer from code file.
 
+## change-history-2.1.14 - Release Candidate 28th Feb 2019
+* added stream.on("open") for better file handling
+* added second output file for a consolidation of all participants in CSV\SQL Format
 
-#In Progress
+
+
+In Progress
+==========================================================
 
 
 Known ISSUES
 ==========================================================
 * last block modal popup doesnt wait.
+
+
+Feature Requests
+==========================================================
 * Documentation 
   * (1) List of folders for steve (file structure dependent)
 * Study run-time 
   * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
 * (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
-* save SQLCSV in one file per study
- 
 
-
-Feature Requests
-==========================================================
 * save after every set completion
 * add open event for csv writestream
 * change to MIT license???
