@@ -1,0 +1,314 @@
+[
+  {
+    "row": "0",
+    "stimulus": "barn",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "1",
+    "stimulus": "bass",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "2",
+    "stimulus": "beam",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "3",
+    "stimulus": "bean",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "4",
+    "stimulus": "blade",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "5",
+    "stimulus": "bolt",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "6",
+    "stimulus": "breeze",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "7",
+    "stimulus": "bribe",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "8",
+    "stimulus": "chop",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "9",
+    "stimulus": "cord",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "10",
+    "stimulus": "crawl",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "11",
+    "stimulus": "deed",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "12",
+    "stimulus": "dial",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "13",
+    "stimulus": "dime",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "14",
+    "stimulus": "dip",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "15",
+    "stimulus": "ditch",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "16",
+    "stimulus": "dive",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "17",
+    "stimulus": "flush",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "18",
+    "stimulus": "fraud",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "19",
+    "stimulus": "glove",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "20",
+    "stimulus": "goat",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "21",
+    "stimulus": "grip",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "22",
+    "stimulus": "haul",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "23",
+    "stimulus": "leak",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "24",
+    "stimulus": "leap",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "25",
+    "stimulus": "loop",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "26",
+    "stimulus": "porch",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "27",
+    "stimulus": "pork",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "28",
+    "stimulus": "rack",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "29",
+    "stimulus": "raid",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "30",
+    "stimulus": "rap",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "31",
+    "stimulus": "rash",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "32",
+    "stimulus": "riot",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "33",
+    "stimulus": "scar",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "34",
+    "stimulus": "scout",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "35",
+    "stimulus": "shield",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "36",
+    "stimulus": "slap",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "37",
+    "stimulus": "sleeve",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "38",
+    "stimulus": "slice",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "39",
+    "stimulus": "smack",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "40",
+    "stimulus": "smash",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "41",
+    "stimulus": "sock",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "42",
+    "stimulus": "spark",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "43",
+    "stimulus": "sponge",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "44",
+    "stimulus": "spray",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "45",
+    "stimulus": "stain",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "46",
+    "stimulus": "sting",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "47",
+    "stimulus": "stunt",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "48",
+    "stimulus": "thrill",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "49",
+    "stimulus": "vault",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "50",
+    "stimulus": "whip",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "51",
+    "stimulus": "worm",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  }
+]

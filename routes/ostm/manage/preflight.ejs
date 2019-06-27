@@ -1,36 +1,37 @@
 <% include header_manage.ejs %>
-    <div class="container">
-      <h1 id="pageTitle">UOW Online STM</h1>
-      <h2>Pre-flight - Testing a study outside of Prolific</h2>
-	    <h3>Enter a valid Study Name</h3>
-	    <div class="starter-template">
-            <div class="form-group row">
-                <label for="studyName" class="col-sm-3 col-form-label">Study Name</label>
-                <div class="col-sm-9">
-                    <input class="form-control" type="text" id="studyName" name="studyName" value="(Enter Study Name)"></input>
-                </div>
-        	</div>
-	   	    <button id="" type="submit" class="btn btn-primary" onclick="executePreFlight()">Execute Test</button>
-		</div>
-
-<!-- End of Main Body -->
-	<script type="text/javascript">
-		function executePreFlight() {
-			var studyName = document.getElementById("studyName").value;
-			var sTestFlightParams = studyName + "&PROLIFIC_PID=GUID001&STUDY_ID=GUID002&SESSION_ID=GUID003";
-			// console.log(sTestFlightParams);
-			try {
-				var sURL = '/ostm/study?studyName=' + sTestFlightParams;
-        		console.log(sURL);
-      			window.location.href = sURL
-			} catch (err) {
-				consol.log("err" + err);
-				return false;
-			}
-		}
-	</script>
-<% include footer_doc.ejs %>
+<div class="container">
+  <h1 id="pageTitle">UOW Online STM</h1>
+  <h2>Pre-flight - Testing a study outside of Prolific</h2>
+  <h3>Enter a valid Study Name</h3>
+  <div class="starter-template">
+    <div class="form-group row">
+      <label for="studyName" class="col-sm-3 col-form-label">Study Name</label>
+      <div class="col-sm-9">
+        <input class="form-control" type="text" id="studyName" name="studyName"
+          placeholder="(Enter Study Name)"></input>
+      </div>
     </div>
+    <button id="" type="submit" class="btn btn-primary" onclick="executePreFlight()">Execute Test</button>
+  </div>
+
+  <!-- End of Main Body -->
+  <script type="text/javascript">
+    function executePreFlight() {
+      var studyName = document.getElementById("studyName").value;
+      var sTestFlightParams = studyName + "&PROLIFIC_PID=GUID001&STUDY_ID=GUID002&SESSION_ID=GUID003";
+      // console.log(sTestFlightParams);
+      try {
+        var sURL = '/ostm/study?studyName=' + sTestFlightParams;
+        console.log(sURL);
+        window.location.href = sURL
+      } catch (err) {
+        consol.log("err" + err);
+        return false;
+      }
+    }
+  </script>
+  <% include footer_doc.ejs %>
+</div>
 <!-- End of Main Body -->
 
 <!-- Bootstrap Footer, includes jQuery -->
@@ -40,6 +41,6 @@
 
 
 <!-- Close out HTML -->
-  </body>
-</html>
+</body>
 
+</html>

@@ -1,0 +1,182 @@
+[
+  {
+    "row": "0",
+    "stimulus": "mace",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "1",
+    "stimulus": "maze",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "2",
+    "stimulus": "bide",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "3",
+    "stimulus": "bird",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "4",
+    "stimulus": "gout",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "5",
+    "stimulus": "lout",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "6",
+    "stimulus": "lime",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "7",
+    "stimulus": "line",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "8",
+    "stimulus": "hoot",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "9",
+    "stimulus": "heat",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "10",
+    "stimulus": "wing",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "11",
+    "stimulus": "king",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "12",
+    "stimulus": "pick",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "13",
+    "stimulus": "pill",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "14",
+    "stimulus": "mess",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "15",
+    "stimulus": "mass",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "16",
+    "stimulus": "ride",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "17",
+    "stimulus": "side",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "18",
+    "stimulus": "seal",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "19",
+    "stimulus": "seat",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "20",
+    "stimulus": "lurk",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "21",
+    "stimulus": "lick",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "22",
+    "stimulus": "base",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "23",
+    "stimulus": "race",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "24",
+    "stimulus": "hull",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "25",
+    "stimulus": "hush",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "26",
+    "stimulus": "goat",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "27",
+    "stimulus": "gate",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "28",
+    "stimulus": "rock",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "29",
+    "stimulus": "sock",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  }
+]

@@ -59,7 +59,25 @@
               <label for="studyName" class="col-sm-3 col-form-label">Study Name</label>
               <div class="col-sm-9">
                 <input class="form-control" type="text" id="studyName" name="studyName"
-                  placeholder="(Enter Study Name)"></input>
+                  placeholder="(Required: Enter the Study Name exactly as provided)"></input>
+                <small class="form-text">Required: Enter the Study Name exactly as provided</small>
+              </div>
+
+            </div>
+            <div class="form-group row">
+              <label for="STUDY_ID" class="col-sm-3 col-form-label">STUDY_ID</label>
+              <div class="col-sm-9">
+                <input class="form-control" type="text" id="STUDY_ID" name="STUDY_ID"
+                  placeholder="(Optional: Enter Subject Code e.g. PSYC327)"></input>
+                <small class="form-text">Optional: Enter Subject Code e.g. PSYC327</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="SESSION_ID" class="col-sm-3 col-form-label">SESSION_ID</label>
+              <div class="col-sm-9">
+                <input class="form-control" type="text" id="SESSION_ID" name="SESSION_ID"
+                  placeholder="(Optional: Enter Tutorial Day-Time e.g. MON-11:00am)"></input>
+                <small class="form-text">Optional: Enter Tutorial Day-Time e.g. MON-11:00am</small>
               </div>
             </div>
             <button id="" type="submit" class="btn btn-primary" onclick="executePreFlight()">Execute Test</button>
@@ -80,20 +98,41 @@
     <img class="logo" src="/static/uow.png" alt="University of Wollongong Australia">
 
     <!-- End of Main Body -->
+    <script>
+      let params = new URLSearchParams(document.location.search.substring(1));
+      if (params.get("studyName") !== 'undefined') {
+        document.getElementById("studyName").value = params.get("studyName");
+      };
+    </script>
+    <script type="text/javascript">
+      function create_UUID() {
+        var dt = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          var r = (dt + Math.random() * 16) % 16 | 0;
+          dt = Math.floor(dt / 16);
+          return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+        return uuid;
+      };
+    </script>
     <script type="text/javascript">
       function executePreFlight() {
         var studyName = document.getElementById("studyName").value;
-        var sTestFlightParams = studyName + "&PROLIFIC_PID=(ENTER ID)&STUDY_ID=CogLab&SESSION_ID=Tutorial";
+        var STUDY_ID = document.getElementById("STUDY_ID").value;
+        var SESSION_ID = document.getElementById("SESSION_ID").value;
+
+
+        var sTestFlightParams = `PROLIFIC_PID=${create_UUID()}&STUDY_ID=${STUDY_ID || 'Classroom'}&SESSION_ID=${SESSION_ID || 'study'}`;
         // console.log(sTestFlightParams);
         try {
-          var sURL = '/ostm/study?studyName=' + sTestFlightParams;
+          var sURL = '/ostm/study?studyName=' + studyName + "&" + sTestFlightParams;
           console.log(sURL);
           window.location.href = sURL
         } catch (err) {
           consol.log("err" + err);
           return false;
         }
-      }
+      };
     </script>
     <div id="footerContainer" class="row">
       <footer class="footer">
