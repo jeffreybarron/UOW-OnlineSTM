@@ -1,6 +1,12 @@
-
-// routes/ostm/index.js
 "use strict";
+// routes/ostm/index.js
+const moduleName = "/ostm";
+const modulePath_Private = appRoot + moduleName;
+const modulePath_Public = moduleName + "/public";
+const modulePath_Data = modulePath_Private + "/data";
+
+console.log('Load: ' + modulePath_Private + '/index.js')
+
 const express = require("express"); //express module
 const app = express();
 const bodyParser = require("body-parser");
@@ -9,25 +15,18 @@ const fs = require("fs");
 const bunyan = require("bunyan");
 const manage = require("./manage");
 
-const moduleName = "/ostm"; //deprecated
-const modulePath_Private = appRoot + "/routes/ostm";
-const modulePath_Public = "/ostm";
-
 const COMPLETION_VIEW = 4;
 
+//set subroute
 app.use("/manage", manage);
-app.use("/static", express.static(__dirname + "/public/static"));
-app.use("/static/layouts", express.static(__dirname + "/public/static"));
-app.use("/static/views", express.static(__dirname + "/public/static"));
-app.use("/static/styles", express.static(__dirname + "/public/static"));
-app.use("/static/scripts", express.static(__dirname + "/public/static"));
+app.use("/public", express.static(__dirname + "/public"));
 app.use("/resources/studies", express.static(__dirname + "/data/resources/studies"));
 // app.use("/resources/decks", express.static(__dirname + "/data/resources/decks"));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(sanitizer());
 
 app.set("view engine", "ejs");
-app.set("views", [__dirname]);
+app.set("views", [__dirname + '/views']);
 
 /*======================================================================================
  *
@@ -74,12 +73,12 @@ app.get("/launch", function (request, response) {
 
   response.render("launch", { rPath: sPath });
 });
-app.get("/launch2", function (request, response) {
+app.get("/simplelaunch", function (request, response) {
   let sPath = "ostm";
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/launch ";
+  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/simplelaunch ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
-  response.render("launch2", { rPath: sPath });
+  response.render("simplelaunch", { rPath: sPath });
 });
 app.post("/results", function (request, response, next) {
   log.info(
@@ -143,7 +142,7 @@ app.post("/API/flow", function (request, response) {
     });
 });
 async function loadFlow(state) {
-  let jFlow = await readFile(modulePath_Private + "/configuration/stateflow.json");
+  let jFlow = await readFile(modulePath_Private + "/views/configuration/stateflow.json");
   state.flow = JSON.parse(jFlow);
   state.flow.initialised = getDate();
   let result = saveState(state);
@@ -175,7 +174,7 @@ async function loadLayout(state) {
 	 */
 
   //Fixed Variables
-  let resourcePath = modulePath_Private + "/public/static";
+  let resourcePath = modulePath_Private + '/views/';
 
   //if there is no view we may as will stop now!!
   if (state.getView == isNaN) {
@@ -183,7 +182,7 @@ async function loadLayout(state) {
   }
 
   //load the HMTL for this view state
-  let sURL = resourcePath + "/layouts/" + state.flow.views[state.getView].layout + ".html";
+  let sURL = resourcePath + "layouts/" + state.flow.views[state.getView].layout + ".html";
   state.flow.views[state.getView].layoutContent = await readFile(sURL);
 
   //update the render date/tim
@@ -214,11 +213,8 @@ app.post("/API/view", function (request, response) {
 });
 async function loadView(state) {
 	/* so what we are doing is updating and checking data within the state JSON object
-	 * we store the data and send it along so we dont need to re-read files needlessly
+	 * we store the data and send it along so we cache these files on the proxy server
 	 */
-
-  //Fixed Variables
-  let sPath = modulePath_Public + "/static";
 
   //if there is no view we may as will stop now!!
   if (state.getView == isNaN) {
@@ -228,27 +224,27 @@ async function loadView(state) {
   //If a PAGE Styles CSS is provided then prepend the module path, saving new value
   for (let i = 0; i < state.flow.views[state.getView].layoutStyles.length; i++) {
     state.flow.views[state.getView].layoutStyles[i] =
-      sPath + "/styles/" + state.flow.views[state.getView].layoutStyles[i];
+      modulePath_Public + "/css/" + state.flow.views[state.getView].layoutStyles[i];
   }
   // console.dir(state.flow.views[state.getView].layoutStyles);
 
   //If a contentCSS are provided then prepend the module path, saving new value
   for (let j = 0; j < state.flow.views[state.getView].viewStyles.length; j++) {
     state.flow.views[state.getView].viewStyles[j] =
-      sPath + "/styles/" + state.flow.views[state.getView].viewStyles[j];
+      modulePath_Public + "/css/" + state.flow.views[state.getView].viewStyles[j];
   }
   // console.dir(state.flow.views[state.getView].viewStyles);
 
   //If SCRIPTS are provided then prepend the module path, saving new value
   for (let k = 0; k < state.flow.views[state.getView].scripts.length; k++) {
     state.flow.views[state.getView].scripts[k] =
-      sPath + "/scripts/" + state.flow.views[state.getView].scripts[k];
+      modulePath_Public + "/js/" + state.flow.views[state.getView].scripts[k];
   }
   // console.dir(state.flow.views[state.getView].scripts);
 
   //load the HMTL for this view state
   var sURL =
-    modulePath_Private + "/public/static/views/" + state.flow.views[state.getView].name + ".html";
+    modulePath_Private + "/views/pages/" + state.flow.views[state.getView].name + ".html";
   state.flow.views[state.getView].viewContent = await readFile(sURL);
   // console.log(sURL);
 

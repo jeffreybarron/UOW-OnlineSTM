@@ -2,26 +2,27 @@
 
 // create new Router instance for api routes
 const express = require("express"); //express module
-const app = express();
-
 const favicon = require("serve-favicon");
 const fs = require("fs");
-const mDates = require(appRoot + "/utils/mDates.js");
 const bunyan = require("bunyan");
-
 const ostm = require("./ostm");
+const app = express();
+
+//console.log('routes/index.js - appRoot: ' + appRoot);
+const mDates = require(appRoot + "/backend/js/mDates.js");
+
+//OSTM subroute
 app.use("/ostm", ostm);
 // const ostm2 = require("./ostm2");
 // app.use("/ostm2", ostm2);
 
 
-app.use('/static', express.static(__dirname  + '/public/static'));
-app.use(favicon(__dirname + '/public/static/favicon.ico'));
+app.use('/public', express.static(__dirname + '/public'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
+
 
 app.set("view engine", "ejs");
-app.set("views", [
-  __dirname
-]);
+app.set("views", [__dirname + '/views']);
 
 
 const log = bunyan.createLogger({
@@ -39,14 +40,14 @@ const log = bunyan.createLogger({
   src: true
 });
 
-app.get("/", function(request, response) {
+app.get("/", function (request, response) {
   var errLocation = "IP:" + request.ip + ", GET / ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   //Home Page
   response.render("index");
 });
 
-app.get("*", function(request, response) {
+app.get("*", function (request, response) {
   var errLocation = "IP:" + request.ip + ", GET * ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   /*
@@ -60,12 +61,13 @@ app.get("*", function(request, response) {
 
   //keep this it is handy way to track malicious activity, outside the noise of the normal logs
   var sLog = mDates.getDate() + ", source:" + request.ip + ", URL:" + request.originalUrl;
-  fs.appendFile(__dirname + "/logs/unhandledPageCalls.log", sLog + "\r\n", function(err) {
+  fs.appendFile(__dirname + "/logs/unhandledPageCalls.log", sLog + "\r\n", function (err) {
     if (err) console.log(err);
   });
 
-  var readStudy = fs.readFileSync(appRoot + "/404.html", "utf8");
-  response.send(readStudy);
+  response.render("404")
+  // var readStudy = fs.readFileSync(__dirname + '/views' + "/404.html", "utf8");
+  // response.send(readStudy);
   response.end;
 });
 

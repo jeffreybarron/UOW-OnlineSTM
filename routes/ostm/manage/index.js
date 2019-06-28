@@ -1,31 +1,28 @@
 // routes/ostm/manage/index.js
+console.log('Load: routes/ostm/manage/index.js')
 "use strict";
-const moduleRoot = 'ostm'
+const moduleRoot = 'ostm/'
 const moduleName = "manage";
-const sPath = moduleRoot + '/manage'
+const modulePath = moduleRoot + moduleName
 
 const express = require("express"); //express module
-const app = express();
 const bodyParser = require("body-parser");
 const sanitizer = require("express-sanitizer");
+const app = express();
 const fs = require("fs");
 const path = require("path");
 const bunyan = require("bunyan");
 const util = require("util");
 
-const mUtils = require(appRoot + "/utils/mUtils.js");
-const ostmPublic = appRoot + '/routes/' + moduleRoot + '/data'
+const mUtils = require(appRoot + "/backend/js/mUtils.js");
+const studyResources = appRoot + '/' + moduleRoot + 'data/resources/'
 
-app.use("/static", express.static(__dirname + '/public/static'));
-app.use("/resources/studies", express.static(ostmPublic + '/resources/studies'));
-app.use("/resources/decks", express.static(ostmPublic + '/resources/decks'));
+app.use("/public", express.static(__dirname + '/public'));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(sanitizer());
 app.set("view engine", "ejs");
-app.set("views", [
-  __dirname
-]);
+app.set("views", [__dirname + '/views']);
 
 const log = bunyan.createLogger({
   name: "UOW_CogLab",
@@ -49,10 +46,10 @@ const log = bunyan.createLogger({
 * / Home Page Routes 
 *
 */
-app.get("/", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath;
+app.get("/", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + modulePath;
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('index', { rPath: sPath});
+  response.render('index', { rPath: modulePath });
 });
 
 
@@ -62,10 +59,10 @@ app.get("/", function(request, response) {
 * /guide/ Routes 
 *
 */
-app.get("/guide", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/guide ";
+app.get("/guide", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/guide ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('guide', { rPath: sPath});
+  response.render('guide', { rPath: modulePath });
 });
 
 
@@ -75,13 +72,13 @@ app.get("/guide", function(request, response) {
 * /deck/ Routes 
 *
 */
-app.get("/deck/create", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/deck/create ";
+app.get("/deck/create", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/deck/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('deckNew', { rPath: sPath});
+  response.render('deckNew', { rPath: modulePath });
 });
-app.post("/deck/create/:deckName", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /" + sPath + "/deck/create ";
+app.post("/deck/create/:deckName", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/deck/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   var result = createDeck(request.params.deckName, request.body)
@@ -103,10 +100,10 @@ app.post("/deck/create/:deckName", function(request, response) {
 async function createDeck(deckName, deck) {
   log.info("POST /deck/create createDeck: " + deckName, deck);
   //AWAIT --> does file already exist, if so then stop
-  let deckNotExists = await fileNotExists(ostmPublic + '/resources/decks/' + deckName + ".json");
+  let deckNotExists = await fileNotExists(studyResources + 'decks/' + deckName + ".json");
 
   //AWAIT --> create Deck
-  let writeDeck = await writeJSON(ostmPublic + '/resources/decks/' + deckName + ".json", deck);
+  let writeDeck = await writeJSON(studyResources + 'decks/' + deckName + ".json", deck);
 
   return [deckNotExists, writeDeck];
 }
@@ -115,28 +112,15 @@ async function createDeck(deckName, deck) {
 
 /* 
 *
-* /preflight/ Routes 
-*
-*/
-// app.get("/preflight", function(request, response) {
-//   var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/preflight ";
-//   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-//   response.render("preflight", { rPath: sPath});
-// });
-
-
-
-/* 
-*
 * /pages/ Routes 
 *
 */
-app.get("/page/create", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/pageafterblock/create ";
+app.get("/page/create", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/pageafterblock/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/resources/studies/')
+  getFileList(studyResources + 'studies/')
     .then(fileList => {
       //do somthing with file list
       let files = [];
@@ -147,17 +131,17 @@ app.get("/page/create", function(request, response) {
         }
       }
       log.info("GET /pageafterblock/create, Rendered for IP:", request.ip);
-      response.render('page', { rPath: sPath, files: files });
+      response.render('page', { rPath: modulePath, files: files });
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: sPath, err: error.message });
+      response.render('error', { rPath: modulePath, err: error.message });
       response.end;
     });
 });
-app.post("/page/create", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /" + sPath + "/page/create ";
+app.post("/page/create", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/page/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   let pageJSON = request.body;
   // console.dir(pageJSON);
@@ -184,8 +168,8 @@ app.post("/page/create", function(request, response) {
 async function pageCreate(studyName, pageName, data) {
   log.info("POST createPage: " + studyName + "_" + pageName);
 
-  let result = await writeFile(ostmPublic + "/resources/studies/" +  studyName + "_" + pageName + '.html',data);
-  
+  let result = await writeFile(studyResources + "studies/" + studyName + "_" + pageName + '.html', data);
+
   return [result];
 }
 
@@ -196,12 +180,29 @@ async function pageCreate(studyName, pageName, data) {
 * /Study/ Routes 
 *
 */
-app.get("/study/list", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/study/list ";
+app.get("/studies/:studyName", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/study/list ";
+  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  const studyURL = appRoot + "/ostm/data/resources/studies/" + request.params.studyName + ".json";
+  getFile(studyURL)
+    .then(resolved => {
+      log.info("POST /study/:studyName resolved: " + resolved + ", Successful", request.ip);
+      //wrap the file in JSON and set some other data with it
+      // let returnData = resolved;
+      response.status(200).send(resolved);
+    })
+    .catch(err => {
+      log.info("POST /API/view/ err: " + err + ", failed", request.ip);
+      response.status(406).end();
+    });
+});
+
+app.get("/study/list", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/study/list ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/resources/studies/')
+  getFileList(studyResources + 'studies/')
     .then(fileList => {
       //do somthing with file list
       let files = [];
@@ -211,42 +212,42 @@ app.get("/study/list", function(request, response) {
           files.push({ studyName: url.name });
         }
       }
-      response.render('studyList', { rPath: sPath, files: files });
+      response.render('studyList', { rPath: modulePath, files: files });
       log.info("GET /study/list rendered", request.ip);
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render("error", { rPath: sPath, err: error.message });
+      response.render("error", { rPath: modulePath, err: error.message });
       response.end;
     });
 });
-app.get("/study/create", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/study/new ";
+app.get("/study/create", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/study/new ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/resources/decks/')
+  getFileList(studyResources + 'decks/')
     .then(fileList => {
       //do somthing with file list
       let files = [];
       for (let i = 0; i < fileList.length; i++) {
         files.push({
           deckName: fileList[i],
-          available: mUtils.getDeckLength(ostmPublic + '/resources/decks/' + fileList[i])
+          available: mUtils.getDeckLength(studyResources + 'decks/' + fileList[i])
         });
       }
       log.info("GET /study/new/, Rendered for IP:" + request.ip);
-      response.render('studyCreate', { rPath: sPath, files: files });
+      response.render('studyCreate', { rPath: modulePath, files: files });
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: sPath, err: error.message });
+      response.render('error', { rPath: modulePath, err: error.message });
     });
 });
-app.post("/study/create", function(request, response) {
-    
-  var errLocation = "IP:" + request.ip + ", POST /" + sPath + "/study/create ";
+app.post("/study/create", function (request, response) {
+
+  var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/study/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   //a rudimentary check, if there are exactly 7 query string objects
@@ -265,7 +266,7 @@ app.post("/study/create", function(request, response) {
 
 
   log.info(errLocation + ", log: 3, Sanitized");
-  
+
   try {
     var result = createStudy(request.body.studyName, request.body.completionCode, oStudyConfig)
       .then(resolved => {
@@ -273,7 +274,7 @@ app.post("/study/create", function(request, response) {
         response.status(201).end();
       })
       .catch(err => {
-        if ( err.message.includes("The sum of sets in block") ){
+        if (err.message.includes("The sum of sets in block")) {
           log.info(errLocation + ", log: 5, This file already exists!");
           response.status(403).send(err.message);
         } else if (err.message == "This file already exists!") {
@@ -298,12 +299,8 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   var errLocation = "creatStudy ";
   log.info(errLocation + ", log: 1, called");
 
-  //declare variables
-  let sURL = ostmPublic 
-  let sPrivateURL = appRoot + "/routes/" + moduleRoot + "/data/codes/";
-
   //AWAIT --> does file already exist, if so then stop
-  let studyNotExists = await fileNotExists(sURL + "/resources/studies/" + studyName + ".json");
+  let studyNotExists = await fileNotExists(studyResources + "studies/" + studyName + ".json");
   log.info(errLocation + ", log: 2");
   //AWAIT --> write codeFile
 
@@ -314,19 +311,19 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
     * load the block stimulus file, create and fill the sets of each block
     */
     let block = oStudyConfig.blocks[i];
-    let fileURL = ostmPublic + "/resources/decks/" + block.stimulusFile;
+    let fileURL = studyResources + "decks/" + block.stimulusFile;
     let stimulusFile = await getFile(fileURL);
     stimulusFile = JSON.parse(stimulusFile);
-    
+
     //check if stimulus file length is big enough for the sum of sets
     let fileLength = stimulusFile.length;
     let sumSets = block.setSizes.reduce(function (accumulator, currentValue) {
       return accumulator + currentValue;
     }, 0);
-    if (sumSets > fileLength) { 
+    if (sumSets > fileLength) {
       await Promise.reject(new Error(`The sum of sets in block ${i} is larger than the file array, try again.`));
     };
-    
+
     block["sets"] = [];
     for (let iSetNumber = 0; iSetNumber < block.setSizes.length; iSetNumber++) {
       block.sets.push(JSON.parse('{"set":"' + iSetNumber + '"}'))
@@ -348,32 +345,32 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
 
   //AWAIT --> write configfile
   log.info(errLocation + ", log: 3");
-  let configFile = await writeJSON(ostmPublic + "/resources/studies/" + oStudyConfig.studyName + ".json", oStudyConfig);
+  let configFile = await writeJSON(studyResources + "studies/" + oStudyConfig.studyName + ".json", oStudyConfig);
 
   //AWAIT --> creation of completion code file
   let sCompletionFile = await createCompletionFile(
     oStudyConfig.completionCode,
     oStudyConfig.redirectTimer,
     oStudyConfig.completionURL
-    )
-  
+  )
+
   //let jCompletionFile = JSON.parse(sCompletionFile);
   log.info(errLocation + ", log: 4");
-  let codeFile = await writeJSON(sURL + "/resources/codes/" + studyName + "_code.json", sCompletionFile);
+  let codeFile = await writeJSON(studyResources + "codes/" + studyName + "_code.json", sCompletionFile);
   delete oStudyConfig["completionCode"];
   delete oStudyConfig["redirectTimer"];
   delete oStudyConfig["completionURL"];
 
   //AWAIT --> write consentFile
   log.info(errLocation + ", log: 5");
-  let consentFile = await writeFile(ostmPublic + "/resources/studies/" + oStudyConfig.studyName + "_consent.html",
+  let consentFile = await writeFile(studyResources + "studies/" + oStudyConfig.studyName + "_consent.html",
     oStudyConfig["consentCopy"]
   );
   delete oStudyConfig["consentCopy"];
 
   //AWAIT --> write instructionFile
   log.info(errLocation + ", log: 6");
-  let instructionFile = await writeFile(ostmPublic + "/resources/studies/" +  oStudyConfig.studyName + "_instructions.html",
+  let instructionFile = await writeFile(studyResources + "studies/" + oStudyConfig.studyName + "_instructions.html",
     oStudyConfig["instructionCopy"]
   );
   delete oStudyConfig["instructionCopy"];
@@ -383,7 +380,7 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
 
 };
 
-function createCompletionFile (code = mUtils.getGUID(),delay = "10000", url = "/ostm/launch") {
+function createCompletionFile(code = mUtils.getGUID(), delay = "10000", url = "/ostm/launch") {
 
   let strFile = {};
   strFile.completionCode = code;
@@ -392,17 +389,17 @@ function createCompletionFile (code = mUtils.getGUID(),delay = "10000", url = "/
 
   return strFile;
 
-//  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' +
-//     completionCode + '","completionCode":"' +
-//     completionCode + '"}';
+  //  let sCompletionFile = '{"completionURL":"https://app.prolific.ac/submissions/complete?cc=' +
+  //     completionCode + '","completionCode":"' +
+  //     completionCode + '"}';
 }
 
-app.get("/study/duplicate", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/study/duplicate ";
+app.get("/study/duplicate", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/study/duplicate ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
 
   const getFileList = util.promisify(fs.readdir);
-  getFileList(ostmPublic + '/resources/studies/')
+  getFileList(studyResources + 'studies/')
     .then(fileList => {
       //do somthing with file list
       let files = [];
@@ -413,27 +410,27 @@ app.get("/study/duplicate", function(request, response) {
         }
       }
       log.info("GET /study/duplicate, Rendered for IP:", request.ip);
-      response.render('studyDuplicate', { rPath: sPath, files: files });
+      response.render('studyDuplicate', { rPath: modulePath, files: files });
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: sPath, err: error.message });
+      response.render('error', { rPath: modulePath, err: error.message });
       response.end;
     });
 });
-app.post("/study/duplicate", function(request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /" + sPath + "/study/duplicate ";
+app.post("/study/duplicate", function (request, response) {
+  var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/study/duplicate ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   // we are going to use await for this.
-  let sSource = request.body.currentStudyName;
+  let sSource = request.body.source_studyName;
   let sNew = request.body.new_studyName;
   try {
 
     //validate sNewURL
     if (sNew.length < 20 || sNew.length > 25 || !sNew) {
       log.info("POST /study/duplicate, No Study Name or Malformed studyName was provided, try a new studyName:", request.ip);
-        return response.status(412).send("No studyName or studyName is malformed, try a new studyName. \n Please check the naming syntax label below");
+      return response.status(412).send("No studyName or studyName is malformed, try a new studyName. \n Please check the naming syntax label below");
     }
     //Using Promise with Async\Await
     let result = duplicateStudy(sSource, sNew)
@@ -458,25 +455,24 @@ app.post("/study/duplicate", function(request, response) {
   }
 });
 async function duplicateStudy(sSource, sNew) {
-    //does the new file exist then throw an error
-    let sURL = ostmPublic + '/resources';
-    let configResult = await copyConfig(
-      sURL + "/studies/", sSource, sNew);
-    
-    let consentResult = await copyFile(
-      sURL + "/studies/" + sSource + "_consent.html",
-      sURL + "/studies/" +  sNew + "_consent.html"
-    );
-    let instructionResult = await copyFile(
-      sURL + "/studies/" +  sSource + "_instructions.html",
-      sURL + "/studies/" +  sNew + "_instructions.html"
-    );
-    let prolificCode = await copyFile(
-      sURL + "/codes/" +  sSource + "_code.json",
-      sURL + "/codes/" +  sNew + "_code.json"
-    );
+  //does the new file exist then throw an error
+  let configResult = await copyConfig(
+    studyResources + "/studies/", sSource, sNew);
 
-    return [configResult, consentResult, instructionResult, prolificCode];
+  let consentResult = await copyFile(
+    studyResources + "/studies/" + sSource + "_consent.html",
+    studyResources + "/studies/" + sNew + "_consent.html"
+  );
+  let instructionResult = await copyFile(
+    studyResources + "/studies/" + sSource + "_instructions.html",
+    studyResources + "/studies/" + sNew + "_instructions.html"
+  );
+  let prolificCode = await copyFile(
+    studyResources + "/codes/" + sSource + "_code.json",
+    studyResources + "/codes/" + sNew + "_code.json"
+  );
+
+  return [configResult, consentResult, instructionResult, prolificCode];
 }
 
 
@@ -492,9 +488,9 @@ function getFile(URL) {
     // copy config file
     try {
 
-      fs.readFile(URL,'utf8', (err, data) => {
+      fs.readFile(URL, 'utf8', (err, data) => {
         if (err) {
-          return reject(new Error("Error Reading File: " + url + " Error:" + err));
+          return reject(new Error("Error Reading File: " + URL + " Error:" + err));
         }
         return resolve(data);
       });
@@ -513,7 +509,7 @@ function copyFile(sourceURL, newURL) {
       }
       if (!fs.existsSync(newURL)) {
         fs.copyFile(sourceURL, newURL, err => {
-          if (err === null ) {
+          if (err === null) {
             resolve({ created: newURL });
             return;
           } else {
@@ -555,7 +551,7 @@ function copyConfig(URL, sourceStudy, newStudy) {
         let sNewFile = JSON.stringify(oStudyConfig, null, 2);
 
         // 3-write updated config to file on the new studyName
-        let writeResult = fs.writeFileSync(URL + newStudy + ".json", sNewFile, function(err) {
+        let writeResult = fs.writeFileSync(URL + newStudy + ".json", sNewFile, function (err) {
           if (err) {
             throw "fs.writeFileSync failed: " + err;
           }
@@ -574,7 +570,7 @@ function writeJSON(sURL, data) {
   return new Promise((resolve, reject) => {
     log.info("File: manage.index.js" + ", Function: writeJSON" + ", Location: 1" + ", sURL: " + sURL, data);
     var sFile = JSON.stringify(data, null, 2);
-    fs.writeFile(sURL, sFile, "utf-8", function(err) {
+    fs.writeFile(sURL, sFile, "utf-8", function (err) {
       if (err) {
         //Deal with error
         log.info("File: manage.index.js" + ", Function: writeJSON" + ", Location: 2", err);
@@ -589,16 +585,16 @@ function writeJSON(sURL, data) {
 }
 function writeFile(path, data) {
   return new Promise((resolve, reject) => {
-    let options = 
-    { 
+    let options =
+    {
       encoding: 'utf-8',
-      flag: 'wx' 
-    } 
+      flag: 'wx'
+    }
     /* flag wx throws error if file exists 
     /* https://nodejs.org/api/fs.html#fs_file_system_flags
     * https://stackoverflow.com/questions/12899061/creating-a-file-only-if-it-doesnt-exist-in-node-js
     */
-    fs.writeFile(path, data, options , function(err) {
+    fs.writeFile(path, data, options, function (err) {
       if (err) {
         reject(err);
         return;

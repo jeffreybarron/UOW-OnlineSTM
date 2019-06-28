@@ -319,6 +319,34 @@ add content to the page based on the state.
 * added stream.on("open") for better file handling
 * added second output file for a consolidation of all participants in CSV\SQL Format
 
+## change-history-2.1.15 - Release Candidate 27 June 2019
+* update syncronised with changes made directly on production server
+
+2.2.0-workingcopy - 28 June 2019
+============================
+This version adds webpack and bable to uglify production code and make suitable for older browsers
+## change-history
+* Re-arranged file and routing structures
+* all ejs files are now in folders named views for their relevant route
+* NB there is only one module at present in the routes it is called 'ostm'
+* all assets that are published publically are in the 'public' folder for its module
+e.g. 
+/routes/public/
+/routes/public/css
+/routes/public/js
+/routes/public/tinymce/       (this level only)
+/routes/ostm/
+/routes/ostm/public/
+routes/ostm/manage/
+routes/ostm/manage/public/
+* private data for each module goes in 'data' folder directly under the module level folder
+eg.
+/routes/ostm/data/
+/routes/ostm/data/resources/...
+/routes/ostm/data/results/...
+* NB. each layer of the routing folders has one (1) index.js, I prefer this to be the only FILE in this folder, its the file where the expressjs routing takes place (serving up web urls)
+
+
 
 
 In Progress

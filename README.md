@@ -11,5 +11,6 @@ UOW-OnlineSTM
 * Associate Professor Leonie Miller
 
 ## Solution Developer
-* 1.x.x - Jeffrey Barron (jeffreybarron.com)
-* 2.x.x - Jeffrey Barron (jeffreybarron.com)
+* 1.x.x   - Jeffrey Barron (jeffreybarron.com)  - Alpha and Beta Versions
+* 2.1.15  - Jeffrey Barron (jeffreybarron.com)  - First & Final Production release of 2.1.x 
+* 2.2.x   - Jeffrey Barron (jeffreybarron.com)  - 

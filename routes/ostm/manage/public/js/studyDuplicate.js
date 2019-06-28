@@ -1,5 +1,7 @@
 "use strict";
 var sPath = '/ostm/manage'
+const siteAssets = '/public/'
+
 var currentStudyName = document.getElementById("currentStudyName");
 var new_studyName = document.getElementById("new_studyName");
 
@@ -13,67 +15,17 @@ var deckConfiguration = document.getElementById("deckConfiguration");
 var msgResult = document.getElementById("msgResult");
 
 var oStudyConfig = {};
-
 var pageHandler = main();
 
-function main() {
-  //console.log("main on load function");
-  var oData = upDateTable(document.getElementById("source_studyName").firstElementChild.text);
-}
 function updateOnChange() {
   // console.log("Selected: ", document.getElementById("source_studyName").value);
   var oData = upDateTable(document.getElementById("source_studyName").value);
 }
-function upDateTable(studyName) {
-  let sUrl = sPath + "/resources/studies/" + studyName;
-
-  //get study details, but ignore copy
-  getFile(sUrl + ".json")
-    .then(function(configFile) {
-      var oStudyConfig = configFile;
-      studybackgroundColor.innerText = oStudyConfig.studybackgroundColor;
-      currentStudyName.innerText = oStudyConfig.studyName;
-      studyTextColor.innerText = oStudyConfig.studyTextColor;
-      shuffleBlocks.innerText = oStudyConfig.shuffleBlocks;
-      // deckConfiguration.innerHTML = JSON.stringify(oStudyConfig.blocks, undefined, 2);
-    })
-    .catch(function(err) {
-      // catch any error that happened so far
-      // console.log("Argh, broken: " + err.message);
-    });
-  return true;
-}
-
-function getFile(url) {
-  return new Promise(function(resolve, reject) {
-    // Do the usual XHR stuff
-    let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", url, true);
-    xmlHttp.setRequestHeader("Content-Type", "application/json");
-    xmlHttp.onload = function() {
-      if (xmlHttp.status == 200) {
-        // Resolve the promise with the response text
-        resolve(JSON.parse(xmlHttp.response));
-      } else {
-        // Otherwise reject with the status text, which will hopefully be a meaningful error
-        reject(Error(xmlHttp.statusText));
-      }
-    };
-
-    // Handle network errors, ie reject promise if necessary
-    xmlHttp.onerror = function() {
-      reject(Error("Network Error"));
-    };
-
-    // Make the request
-    xmlHttp.send();
-  });
-}
-
 function studyDuplicate() {
   try {
     let data = {
       "currentStudyName": currentStudyName.innerText,
+      "source_studyName": document.getElementById("source_studyName").value,
       "new_studyName": new_studyName.value
     };
     let sUrl = sPath + "/study/duplicate";
@@ -84,7 +36,7 @@ function studyDuplicate() {
     //Save data to server
 
     xmlHttp.send(JSON.stringify(data, null, 2));
-    xmlHttp.onreadystatechange = function() {
+    xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 201) {
         // alert("Study Created!\n\nWe suggest you, click ok, and leave this page open until you've finished setting up.");
         msgResult.innerHTML =
@@ -129,3 +81,50 @@ function studyDuplicate() {
   }
 }
 
+
+// purpose of the following code is only to fill in the details in the table.
+function main() {
+  //console.log("main on load function");
+  var oData = upDateTable(document.getElementById("source_studyName").firstElementChild.text);
+}
+function upDateTable(studyName) {
+  //get study details, but ignore copy
+  getFile("/ostm/manage/studies/" + studyName)
+    .then(function (configFile) {
+      var oStudyConfig = configFile;
+      studybackgroundColor.innerText = oStudyConfig.studybackgroundColor;
+      currentStudyName.innerText = oStudyConfig.studyName;
+      studyTextColor.innerText = oStudyConfig.studyTextColor;
+      shuffleBlocks.innerText = oStudyConfig.shuffleBlocks;
+      // deckConfiguration.innerHTML = JSON.stringify(oStudyConfig.blocks, undefined, 2);
+    })
+    .catch(function (err) {
+      // catch any error that happened so far
+      currentStudyName.innerText = "Error: " + err.message;
+      studybackgroundColor.innerText = "Something went wrong!";
+      studyTextColor.innerText = "It is likely your file no longer exists.";
+      console.log("Error: " + err.message);
+    });
+  return true;
+}
+
+
+function getFile(url) {
+  return new Promise(function (resolve, reject) {
+    let req = new XMLHttpRequest();
+    req.open("GET", url);
+    req.onload = function () {
+      if (req.status == 200) {
+        resolve(JSON.parse(req.response));
+      } else {
+        reject(Error(req.statusText));
+      }
+    };
+    // Handle network errors
+    req.onerror = function () {
+      reject(Error("Network Error"));
+    };
+    // Make the request
+    req.send();
+  });
+}
