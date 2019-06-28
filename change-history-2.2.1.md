@@ -346,7 +346,11 @@ eg.
 /routes/ostm/data/results/...
 * NB. each layer of the routing folders has one (1) index.js, I prefer this to be the only FILE in this folder, its the file where the expressjs routing takes place (serving up web urls)
 
-
+## change-history-2.2.1 - 28 June 2019
+* consolidate public folders and create new /src reader for adding webpack/babel
+* is this structure /routes/src/<modulename>/ contains css, js, etc for each module and this webpack will need to be setup to handle each module seperately, in addition to the root which is simply <routes> 
+* next version will be adding webpack
+* also in the this iteration, im intending to process each js seperately, and plan to combine later
 
 
 In Progress

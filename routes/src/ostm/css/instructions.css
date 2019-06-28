@@ -1,0 +1,11 @@
+/* Styling - /ostm/static/main.css
+-------------------------------------------------- */
+#pageContent { 
+  box-sizing: border-box;
+  background-color: #E4F1FE;
+  border-style:solid;
+  border-radius: 5px;
+  border-color: #E4F1FE;
+  border-width: 2px;
+  padding:1.4em;
+}

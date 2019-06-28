@@ -1,0 +1,28 @@
+/* /ostm/static/styles/study.css
+-------------------------------------------------- */
+.stimulus {
+  /*padding: 3em;
+  border-radius: 25px;
+  border: 2px solid #73AD21;
+  */
+  text-align: center;
+}
+.answers {
+  padding: 1em;
+}
+.startbutton {
+  padding: 1em;
+}
+
+.studyButtons{
+  position: absolute;
+  bottom: 20%;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  max-width: 680px;
+
+  border-style: solid;
+  border-color: rgb(45, 248, 4);
+  border-width: 1px;
+}

@@ -49,7 +49,7 @@ const log = bunyan.createLogger({
 app.get("/", function (request, response) {
   var errLocation = "IP:" + request.ip + ", GET /" + modulePath;
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('index', { rPath: modulePath });
+  response.render('index', { rPath: moduleRoot });
 });
 
 
@@ -62,7 +62,7 @@ app.get("/", function (request, response) {
 app.get("/guide", function (request, response) {
   var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/guide ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('guide', { rPath: modulePath });
+  response.render('guide', { rPath: moduleRoot });
 });
 
 
@@ -75,7 +75,7 @@ app.get("/guide", function (request, response) {
 app.get("/deck/create", function (request, response) {
   var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/deck/create ";
   log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('deckNew', { rPath: modulePath });
+  response.render('deckNew', { rPath: moduleRoot });
 });
 app.post("/deck/create/:deckName", function (request, response) {
   var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/deck/create ";
@@ -131,12 +131,12 @@ app.get("/page/create", function (request, response) {
         }
       }
       log.info("GET /pageafterblock/create, Rendered for IP:", request.ip);
-      response.render('page', { rPath: modulePath, files: files });
+      response.render('page', { rPath: moduleRoot, files: files });
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: modulePath, err: error.message });
+      response.render('error', { rPath: moduleRoot, err: error.message });
       response.end;
     });
 });
@@ -212,13 +212,13 @@ app.get("/study/list", function (request, response) {
           files.push({ studyName: url.name });
         }
       }
-      response.render('studyList', { rPath: modulePath, files: files });
+      response.render('studyList', { rPath: moduleRoot, files: files });
       log.info("GET /study/list rendered", request.ip);
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render("error", { rPath: modulePath, err: error.message });
+      response.render("error", { rPath: moduleRoot, err: error.message });
       response.end;
     });
 });
@@ -238,11 +238,11 @@ app.get("/study/create", function (request, response) {
         });
       }
       log.info("GET /study/new/, Rendered for IP:" + request.ip);
-      response.render('studyCreate', { rPath: modulePath, files: files });
+      response.render('studyCreate', { rPath: moduleRoot, files: files });
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: modulePath, err: error.message });
+      response.render('error', { rPath: moduleRoot, err: error.message });
     });
 });
 app.post("/study/create", function (request, response) {
@@ -410,12 +410,12 @@ app.get("/study/duplicate", function (request, response) {
         }
       }
       log.info("GET /study/duplicate, Rendered for IP:", request.ip);
-      response.render('studyDuplicate', { rPath: modulePath, files: files });
+      response.render('studyDuplicate', { rPath: moduleRoot, files: files });
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: modulePath, err: error.message });
+      response.render('error', { rPath: moduleRoot, err: error.message });
       response.end;
     });
 });

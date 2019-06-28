@@ -21,9 +21,6 @@ uowcoglab.org/ostm/results                      #_POST_#
 uowcoglab.org/ostm/study                        #_GET_#
 
 uowcoglab.org/manage/                           #_GET_#
-uowcoglab.org/manage/public/                    
-uowcoglab.org/manage/public/css/                
-uowcoglab.org/manage/public/js/
 uowcoglab.org/manage/guide                      #_GET_#
 uowcoglab.org/manage/create                     #_GET_#
 uowcoglab.org/manage/create/:deckName           
