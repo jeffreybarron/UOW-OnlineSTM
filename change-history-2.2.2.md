@@ -352,6 +352,16 @@ eg.
 * next version will be adding webpack
 * also in the this iteration, im intending to process each js seperately, and plan to combine later
 
+## change-history-2.2.2 - 28 June 2019
+* Adding webpack and Babel
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.35.0"
+  }
+  
+
 
 In Progress
 ==========================================================

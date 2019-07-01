@@ -1,4 +1,5 @@
 "use strict";
+require('jquery');
 
 //application state variables
 var myTicker;
@@ -14,54 +15,117 @@ var answer_DIV = document.getElementById("answer_DIV");
 var target = document.getElementById("target");
 var answer = document.getElementById("answer");
 
-$( document ).ready(function() {
+//global accessable functions
+$(document).ready(function () {
   try {
     var result = loadStudy()
-    .then(resolved => {
-      // console.log(resolved);
-      start_DIV.style.display = "block";
-      show_DIV.style.display = "none";
-      answer_DIV.style.display = "none";
-      document.getElementById("start_btn").focus(); 
+      .then(resolved => {
+        // console.log(resolved);
+        start_DIV.style.display = "block";
+        show_DIV.style.display = "none";
+        answer_DIV.style.display = "none";
+        document.getElementById("start_btn").focus();
 
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   } catch (err) {
     alert(err);
   }
 });
 
-$( "#accept" ).on( "click", function() {
+$("#accept").on("click", function () {
   //Participant has accepted the studyName and PROLIFIC_PID, increment view state and update page
   state.flow.views[state.getView].result = "accept";
   var result = next()
 });
-$( "#reject" ).on( "click", function() {
+$("#reject").on("click", function () {
   //participant has rejected the study for some reason, pass them back to prolific without a completion code
   state.flow.views[state.getView].result = "reject";
   var result = redirect()
 });
 
-$( "#answer").on('keypress',function(e) {
-    if(e.which == 13) {
-        // alert(this.value);
-        updateAnswers()
-    }
+$("#answer").on('keypress', function (e) {
+  if (e.which == 13) {
+    // alert(this.value);
+    updateAnswers()
+  }
 });
 
+window.startQuestions = function () {
 
+  myTicker = setInterval(changeQuestion, state.studyConfig.blocks[blockCounter].refreshRateMS);
+  start_DIV.style.display = "none";
+  show_DIV.style.display = "block";
+  answer_DIV.style.display = "none";
+
+};
+window.updateAnswers = function () {
+  let answerCounter = parseInt(answer.name);
+  if (answer.name < stimulusCounter) {
+    let timeStamp = Date.now();
+    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].timeStamp = timeStamp; //load answer into json
+    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].responseTime = getDate(timeStamp); //load answer into json
+    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].response = answer.value; //load answer into json
+    answer.value = ""; //reset form for next answer
+    answer.focus();
+    answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
+  }
+
+  //if we have reached the last stimulus in the set then increment the set
+  $("#stimulusCounter").html(parseInt(answer.name) + 1);
+  if (answer.name == stimulusCounter) {
+    //reset answers
+    stimulusCounter = 0;
+    answer.name = 0;
+
+    start_DIV.style.display = "block";
+    show_DIV.style.display = "none";
+    answer_DIV.style.display = "none";
+
+    setCounter++;
+    $("#stimulusCounter").html(1);
+    document.getElementById("start_btn").focus();
+  }
+
+  //if we have reached the last set in the block?, then increment the block
+  if (setCounter >= state.studyConfig.blocks[blockCounter].sets.length) {
+    // alert("end of block:" + blockCounter);
+    if (state.studyConfig.blocks[blockCounter].blockPopUp.length > 1) {
+      $("#modal-body").html(state.studyConfig.blocks[blockCounter].blockPopUp);
+      toggleModal()
+
+      start_DIV.style.display = "block";
+      show_DIV.style.display = "none";
+      answer_DIV.style.display = "none";
+      document.getElementById("start_btn").focus();
+
+    }
+
+    blockCounter++;
+    setCounter = 0; //new block new sets
+  }
+  //set focus on answer input box
+  // document.getElementById("answer").focus();
+
+  //if we have also reached the last stimulus bank then stop
+  if (blockCounter >= state.studyConfig.blocks.length) {
+    saveStudy();
+  }
+};
+
+//private functions
 async function loadStudy() {
   var studyURL = sPath + "/resources/studies/" + state.studyName + ".json";
   var configFile = await getFile(studyURL)
   state.studyConfig = configFile;
-    // shuffle blocks in study
+  // shuffle blocks in study
   if (state.studyConfig.shuffleBlocks === true) {
     // state.studyConfig.blocks = shuffleArray(state.studyConfig.blocks).splice(0);
     if (state.studyConfig.blocks.length > 0) {
       //use splice function to seperate item zero from the rest, and shuffle it at the same time
-      let shuffled = shuffleArray(state.studyConfig.blocks.splice(1,state.studyConfig.blocks.length));
+      let shuffled = shuffleArray(state.studyConfig.blocks.splice(1, state.studyConfig.blocks.length));
       /* now push each item in the shuffled list back on to the block (which at this point 
       * has only item remaining from the last operation) */
       for (let n = 0; n < shuffled.length; n++) {
@@ -71,13 +135,13 @@ async function loadStudy() {
       // console.dir(state.studyConfig.blocks);
     }
   }
-  for ( let i = 0; i < state.studyConfig.blocks.length; i++ ){
+  for (let i = 0; i < state.studyConfig.blocks.length; i++) {
     switch (state.studyConfig.blocks[i].shuffleMode) {
       case "sets": // shuffle sets in a block
         state.studyConfig.blocks[i].sets = shuffleArray(state.studyConfig.blocks[i].sets).splice(0);
         break;
       case "within": // shuffle cards within sets
-        for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
+        for (let j = 0; j < state.studyConfig.blocks[i].sets.length; j++) {
           // state.studyConfig.blocks[i].sets[j].set = shuffleArray(state.studyConfig.blocks[i].sets[j].set).splice(0);
           state.studyConfig.blocks[i].sets[j].stimuli = shuffleArray(state.studyConfig.blocks[i].sets[j].stimuli).splice(0);
         }
@@ -85,46 +149,35 @@ async function loadStudy() {
       case "across": //shuffle cards across sets
         //load all cards, from all sets (in this block) into an array
         let blockDeck = [];
-        for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
-          for ( let k = 0; k < state.studyConfig.blocks[i].sets[j].stimuli.length; k++ ){
+        for (let j = 0; j < state.studyConfig.blocks[i].sets.length; j++) {
+          for (let k = 0; k < state.studyConfig.blocks[i].sets[j].stimuli.length; k++) {
             blockDeck.push(state.studyConfig.blocks[i].sets[j].stimuli[k]);
-          //end stimulus
+            //end stimulus
           }
-        //end set
+          //end set
         }
         //shuffle array
         blockDeck = shuffleArray(blockDeck).splice(0)
         //put shuffled cards into sets again
-        for ( let j = 0; j < state.studyConfig.blocks[i].sets.length; j++ ){
-          for ( let k = 0; k < state.studyConfig.blocks[i].sets[j].stimuli.length; k++ ){
+        for (let j = 0; j < state.studyConfig.blocks[i].sets.length; j++) {
+          for (let k = 0; k < state.studyConfig.blocks[i].sets[j].stimuli.length; k++) {
             state.studyConfig.blocks[i].sets[j].stimuli[k] = blockDeck[0];
             blockDeck.shift();
-          //end stimulus
+            //end stimulus
           }
-        //end set
-        }         
+          //end set
+        }
         break;
       default:
-    //end switch case
+      //end switch case
     }
-  //end block
+    //end block
   }
   document.body.style.backgroundColor = state.studyConfig.studybackgroundColor;
   document.body.style.color = state.studyConfig.studyTextColor;
   state.studyConfig.loadTime = getDate();
 
 };
-
-
-function startQuestions() {
-  
-  myTicker = setInterval(changeQuestion, state.studyConfig.blocks[blockCounter].refreshRateMS);
-  start_DIV.style.display = "none";
-  show_DIV.style.display = "block";
-  answer_DIV.style.display = "none";
-  
-};
-
 
 function changeQuestion() {
 
@@ -144,82 +197,22 @@ function changeQuestion() {
   } else {
     // clear the text area and stop the ticker
     clearInterval(myTicker);
- 
+
     start_DIV.style.display = "none";
- 
+
     show_DIV.style.display = "none";
     setProperties(target, "+", state.studyConfig.studyTextColor, state.studyConfig.studybackgroundColor);
- 
-    $( ".middle" ).css("background-color", state.studyConfig.studybackgroundColor);
-    $( ".middle" ).css("color", state.studyConfig.studyTextColor);
+
+    $(".middle").css("background-color", state.studyConfig.studybackgroundColor);
+    $(".middle").css("color", state.studyConfig.studyTextColor);
     answer_DIV.style.display = "block";
- 
- 
+
+
     answer.focus();
   }
 };
 
-function updateAnswers() {
-  let answerCounter = parseInt(answer.name);
-  if (answer.name < stimulusCounter) {
-    let timeStamp = Date.now();
-    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].timeStamp = timeStamp; //load answer into json
-    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].responseTime = getDate(timeStamp); //load answer into json
-    state.studyConfig.blocks[blockCounter].sets[setCounter].stimuli[answerCounter].response = answer.value; //load answer into json
-    answer.value = ""; //reset form for next answer
-    answer.focus();
-    answer.name++; //this is why study.ejs input id=answer, requires name to be 0 and nothing else.
-  }
-
-  //if we have reached the last stimulus in the set then increment the set
-  $("#stimulusCounter").html(parseInt(answer.name) + 1);
-  if (answer.name == stimulusCounter) {
-    //reset answers
-    stimulusCounter = 0;
-    answer.name = 0;
-    
-    start_DIV.style.display = "block";
-    show_DIV.style.display = "none";
-    answer_DIV.style.display = "none";
-
-    setCounter++;
-    $("#stimulusCounter").html(1);
-    document.getElementById("start_btn").focus();
-  }
-
-  //if we have reached the last set in the block?, then increment the block
-  if (setCounter >= state.studyConfig.blocks[blockCounter].sets.length) {
-    // alert("end of block:" + blockCounter);
-    if ( state.studyConfig.blocks[blockCounter].blockPopUp.length > 1 ) {
-      $("#modal-body").html(state.studyConfig.blocks[blockCounter].blockPopUp);
-      toggleModal()
-
-      start_DIV.style.display = "block";
-      show_DIV.style.display = "none";
-      answer_DIV.style.display = "none";
-      document.getElementById("start_btn").focus();
-
-    }
-  
-    blockCounter++;
-    setCounter = 0; //new block new sets
-  }
-
-  //set focus on answer input box
-  // document.getElementById("answer").focus();
-
-  //if we have also reached the last stimulus bank then stop
-  if (blockCounter >= state.studyConfig.blocks.length) {
-    saveStudy();
-  }
-
-
-};
-
-
-
-
-function saveStudy(){
+function saveStudy() {
   setProperties(target, "+", "white", "black");
   start_DIV.style.display = "none";
   show_DIV.style.display = "none";
@@ -229,7 +222,7 @@ function saveStudy(){
   state.studyConfig.saveTime = getDate();
 
   //Update Page Form
-  
+
   //Write Study Result to Server
   var data = JSON.stringify(state, null, 2);
   //console.dir(data);
@@ -241,7 +234,7 @@ function saveStudy(){
     //console.log(data);
     xmlHttp.send(data);
     // console.log("sent now wait");
-    xmlHttp.onreadystatechange = function() {
+    xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 202) {
 
         $("body").removeAttr("style");
@@ -250,7 +243,7 @@ function saveStudy(){
         var result = next()
 
       } else {
-        //  alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status );
+        alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status);
       }
     };
   } catch (err) {
@@ -268,12 +261,12 @@ function getFile(url) {
   //https://developers.google.com/web/fundamentals/primers/promises
   //console.log("url:" + url);
   // Return a new promise.
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     // Do the usual XHR stuff
     let req = new XMLHttpRequest();
     req.open("GET", url);
 
-    req.onload = function() {
+    req.onload = function () {
       // This is called even on 404 etc
       // so check the status
       if (req.status == 200) {
@@ -287,7 +280,7 @@ function getFile(url) {
       }
     };
     // Handle network errors
-    req.onerror = function() {
+    req.onerror = function () {
       reject(Error("Network Error"));
     };
     // Make the request
@@ -308,10 +301,10 @@ function shuffleArray(array) {
 function setProperties(obj, textValue, textColor, textBackGroundColor) {
   //set properties on page
   obj.innerText = textValue;
- 
-  $( ".middle" ).css("background-color", textBackGroundColor);
-  $( ".middle" ).css("color", textColor);
-  
+
+  $(".middle").css("background-color", textBackGroundColor);
+  $(".middle").css("color", textColor);
+
 }
 
 
@@ -331,13 +324,13 @@ window.addEventListener("click", event => {
   }
 });
 
-function modalClose(){
+function modalClose() {
   /* needed to add btn disable because you can still press enter key activating the button with the modal open */
-  document.getElementById("submit_btn").disabled = false; 
+  document.getElementById("submit_btn").disabled = false;
   document.getElementById("start_btn").disabled = false;
   modal.style.display = "none";
-  $( "#modal-body" ).html("");
-  $( "#buttonStart" ).focus();
+  $("#modal-body").html("");
+  $("#buttonStart").focus();
 }
 function toggleModal() {
   document.getElementById("submit_btn").disabled = true;

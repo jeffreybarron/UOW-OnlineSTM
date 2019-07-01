@@ -1,4 +1,6 @@
 "use strict";
+// require("@babel/polyfill");
+require('jquery');
 const sPath = '/ostm/manage'
 // const siteAssets = '/public/'
 

@@ -1,10 +1,12 @@
 "use strict";
+// require("@babel/polyfill");
+require('jquery');
 var sPath = "/ostm/manage";
 
 /* not sure how I will use or delete this */
 var setSizes = $("#setSizes");
 var msgResult = $("#msgResult");
-const TINYMCE_SETTINGS = { 
+const TINYMCE_SETTINGS = {
   selector: "textarea",
   menubar: false,
   toolbar: "fullscreen",
@@ -22,18 +24,18 @@ const TINYMCE_SETTINGS = {
  * DOM & JQUERY Functions
  *
  */
-window.onerror = function(message, filename, linenumber) {
+window.onerror = function (message, filename, linenumber) {
   var msg = message;
   alert(msg);
   console.log(msg + ", file: " + filename + ", line:" + linenumber);
   return true; // The exception is handled, don't show to the user.
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
   let iRowCount = 1;
   tinymce.init(TINYMCE_SETTINGS);
 
-  $("#pageCreate").click(function() {
+  $("#pageCreate").click(function () {
     try {
       let pageCreate = {};
       pageCreate["studyName"] = rejectBlanks($("#studyName").val());
@@ -43,7 +45,7 @@ $(document).ready(function() {
       // let content = JSON.stringify(tinymce.get('pageContent').getContent());
       // console.log(content);
       pageCreate["pageContent"] = JSON.stringify(tinymce.get('pageContent').getContent());
-      
+
       //POST Data to create Study
       let sPostPath = sPath + "/page/create";
       let request = $.ajax({
@@ -53,13 +55,13 @@ $(document).ready(function() {
         data: JSON.stringify(pageCreate)
       });
 
-      request.done(function(msg) {
+      request.done(function (msg) {
         alert("Page Created " + msg);
         return false;
       });
 
-      request.fail(function(jqXHR, textStatus) {
-        switch(jqXHR.status){
+      request.fail(function (jqXHR, textStatus) {
+        switch (jqXHR.status) {
           case 409:
             alert("This file already exists, it cannot be overwritten.");
             return false;
@@ -68,9 +70,9 @@ $(document).ready(function() {
             return false;
         }
       });
-    } catch (err){
+    } catch (err) {
       alert(err);
-    }  
+    }
   });
 });
 
@@ -91,7 +93,7 @@ function rejectBlanks(element) {
 }
 
 
-$( "#reject" ).on( "click", function() {
+$("#reject").on("click", function () {
   tinymce.EditorManager.execCommand('mceToggleEditor', true, textarea_id);
 });
 

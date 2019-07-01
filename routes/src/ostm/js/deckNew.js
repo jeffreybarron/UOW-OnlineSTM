@@ -1,4 +1,11 @@
+//the syntax "window.addRow = function" to call function is necessary one adding webpack, which makes this function global
+//an callable as a global function. ie. window events
+//note the jquery functions are global by default but they needed a require and some webpack config
+
 "use strict";
+// require("@babel/polyfill");
+require('jquery');
+
 const moduleURL = '/ostm/manage'
 const siteAssets = '/public/'
 
@@ -6,8 +13,7 @@ var stimuliTable = document.getElementById("stimuliTable");
 var msgResult = document.getElementById("msgResult");
 let iRowCount = 1;
 
-function addRow() {
-
+window.addRow = function () {
   let n = stimuliTable.rows.length - 1;
   let lastRow = stimuliTable.rows[stimuliTable.rows.length - 1];
   let lastTextColor = lastRow.getElementsByClassName("form-control")[2].value
@@ -35,7 +41,7 @@ function addRow() {
 
 }
 
-function createDeck() {
+window.createDeck = function () {
   var deckName = document.getElementById("deckName");
 
   //find table and iterate tbody, putting rows into JSON
@@ -130,3 +136,4 @@ $(document).on('click', 'img.insert', function () {
   });
 
 });
+

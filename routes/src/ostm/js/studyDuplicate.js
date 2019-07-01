@@ -1,4 +1,6 @@
 "use strict";
+// require("@babel/polyfill");
+
 var sPath = '/ostm/manage'
 const siteAssets = '/public/'
 
@@ -17,11 +19,11 @@ var msgResult = document.getElementById("msgResult");
 var oStudyConfig = {};
 var pageHandler = main();
 
-function updateOnChange() {
+window.updateOnChange = function () {
   // console.log("Selected: ", document.getElementById("source_studyName").value);
   var oData = upDateTable(document.getElementById("source_studyName").value);
 }
-function studyDuplicate() {
+window.studyDuplicate = function () {
   try {
     let data = {
       "currentStudyName": currentStudyName.innerText,

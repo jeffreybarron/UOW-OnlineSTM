@@ -1,24 +1,27 @@
 // ostm/public/static
 "use strict";
-
+// require("@babel/polyfill");;
+require('jquery');
 // Application Settings, these propogate down to inner pages
-const sPath = '/ostm'; 
-var state = {};
+window.sPath = '/ostm';
+window.state = {}; //declaring the state variable as globally accessible
 
 
 Window.onerror = function (message, filename, linenumber) {
-		var msg = message;
-		alert(msg);
-		console.log(msg + ", file: " + filename + ", line:" + linenumber);
-    return true; 
+  var msg = message;
+  alert(msg);
+  console.log(msg + ", file: " + filename + ", line:" + linenumber);
+  return true;
 }
 
 
+$(document).ready(function () {
+  console.log("Ready Run: ", Date.now());
+  console.log("Main.js Loaded");
 
-$(document).ready(function(){
   state = QueryStringToJSON();
   state.getView = "0";
-  try{
+  try {
     /* 
     * Initialise state
     * 1-get state object
@@ -26,31 +29,31 @@ $(document).ready(function(){
     * 3-call updateDOM
     */
     var result = initialisePage(state)
-    .then(resolved => {
-      //wrap the file in JSON and set some other data with it
-      // let returnData = resolved;
-      console.log(resolved);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      .then(resolved => {
+        //wrap the file in JSON and set some other data with it
+        // let returnData = resolved;
+        // console.log(resolved);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   } catch (err) {
     alert(err);
   }
 });
 
-async function initialisePage(){
+async function initialisePage() {
   let flowModel = await getFlowModel(state);
-    state = flowModel;
+  state = flowModel;
   let docLayout = await getLayout(state);
-    state = docLayout;
+  state = docLayout;
   let pageBody = await getView(state);
-    state = pageBody;
+  state = pageBody;
   let theDOM = updateDOM(state);
   // return [flowModel,pageBody,theDOM];
   return true;
 };
-function getFlowModel(state){
+function getFlowModel(state) {
   return new Promise((resolve, reject) => {
     //load StateData from page <script id="stateData"> innerHTML
     $.ajax({
@@ -61,10 +64,10 @@ function getFlowModel(state){
       async: true,
       cache: false,
       dataType: "json", //response data, recieved from server
-      success: function(response) {
+      success: function (response) {
         return resolve(response)
       },
-      error: function(xhr) {
+      error: function (xhr) {
         //Do Something to handle error
         return reject(xhr);
       }
@@ -72,7 +75,7 @@ function getFlowModel(state){
 
   });
 };
-function getLayout(state){
+function getLayout(state) {
   return new Promise((resolve, reject) => {
     //load StateData from page <script id="stateData"> innerHTML
     $.ajax({
@@ -83,10 +86,10 @@ function getLayout(state){
       async: true,
       cache: false,
       dataType: "json", //response data, recieved from server
-      success: function(response) {
+      success: function (response) {
         return resolve(response)
       },
-      error: function(xhr) {
+      error: function (xhr) {
         //Do Something to handle error
         return reject(xhr);
       }
@@ -94,15 +97,15 @@ function getLayout(state){
 
   });
 };
-async function updatePage(){
+async function updatePage() {
   let layout = await getLayout(state);
-    state = layout;
+  state = layout;
   let view = await getView(state);
-    state = view;
+  state = view;
   let theDOM = updateDOM(state);
   return true;
 };
-function getView(state){
+function getView(state) {
   return new Promise((resolve, reject) => {
     //load StateData from page <script id="stateData"> innerHTML
     $.ajax({
@@ -113,10 +116,10 @@ function getView(state){
       async: true,
       cache: false,
       dataType: "json", //response data, recieved from server
-      success: function(response) {
+      success: function (response) {
         return resolve(response)
       },
-      error: function(xhr) {
+      error: function (xhr) {
         //Do Something to handle error
         return reject(xhr);
       }
@@ -124,121 +127,121 @@ function getView(state){
 
   });
 };
-function updateDOM(state){
-    $("#page").attr("style", "display:none");
+function updateDOM(state) {
+  $("#page").attr("style", "display:none");
 
-    //update layout
-    var layout = document.getElementById("page");
-    while (layout.firstChild) {
-        layout.removeChild(layout.firstChild);
-    };
-    var newLayout = document.createElement("div");
-      newLayout.setAttribute("id", "layout");
-      newLayout.innerHTML = state.flow.views[state.getView].layoutContent;
-    layout.appendChild(newLayout);
+  //update layout
+  var layout = document.getElementById("page");
+  while (layout.firstChild) {
+    layout.removeChild(layout.firstChild);
+  };
+  var newLayout = document.createElement("div");
+  newLayout.setAttribute("id", "layout");
+  newLayout.innerHTML = state.flow.views[state.getView].layoutContent;
+  layout.appendChild(newLayout);
 
-    /* ==================================== 
-    * http://www.javascriptkit.com/javatutors/loadjavascriptcss.shtml
-    * load Page Styles
-    */        
-    var layoutStyles = document.getElementById("layoutStyles");
-    while (layoutStyles.firstChild) {
-        layoutStyles.removeChild(layoutStyles.firstChild);
-    };
-    for (const style of state.flow.views[state.getView].layoutStyles){
-      let newLink = document.createElement("link");
-        newLink.setAttribute("rel", "stylesheet");
-        newLink.setAttribute("type", "text/css");
-        newLink.setAttribute("href", style);
-      layoutStyles.appendChild(newLink);
-    };
+  /* ==================================== 
+  * http://www.javascriptkit.com/javatutors/loadjavascriptcss.shtml
+  * load Page Styles
+  */
+  var layoutStyles = document.getElementById("layoutStyles");
+  while (layoutStyles.firstChild) {
+    layoutStyles.removeChild(layoutStyles.firstChild);
+  };
+  for (const style of state.flow.views[state.getView].layoutStyles) {
+    let newLink = document.createElement("link");
+    newLink.setAttribute("rel", "stylesheet");
+    newLink.setAttribute("type", "text/css");
+    newLink.setAttribute("href", style);
+    layoutStyles.appendChild(newLink);
+  };
 
-    switch (state.flow.views[state.getView].layout) {
-      case "ostm":
-        updateDOM_OSTMLayout(state);
-        break;
-      default:
-        updateDOM_DefaultLayout(state);
-    }
+  switch (state.flow.views[state.getView].layout) {
+    case "ostm":
+      updateDOM_OSTMLayout(state);
+      break;
+    default:
+      updateDOM_DefaultLayout(state);
+  }
 
-    /* ====================================
-    * Unload old scripst and reload updated scripts
-    */
-    var scriptContainer = document.getElementById("scriptsCustom");
-    while (scriptContainer.firstChild) {
-      scriptContainer.removeChild(scriptContainer.firstChild);
-    };
-    for (const script of state.flow.views[state.getView].scripts){
-      var newScript=document.createElement('script')
-        newScript.setAttribute("type","text/javascript")
-        newScript.setAttribute("src", script)
-      scriptContainer.appendChild(newScript);
-    };  
+  /* ====================================
+  * Unload old scripst and reload updated scripts
+  */
+  var scriptContainer = document.getElementById("scriptsCustom");
+  while (scriptContainer.firstChild) {
+    scriptContainer.removeChild(scriptContainer.firstChild);
+  };
+  for (const script of state.flow.views[state.getView].scripts) {
+    var newScript = document.createElement('script')
+    newScript.setAttribute("type", "text/javascript")
+    newScript.setAttribute("src", script)
+    scriptContainer.appendChild(newScript);
+  };
 
 
-    $("#page").attr("style", "display:block");
-    return true;
+  $("#page").attr("style", "display:block");
+  return true;
 };
 function updateDOM_DefaultLayout(state) {
-    
-    /* ====================================
-    * Load the Header into our Page container
-    */
-    var headerContainer = document.getElementById("headerContainer");
-    while (headerContainer.firstChild) {
-      headerContainer.removeChild(headerContainer.firstChild);
-    };
-    var newHeader = document.createElement("div");
-      newHeader.setAttribute("id", "headerContent");
-      newHeader.innerHTML = state.flow.views[state.getView].header;
-    headerContainer.appendChild(newHeader);
+
+  /* ====================================
+  * Load the Header into our Page container
+  */
+  var headerContainer = document.getElementById("headerContainer");
+  while (headerContainer.firstChild) {
+    headerContainer.removeChild(headerContainer.firstChild);
+  };
+  var newHeader = document.createElement("div");
+  newHeader.setAttribute("id", "headerContent");
+  newHeader.innerHTML = state.flow.views[state.getView].header;
+  headerContainer.appendChild(newHeader);
 
 
-    /* ====================================
-    * Load the viewStyle and viewContent into our Page container
-    */
-    var contentContainer = document.getElementById("contentContainer");
-    while (contentContainer.firstChild) {
-      contentContainer.removeChild(contentContainer.firstChild);
-    };
-    //first load viewStyles
-    for (const viewStyle of state.flow.views[state.getView].viewStyles){
-      let newLink = document.createElement("link");
-        newLink.setAttribute("rel", "stylesheet");
-        newLink.setAttribute("type", "text/css");
-        newLink.setAttribute("href", viewStyle);
-      contentContainer.appendChild(newLink);
-    };  
-    //then load pageContent
-    var newContent = document.createElement("div");
-      newContent.setAttribute("id", "pageContent");
-      newContent.innerHTML = state.flow.views[state.getView].viewContent;
-    contentContainer.appendChild(newContent);
+  /* ====================================
+  * Load the viewStyle and viewContent into our Page container
+  */
+  var contentContainer = document.getElementById("contentContainer");
+  while (contentContainer.firstChild) {
+    contentContainer.removeChild(contentContainer.firstChild);
+  };
+  //first load viewStyles
+  for (const viewStyle of state.flow.views[state.getView].viewStyles) {
+    let newLink = document.createElement("link");
+    newLink.setAttribute("rel", "stylesheet");
+    newLink.setAttribute("type", "text/css");
+    newLink.setAttribute("href", viewStyle);
+    contentContainer.appendChild(newLink);
+  };
+  //then load pageContent
+  var newContent = document.createElement("div");
+  newContent.setAttribute("id", "pageContent");
+  newContent.innerHTML = state.flow.views[state.getView].viewContent;
+  contentContainer.appendChild(newContent);
 
 
-    /* ====================================
-    * Load the Footer into our Page container
-    */
-    var footerContainer = document.getElementById("footerContainer");
-    while (footerContainer.firstChild) {
-      footerContainer.removeChild(footerContainer.firstChild);
-    };
-    //then load footerContent
-    var newFooter = document.createElement("div");
-      newFooter.setAttribute("id", "footerContent");
-      newFooter.innerHTML = state.flow.views[state.getView].footer;
-    footerContainer.appendChild(newFooter);
+  /* ====================================
+  * Load the Footer into our Page container
+  */
+  var footerContainer = document.getElementById("footerContainer");
+  while (footerContainer.firstChild) {
+    footerContainer.removeChild(footerContainer.firstChild);
+  };
+  //then load footerContent
+  var newFooter = document.createElement("div");
+  newFooter.setAttribute("id", "footerContent");
+  newFooter.innerHTML = state.flow.views[state.getView].footer;
+  footerContainer.appendChild(newFooter);
 
 };
 function updateDOM_OSTMLayout(state) {
 
-   console.log("updateDOM_OSTMLayout");
+  console.log("updateDOM_OSTMLayout");
 
 };
 
 
 
-function saveState(){
+function saveState() {
   return new Promise((resolve, reject) => {
     //load StateData from page <script id="stateData"> innerHTML
     $.ajax({
@@ -249,10 +252,10 @@ function saveState(){
       async: true,
       cache: false,
       dataType: "json", //response data, recieved from server
-      success: function(response) {
+      success: function (response) {
         return resolve(response)
       },
-      error: function(xhr) {
+      error: function (xhr) {
         //Do Something to handle error
         return reject(xhr);
       }
@@ -263,16 +266,16 @@ function saveState(){
 
 
 
-function next() {
+window.next = function () {
   //first check if this is the last then we cant go forward
- 
+
   state.getView++;
   let save = saveState(); // save the previous state before updating
   let update = updatePage();
 
   return true;
 };
-function redirect(){
+window.redirect = function () {
   //abandon ship the end has come.
   state.flow.views[state.getView].response = "redirect"
   let save = saveState(); // save the previous state before redirecting
@@ -280,15 +283,15 @@ function redirect(){
   window.location.replace(state.flow.views[state.getView].pageRedirect);
   return true
 };
-function back(){
+window.back = function () {
   // first check if this is the first then we cant go back
-  
+
   state.getView--;
   let save = saveState(); // save the previous state before updating
   let update = updatePage();
 
   return true;
-  
+
 };
 
 
@@ -296,11 +299,11 @@ function back(){
 /* ====================================
 * Date Functions
 */
-function getDate(timeStamp = Date.now()) {
+window.getDate = function (timeStamp = Date.now()) {
   var d = new Date(timeStamp);
   return d.yyyyMMddhhmmssfff();
 }
-Date.prototype.yyyyMMddhhmmssfff = function() {
+Date.prototype.yyyyMMddhhmmssfff = function () {
   var yyyy = this.getFullYear().toString();
   var MM = pad(this.getMonth() + 1, 2);
   var dd = pad(this.getDate(), 2);
@@ -310,7 +313,7 @@ Date.prototype.yyyyMMddhhmmssfff = function() {
   var fff = pad(this.getMilliseconds(), 4);
   return yyyy + "/" + MM + "/" + dd + " " + hh + ":" + mm + ":" + ss + "." + fff;
 };
-function pad(number, length) {
+window.pad = function (number, length) {
   var str = "" + number;
   while (str.length < length) {
     str = "0" + str;
@@ -321,16 +324,16 @@ function pad(number, length) {
 
 
 
-function QueryStringToJSON() {            
-    var pairs = location.search.slice(1).split('&');
-    
-    var result = {};
-    pairs.forEach(function(pair) {
-        pair = pair.split('=');
-        // result['"' + pair[0] + '"'] = decodeURIComponent(pair[1] || '');
-        result[pair[0]] = decodeURIComponent(pair[1] || '');
-    });
+function QueryStringToJSON() {
+  var pairs = location.search.slice(1).split('&');
 
-    return JSON.parse(JSON.stringify(result));
+  var result = {};
+  pairs.forEach(function (pair) {
+    pair = pair.split('=');
+    // result['"' + pair[0] + '"'] = decodeURIComponent(pair[1] || '');
+    result[pair[0]] = decodeURIComponent(pair[1] || '');
+  });
+
+  return JSON.parse(JSON.stringify(result));
 }
 

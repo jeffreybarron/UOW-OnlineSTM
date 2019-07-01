@@ -5,7 +5,7 @@ const modulePath_Private = appRoot + moduleName;
 const modulePath_Public = moduleName + "/public";
 const modulePath_Data = modulePath_Private + "/data";
 
-console.log('Load: ' + modulePath_Private + '/index.js')
+console.log('Load: ' + modulePath_Private + '/index.js');
 
 const express = require("express"); //express module
 const app = express();
@@ -60,10 +60,10 @@ app.get("/", function (request, response) {
 });
 app.get("/study", function (request, response) {
   let JSONstateData = request.query; // initialise stateData with URL Query string key/vals
-	/* As HTTP:GET on /base is the begining of the study
-	 * we take the query string with Prolific data and add default state value of 0
-	 * i.e. this part of the site, the study, is a single page site
-	 */
+  /* As HTTP:GET on /base is the begining of the study
+  * we take the query string with Prolific data and add default state value of 0
+  * i.e. this part of the site, the study, is a single page site
+  */
   response.render("base");
 });
 app.get("/launch", function (request, response) {
@@ -303,10 +303,11 @@ async function saveState(state) {
           stateFile + "_medium_grouped.csv",
           state
         );
+        console.log("writeCSV_medium_grouped DONE");
       }
     }
   } catch (err) {
-    // console.log(err);
+    console.log(err);
   }
 
   // return [fileNotExists, writeDeck];
@@ -368,7 +369,8 @@ async function getProlificCode(sResultURL, sCodeURL) {
     } else {
       return "Result not Recieved, cannot issue Prolific Code!";
     }
-  } catch {
+  } catch (err) {
+    log.info("Function: getProlificCode(), Err: " + err);
     return "There was a problem with your code";
   }
 }
@@ -629,10 +631,20 @@ function writeCSV_medium_grouped(sURL, data) {
       participantResultFile.close();
     });
     //aysnc callbacks
+    participantResultFile.on("end", () => {
+      console.log("aysync write.end")
+      return resolve(true);
+    }); // not sure why you want to pass a boolean
+    participantResultFile.on("ready", () => {
+      console.log("aysync write.ready")
+      return resolve(true);
+    }); // not sure why you want to pass a boolean
     participantResultFile.on("finish", () => {
+      console.log("aysync write.finish")
       return resolve(true);
     }); // not sure why you want to pass a boolean
     participantResultFile.on("error", e => {
+      console.log("aysync write.error:", e)
       return reject(e);
     }); // don't forget this!
   });
