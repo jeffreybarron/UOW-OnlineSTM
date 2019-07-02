@@ -241,7 +241,7 @@ function updateDOM_OSTMLayout(state) {
 
 
 
-function saveState() {
+window.saveState = function () {
   return new Promise((resolve, reject) => {
     //load StateData from page <script id="stateData"> innerHTML
     $.ajax({

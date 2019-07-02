@@ -630,21 +630,28 @@ function writeCSV_medium_grouped(sURL, data) {
       participantResultFile.end();
       participantResultFile.close();
     });
+
     //aysnc callbacks
+    //unknown if this event is even called
     participantResultFile.on("end", () => {
-      console.log("aysync write.end")
+      console.log("aysync write.end");
       return resolve(true);
     }); // not sure why you want to pass a boolean
+
+    //event new in 9.x
     participantResultFile.on("ready", () => {
-      console.log("aysync write.ready")
+      console.log("aysync write.ready");
       return resolve(true);
     }); // not sure why you want to pass a boolean
+
+    //event from 8.16.0 deprecated
     participantResultFile.on("finish", () => {
-      console.log("aysync write.finish")
+      console.log("aysync write.finish");
       return resolve(true);
     }); // not sure why you want to pass a boolean
+
     participantResultFile.on("error", e => {
-      console.log("aysync write.error:", e)
+      console.log("aysync write.error:", e);
       return reject(e);
     }); // don't forget this!
   });

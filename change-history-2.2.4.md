@@ -361,7 +361,15 @@ eg.
     "webpack": "^4.35.0"
   }
   
+## change-history-2.2.3
+* Progress update on webpack implementation
 
+## change-history-2.2.4 - 2 July 2019
+* webpack implementation complete, no loaders added
+* npm run-scripts created for webpack
+* The webpack implementation required a lot of re-architecting, due to webpack runing code from within eval()
+* this change ment that jquery needed to be added to webpack config and some previously public variables and functions needed to be made global by prepending adding windows or document
+* any major re-write should re-achitect the public js for each page to be within modules 
 
 In Progress
 ==========================================================

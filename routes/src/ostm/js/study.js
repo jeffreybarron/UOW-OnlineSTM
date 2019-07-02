@@ -45,7 +45,6 @@ $("#reject").on("click", function () {
   state.flow.views[state.getView].result = "reject";
   var result = redirect()
 });
-
 $("#answer").on('keypress', function (e) {
   if (e.which == 13) {
     // alert(this.value);
@@ -54,13 +53,12 @@ $("#answer").on('keypress', function (e) {
 });
 
 window.startQuestions = function () {
-
   myTicker = setInterval(changeQuestion, state.studyConfig.blocks[blockCounter].refreshRateMS);
   start_DIV.style.display = "none";
   show_DIV.style.display = "block";
   answer_DIV.style.display = "none";
-
 };
+
 window.updateAnswers = function () {
   let answerCounter = parseInt(answer.name);
   if (answer.name < stimulusCounter) {
@@ -95,7 +93,6 @@ window.updateAnswers = function () {
     if (state.studyConfig.blocks[blockCounter].blockPopUp.length > 1) {
       $("#modal-body").html(state.studyConfig.blocks[blockCounter].blockPopUp);
       toggleModal()
-
       start_DIV.style.display = "block";
       show_DIV.style.display = "none";
       answer_DIV.style.display = "none";
@@ -111,6 +108,7 @@ window.updateAnswers = function () {
 
   //if we have also reached the last stimulus bank then stop
   if (blockCounter >= state.studyConfig.blocks.length) {
+    state.blockprocessed = blockCounter;
     saveStudy();
   }
 };
@@ -220,7 +218,6 @@ function saveStudy() {
 
   //Study is complete return to provider
   state.studyConfig.saveTime = getDate();
-
   //Update Page Form
 
   //Write Study Result to Server
@@ -243,7 +240,12 @@ function saveStudy() {
         var result = next()
 
       } else {
-        alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status);
+        // alert("readyState:" + xmlHttp.readyState + " Status:" + xmlHttp.status);
+
+        //This hack forces the last model box to stay up for 6 seconds
+        if (state.blockprocessed >= state.studyConfig.blocks.length) {
+          wait(6000);  //7 seconds in milliseconds
+        };
       }
     };
   } catch (err) {
@@ -339,3 +341,10 @@ function toggleModal() {
   // $( "#modal-continue" ).focus();
 }
 
+function wait(ms) {
+  var start = new Date().getTime();
+  var end = start;
+  while (end < start + ms) {
+    end = new Date().getTime();
+  }
+}
