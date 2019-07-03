@@ -1,6 +1,6 @@
 {
   "name": "cog-lab",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "UOW Cognition Lab, Web Study Platform",
   "main": "app.js",
   "author": "jeff@jeffreybarron.com",
@@ -9,6 +9,7 @@
     "browser": true
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "body-parser": "^1.18.3",
     "bunyan": "^1.8.12",
     "core-js": "^3.1.4",
@@ -25,7 +26,6 @@
   "devDependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.0",
-    "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.2.0",
     "babel-loader": "^8.0.6",
     "eslint": "^6.0.1",

@@ -1,3 +1,57 @@
+In Progress
+==========================================================
+
+
+Known ISSUES
+==========================================================
+
+
+Feature Requests
+==========================================================
+* Documentation 
+  * (1) List of folders for steve (file structure dependent)
+* Study run-time 
+  * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
+* (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
+
+* save after every set completion
+* add open event for csv writestream
+* change to MIT license???
+* save particpant SQLOutput to combined out for [study, allTime] : Jeff
+* update the manage/guide page to accept a tinyMCE.html page into a DIV
+
+* Feature: Participation Log file
+  rowID, IP, Date\Time, studyName, ProlificID, STUDYID, SESSIONID, A/B Test
+
+* Major Feature: A/B testing, (actually ABCD).
+  * log Particpation to studyName_log.json
+  * id, prolificID, StudyID, sessionID, DateTime, eventType(nameCheckRender, consentRender, instructionRemder, blockStart(blockID), blockEnd(blockID), studyComplete, studySaved, codeIssued)
+  * Use Particpation Log File to determine last issued AB test then issue next in list, in rotation.
+  * i.e each new participant is assigned a test A, B or C 
+  * this will need to work for A Only and A* Z
+  * use 2 dimensional Array to configure, persist and to present
+
+Test | Sets 
+---- | ----
+A | 1,2,3
+B | 3,2,1
+C | 2,3,1
+
+* line up the logs so they are all in the same order
+  * IP, file, function, task, msg, data
+* implement some security protocols
+* Add user basic management
+* port to AWS Serverless
+  * this may require moving to mongoDB? due data persistance changes with services
+* add deck analysis? use R!
+  * See bin/CSV Output Template.xlsx
+
+
+============================
+VERSION History
+============================
+
+
 1.3.x-master
 ============================
 
@@ -371,53 +425,7 @@ eg.
 * this change ment that jquery needed to be added to webpack config and some previously public variables and functions needed to be made global by prepending adding windows or document
 * any major re-write should re-achitect the public js for each page to be within modules 
 
-In Progress
-==========================================================
-
-
-Known ISSUES
-==========================================================
-* last block modal popup doesnt wait.
-
-
-Feature Requests
-==========================================================
-* Documentation 
-  * (1) List of folders for steve (file structure dependent)
-* Study run-time 
-  * (2) Preflight – Redirect to non-prolific source, when it iniated by the launch page 
-* (4) study URL would be nice to change to /ostm/study/[studyName]?[Params...]
-
-* save after every set completion
-* add open event for csv writestream
-* change to MIT license???
-* save particpant SQLOutput to combined out for [study, allTime] : Jeff
-* update the manage/guide page to accept a tinyMCE.html page into a DIV
-
-* Feature: Participation Log file
-  rowID, IP, Date\Time, studyName, ProlificID, STUDYID, SESSIONID, A/B Test
-
-* Major Feature: A/B testing, (actually ABCD).
-  * log Particpation to studyName_log.json
-  * id, prolificID, StudyID, sessionID, DateTime, eventType(nameCheckRender, consentRender, instructionRemder, blockStart(blockID), blockEnd(blockID), studyComplete, studySaved, codeIssued)
-  * Use Particpation Log File to determine last issued AB test then issue next in list, in rotation.
-  * i.e each new participant is assigned a test A, B or C 
-  * this will need to work for A Only and A* Z
-  * use 2 dimensional Array to configure, persist and to present
-
-Test | Sets 
----- | ----
-A | 1,2,3
-B | 3,2,1
-C | 2,3,1
-
-* line up the logs so they are all in the same order
-  * IP, file, function, task, msg, data
-* implement some security protocols
-* Add user basic management
-* port to AWS Serverless
-  * this may require moving to mongoDB? due data persistance changes with services
-* add deck analysis? use R!
-  * See bin/CSV Output Template.xlsx
-
+## change-history-2.2.5 - 3 July 2019
+* fixed last block modal popup doesnt wait. - added timer event (hack) to keep open for 6 seconds 
+* Installed Babel 7 via Webpack
 
