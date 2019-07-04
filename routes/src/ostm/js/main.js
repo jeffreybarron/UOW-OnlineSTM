@@ -1,6 +1,6 @@
 // ostm/public/static
 "use strict";
-// require("@babel/polyfill");;
+require("@babel/polyfill");;
 require('jquery');
 // Application Settings, these propogate down to inner pages
 window.sPath = '/ostm';

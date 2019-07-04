@@ -1,5 +1,5 @@
 "use strict";
-// require("@babel/polyfill");
+require("@babel/polyfill");
 require('jquery');
 const sPath = '/ostm/manage'
 // const siteAssets = '/public/'
@@ -54,11 +54,17 @@ $(document).ready(function () {
   $("#addRow").click(function () {
     try {
       tinymce.remove();
+      let pickCards_table = $("#pickCards_table tbody")
 
-      var pickCards_table = $("#pickCards_table tbody")
-      var clonedRow = pickCards_table.find('tr:last').clone();
-      clonedRow.find('input:read-only').val(iRowCount); //increment block value
+      let lastRow = pickCards_table.find('tr:last')
+      let lastStimulusFile = lastRow.find("#stimulusFile option:selected").val();
+      let lastShuffleMode = lastRow.find("#shuffleMode option:selected").val();
+
+      let clonedRow = lastRow.clone();
+      clonedRow.find("input[name='block']").val(iRowCount); //increment block value
       clonedRow.find('textarea').attr('id', iRowCount); //increment blockPopup id.value, for tinyMCE
+      clonedRow.find("#stimulusFile").val(lastStimulusFile);
+      clonedRow.find("#shuffleMode").val(lastShuffleMode);
 
       pickCards_table.append(clonedRow);
       iRowCount++;

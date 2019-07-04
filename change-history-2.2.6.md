@@ -4,7 +4,7 @@ In Progress
 
 Known ISSUES
 ==========================================================
-
+* 
 
 Feature Requests
 ==========================================================
@@ -429,3 +429,9 @@ eg.
 * fixed last block modal popup doesnt wait. - added timer event (hack) to keep open for 6 seconds 
 * Installed Babel 7 via Webpack
 
+## change-history-2.2.6 - 3 July 2019 - Jeff Barron
+* updated browser warnings on first page of ostm study
+* FIXED manage.createStudy: Add Row btn doesnt work on firefox and ie
+Error: Syntax error, unrecognized expression: unsupported pseudo: read-only
+* FIXED launch doesnt work on non-chrome
+* FIXED manage.createStudy: when creating a study and you click on “add a row” it duplicates the row above for most settings but not the shuffle mode.  Can you change it so that the shuffle mode is carried over from the row above as well, please? Steve.

@@ -12,7 +12,8 @@ const config = {
     guide: './routes/src/ostm/js/guide.js',
     deckNew: './routes/src/ostm/js/deckNew.js',
     studyCreate: './routes/src/ostm/js/studyCreate.js',
-    studyDuplicate: './routes/src/ostm/js/studyDuplicate.js'
+    studyDuplicate: './routes/src/ostm/js/studyDuplicate.js',
+    launch: './routes/src/ostm/js/launch.js'
   },
   output: {
     filename: '[name].js',

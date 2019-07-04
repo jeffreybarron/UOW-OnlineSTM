@@ -365,10 +365,10 @@
               <input type="text" class="form-control" name="block" value="0" readonly>
             </td>
             <td>
-              <select class="form-control" name="stimulusFile" value="prac3letter12.json">
-                <option selected>prac3letter12.json</option>
+              <select id="stimulusFile" class="form-control" name="stimulusFile" value="prac3letter12.json">
+                <option selected>(Choose a stimulus file)</option>
                 <% files.forEach(function(file) { %>
-                <option><%= file.deckName %></option>
+                <option value="<%= file.deckName %>"><%= file.deckName %></option>
                 <% }); %>
               </select>
             </td>
@@ -379,7 +379,7 @@
               <input type="text" class="form-control" name="refreshRateMS" value="1000" required>
             </td>
             <td>
-              <select class="form-control" name="shuffleMode" value="">
+              <select id="shuffleMode" class="form-control" name="shuffleMode" value="">
                 <option value="no">No Shuffle</option>
                 <option value="within">within, stimuli within each set</option>
                 <option value="sets">sets, the set order</option>

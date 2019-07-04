@@ -1,5 +1,5 @@
 "use strict";
-// require("@babel/polyfill");
+require("@babel/polyfill");
 require('jquery');
 var sPath = "/ostm/manage";
 

@@ -1,4 +1,5 @@
 "use strict";
+//require("@babel/polyfill");
 require('jquery');
 
 //application state variables

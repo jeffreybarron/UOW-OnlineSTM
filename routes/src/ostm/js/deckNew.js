@@ -3,7 +3,7 @@
 //note the jquery functions are global by default but they needed a require and some webpack config
 
 "use strict";
-// require("@babel/polyfill");
+require("@babel/polyfill");
 require('jquery');
 
 const moduleURL = '/ostm/manage'
