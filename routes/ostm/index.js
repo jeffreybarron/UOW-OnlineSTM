@@ -39,7 +39,7 @@ const log = bunyan.createLogger({
   name: "UOW_CogLab",
   streams: [{
       level: "debug",
-      path: __dirname + "/logs/ostm-log.JSON"
+      path: __dirname + "/logs/ostm-log.json"
     },
     {
       level: "info",
@@ -301,7 +301,7 @@ app.post("/API/flow", function (request, response) {
     });
 });
 async function loadFlow(state) {
-  let jFlow = await readFile(modulePath_Private + "/views/configuration/stateflow.JSON");
+  let jFlow = await readFile(modulePath_Private + "/views/configuration/stateflow.json");
   state.flow = JSON.parse(jFlow);
   state.flow.initialised = getDate();
   let result = saveState(state);
@@ -624,7 +624,7 @@ async function saveState(state) {
     "_" +
     state.SESSION_ID;
 
-  let saveToJSON = await writeJSON(stateFile + ".JSON", state);
+  let saveToJSON = await writeJSON(stateFile + ".json", state);
   log.info({
     "function": "saveState(state).2",
     "ipAddress": "",
@@ -731,8 +731,8 @@ app.post("/API/issuecode", function (request, response) {
     state.STUDY_ID +
     "_" +
     state.SESSION_ID +
-    ".JSON";
-  var codeFileName = __dirname + "/data/resources/codes/" + state.studyName + "_code.JSON";
+    ".json";
+  var codeFileName = __dirname + "/data/resources/codes/" + state.studyName + "_code.json";
 
   try {
     var prolificCode = getProlificCode(resultFileName, codeFileName)
@@ -967,7 +967,7 @@ function writeCSV_wide(sURL, data) {
     //save csv here
 
     /* to strip the [] after stringify use .substring(1,strung.length-1) 
-    https://stackoverflow.com/questions/29737024/JSON-stringifyarray-surrounded-with-square-brackets
+    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
     */
     let participantResultFile = fs.createWriteStream(sURL, {
       flags: "w"
@@ -1040,7 +1040,7 @@ function writeCSV_wide_grouped(sURL, data) {
     //save csv here
 
     /* to strip the [] after stringify use .substring(1,strung.length-1) 
-    https://stackoverflow.com/questions/29737024/JSON-stringifyarray-surrounded-with-square-brackets
+    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
     */
     let participantResultFile = fs.createWriteStream(sURL, {
       flags: "w"
@@ -1128,7 +1128,7 @@ function writeCSV_medium_grouped(sURL, data) {
     //save csv here
 
     /* to strip the [] after stringify use .substring(1,strung.length-1) 
-    https://stackoverflow.com/questions/29737024/JSON-stringifyarray-surrounded-with-square-brackets
+    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
     */
     let participantResultFile = fs.createWriteStream(sURL, {
       flags: "w"
@@ -1224,7 +1224,7 @@ function writeCSV_forSQL(sURL, data) {
     //save csv here
 
     /* to strip the [] after stringify use .substring(1,strung.length-1) 
-    https://stackoverflow.com/questions/29737024/JSON-stringifyarray-surrounded-with-square-brackets
+    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
     */
     let participantResultFile = fs.createWriteStream(sURL, {
       flags: "w"

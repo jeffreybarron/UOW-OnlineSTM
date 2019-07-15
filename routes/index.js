@@ -63,20 +63,7 @@ app.get("*", function (request, response) {
     if it is placed before any other routes those routes wont be handled
     */
   //Log these as they may show nefarious behaviour and their attack vectors
-  log.info({
-    "function": "/.1",
-    "ipAddress": request.ip,
-    "request": request,
-    "response": "render.404",
-    "studyName": "",
-    "PROLIFIC_ID": "",
-    "STUDY_ID": "",
-    "SESSION_ID": "",
-    "data": "",
-    "error": "unhandled page request"
-  });
-
-  //keep this it is handy way to track malicious activity, outside the noise of the normal logs
+  // I WANT A NICE SIMPLE LOG FOR THIS, TO MINISE BEING FLOODED WITH THIS LOG
   var sLog = `{"date":"${mDates.getDate()}", "source":" + ${request.ip}", "URL":"${request.originalUrl}"},\r\n`;
   fs.appendFile(__dirname + "/logs/unhandledPageRequests.json", sLog, function (err) {
     if (err) console.log(err);
