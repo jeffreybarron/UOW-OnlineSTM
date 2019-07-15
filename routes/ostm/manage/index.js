@@ -19,15 +19,16 @@ const studyResources = appRoot + '/' + moduleRoot + 'data/resources/'
 
 app.use("/public", express.static(__dirname + '/public'));
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(sanitizer());
 app.set("view engine", "ejs");
 app.set("views", [__dirname + '/views']);
 
 const log = bunyan.createLogger({
   name: "UOW_CogLab",
-  streams: [
-    {
+  streams: [{
       level: "debug",
       path: __dirname + "/logs/" + moduleName + "-log.json"
     },
@@ -42,63 +43,145 @@ const log = bunyan.createLogger({
 
 
 /* 
-*
-* / Home Page Routes 
-*
-*/
+ *
+ * / Home Page Routes 
+ *
+ */
 app.get("/", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + modulePath;
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('index', { rPath: moduleRoot });
+  log.info({
+    "function": "/ostm/manage/.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.index",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
+  response.render('index', {
+    rPath: moduleRoot
+  });
 });
 
 
 
 /* 
-*
-* /guide/ Routes 
-*
-*/
+ *
+ * /guide/ Routes 
+ *
+ */
 app.get("/guide", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/guide ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('guide', { rPath: moduleRoot });
+  log.info({
+    "function": "/ostm/manage/guide.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.guide",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
+  response.render('guide', {
+    rPath: moduleRoot
+  });
 });
 
 
 
 /* 
-*
-* /deck/ Routes 
-*
-*/
+ *
+ * /deck/ Routes 
+ *
+ */
 app.get("/deck/create", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/deck/create ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-  response.render('deckNew', { rPath: moduleRoot });
+  log.info({
+    "function": "/ostm/manage/deck/create.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.deckNew",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
+  response.render('deckNew', {
+    rPath: moduleRoot
+  });
 });
 app.post("/deck/create/:deckName", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/deck/create ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
+  log.info({
+    "function": "/ostm/manage/deck/create/:deckName.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
   var result = createDeck(request.params.deckName, request.body)
     .then(resolved => {
-      log.info("POST /deck/create, Successful", resolved);
-      log.info("POST /deck/created, from IP:", request.ip);
+      log.info({
+        "function": "/ostm/manage/deck/create/:deckName.2",
+        "ipAddress": request.ip,
+        "request": request,
+        "response": "201",
+        "data": resolved,
+        "error": {
+          "err.object": "",
+          "msg": ""
+        }
+      });
       response.status(201).end();
     })
     .catch(err => {
       if (err.message == "This file already exists!") {
-        log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
+        log.info({
+          "function": "/ostm/manage/deck/create/:deckName.3",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "409",
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "This file already exists!"
+          }
+        });
         response.status(409).end();
       } else {
-        log.info("POST /deck/create, failed", err.message);
+        log.info({
+          "function": "/ostm/manage/deck/create/:deckName.3",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "500",
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "General Server Error"
+          }
+        });
         response.status(500).end();
       }
     });
 });
 async function createDeck(deckName, deck) {
-  log.info("POST /deck/create createDeck: " + deckName, deck);
+  log.info({
+    "function": "/ostm/manage/createDeck().1",
+    "ipAddress": request.ip,
+    "request": "",
+    "data": {
+      "deckName": deckName,
+      "deck": deck
+    },
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
   //AWAIT --> does file already exist, if so then stop
   let deckNotExists = await fileNotExists(studyResources + 'decks/' + deckName + ".json");
 
@@ -111,13 +194,22 @@ async function createDeck(deckName, deck) {
 
 
 /* 
-*
-* /pages/ Routes 
-*
-*/
+ *
+ * /pages/ Routes 
+ *
+ */
 app.get("/page/create", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/pageafterblock/create ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  log.info({
+    "function": "/ostm/manage/page/create.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
 
   const getFileList = util.promisify(fs.readdir);
   getFileList(studyResources + 'studies/')
@@ -127,40 +219,51 @@ app.get("/page/create", function (request, response) {
       for (let i = 0; i < fileList.length; i++) {
         if (fileList[i].includes(".json")) {
           var thisFile = path.parse(fileList[i]);
-          files.push({ studyName: thisFile.name });
+          files.push({
+            studyName: thisFile.name
+          });
         }
       }
-      log.info("GET /pageafterblock/create, Rendered for IP:", request.ip);
-      response.render('page', { rPath: moduleRoot, files: files });
+      response.render('page', {
+        rPath: moduleRoot,
+        files: files
+      });
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: moduleRoot, err: error.message });
+      response.render('error', {
+        rPath: moduleRoot,
+        err: error.message
+      });
       response.end;
     });
 });
 app.post("/page/create", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/page/create ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  log.info({
+    "function": "/ostm/manage/page/create.POST.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
   let pageJSON = request.body;
   // console.dir(pageJSON);
   let data = JSON.parse(pageJSON.pageContent);
   var result = pageCreate(pageJSON.studyName, pageJSON.pageName.toLowerCase(), data)
     .then(resolved => {
-      log.info("POST page/create Successful", resolved);
-      log.info("POST page/create, from IP:", request.ip);
       response.status(201).end();
     })
     .catch(err => {
       if (err.message == "This file already exists!") {
-        log.info("POST page/create, This file already exists!, from IP:", request.ip);
         response.status(409).end();
       } else if (err.code = "EXXIT") {
-        log.info("POST page/create, This file already exists!, from IP:", request.ip);
         response.status(409).end();
       } else {
-        log.info("POST page/create, failed", err.message);
         response.status(500).end();
       }
     });
@@ -176,17 +279,25 @@ async function pageCreate(studyName, pageName, data) {
 
 
 /* 
-*
-* /Study/ Routes 
-*
-*/
+ *
+ * /Study/ Routes 
+ *
+ */
 app.get("/studies/:studyName", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/study/list ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  log.info({
+    "function": "/ostm/manage/studies/:studyName.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
   const studyURL = appRoot + "/ostm/data/resources/studies/" + request.params.studyName + ".json";
   getFile(studyURL)
     .then(resolved => {
-      log.info("POST /study/:studyName resolved: " + resolved + ", Successful", request.ip);
       //wrap the file in JSON and set some other data with it
       // let returnData = resolved;
       response.status(200).send(resolved);
@@ -198,8 +309,17 @@ app.get("/studies/:studyName", function (request, response) {
 });
 
 app.get("/study/list", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/study/list ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  log.info({
+    "function": "/ostm/manage/study/list.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
 
   const getFileList = util.promisify(fs.readdir);
   getFileList(studyResources + 'studies/')
@@ -209,23 +329,39 @@ app.get("/study/list", function (request, response) {
       for (let i = 0; i < fileList.length; i++) {
         if (fileList[i].includes(".json")) {
           let url = path.parse(fileList[i]);
-          files.push({ studyName: url.name });
+          files.push({
+            studyName: url.name
+          });
         }
       }
-      response.render('studyList', { rPath: moduleRoot, files: files });
+      response.render('studyList', {
+        rPath: moduleRoot,
+        files: files
+      });
       log.info("GET /study/list rendered", request.ip);
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render("error", { rPath: moduleRoot, err: error.message });
+      response.render("error", {
+        rPath: moduleRoot,
+        err: error.message
+      });
       response.end;
     });
 });
 app.get("/study/create", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/study/new ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
+  log.info({
+    "function": "/ostm/manage/study/create.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
   const getFileList = util.promisify(fs.readdir);
   getFileList(studyResources + 'decks/')
     .then(fileList => {
@@ -237,22 +373,34 @@ app.get("/study/create", function (request, response) {
           available: mUtils.getDeckLength(studyResources + 'decks/' + fileList[i])
         });
       }
-      log.info("GET /study/new/, Rendered for IP:" + request.ip);
-      response.render('studyCreate', { rPath: moduleRoot, files: files });
+      response.render('studyCreate', {
+        rPath: moduleRoot,
+        files: files
+      });
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: moduleRoot, err: error.message });
+      response.render('error', {
+        rPath: moduleRoot,
+        err: error.message
+      });
     });
 });
 app.post("/study/create", function (request, response) {
-
-  var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/study/create ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  log.info({
+    "function": "/ostm/manage/study/create.POST.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
 
   //a rudimentary check, if there are exactly 7 query string objects
   let oStudyConfig = request.body;
-  log.info(errLocation + ", log: 2", oStudyConfig);
   //sanitize Fields, one-by-one becuase they each need a little tweek
   oStudyConfig["studyName"] = request.sanitize(oStudyConfig["studyName"]);
   oStudyConfig["studybackgroundColor"] = request.sanitize(oStudyConfig["studybackgroundColor"]);
@@ -264,52 +412,44 @@ app.post("/study/create", function (request, response) {
   oStudyConfig["redirectTimer"] = request.sanitize(oStudyConfig["redirectTimer"]);
   oStudyConfig["completionURL"] = request.sanitize(oStudyConfig["completionURL"]);
 
-
-  log.info(errLocation + ", log: 3, Sanitized");
-
   try {
     var result = createStudy(request.body.studyName, request.body.completionCode, oStudyConfig)
       .then(resolved => {
-        log.info(errLocation + ", log: 4, Success", resolved);
         response.status(201).end();
       })
       .catch(err => {
         if (err.message.includes("The sum of sets in block")) {
-          log.info(errLocation + ", log: 5, This file already exists!");
           response.status(403).send(err.message);
         } else if (err.message == "This file already exists!") {
-          log.info(errLocation + ", log: 6, This file already exists!");
           response.status(409).send(err.message);
         } else {
-          log.info(errLocation + ", log: 7, Server Error (500)");
           response.status(500).send(err.message);
         }
       });
   } catch (error) {
-    response.render("error", { err: error.message });
+    response.render("error", {
+      err: error.message
+    });
     response.end;
   }
 });
 async function createStudy(studyName, completionCode, oStudyConfig) {
   /*======================================================================================================
-  * For inside shuffle to work the cards need to picked into their sets at study creation it will not
-  * work in done at runtime per participant. This means redesigning POST and how the data is saved.
-  * i.e. The sampled cards are stored now (at design-time) not later (at run-time).
-  */
+   * For inside shuffle to work the cards need to picked into their sets at study creation it will not
+   * work in done at runtime per participant. This means redesigning POST and how the data is saved.
+   * i.e. The sampled cards are stored now (at design-time) not later (at run-time).
+   */
   var errLocation = "creatStudy ";
-  log.info(errLocation + ", log: 1, called");
 
   //AWAIT --> does file already exist, if so then stop
   let studyNotExists = await fileNotExists(studyResources + "studies/" + studyName + ".json");
-  log.info(errLocation + ", log: 2");
   //AWAIT --> write codeFile
 
   //AWAIT --> loadsets according to deckConfiguration Rules
-  log.info(errLocation + ", log: 3");
   for (let i = 0; i < oStudyConfig.blocks.length; i++) {
     /*--------------------------------------------------------------
-    * load the block stimulus file, create and fill the sets of each block
-    */
+     * load the block stimulus file, create and fill the sets of each block
+     */
     let block = oStudyConfig.blocks[i];
     let fileURL = studyResources + "decks/" + block.stimulusFile;
     let stimulusFile = await getFile(fileURL);
@@ -333,9 +473,9 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
       //dish out the number of cards required from the front of the deck
       for (let i = 0; i < setSize; i++) {
         /*--------------------------------------------------------------
-        * push first element of dealersDeck onto the end of config file sets.set
-        * console.log("iSetNumber:" + iSetNumber + ", setSize:" + setSize + ", i:" + i);
-        */
+         * push first element of dealersDeck onto the end of config file sets.set
+         * console.log("iSetNumber:" + iSetNumber + ", setSize:" + setSize + ", i:" + i);
+         */
         // block.sets[iSetNumber].set.push(stimulusFile[0]); //because zero is always the front
         block.sets[iSetNumber].stimuli.push(stimulusFile[0]); //because zero is always the front
         stimulusFile.shift(); //remove first element of dealersDeck
@@ -344,7 +484,6 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   };
 
   //AWAIT --> write configfile
-  log.info(errLocation + ", log: 3");
   let configFile = await writeJSON(studyResources + "studies/" + oStudyConfig.studyName + ".json", oStudyConfig);
 
   //AWAIT --> creation of completion code file
@@ -355,27 +494,23 @@ async function createStudy(studyName, completionCode, oStudyConfig) {
   )
 
   //let jCompletionFile = JSON.parse(sCompletionFile);
-  log.info(errLocation + ", log: 4");
   let codeFile = await writeJSON(studyResources + "codes/" + studyName + "_code.json", sCompletionFile);
   delete oStudyConfig["completionCode"];
   delete oStudyConfig["redirectTimer"];
   delete oStudyConfig["completionURL"];
 
   //AWAIT --> write consentFile
-  log.info(errLocation + ", log: 5");
   let consentFile = await writeFile(studyResources + "studies/" + oStudyConfig.studyName + "_consent.html",
     oStudyConfig["consentCopy"]
   );
   delete oStudyConfig["consentCopy"];
 
   //AWAIT --> write instructionFile
-  log.info(errLocation + ", log: 6");
   let instructionFile = await writeFile(studyResources + "studies/" + oStudyConfig.studyName + "_instructions.html",
     oStudyConfig["instructionCopy"]
   );
   delete oStudyConfig["instructionCopy"];
 
-  log.info(errLocation + ", log: 7");
   return [studyNotExists, codeFile, instructionFile, configFile];
 
 };
@@ -395,8 +530,17 @@ function createCompletionFile(code = mUtils.getGUID(), delay = "10000", url = "/
 }
 
 app.get("/study/duplicate", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET /" + modulePath + "/study/duplicate ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  log.info({
+    "function": "/ostm/manage/study/duplicate.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
 
   const getFileList = util.promisify(fs.readdir);
   getFileList(studyResources + 'studies/')
@@ -406,22 +550,38 @@ app.get("/study/duplicate", function (request, response) {
       for (let i = 0; i < fileList.length; i++) {
         if (fileList[i].includes(".json")) {
           var thisFile = path.parse(fileList[i]);
-          files.push({ studyName: thisFile.name });
+          files.push({
+            studyName: thisFile.name
+          });
         }
       }
-      log.info("GET /study/duplicate, Rendered for IP:", request.ip);
-      response.render('studyDuplicate', { rPath: moduleRoot, files: files });
+      response.render('studyDuplicate', {
+        rPath: moduleRoot,
+        files: files
+      });
       response.end;
     })
     .catch(error => {
       //handle the error
-      response.render('error', { rPath: moduleRoot, err: error.message });
+      response.render('error', {
+        rPath: moduleRoot,
+        err: error.message
+      });
       response.end;
     });
 });
 app.post("/study/duplicate", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", POST /" + modulePath + "/study/duplicate ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
+  log.info({
+    "function": "/ostm/manage/study/duplicate.POST.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "data": "",
+    "error": {
+      "err.object": "",
+      "msg": ""
+    }
+  });
   // we are going to use await for this.
   let sSource = request.body.source_studyName;
   let sNew = request.body.new_studyName;
@@ -429,28 +589,25 @@ app.post("/study/duplicate", function (request, response) {
 
     //validate sNewURL
     if (sNew.length < 20 || sNew.length > 25 || !sNew) {
-      log.info("POST /study/duplicate, No Study Name or Malformed studyName was provided, try a new studyName:", request.ip);
       return response.status(412).send("No studyName or studyName is malformed, try a new studyName. \n Please check the naming syntax label below");
     }
     //Using Promise with Async\Await
     let result = duplicateStudy(sSource, sNew)
       .then(resolved => {
-        log.info("POST /study/duplicate, Successful", resolved);
-        log.info("POST /study/duplicate, from IP:", request.ip);
         return response.status(201).send('The study was duplicated successfully');
       })
       .catch(err => {
         if (err.message == "This file already exists!") {
-          log.info("POST /deck/created, This file already exists!, from IP:", request.ip);
           return response.status(409).send('This file already exists!');
         } else {
-          log.info("POST /deck/create, failed", err.message);
           return response.status(500).send(err.message);
         }
       });
   } catch (error) {
     //handle the error
-    response.render("error", { err: error.message });
+    response.render("error", {
+      err: error.message
+    });
     response.end;
   }
 });
@@ -479,10 +636,10 @@ async function duplicateStudy(sSource, sNew) {
 
 
 /* 
-*
-* Utility Functions
-*
-*/
+ *
+ * Utility Functions
+ *
+ */
 function getFile(URL) {
   return new Promise((resolve, reject) => {
     // copy config file
@@ -500,6 +657,7 @@ function getFile(URL) {
     }
   });
 }
+
 function copyFile(sourceURL, newURL) {
   return new Promise((resolve, reject) => {
     // exist already
@@ -510,10 +668,11 @@ function copyFile(sourceURL, newURL) {
       if (!fs.existsSync(newURL)) {
         fs.copyFile(sourceURL, newURL, err => {
           if (err === null) {
-            resolve({ created: newURL });
+            resolve({
+              created: newURL
+            });
             return;
           } else {
-            log.info('Problem writing File:' + newURL);
             reject(new Error("Server Error, URL malformed on server, advise research supervisor"));
             return;
           }
@@ -528,6 +687,7 @@ function copyFile(sourceURL, newURL) {
     }
   });
 }
+
 function copyConfig(URL, sourceStudy, newStudy) {
   return new Promise((resolve, reject) => {
     // copy config file
@@ -557,7 +717,9 @@ function copyConfig(URL, sourceStudy, newStudy) {
           }
         });
         //SUCCESS!!
-        resolve({ created: URL + newStudy + ".json" });
+        resolve({
+          created: URL + newStudy + ".json"
+        });
       } else {
         reject(new Error("This file already exists!"));
       }
@@ -566,27 +728,25 @@ function copyConfig(URL, sourceStudy, newStudy) {
     }
   });
 }
+
 function writeJSON(sURL, data) {
   return new Promise((resolve, reject) => {
-    log.info("File: manage.index.js" + ", Function: writeJSON" + ", Location: 1" + ", sURL: " + sURL, data);
     var sFile = JSON.stringify(data, null, 2);
     fs.writeFile(sURL, sFile, "utf-8", function (err) {
       if (err) {
         //Deal with error
-        log.info("File: manage.index.js" + ", Function: writeJSON" + ", Location: 2", err);
         reject(err);
         return;
       } else {
-        log.info("File: manage.index.js" + ", Function: writeJSON" + ", Location: 3", data);
         resolve(data);
       }
     });
   });
 }
+
 function writeFile(path, data) {
   return new Promise((resolve, reject) => {
-    let options =
-    {
+    let options = {
       encoding: 'utf-8',
       flag: 'wx'
     }
@@ -604,6 +764,7 @@ function writeFile(path, data) {
     });
   });
 }
+
 function fileNotExists(sURL) {
   return new Promise((resolve, reject) => {
     let fileExists = fs.existsSync(sURL);
@@ -616,6 +777,7 @@ function fileNotExists(sURL) {
     }
   });
 }
+
 function fileExists(sURL) {
   return new Promise((resolve, reject) => {
     let fileExists = fs.existsSync(sURL);

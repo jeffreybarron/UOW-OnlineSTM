@@ -1,0 +1,109 @@
+{
+  "studyName": "20190714-jb957-dogs01",
+  "PROLIFIC_PID": "266f158d-cff2-4bfe-9fe7-3ac4ce878d45",
+  "STUDY_ID": "Classroom",
+  "SESSION_ID": "study",
+  "getView": "0",
+  "flow": {
+    "views": [
+      {
+        "view": 0,
+        "name": "participant",
+        "response": "",
+        "responseTime": "",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "default",
+        "layoutStyles": [
+          "main.css"
+        ],
+        "header": "<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+        "footer": "<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>",
+        "viewStyles": [
+          "participant.css"
+        ],
+        "scripts": [
+          "participant.js"
+        ],
+        "layoutContent": "      <div id=\"headerContainer\" class=\"row\">\n        <h1 id=\"pageTitle\">UOW Short Term Memory (STM) Study</h1>\n      </div>\n      <div id=\"centerRow\" class=\"row\">\n        <div id=\"pageLeft\" class=\"col-sm\"><!-- Left Gutter --></div>\n        <div id=\"contentContainer\" class=\"col-sm\"><!-- Page Content --></div>\n        <div id=\"pageRight\" class=\"col-sm\"><!-- Right Gutter --></div>\n      </div>\n      <div id=\"footerContainer\" class=\"row\">\n        <footer class=\"footer\">\n          <p class=\"text-muted\">Solution by <a href=\"http://www.jeffreybarron.com\">jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>\n        </footer>\n      </div>",
+        "layoutLoaded": "2019/07/14 22:53:52.0174"
+      },
+      {
+        "view": 1,
+        "name": "consent",
+        "rendered": "date/time value",
+        "responseTime": "",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "default",
+        "layoutStyles": [
+          "main.css"
+        ],
+        "header": "<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+        "footer": "<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>",
+        "viewStyles": [
+          "consent.css"
+        ],
+        "scripts": [
+          "consent.js"
+        ]
+      },
+      {
+        "view": 2,
+        "name": "instructions",
+        "rendered": "date/time value",
+        "responseTime": "",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "default",
+        "layoutStyles": [
+          "main.css"
+        ],
+        "header": "<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+        "footer": "<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>",
+        "viewStyles": [
+          "instructions.css"
+        ],
+        "scripts": [
+          "instructions.js"
+        ]
+      },
+      {
+        "view": 3,
+        "name": "study",
+        "response": "",
+        "responseTime": "",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "ostm",
+        "layoutStyles": [
+          "ostm.css"
+        ],
+        "header": "",
+        "footer": "",
+        "viewStyles": [
+          "study.css"
+        ],
+        "scripts": [
+          "study.js"
+        ]
+      },
+      {
+        "view": 4,
+        "name": "completion",
+        "response": "",
+        "responseTime": "",
+        "pageRedirect": "http://www.prolific.ac",
+        "layout": "default",
+        "layoutStyles": [
+          "main.css"
+        ],
+        "header": "<h1 id='pageTitle'>UOW Short Term Memory (STM) Study</h1>",
+        "footer": "<footer class='footer'><p class='text-muted'>Solution by <a href='http://www.jeffreybarron.com'>jeffreybarron.com</a> for <br/>University of Wollongong. CRICOS Provider No: 00102E</p>        </footer>",
+        "viewStyles": [
+          "completion.css"
+        ],
+        "scripts": [
+          "completion.js"
+        ]
+      }
+    ],
+    "initialised": "2019/07/14 22:53:52.0166"
+  }
+}

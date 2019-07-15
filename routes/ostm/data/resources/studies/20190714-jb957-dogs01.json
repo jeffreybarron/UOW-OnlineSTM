@@ -1,0 +1,55 @@
+{
+  "studyName": "20190714-jb957-dogs01",
+  "completionCode": "123",
+  "redirectTimer": "30000",
+  "completionURL": "https://jeffreybarron.com",
+  "studybackgroundColor": "Black",
+  "studyTextColor": "White",
+  "consentCopy": "<p>consent</p>",
+  "instructionCopy": "<p>instruct</p>",
+  "blocks": [{
+    "block": "0",
+    "stimulusFile": "prac3letter12.json",
+    "setSizes": [
+      2,
+      2
+    ],
+    "refreshRateMS": "1000",
+    "shuffleMode": "no",
+    "blockPopUp": "<h3 style=\"text-align: center;\"><span style=\"color: #27ae60; font-family: verdana, geneva, sans-serif;\">You have completed the practice session!</span></h3>\n<hr />\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">After closing this message the study will begin.</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Please pay careful attention and avoid distractions, <em>if safe to do so</em>.&nbsp;</span></p>\n<p><span style=\"font-family: verdana, geneva, sans-serif; font-size: 12pt;\">Press 'X' at the top right of this message, to close this message.&nbsp;</span></p>",
+    "sets": [{
+        "set": "0",
+        "stimuli": [{
+            "row": "0",
+            "stimulus": "bin",
+            "textcolor": "white",
+            "backgroundcolor": "black"
+          },
+          {
+            "row": "1",
+            "stimulus": "dog",
+            "textcolor": "white",
+            "backgroundcolor": "black"
+          }
+        ]
+      },
+      {
+        "set": "1",
+        "stimuli": [{
+            "row": "2",
+            "stimulus": "egg",
+            "textcolor": "white",
+            "backgroundcolor": "black"
+          },
+          {
+            "row": "3",
+            "stimulus": "sip",
+            "textcolor": "white",
+            "backgroundcolor": "black"
+          }
+        ]
+      }
+    ]
+  }],
+  "shuffleBlocks": false
+}

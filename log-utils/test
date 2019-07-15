@@ -1,0 +1,3 @@
+clear
+python3 prep1.py
+python3 prep2.py

@@ -4,7 +4,7 @@ In Progress
 
 Known ISSUES
 ==========================================================
-* 
+* make change to code issue pack prevent from hit back button
 
 Feature Requests
 ==========================================================
@@ -435,3 +435,8 @@ eg.
 Error: Syntax error, unrecognized expression: unsupported pseudo: read-only
 * FIXED launch doesnt work on non-chrome
 * FIXED manage.createStudy: when creating a study and you click on “add a row” it duplicates the row above for most settings but not the shuffle mode.  Can you change it so that the shuffle mode is carried over from the row above as well, please? Steve.
+
+## change-history-2.2.7 - 3 July 2019 - Jeff Barron
+* shortened last modal popup wait timer from 6 seconds to 3.5s as Im concerned the long timer causes user confusion and increases likelyhood of user hitting refresh or the back button which currently destroys there results
+* Cleaned up log creation so log files are more managable
+

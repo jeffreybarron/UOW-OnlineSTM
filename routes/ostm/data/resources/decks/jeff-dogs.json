@@ -1,0 +1,38 @@
+[
+  {
+    "row": "0",
+    "stimulus": "poodle",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "1",
+    "stimulus": "doberman",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "2",
+    "stimulus": "dachshund",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "3",
+    "stimulus": "horse",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "4",
+    "stimulus": "donkey",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  },
+  {
+    "row": "5",
+    "stimulus": "sausage",
+    "textcolor": "white",
+    "backgroundcolor": "black"
+  }
+]

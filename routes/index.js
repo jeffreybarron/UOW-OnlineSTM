@@ -27,10 +27,9 @@ app.set("views", [__dirname + '/views']);
 
 const log = bunyan.createLogger({
   name: "UOW_CogLab",
-  streams: [
-    {
+  streams: [{
       level: "debug",
-      path: __dirname + "/logs/routes-log.json"
+      path: __dirname + "/logs/routes.json"
     },
     {
       level: "info",
@@ -41,27 +40,45 @@ const log = bunyan.createLogger({
 });
 
 app.get("/", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET / ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   //Home Page
+  log.info({
+    "function": "/.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.index",
+    "studyName": "",
+    "PROLIFIC_PID": "",
+    "STUDY_ID": "",
+    "SESSION_ID": "",
+    "data": "(home page)",
+    "error": ""
+  });
   response.render("index");
 });
 
 app.get("*", function (request, response) {
-  var errLocation = "IP:" + request.ip + ", GET * ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
   /*
     Catchall all other routes
     this route is placed last in the code, so it is read last.
     if it is placed before any other routes those routes wont be handled
     */
-
   //Log these as they may show nefarious behaviour and their attack vectors
-  log.info(errLocation + ", requested an unhandled page:" + request.originalUrl);
+  log.info({
+    "function": "/.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.404",
+    "studyName": "",
+    "PROLIFIC_ID": "",
+    "STUDY_ID": "",
+    "SESSION_ID": "",
+    "data": "",
+    "error": "unhandled page request"
+  });
 
   //keep this it is handy way to track malicious activity, outside the noise of the normal logs
-  var sLog = mDates.getDate() + ", source:" + request.ip + ", URL:" + request.originalUrl;
-  fs.appendFile(__dirname + "/logs/unhandledPageCalls.log", sLog + "\r\n", function (err) {
+  var sLog = `{"date":"${mDates.getDate()}", "source":" + ${request.ip}", "URL":"${request.originalUrl}"},\r\n`;
+  fs.appendFile(__dirname + "/logs/unhandledPageRequests.json", sLog, function (err) {
     if (err) console.log(err);
   });
 

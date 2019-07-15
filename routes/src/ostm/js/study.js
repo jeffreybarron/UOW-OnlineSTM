@@ -126,7 +126,7 @@ async function loadStudy() {
       //use splice function to seperate item zero from the rest, and shuffle it at the same time
       let shuffled = shuffleArray(state.studyConfig.blocks.splice(1, state.studyConfig.blocks.length));
       /* now push each item in the shuffled list back on to the block (which at this point 
-      * has only item remaining from the last operation) */
+       * has only item remaining from the last operation) */
       for (let n = 0; n < shuffled.length; n++) {
         state.studyConfig.blocks.push(shuffled[n]);
       }
@@ -168,7 +168,7 @@ async function loadStudy() {
         }
         break;
       default:
-      //end switch case
+        //end switch case
     }
     //end block
   }
@@ -245,7 +245,7 @@ function saveStudy() {
 
         //This hack forces the last model box to stay up for 6 seconds
         if (state.blockprocessed >= state.studyConfig.blocks.length) {
-          wait(6000);  //7 seconds in milliseconds
+          wait(3500); //3.5 seconds in milliseconds
         };
       }
     };
@@ -256,10 +256,10 @@ function saveStudy() {
 
 
 /* ================================================================
-* 
-* Utility Functions
-*
-*/
+ * 
+ * Utility Functions
+ *
+ */
 function getFile(url) {
   //https://developers.google.com/web/fundamentals/primers/promises
   //console.log("url:" + url);
@@ -290,6 +290,7 @@ function getFile(url) {
     req.send();
   });
 }
+
 function shuffleArray(array) {
   // modern version of the Fisher–Yates shuffle algorithm:
   var j, x, i;
@@ -301,6 +302,7 @@ function shuffleArray(array) {
   }
   return array;
 }
+
 function setProperties(obj, textValue, textColor, textBackGroundColor) {
   //set properties on page
   obj.innerText = textValue;
@@ -312,10 +314,10 @@ function setProperties(obj, textValue, textColor, textBackGroundColor) {
 
 
 /*==========================================
-* 
-* Modal Javascript
-*
-*/
+ * 
+ * Modal Javascript
+ *
+ */
 var modal = document.getElementById("modal");
 
 document.getElementById("modal-close").addEventListener("click", event => {
@@ -335,6 +337,7 @@ function modalClose() {
   $("#modal-body").html("");
   $("#buttonStart").focus();
 }
+
 function toggleModal() {
   document.getElementById("submit_btn").disabled = true;
   document.getElementById("start_btn").disabled = true;

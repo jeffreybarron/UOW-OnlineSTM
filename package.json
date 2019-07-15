@@ -1,6 +1,6 @@
 {
   "name": "cog-lab",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "UOW Cognition Lab, Web Study Platform",
   "main": "app.js",
   "author": "jeff@jeffreybarron.com",

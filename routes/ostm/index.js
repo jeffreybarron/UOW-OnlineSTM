@@ -1,3 +1,5 @@
+// working through log info's 
+
 "use strict";
 // routes/ostm/index.js
 const moduleName = "/ostm";
@@ -22,7 +24,7 @@ app.use("/manage", manage);
 app.use("/public", express.static(__dirname + "/public"));
 app.use("/resources/studies", express.static(__dirname + "/data/resources/studies"));
 // app.use("/resources/decks", express.static(__dirname + "/data/resources/decks"));
-app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.json()); // for parsing application/JSON
 app.use(sanitizer());
 
 app.set("view engine", "ejs");
@@ -35,10 +37,9 @@ app.set("views", [__dirname + '/views']);
  */
 const log = bunyan.createLogger({
   name: "UOW_CogLab",
-  streams: [
-    {
+  streams: [{
       level: "debug",
-      path: __dirname + "/logs/ostm-log.json"
+      path: __dirname + "/logs/ostm-log.JSON"
     },
     {
       level: "info",
@@ -54,63 +55,164 @@ const log = bunyan.createLogger({
  * Usage: response.render('pageName')
  *
  */
+
 app.get("/", function (request, response) {
-  log.info("GET /participant/:" + request.params.studyName + ", requested", request.ip);
-  response.render("index", { rPath: moduleName });
-});
-app.get("/study", function (request, response) {
-  let JSONstateData = request.query; // initialise stateData with URL Query string key/vals
-  /* As HTTP:GET on /base is the begining of the study
-  * we take the query string with Prolific data and add default state value of 0
-  * i.e. this part of the site, the study, is a single page site
-  */
-  response.render("base");
+  log.info({
+    "function": "(home page)/.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.index",
+    "studyName": "",
+    "PROLIFIC_PID": "",
+    "STUDY_ID": "",
+    "SESSION_ID": "",
+    "data": "",
+    "error": ""
+  });
+  response.render("index", {
+    rPath: moduleName
+  });
 });
 app.get("/launch", function (request, response) {
   let sPath = "ostm";
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/launch ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
-  response.render("launch", { rPath: sPath });
+  log.info({
+    "function": "/ostm/launch.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.launch",
+    "studyName": "",
+    "PROLIFIC_PID": "",
+    "STUDY_ID": "",
+    "SESSION_ID": "",
+    "data": "",
+    "error": ""
+  });
+  response.render("launch", {
+    rPath: sPath
+  });
 });
 app.get("/simplelaunch", function (request, response) {
+  log.info({
+    "function": "/ostm/simplelaunch.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.simplelaunch",
+    "studyName": "",
+    "PROLIFIC_PID": "",
+    "STUDY_ID": "",
+    "SESSION_ID": "",
+    "data": "",
+    "error": ""
+  });
   let sPath = "ostm";
-  var errLocation = "IP:" + request.ip + ", GET /" + sPath + "/simplelaunch ";
-  log.info(errLocation + ", user-agent:" + request.headers["user-agent"] + ", log: 1");
-
-  response.render("simplelaunch", { rPath: sPath });
+  response.render("simplelaunch", {
+    rPath: sPath
+  });
 });
+
+
+
+app.get("/study", function (request, response) {
+  log.info({
+    "function": "/ostm/study.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "render.base",
+    "studyName": request.query.studyName,
+    "PROLIFIC_PID": request.query.PROLIFIC_PID,
+    "STUDY_ID": request.query.STUDY_ID,
+    "SESSION_ID": request.query.SESSION_ID,
+    "data": "",
+    "error": ""
+  });
+
+  // TESTING IF THIS CODE IS DEPRECATED
+  // let JSONstateData = request.query; // initialise stateData with URL Query string key/vals
+  /* As HTTP:GET on /base is the begining of the study
+   * we take the query string with Prolific data and add default state value of 0
+   * i.e. this part of the site, the study, is a single page site
+   */
+  response.render("base");
+});
+
 app.post("/results", function (request, response, next) {
-  log.info(
-    "POST /ostm/results, requested for IP:" +
-    request.ip +
-    " using: " +
-    request.headers["user-agent"]
-  );
+  log.info({
+    "function": "/ostm/results.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "studyName": request.params.studyName,
+    "PROLIFIC_PID": request.params.PROLIFIC_PID,
+    "STUDY_ID": request.params.STUDY_ID,
+    "SESSION_ID": request.params.SESSION_ID,
+    "data": "",
+    "error": ""
+  });
+
   try {
     // let studyName = request.body.studyName;
     // let participantID = request.body.PROLIFIC_PID;
     // let studyID = request.body.STUDY_ID;
     // let sessionID = request.body.SESSION_ID;
-    let jsonResult = request.body;
+    let JSONResult = request.body;
 
-    var result = saveState(jsonResult)
+    var result = saveState(JSONResult)
       .then(resolved => {
-        log.info("POST /ostm/results, Successful", resolved);
-        log.info("POST /ostm/results, from IP:", request.ip);
+        log.info({
+          "function": "/ostm/results.2",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "202",
+          "studyName": request.params.studyName,
+          "PROLIFIC_PID": request.params.PROLIFIC_PID,
+          "STUDY_ID": request.params.STUDY_ID,
+          "SESSION_ID": request.params.SESSION_ID,
+          "data": resolved,
+          "error": ""
+        });
         response.status(202).end();
       })
       .catch(err => {
         if (err.message == "This file already exists!") {
-          log.info("POST /ostm/results, This file already exists!, from IP:", request.ip);
+          log.info({
+            "function": "/ostm/results.3",
+            "ipAddress": request.ip,
+            "request": request,
+            "response": "409",
+            "studyName": request.params.studyName,
+            "PROLIFIC_PID": request.params.PROLIFIC_PID,
+            "STUDY_ID": request.params.STUDY_ID,
+            "SESSION_ID": request.params.SESSION_ID,
+            "data": "",
+            "error": {
+              "err.object": err,
+              "msg": "This file already exists!"
+            }
+          });
           response.status(409).end();
         } else {
-          log.info("POST /ostm/results, failed", err.message);
+          log.info({
+            "function": "/ostm/results.4",
+            "ipAddress": request.ip,
+            "request": request,
+            "response": "500",
+            "studyName": request.params.studyName,
+            "PROLIFIC_PID": request.params.PROLIFIC_PID,
+            "STUDY_ID": request.params.STUDY_ID,
+            "SESSION_ID": request.params.SESSION_ID,
+            "data": "",
+            "error": {
+              "err.object": err,
+              "msg": "failed general server error"
+            }
+          });
           response.status(500).send(err);
         }
       });
   } catch (error) {
-    response.render("error", { err: error.message });
+    response.render("error", {
+      err: error.message
+    });
     response.end;
   }
 });
@@ -122,56 +224,165 @@ app.post("/results", function (request, response, next) {
  *
  */
 app.post("/API/flow", function (request, response) {
-  log.info("POST /API/flow/ request: " + request.body + ", requested", request.ip);
+  log.info({
+    "function": "/ostm/API/flow.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "studyName": request.body.studyName,
+    "PROLIFIC_PID": request.body.PROLIFIC_PID,
+    "STUDY_ID": request.body.STUDY_ID,
+    "SESSION_ID": request.body.SESSION_ID,
+    "getView": request.body.getView,
+    "data": "",
+    "error": ""
+  });
 
   var result = loadFlow(request.body)
     .then(resolved => {
-      log.info("POST /API/flow/ resolved: " + resolved + ", Successful", request.ip);
+      log.info({
+        "function": "/ostm/API/flow.2",
+        "ipAddress": request.ip,
+        "request": request,
+        "response": "202",
+        "studyName": request.body.studyName,
+        "PROLIFIC_PID": request.body.PROLIFIC_PID,
+        "STUDY_ID": request.body.STUDY_ID,
+        "SESSION_ID": request.body.SESSION_ID,
+        "getView": request.body.getView,
+        "data": {
+          "msg": "success",
+          "saved": resolved
+        },
+        "error": ""
+      });
       //wrap the file in JSON and set some other data with it
       // let returnData = resolved;
       response.status(202).send(resolved);
     })
     .catch(err => {
-      log.info("POST /API/flow/ err: " + err + ", failed", request.ip);
-
       if (err.message == "This file already exists!") {
+        log.info({
+          "function": "/ostm/API/flow.3",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "409",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "getView": request.body.getView,
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "This file already exists!"
+          }
+        });
         response.status(409).end();
       } else {
+        log.info({
+          "function": "/ostm/API/flow.4",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "500",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "getView": request.body.getView,
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "General Server Error"
+          }
+        });
         response.status(500).send(err);
       }
     });
 });
 async function loadFlow(state) {
-  let jFlow = await readFile(modulePath_Private + "/views/configuration/stateflow.json");
+  let jFlow = await readFile(modulePath_Private + "/views/configuration/stateflow.JSON");
   state.flow = JSON.parse(jFlow);
   state.flow.initialised = getDate();
   let result = saveState(state);
   return state;
 }
 app.post("/API/layout", function (request, response) {
-  log.info("POST /API/layout/ request: " + request.body + ", requested", request.ip);
+  log.info({
+    "function": "/ostm/API/layout.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "studyName": request.body.studyName,
+    "PROLIFIC_PID": request.body.PROLIFIC_PID,
+    "STUDY_ID": request.body.STUDY_ID,
+    "SESSION_ID": request.body.SESSION_ID,
+    "data": "",
+    "error": ""
+  });
   var pageData = loadLayout(request.body)
     .then(resolved => {
-      log.info("POST /API/layout/ resolved: " + resolved + ", Successful", request.ip);
-
+      log.info({
+        "function": "/ostm/API/layout.2",
+        "ipAddress": request.ip,
+        "request": request,
+        "response": "202",
+        "studyName": request.body.studyName,
+        "PROLIFIC_PID": request.body.PROLIFIC_PID,
+        "STUDY_ID": request.body.STUDY_ID,
+        "SESSION_ID": request.body.SESSION_ID,
+        "data": {
+          "msg": "success",
+          "saved": resolved
+        },
+        "error": ""
+      });
       //wrap the file in JSON and set some other data with it
       // let returnData = resolved;
       response.status(202).send(resolved);
     })
     .catch(err => {
-      log.info("POST /API/layout/ err: " + err + ", failed", request.ip);
-
       if (err.message == "This file already exists!") {
+        log.info({
+          "function": "/ostm/API/layout.3",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "409",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "This file already exists!"
+          }
+        });
         response.status(409).end();
       } else {
+        log.info({
+          "function": "/ostm/API/layout.4",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "500",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "General Server Error"
+          }
+        });
         response.status(500).send(err);
       }
     });
 });
 async function loadLayout(state) {
-	/* so what we are doing is updating and checking data within the state JSON object
-	 * we store the data and send it along so we dont need to re-read files needlessly
-	 */
+  /* so what we are doing is updating and checking data within the state JSON object
+   * we store the data and send it along so we dont need to re-read files needlessly
+   */
 
   //Fixed Variables
   let resourcePath = modulePath_Private + '/views/';
@@ -193,28 +404,81 @@ async function loadLayout(state) {
   return state;
 }
 app.post("/API/view", function (request, response) {
-  log.info("POST /API/view/ request: " + request.body + ", requested", request.ip);
-
+  log.info({
+    "function": "/ostm/API/view.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "/API/flow",
+    "studyName": request.body.studyName,
+    "PROLIFIC_PID": request.body.PROLIFIC_PID,
+    "STUDY_ID": request.body.STUDY_ID,
+    "SESSION_ID": request.body.SESSION_ID,
+    "data": "",
+    "error": ""
+  });
   var pageData = loadView(request.body)
     .then(resolved => {
-      log.info("POST /API/view/ resolved: " + resolved + ", Successful", request.ip);
+      log.info({
+        "function": "/ostm/API/view.2",
+        "ipAddress": request.ip,
+        "request": request,
+        "response": "202",
+        "studyName": request.body.studyName,
+        "PROLIFIC_PID": request.body.PROLIFIC_PID,
+        "STUDY_ID": request.body.STUDY_ID,
+        "SESSION_ID": request.body.SESSION_ID,
+        "data": {
+          "msg": "success",
+          "saved": resolved
+        },
+        "error": ""
+      });
       //wrap the file in JSON and set some other data with it
       // let returnData = resolved;
       response.status(202).send(resolved);
     })
     .catch(err => {
-      log.info("POST /API/view/ err: " + err + ", failed", request.ip);
       if (err.message == "This file already exists!") {
+        log.info({
+          "function": "/ostm/API/view.3",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "409",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "General Server Error"
+          }
+        });
         response.status(409).end();
       } else {
+        log.info({
+          "function": "/ostm/API/view.4",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "500",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "General Server Error"
+          }
+        });
         response.status(500).send(err);
       }
     });
 });
 async function loadView(state) {
-	/* so what we are doing is updating and checking data within the state JSON object
-	 * we store the data and send it along so we cache these files on the proxy server
-	 */
+  /* so what we are doing is updating and checking data within the state JSON object
+   * we store the data and send it along so we cache these files on the proxy server
+   */
 
   //if there is no view we may as will stop now!!
   if (state.getView == isNaN) {
@@ -256,28 +520,97 @@ async function loadView(state) {
   return state;
 }
 app.post("/API/save", function (request, response) {
-  log.info("POST /API/save/ request: " + request.body + ", requested", request.ip);
+  log.info({
+    "function": "/ostm/API/save.1",
+    "ipAddress": request.ip,
+    "request": "",
+    "response": "",
+    "studyName": request.body.studyName,
+    "PROLIFIC_PID": request.body.PROLIFIC_PID,
+    "STUDY_ID": request.body.STUDY_ID,
+    "SESSION_ID": request.body.SESSION_ID,
+    "data": request.body,
+    "error": ""
+  });
 
   var result = saveState(request.body)
     .then(resolved => {
-      log.info("POST /API/save/ resolved: " + resolved + ", Successful", request.ip);
-
+      log.info({
+        "function": "/ostm/API/save.2",
+        "ipAddress": request.ip,
+        "request": "",
+        "response": "202",
+        "studyName": request.body.studyName,
+        "PROLIFIC_PID": request.body.PROLIFIC_PID,
+        "STUDY_ID": request.body.STUDY_ID,
+        "SESSION_ID": request.body.SESSION_ID,
+        "getView": request.body.getView,
+        "data": {
+          "msg": "success",
+          "saved": request.body
+        },
+        "error": ""
+      });
       //wrap the file in JSON and set some other data with it
       // let returnData = resolved;
       response.status(202).send(resolved);
     })
     .catch(err => {
-      log.info("POST /API/save/ err: " + err + ", failed", request.ip);
       if (err.message == "This file already exists!") {
+        log.info({
+          "function": "/ostm/API/save.3",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "409",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "This file already exists!"
+          }
+        });
         response.status(409).end();
       } else {
+        log.info({
+          "function": "/ostm/API/save.4",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "500",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "data": "",
+          "error": {
+            "err.object": err,
+            "msg": "General Server Error"
+          }
+        });
         response.status(500).send(err);
       }
     });
 });
 async function saveState(state) {
+  log.info({
+    "function": "saveState(state).1",
+    "ipAddress": "",
+    "request": "",
+    "response": "",
+    "studyName": state.studyName,
+    "PROLIFIC_PID": state.PROLIFIC_PID,
+    "STUDY_ID": state.STUDY_ID,
+    "SESSION_ID": state.SESSION_ID,
+    "data": {
+      "msg": "commenceSave",
+      "state": state
+    },
+    "error": ""
+  });
   // //AWAIT --> does file already exist, if so then stop
-  // let fileNotExists = await fileNotExists(jsonFileName);
+  // let fileNotExists = await fileNotExists(JSONFileName);
 
   //AWAIT --> create Deck
   let stateFile =
@@ -291,8 +624,21 @@ async function saveState(state) {
     "_" +
     state.SESSION_ID;
 
-  let saveToJSON = await writeJSON(stateFile + ".json", state);
-
+  let saveToJSON = await writeJSON(stateFile + ".JSON", state);
+  log.info({
+    "function": "saveState(state).2",
+    "ipAddress": "",
+    "request": "",
+    "response": "",
+    "studyName": state.studyName,
+    "PROLIFIC_PID": state.PROLIFIC_PID,
+    "STUDY_ID": state.STUDY_ID,
+    "SESSION_ID": state.SESSION_ID,
+    "data": {
+      "msg": "writeJSON() Complete"
+    },
+    "error": ""
+  });
   try {
     if (typeof state.studyConfig.blocks !== "undefined") {
       if (state.flow.views[COMPLETION_VIEW].viewLoaded !== "undefined") {
@@ -303,18 +649,74 @@ async function saveState(state) {
           stateFile + "_medium_grouped.csv",
           state
         );
-        console.log("writeCSV_medium_grouped DONE");
+        log.info({
+          "function": "saveState(state).3",
+          "ipAddress": "",
+          "request": "",
+          "response": "",
+          "studyName": state.studyName,
+          "PROLIFIC_PID": state.PROLIFIC_PID,
+          "STUDY_ID": state.STUDY_ID,
+          "SESSION_ID": state.SESSION_ID,
+          "data": {
+            "msg": "writeCSV_medium_grouped() complete"
+          },
+          "error": ""
+        });
       }
     }
   } catch (err) {
-    console.log(err);
+    log.info({
+      "function": "saveState(state).4",
+      "ipAddress": "",
+      "request": "",
+      "response": "",
+      "studyName": state.studyName,
+      "PROLIFIC_PID": state.PROLIFIC_PID,
+      "STUDY_ID": state.STUDY_ID,
+      "SESSION_ID": state.SESSION_ID,
+      "data": "",
+      "error": {
+        "err.object": err,
+        "msg": "UN-HANDLED ERROR in saveState(state)"
+      }
+    });
   }
 
   // return [fileNotExists, writeDeck];
+  log.info({
+    "function": "saveState(state).5",
+    "ipAddress": "",
+    "request": "",
+    "response": "saveToJSON",
+    "studyName": state.studyName,
+    "PROLIFIC_PID": state.PROLIFIC_PID,
+    "STUDY_ID": state.STUDY_ID,
+    "SESSION_ID": state.SESSION_ID,
+    "getView": state.getView,
+    "data": {
+      "msg": "saveState() complete",
+      "state": state
+    },
+    "error": ""
+  });
   return [saveToJSON];
 }
+
 app.post("/API/issuecode", function (request, response) {
-  log.info("POST /API/issuecode/ request: " + request.body + ", requested", request.ip);
+  log.info({
+    "function": "/ostm/API/issuecode.1",
+    "ipAddress": request.ip,
+    "request": request,
+    "response": "",
+    "studyName": request.body.studyName,
+    "PROLIFIC_PID": request.body.PROLIFIC_PID,
+    "STUDY_ID": request.body.STUDY_ID,
+    "SESSION_ID": request.body.SESSION_ID,
+    "getView": request.body.getView,
+    "data": request.body,
+    "error": ""
+  });
 
   // 	//the purpose of the this route\page is to pass the prolific code to the participant if they have completed
   let state = request.body;
@@ -329,29 +731,80 @@ app.post("/API/issuecode", function (request, response) {
     state.STUDY_ID +
     "_" +
     state.SESSION_ID +
-    ".json";
-  var codeFileName = __dirname + "/data/resources/codes/" + state.studyName + "_code.json";
+    ".JSON";
+  var codeFileName = __dirname + "/data/resources/codes/" + state.studyName + "_code.JSON";
 
   try {
     var prolificCode = getProlificCode(resultFileName, codeFileName)
       .then(resolved => {
-        log.info("POST /API/issuecode/ resolved: " + resolved + ", Successful", request.ip);
+        log.info({
+          "function": "/ostm/API/issuecode.2",
+          "ipAddress": request.ip,
+          "request": request,
+          "response": "202",
+          "studyName": request.body.studyName,
+          "PROLIFIC_PID": request.body.PROLIFIC_PID,
+          "STUDY_ID": request.body.STUDY_ID,
+          "SESSION_ID": request.body.SESSION_ID,
+          "getView": request.body.getView,
+          "data": {
+            "msg": "success",
+            "saved": request.body
+          },
+          "error": ""
+        });
         //wrap the file in JSON and set some other data with it
         // let returnData = resolved;
         response.status(202).send(resolved);
       })
       .catch(err => {
-        log.info("POST /API/issuecode/ err: " + err + ", failed", request.ip);
-
         if (err.message == "This file already exists!") {
+          log.info({
+            "function": "/ostm/API/issuecode.3",
+            "ipAddress": request.ip,
+            "request": request,
+            "response": "409",
+            "studyName": request.body.studyName,
+            "PROLIFIC_PID": request.body.PROLIFIC_PID,
+            "STUDY_ID": request.body.STUDY_ID,
+            "SESSION_ID": request.body.SESSION_ID,
+            "getView": request.body.getView,
+            "data": {
+              "msg": "error",
+              "saved": request.body
+            },
+            "error": {
+              "err.object": err,
+              "msg": "This file already exists!"
+            }
+          });
           response.status(409).end();
         } else {
+          log.info({
+            "function": "/ostm/API/issuecode.4",
+            "ipAddress": request.ip,
+            "request": request,
+            "response": "500",
+            "studyName": request.body.studyName,
+            "PROLIFIC_PID": request.body.PROLIFIC_PID,
+            "STUDY_ID": request.body.STUDY_ID,
+            "SESSION_ID": request.body.SESSION_ID,
+            "getView": request.body.getView,
+            "data": request.body,
+            "error": {
+              "err.object": err,
+              "msg": "General Server Error"
+            }
+          });
           response.status(500).send(err);
         }
       });
   } catch (err) {
     //unhandled exception.
-    response.render("error", { rPath: moduleName, err: error.message });
+    response.render("error", {
+      rPath: moduleName,
+      err: error.message
+    });
     response.end;
   }
 });
@@ -365,15 +818,70 @@ async function getProlificCode(sResultURL, sCodeURL) {
     let resultExists = await fileExists(sResultURL);
     var prolificCodeFile = await readFile(sCodeURL);
     if (resultExists) {
+      log.info({
+        "function": "getProlificCode(sResultURL, sCodeURL).1",
+        "ipAddress": "",
+        "request": "",
+        "response": "202",
+        "studyName": "",
+        "PROLIFIC_PID": "",
+        "STUDY_ID": "",
+        "SESSION_ID": "",
+        "data": {
+          "sResultURL": sResultURL,
+          "sCodeURL": sCodeURL,
+          "resultExists": resultExists,
+          "prolificCodeFile": prolificCodeFile
+        },
+        "error": ""
+      });
       return JSON.parse(prolificCodeFile);
     } else {
+      log.info({
+        "function": "getProlificCode(sResultURL, sCodeURL).2",
+        "ipAddress": "",
+        "request": "",
+        "response": "202",
+        "studyName": "",
+        "PROLIFIC_PID": "",
+        "STUDY_ID": "",
+        "SESSION_ID": "",
+        "data": {
+          "sResultURL": sResultURL,
+          "sCodeURL": sCodeURL,
+          "resultExists": resultExists,
+          "prolificCodeFile": prolificCodeFile
+        },
+        "error": "Result not Recieved, cannot issue Prolific Code!"
+      });
       return "Result not Recieved, cannot issue Prolific Code!";
     }
   } catch (err) {
-    log.info("Function: getProlificCode(), Err: " + err);
+    log.info({
+      "function": "getProlificCode(sResultURL, sCodeURL).3",
+      "ipAddress": "",
+      "request": "",
+      "response": "202",
+      "studyName": "",
+      "PROLIFIC_PID": "",
+      "STUDY_ID": "",
+      "SESSION_ID": "",
+      "data": {
+        "sResultURL": sResultURL,
+        "sCodeURL": sCodeURL,
+        "resultExists": resultExists,
+        "prolificCodeFile": prolificCodeFile
+      },
+      "error": {
+        "err.object": err,
+        "msg": "General Server Error"
+      }
+    });
+
     return "There was a problem with your code";
   }
 }
+
 function fileExists(sURL) {
   return new Promise((resolve, reject) => {
     let fileExists = fs.existsSync(sURL);
@@ -384,6 +892,7 @@ function fileExists(sURL) {
     }
   });
 }
+
 function readFile(sURL) {
   return new Promise((resolve, reject) => {
     fs.readFile(sURL, "utf8", (err, data) => {
@@ -395,6 +904,7 @@ function readFile(sURL) {
     });
   });
 }
+
 function writeJSON(sURL, data) {
   return new Promise((resolve, reject) => {
     var sFile = JSON.stringify(data, null, 2);
@@ -408,6 +918,7 @@ function writeJSON(sURL, data) {
     });
   });
 }
+
 function writeCSV_wide(sURL, data) {
   return new Promise((resolve, reject) => {
     let header = ["studyName", "PROLIFIC_PID", "STUDY_ID", "SESSION_ID"];
@@ -455,8 +966,8 @@ function writeCSV_wide(sURL, data) {
 
     //save csv here
 
-		/* to strip the [] after stringify use .substring(1,strung.length-1) 
-    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
+    /* to strip the [] after stringify use .substring(1,strung.length-1) 
+    https://stackoverflow.com/questions/29737024/JSON-stringifyarray-surrounded-with-square-brackets
     */
     let participantResultFile = fs.createWriteStream(sURL, {
       flags: "w"
@@ -480,6 +991,7 @@ function writeCSV_wide(sURL, data) {
     }); // don't forget this!
   });
 }
+
 function writeCSV_wide_grouped(sURL, data) {
   return new Promise((resolve, reject) => {
     let header = ["studyName", "PROLIFIC_PID", "STUDY_ID", "SESSION_ID"];
@@ -527,8 +1039,8 @@ function writeCSV_wide_grouped(sURL, data) {
 
     //save csv here
 
-		/* to strip the [] after stringify use .substring(1,strung.length-1) 
-    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
+    /* to strip the [] after stringify use .substring(1,strung.length-1) 
+    https://stackoverflow.com/questions/29737024/JSON-stringifyarray-surrounded-with-square-brackets
     */
     let participantResultFile = fs.createWriteStream(sURL, {
       flags: "w"
@@ -552,6 +1064,7 @@ function writeCSV_wide_grouped(sURL, data) {
     }); // don't forget this!
   });
 }
+
 function writeCSV_medium_grouped(sURL, data) {
   return new Promise((resolve, reject) => {
     // let header = ["studyName","PROLIFIC_PID","STUDY_ID","SESSION_ID"];
@@ -614,8 +1127,8 @@ function writeCSV_medium_grouped(sURL, data) {
 
     //save csv here
 
-		/* to strip the [] after stringify use .substring(1,strung.length-1) 
-    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
+    /* to strip the [] after stringify use .substring(1,strung.length-1) 
+    https://stackoverflow.com/questions/29737024/JSON-stringifyarray-surrounded-with-square-brackets
     */
     let participantResultFile = fs.createWriteStream(sURL, {
       flags: "w"
@@ -634,28 +1147,29 @@ function writeCSV_medium_grouped(sURL, data) {
     //aysnc callbacks
     //unknown if this event is even called
     participantResultFile.on("end", () => {
-      console.log("aysync write.end");
+      // console.log("aysync write.end");
       return resolve(true);
     }); // not sure why you want to pass a boolean
 
     //event new in 9.x
     participantResultFile.on("ready", () => {
-      console.log("aysync write.ready");
+      // console.log("aysync write.ready");
       return resolve(true);
     }); // not sure why you want to pass a boolean
 
     //event from 8.16.0 deprecated
     participantResultFile.on("finish", () => {
-      console.log("aysync write.finish");
+      // console.log("aysync write.finish");
       return resolve(true);
     }); // not sure why you want to pass a boolean
 
     participantResultFile.on("error", e => {
-      console.log("aysync write.error:", e);
+      // console.log("aysync write.error:", e);
       return reject(e);
     }); // don't forget this!
   });
 }
+
 function writeCSV_forSQL(sURL, data) {
   return new Promise((resolve, reject) => {
     let header = [
@@ -709,8 +1223,8 @@ function writeCSV_forSQL(sURL, data) {
 
     //save csv here
 
-		/* to strip the [] after stringify use .substring(1,strung.length-1) 
-    https://stackoverflow.com/questions/29737024/json-stringifyarray-surrounded-with-square-brackets
+    /* to strip the [] after stringify use .substring(1,strung.length-1) 
+    https://stackoverflow.com/questions/29737024/JSON-stringifyarray-surrounded-with-square-brackets
     */
     let participantResultFile = fs.createWriteStream(sURL, {
       flags: "w"
@@ -733,14 +1247,13 @@ function writeCSV_forSQL(sURL, data) {
       return reject(e);
     }); // don't forget this!
 
-		/* =========================================
-		 *
-		 * //Now Write it to a study wide log
-		 *
-		 */
+    /* =========================================
+     *
+     * //Now Write it to a study wide log
+     *
+     */
     let studyResultFile = fs.createWriteStream(
-      modulePath_Private + "/data/results/" + data.studyName + ".csv",
-      {
+      modulePath_Private + "/data/results/" + data.studyName + ".csv", {
         flags: "a"
       }
     );
@@ -780,6 +1293,7 @@ Date.prototype.yyyyMMddhhmmssfff = function () {
   var fff = pad(this.getMilliseconds(), 4);
   return yyyy + "/" + MM + "/" + dd + " " + hh + ":" + mm + ":" + ss + "." + fff;
 };
+
 function pad(number, length) {
   var str = "" + number;
   while (str.length < length) {
@@ -790,25 +1304,6 @@ function pad(number, length) {
 
 module.exports = app;
 
-//Deprecated Routes
-// app.get("/participant/:studyName", function(request, response, next) {
-//   log.info("GET /participant/:" + request.params.studyName + ", requested", request.ip);
-//   let sURL = __dirname + "/public/resources/studies/" + request.params.studyName + ".json";
-//   //Using Promise with Async\Await
-//   let result = fileExistsAsync(sURL)
-//     .then(resolved => {
-//       log.info("GET /participant/:" + request.params.studyName + ", Successful", request.ip);
-//       response.render("base", { rPath: moduleName, studyName: request.params.studyName, qs: request.query });
-//       response.end;
-//     })
-//     .catch(error => {
-//       let txt = error.message;
-//       log.info("GET /participant/:" + request.params.studyName + ", failed", error.message);
-//       var fTemplate = fs.readFileSync("404.html", "utf8");
-//       response.send(fTemplate);
-//       response.end;
-//     });
-// });
 
 //Deprecated Utils
 
