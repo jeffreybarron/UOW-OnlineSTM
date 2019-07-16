@@ -4,10 +4,10 @@ In Progress
 
 Known ISSUES
 ==========================================================
-* make change to code issue pack prevent from hit back button
 
 Feature Requests
 ==========================================================
+* Prevent OSTM users from using browser back button
 * Documentation 
   * (1) List of folders for steve (file structure dependent)
 * Study run-time 
@@ -19,9 +19,6 @@ Feature Requests
 * change to MIT license???
 * save particpant SQLOutput to combined out for [study, allTime] : Jeff
 * update the manage/guide page to accept a tinyMCE.html page into a DIV
-
-* Feature: Participation Log file
-  rowID, IP, Date\Time, studyName, ProlificID, STUDYID, SESSIONID, A/B Test
 
 * Major Feature: A/B testing, (actually ABCD).
   * log Particpation to studyName_log.json
@@ -47,7 +44,6 @@ C | 2,3,1
   * See bin/CSV Output Template.xlsx
 
 
-============================
 VERSION History
 ============================
 
@@ -67,7 +63,6 @@ VERSION History
 must still click the link and this text may confuse them into closing the
 browser. if this happens their study will not be saved to the server.
 * removed studyText key:value which is now redundant in the configuration file.
-
 
 1.3.3-StudyCreator
 ============================
@@ -440,5 +435,8 @@ Error: Syntax error, unrecognized expression: unsupported pseudo: read-only
 * shortened last modal popup wait timer from 6 seconds to 3.5s as Im concerned the long timer causes user confusion and increases likelyhood of user hitting refresh or the back button which currently destroys there results
 * Cleaned up log creation so log files are more managable
 
-## change-history-2.2.8 - 15 - Jeff Barron
-* previous version introduced file saving with .JSON instead of json.. dont forget linux is cap sensative, recompiled and rerelease
+## change-history-2.2.8 - 15 July - Jeff Barron
+* previous version introduced file saving with .JSON instead of json.. dont forget linux is cap sensative, recompiled and re-release
+
+## change-history-2.2.9 - 15 July - Jeff Barron
+* Update lodash to address prototype vulnerability, lodash is a @babel/polyfill dependency
