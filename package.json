@@ -16,7 +16,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-sanitizer": "^1.0.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "multer": "^1.4.1",
     "sanitize-html": "^1.20.0",
     "serve-favicon": "^2.5.0",
