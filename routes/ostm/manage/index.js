@@ -171,7 +171,7 @@ app.post("/deck/create/:deckName", function (request, response) {
 async function createDeck(deckName, deck) {
   log.info({
     "function": "/ostm/manage/createDeck().1",
-    "ipAddress": request.ip,
+    // "ipAddress": request.ip,
     "request": "",
     "data": {
       "deckName": deckName,

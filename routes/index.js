@@ -11,6 +11,11 @@ const app = express();
 //console.log('routes/index.js - appRoot: ' + appRoot);
 const mDates = require(appRoot + "/backend/js/mDates.js");
 
+//Deal with server error 413 payload error
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb' }));
+
+
 //OSTM subroute
 app.use("/ostm", ostm);
 // const ostm2 = require("./ostm2");
